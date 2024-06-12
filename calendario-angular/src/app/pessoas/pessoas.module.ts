@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatListModule } from '@angular/material/list';
 
+import { AppMaterialModule } from '../shared/app-material/app-material.module';
 import { PessoasRoutingModule } from './pessoas-routing.module';
 import { PessoasComponent } from './pessoas/pessoas.component';
 
@@ -14,7 +14,8 @@ import { PessoasComponent } from './pessoas/pessoas.component';
   imports: [
     CommonModule,
     PessoasRoutingModule,
-    MatListModule
+    AppMaterialModule
+
   ]
 })
 export class PessoasModule { }
