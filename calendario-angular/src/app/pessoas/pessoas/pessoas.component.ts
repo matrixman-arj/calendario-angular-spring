@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { catchError, Observable, of } from 'rxjs';
+
+import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
 import { Pessoa } from '../model/pessoa';
 import { PessoasService } from '../services/pessoas.service';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-pessoas',
@@ -16,9 +18,25 @@ export class PessoasComponent implements OnInit {
 
   // pessoasService: PessoasService;
 
-  constructor(private pessoasService: PessoasService){
+  constructor(
+    private pessoasService: PessoasService,
+    public dialog: MatDialog
 
-    this.pessoas$ = this.pessoasService.list();
+  ){
+
+    this.pessoas$ = this.pessoasService.list()
+    .pipe(
+      catchError(error => {
+        this.onError('Erro ao carregar pssoas');
+        return of([])
+      })
+    );
+  }
+
+  onError(errorMsg: string) {
+    this.dialog.open(ErrorDialogComponent, {
+      data: errorMsg
+    });
   }
 
   ngOnInit(): void {

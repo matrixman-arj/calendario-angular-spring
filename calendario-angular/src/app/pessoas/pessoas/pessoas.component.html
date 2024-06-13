@@ -25,13 +25,17 @@
       <!-- Coluna de nome de Guerra -->
       <ng-container matColumnDef="nomeGuerra">
         <mat-header-cell *matHeaderCellDef>Nome de Guerra</mat-header-cell>
-        <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.nomeGuerra }}</mat-cell>
+        <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.nomeGuerra }}
+
+        </mat-cell>
       </ng-container>
 
       <!-- Coluna de Posto ou grduação -->
       <ng-container matColumnDef="postoGraduacao">
         <mat-header-cell *matHeaderCellDef>Posto/Graduação</mat-header-cell>
-        <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.postoGraduacao }}</mat-cell>
+        <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.postoGraduacao }}
+          <mat-icon aria-hidden="false" aria-label="Posto ou Graduação">{{ pessoa.postoGraduacao | posto }}</mat-icon>
+        </mat-cell>
       </ng-container>
 
       <!-- Coluna de assessoria -->
