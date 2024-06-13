@@ -1,8 +1,14 @@
 <mat-card>
-
   <mat-toolbar color="primary">Ramais do DECEx  </mat-toolbar>
 
   <table mat-table  [dataSource]="pessoas" class="mat-elevation-z8">
+
+    <!-- Coluna de identidade -->
+    <ng-container matColumnDef="foto">
+      <mat-header-cell  *matHeaderCellDef> Foto </mat-header-cell>
+      <mat-cell  *matCellDef="let pessoa"> <img src="assets/cliente.jpg"> </mat-cell>
+    </ng-container>
+
     <!-- Coluna de identidade -->
     <ng-container matColumnDef="identidade">
       <mat-header-cell  *matHeaderCellDef> Identidade </mat-header-cell>

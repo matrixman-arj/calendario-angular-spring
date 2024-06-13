@@ -20,4 +20,6 @@ export interface Pessoa {
 
   ramal: string;
 
+  foto: string;
+
 }
