@@ -11,14 +11,14 @@ import { Observable } from 'rxjs';
 })
 export class PessoasComponent implements OnInit {
 
-  pessoas: Observable<Pessoa[]>;
+  pessoas$: Observable<Pessoa[]>;
   displayedColumns = ['foto','identidade', 'nome', 'nomeGuerra', 'postoGraduacao', 'assessoria', 'ramal'];
 
   // pessoasService: PessoasService;
 
   constructor(private pessoasService: PessoasService){
 
-    this.pessoas = this.pessoasService.list();
+    this.pessoas$ = this.pessoasService.list();
   }
 
   ngOnInit(): void {

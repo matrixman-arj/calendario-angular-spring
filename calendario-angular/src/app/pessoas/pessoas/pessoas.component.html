@@ -1,51 +1,59 @@
 <mat-card>
-  <mat-toolbar color="primary">Ramais do DECEx  </mat-toolbar>
+  <mat-toolbar color="primary">Ramais do DECEx </mat-toolbar>
 
-  <table mat-table  [dataSource]="pessoas" class="mat-elevation-z8">
+  <div *ngIf="pessoas$ | async as pessoas; else loading">
+    <table mat-table [dataSource]="pessoas" class="mat-elevation-z8">
 
-    <!-- Coluna de identidade -->
-    <ng-container matColumnDef="foto">
-      <mat-header-cell  *matHeaderCellDef> Foto </mat-header-cell>
-      <mat-cell  *matCellDef="let pessoa"> <img src="assets/cliente.jpg"> </mat-cell>
-    </ng-container>
+      <!-- Coluna de identidade -->
+      <ng-container matColumnDef="foto">
+        <mat-header-cell *matHeaderCellDef> Foto </mat-header-cell>
+        <mat-cell *matCellDef="let pessoa"> <img src="assets/cliente.jpg"> </mat-cell>
+      </ng-container>
 
-    <!-- Coluna de identidade -->
-    <ng-container matColumnDef="identidade">
-      <mat-header-cell  *matHeaderCellDef> Identidade </mat-header-cell>
-      <mat-cell  *matCellDef="let pessoa"> {{ pessoa.identidade }} </mat-cell>
-    </ng-container>
+      <!-- Coluna de identidade -->
+      <ng-container matColumnDef="identidade">
+        <mat-header-cell *matHeaderCellDef> Identidade </mat-header-cell>
+        <mat-cell *matCellDef="let pessoa"> {{ pessoa.identidade }} </mat-cell>
+      </ng-container>
 
-    <!-- Coluna de nome -->
-    <ng-container matColumnDef="nome">
-      <mat-header-cell  *matHeaderCellDef>Nome</mat-header-cell>
-      <mat-cell *matCellDef="let pessoa"> {{ pessoa.nome }}</mat-cell>
-    </ng-container>
+      <!-- Coluna de nome -->
+      <ng-container matColumnDef="nome">
+        <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+        <mat-cell *matCellDef="let pessoa"> {{ pessoa.nome }}</mat-cell>
+      </ng-container>
 
-    <!-- Coluna de nome de Guerra -->
-    <ng-container matColumnDef="nomeGuerra">
-      <mat-header-cell  *matHeaderCellDef>Nome de Guerra</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.nomeGuerra }}</mat-cell>
-    </ng-container>
+      <!-- Coluna de nome de Guerra -->
+      <ng-container matColumnDef="nomeGuerra">
+        <mat-header-cell *matHeaderCellDef>Nome de Guerra</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.nomeGuerra }}</mat-cell>
+      </ng-container>
 
-    <!-- Coluna de Posto ou grduação -->
-    <ng-container matColumnDef="postoGraduacao">
-      <mat-header-cell  *matHeaderCellDef>Posto/Graduação</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.postoGraduacao }}</mat-cell>
-    </ng-container>
+      <!-- Coluna de Posto ou grduação -->
+      <ng-container matColumnDef="postoGraduacao">
+        <mat-header-cell *matHeaderCellDef>Posto/Graduação</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.postoGraduacao }}</mat-cell>
+      </ng-container>
 
-    <!-- Coluna de assessoria -->
-    <ng-container matColumnDef="assessoria">
-      <mat-header-cell  *matHeaderCellDef>Assessoria</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.assessoria }}</mat-cell>
-    </ng-container>
+      <!-- Coluna de assessoria -->
+      <ng-container matColumnDef="assessoria">
+        <mat-header-cell *matHeaderCellDef>Assessoria</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.assessoria }}</mat-cell>
+      </ng-container>
 
-    <!-- Coluna de assessoria -->
-    <ng-container matColumnDef="ramal">
-      <mat-header-cell  *matHeaderCellDef>Ramal</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.ramal }}</mat-cell>
-    </ng-container>
+      <!-- Coluna de assessoria -->
+      <ng-container matColumnDef="ramal">
+        <mat-header-cell *matHeaderCellDef>Ramal</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.ramal }}</mat-cell>
+      </ng-container>
 
-    <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row  *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </table>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </table>
+  </div>
+
+  <ng-template #loading>
+    <div class="loading-spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
 </mat-card>
