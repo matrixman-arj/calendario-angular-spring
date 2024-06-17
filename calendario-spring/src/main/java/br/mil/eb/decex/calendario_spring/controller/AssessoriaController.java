@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AssessoriaController {
 
-    private AssessoriaRepository assessoriaRepository;
+    private final AssessoriaRepository assessoriaRepository;
 
     
 

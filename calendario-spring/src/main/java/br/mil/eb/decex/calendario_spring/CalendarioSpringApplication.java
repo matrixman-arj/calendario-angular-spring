@@ -24,6 +24,12 @@ public class CalendarioSpringApplication {
 		return args -> {
 			pessoaRepository.deleteAll();
 
+			Assessoria assessoria = new Assessoria();
+			assessoria.setDescricao("Divisão de Técnologia da informação");
+			assessoria.setSigla("DTI");
+
+			assessoriaRepository.save(assessoria);
+
 			Pessoa pessoa = new Pessoa();
 			pessoa.setIdentidade("0195623038");
 			pessoa.setNome("Vanilton Gomes dos Santos");
@@ -31,16 +37,15 @@ public class CalendarioSpringApplication {
 			pessoa.setTipoAcesso(TipoAcesso.ADMINISTRADOR);
 			pessoa.setPostoGraduacao(PostoGraduacao.SEG_SARGENTO);
 			pessoa.setLiberado(true);
+			pessoa.setAssessoria(assessoria);
+			pessoa.setRamal("810 5678");
+			pessoa.setCaminho("C:\\Projetos\\CALENDARIO\\Uploads\\usuarios\\0195623038.jpg");
 					
 
 			pessoaRepository.save(pessoa);
 
 
-			Assessoria assessoria = new Assessoria();
-			assessoria.setDescricao("Divisão de Técnologia da Informação");
-			assessoria.setSigla("DTI");
-
-			assessoriaRepository.save(assessoria);
+			
 
 
 

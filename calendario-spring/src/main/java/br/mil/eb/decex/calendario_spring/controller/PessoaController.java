@@ -16,7 +16,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PessoaController {
 
-    private PessoaRepository pessoaRepository;
+    private final PessoaRepository pessoaRepository;
 
     
 

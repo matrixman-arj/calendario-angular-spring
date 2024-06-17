@@ -3,6 +3,8 @@ package br.mil.eb.decex.calendario_spring.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
 import br.mil.eb.decex.calendario_spring.enumerado.TipoAcesso;
 import br.mil.eb.decex.calendario_spring.modelo.jaas.Users;
@@ -27,6 +29,7 @@ public class Pessoa {
     @Id
 	@SequenceGenerator(name="PESSOA_ID_GENERATOR", sequenceName="PESSOA_ID_SEQ", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PESSOA_ID_GENERATOR")	
+	@JsonProperty("_id")
 	private Long id;
 		
 	@Column(unique=true)
@@ -61,6 +64,12 @@ public class Pessoa {
 	@Transient
 	@Enumerated(EnumType.STRING)
 	private TipoAcesso tipoAcesso;
+
+	@Column
+    private String ramal;
+    
+    @Column
+    private String caminho;
 
 /**
 	 * Identificador de tabela. Código sequencial
