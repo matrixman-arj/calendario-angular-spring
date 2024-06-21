@@ -11,7 +11,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
@@ -22,10 +21,10 @@ import jakarta.persistence.Table;
  * @version 1.0
  */
 @Entity
-@NamedQueries({
-	@NamedQuery(name="userRoles.poruserName",
+
+	/*@NamedQuery(name="userRoles.poruserName",
 		query="SELECT q FROM UserRoles q WHERE q.users.name = :users")
-})
+*/
 @Table(name="user_roles")
 public class UserRoles extends BaseModel<Long> implements Serializable {
 

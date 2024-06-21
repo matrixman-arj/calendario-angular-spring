@@ -44,10 +44,24 @@
         <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.assessoria.sigla }}</mat-cell>
       </ng-container>
 
-      <!-- Coluna de assessoria -->
+      <!-- Coluna de ramal -->
       <ng-container matColumnDef="ramal">
         <mat-header-cell *matHeaderCellDef>Ramal</mat-header-cell>
         <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.ramal }}</mat-cell>
+      </ng-container>
+
+      <!-- Coluna de ações -->
+      <ng-container matColumnDef="acoes">
+        <mat-header-cell *matHeaderCellDef>
+          <button mat-mini-fab color="accent" aria-label="Adicionar uma pessoa">
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-header-cell>
+
+        <mat-cell *matCellDef="let pessoa">
+
+        </mat-cell>
+
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

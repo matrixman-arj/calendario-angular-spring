@@ -3,31 +3,32 @@ import { MatDialog } from '@angular/material/dialog';
 import { catchError, Observable, of } from 'rxjs';
 
 import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
-import { Pessoa } from '../model/pessoa';
-import { PessoasService } from '../services/pessoas.service';
+import { Assessoria } from '../model/assessoria';
+import { AssessoriasService } from './services/assessorias.service';
+
 
 @Component({
-  selector: 'app-pessoas',
-  templateUrl: './pessoas.component.html',
-  styleUrl: './pessoas.component.scss'
+  selector: 'app-assessorias',
+  templateUrl: './assessorias.component.html',
+  styleUrl: './assessorias.component.scss'
 })
-export class PessoasComponent implements OnInit {
+export class AssessoriasComponent implements OnInit {
 
-  pessoas$: Observable<Pessoa[]>;
-  displayedColumns = ['foto','identidade', 'nome', 'nomeGuerra', 'postoGraduacao', 'assessoria', 'ramal', 'acoes'];
+  assessorias$: Observable<Assessoria[]>;
+  displayedColumns = ['sigla','descricao', 'acoes'];
 
   // pessoasService: PessoasService;
 
   constructor(
-    private pessoasService: PessoasService,
+    private assessoriasService: AssessoriasService,
     public dialog: MatDialog
 
   ){
 
-    this.pessoas$ = this.pessoasService.list()
+    this.assessorias$ = this.assessoriasService.list()
     .pipe(
       catchError(error => {
-        this.onError('Erro ao carregar pssoas');
+        this.onError('Erro ao carregar assessorias');
         return of([])
       })
     );

@@ -18,12 +18,27 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Transient;
-import lombok.Data;
 
-@Data
+
+
 @Entity
+/*@NamedQuery(
+    name = "todas.pessoas",
+    query = "SELECT DISTINCT p FROM Pessoa p WHERE p.liberado = TRUE ORDER BY p.postoGraduacao, p.antiguidade"
+) @NamedQuery(
+    name = "todos.bloqueados",
+    query = "SELECT DISTINCT p FROM Pessoa p WHERE p.liberado = FALSE ORDER BY p.postoGraduacao, p.antiguidade"
+) @NamedQuery(
+    name = "pessoas.ComAssessoria",
+    query = "SELECT p FROM Pessoa p JOIN FETCH p.assessoria"
+) @NamedQuery(
+    name = "Pessoa.comSecao",
+    query = "SELECT p FROM Pessoa p WHERE p.assessoria = :assessoria or p.assessoria.assessoriaPai = :assessoria"
+)*/
+
 public class Pessoa {
 
     @Id
@@ -70,6 +85,8 @@ public class Pessoa {
     
     @Column
     private String caminho;
+
+	private String antiguidade;
 
 /**
 	 * Identificador de tabela. Código sequencial
@@ -170,6 +187,34 @@ public class Pessoa {
 		this.listaTipoAcesso = listaTipoAcesso;
 	}
 
+
+	public TipoAcesso getTipoAcesso() {
+		return tipoAcesso;
+	}
+	public void setTipoAcesso(TipoAcesso tipoAcesso) {
+		this.tipoAcesso = tipoAcesso;
+	}
+
+	public String getRamal() {
+		return ramal;
+	}
+	public void setRamal(String ramal) {
+		this.ramal = ramal;
+	}
+
+	public String getCaminho() {
+		return caminho;
+	}
+	public void setCaminho(String caminho) {
+		this.caminho = caminho;
+	}
+
+	public String getAntiguidade() {
+		return antiguidade;
+	}
+	public void setAntiguidade(String antiguidade) {
+		this.antiguidade = ramal;
+	}
 
 	/**
 	 * Realiza parse para usuário JAAS. Na liberação do usuário 

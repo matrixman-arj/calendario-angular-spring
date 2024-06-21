@@ -27,10 +27,10 @@ import jakarta.persistence.Table;
  */
 @Entity
 
-@NamedQueries({
+
 	@NamedQuery(name="Users.tipoUsuario",
             query="SELECT ur FROM Users ur WHERE ur.name = :user")
-})
+
 @Table(name="users")
 public class Users extends BaseModel<Long> implements Serializable {
 
