@@ -5,6 +5,7 @@ import { catchError, Observable, of } from 'rxjs';
 import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
 import { Assessoria } from '../model/assessoria';
 import { AssessoriasService } from './services/assessorias.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -21,7 +22,9 @@ export class AssessoriasComponent implements OnInit {
 
   constructor(
     private assessoriasService: AssessoriasService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute
 
   ){
 
@@ -44,6 +47,10 @@ export class AssessoriasComponent implements OnInit {
     // TODO document why this method 'ngOnInit' is empty
 
 
+  }
+
+  onAdd(){
+    this.router.navigate(['new'], {relativeTo: this.route});
   }
 
 }

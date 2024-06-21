@@ -19,13 +19,19 @@
       <!-- Coluna de ações -->
       <ng-container matColumnDef="acoes">
         <mat-header-cell *matHeaderCellDef>
-          <button mat-mini-fab color="accent" aria-label="Adicionar uma assessoria">
+          <button (click)="onAdd()" mat-mini-fab color="accent" aria-label="Adicionar uma assessoria">
             <mat-icon>add</mat-icon>
           </button>
         </mat-header-cell>
 
         <mat-cell *matCellDef="let assessoria">
+          <button mat-icon-button color="primary" aria-label="Editar uma assessoria">
+            <mat-icon>edit</mat-icon>
+          </button>
 
+          <button mat-icon-button color="warn" aria-label="Remover assessoria">
+            <mat-icon>delete</mat-icon>
+          </button>
         </mat-cell>
 
       </ng-container>

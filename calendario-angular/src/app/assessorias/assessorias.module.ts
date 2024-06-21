@@ -5,12 +5,14 @@ import { AppMaterialModule } from '../shared/app-material/app-material.module';
 import { SharedModule } from '../shared/shared.module';
 import { AssessoriasRoutingModule } from './assessorias-routing.module';
 import { AssessoriasComponent } from './assessorias/assessorias.component';
+import { AssessoriaFormComponent } from './assessoria-form/assessoria-form.component';
 
 
 
 @NgModule({
   declarations: [
-    AssessoriasComponent
+    AssessoriasComponent,
+    AssessoriaFormComponent
   ],
   imports: [
     CommonModule,

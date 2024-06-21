@@ -5,6 +5,7 @@ import { catchError, Observable, of } from 'rxjs';
 import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
 import { Pessoa } from '../model/pessoa';
 import { PessoasService } from '../services/pessoas.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-pessoas',
@@ -20,7 +21,10 @@ export class PessoasComponent implements OnInit {
 
   constructor(
     private pessoasService: PessoasService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute
+
 
   ){
 
@@ -43,6 +47,10 @@ export class PessoasComponent implements OnInit {
     // TODO document why this method 'ngOnInit' is empty
 
 
+  }
+
+  onAdd(){
+    this.router.navigate(['new'], {relativeTo: this.route});
   }
 
 }

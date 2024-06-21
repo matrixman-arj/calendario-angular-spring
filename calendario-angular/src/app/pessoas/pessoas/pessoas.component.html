@@ -53,13 +53,19 @@
       <!-- Coluna de ações -->
       <ng-container matColumnDef="acoes">
         <mat-header-cell *matHeaderCellDef>
-          <button mat-mini-fab color="accent" aria-label="Adicionar uma pessoa">
+          <button (click)="onAdd()" mat-mini-fab color="accent" aria-label="Adicionar uma pessoa">
             <mat-icon>add</mat-icon>
           </button>
         </mat-header-cell>
 
         <mat-cell *matCellDef="let pessoa">
+          <button mat-icon-button color="primary" aria-label="Editar uma pessoa">
+            <mat-icon>edit</mat-icon>
+          </button>
 
+          <button mat-icon-button color="warn" aria-label="Remover pessoa">
+            <mat-icon>delete</mat-icon>
+          </button>
         </mat-cell>
 
       </ng-container>
