@@ -1,9 +1,36 @@
-mat-toolbar{
-  width: 99%;
-  margin: 8px;
+mat-card {
+  max-width: 100%;
+  margin: 2em auto;
+  align-content: center;
+
 }
 
-form {
+.full-width{
+  width: 48%;
+  padding: 10px;
+
+}
+
+mat-toolbar {
+  max-width: 99%;
+  margin: 5px;
+  text-justify: auto;
+
+}
+
+.min-width {
   width: 100%;
-
+  min-width: 150px;
 }
+
+.buttons {
+  width: 100%;
+  padding-left: 45%;
+  padding-bottom: 30px;
+}
+
+button {
+  margin: 8px 8px 8px 0;
+}
+
+
