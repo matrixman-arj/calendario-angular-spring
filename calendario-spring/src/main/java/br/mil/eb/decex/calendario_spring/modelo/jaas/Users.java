@@ -10,7 +10,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
+
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -91,7 +91,7 @@ public class Users extends BaseModel<Long> implements Serializable {
 	 * Inicializa lista de perfis
 	 */
 	public Users() {
-		roles = new ArrayList<UserRoles>();		
+		roles = new ArrayList<>();		
 	}	
 	public Users(String name) {
 		this.name = name;

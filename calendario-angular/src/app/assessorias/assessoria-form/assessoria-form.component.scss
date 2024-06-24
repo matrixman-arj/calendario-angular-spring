@@ -1,21 +1,34 @@
-.form-asse {
+mat-card {
+  max-width: 100%;
+  margin: 2em auto;
+  align-content: center;
+
+}
+
+.full-width{
+  width: 48%;
+  padding: 10px;
+
+}
+
+mat-toolbar {
+  max-width: 99%;
+  margin: 5px;
+  text-justify: auto;
+
+}
+
+.min-width {
+  width: 100%;
   min-width: 150px;
-  max-width: 500px;
+}
+
+.buttons {
   width: 100%;
+  padding-left: 45%;
+  padding-bottom: 30px;
 }
 
-.form-asse-full-width {
-  width: 100%;
-}
-
-
-mat-toolbar{
-  width: 99%;
-  margin: 10px;
-}
-
-form {
-  width: 99%;
-  margin: 2px, 0px, 0px, 2px;
-
+button {
+  margin: 8px 8px 8px 0;
 }

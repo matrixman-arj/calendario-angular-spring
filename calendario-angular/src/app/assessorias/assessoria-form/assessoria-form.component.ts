@@ -26,4 +26,13 @@ export class AssessoriaFormComponent implements OnInit {
 
   }
 
+  onSubmit() {
+
+  }
+
+  onCancel() {
+
+  }
+
+
 }
