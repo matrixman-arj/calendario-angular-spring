@@ -20,9 +20,6 @@
               <input matInput placeholder="Nome de guerra" formControlName="nomeGuerra">
             </mat-form-field>
 
-
-
-
             <mat-form-field class="full-width">
               <mat-label>Posto ou garduação</mat-label>
               <input matInput placeholder="Posto ou garduação" formControlName="postoGraduacao">
@@ -30,20 +27,23 @@
 
             <mat-form-field class="full-width">
               <mat-label>Assessoria</mat-label>
-              <mat-select formControlName="assessoria">
-                <mat-option value="null">--</mat-option>
-                <mat-option value="dti">DTI </mat-option>
-                <mat-option value="arh">ARH</mat-option>
+              <input matInput placeholder="Assessoria" formControlName="assessoria">
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Assessoria</mat-label>
+              <mat-select [(ngModel)]="assessoria">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let a of listAss" [ngValue]="a">{{a.sigla}}</mat-option>
+
               </mat-select>
             </mat-form-field>
+
 
             <mat-form-field class="full-width">
               <mat-label>Tipo de acesso</mat-label>
               <input matInput placeholder="Tipo de acesso" formControlName="tipoAcesso">
             </mat-form-field>
-
-
-
 
             <mat-form-field class="full-width">
               <mat-label>Ramal</mat-label>
@@ -55,7 +55,6 @@
               <mat-label>Foto</mat-label>
               <input matInput placeholder="Foto" formControlName="foto">
             </mat-form-field>
-
 
 
             <label style="padding: 10px; "><strong>Acesso:</strong></label>

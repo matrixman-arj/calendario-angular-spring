@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.mil.eb.decex.calendario_spring.modelo.Assessoria;
 import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
+import br.mil.eb.decex.calendario_spring.repository.AssessoriaRepository;
 import br.mil.eb.decex.calendario_spring.repository.PessoaRepository;
 import lombok.AllArgsConstructor;
 
@@ -22,6 +24,7 @@ import lombok.AllArgsConstructor;
 public class PessoaController {
 
     private final PessoaRepository pessoaRepository;
+    private final AssessoriaRepository assessoriaRepository;
 
     
 
@@ -29,6 +32,11 @@ public class PessoaController {
     public @ResponseBody List<Pessoa> list() {
         return pessoaRepository.findAll();
 
+    }
+
+    @GetMapping("/api/assessorias")
+    public @ResponseBody List<Assessoria> listAss(){
+        return assessoriaRepository.findAll();
     }
 
     @PostMapping

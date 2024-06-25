@@ -127,8 +127,7 @@ public class Assessoria extends BaseModel<Long> implements Serializable {
 	public int hashCode() {
         boolean prime = true;
         int result = 1;
-        int result1 = 31 * result + (this.id == null ? 0 : this.id.hashCode());
-        return result1;
+        return 31 * result + (this.id == null ? 0 : this.id.hashCode());
     }
 
     public boolean equals(Object obj) {

@@ -1,0 +1,6 @@
+
+*.ts
+*.ts
+*.java
+calendario-spring/src/main/java/br/mil/eb/decex/calendario_spring/repository/PessoaRepository.java
+calendario-angular/src/app/pessoas/pessoa-form/pessoa-form.component.ts
