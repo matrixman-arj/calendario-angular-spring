@@ -20,6 +20,12 @@ export class PessoasService {
       //delay(5000),
       tap(pessoas => console.log(pessoas))
     );
+
+
+  }
+
+  save(record: Pessoa) {
+    return this.httpClient.post<Pessoa>(this.API, record).pipe(first());
   }
 
 }

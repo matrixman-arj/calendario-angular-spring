@@ -30,7 +30,11 @@
 
             <mat-form-field class="full-width">
               <mat-label>Assessoria</mat-label>
-              <input matInput placeholder="Assessoria" formControlName="assessoria">
+              <mat-select formControlName="assessoria">
+                <mat-option value="null">--</mat-option>
+                <mat-option value="dti">DTI </mat-option>
+                <mat-option value="arh">ARH</mat-option>
+              </mat-select>
             </mat-form-field>
 
             <mat-form-field class="full-width">

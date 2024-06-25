@@ -23,4 +23,8 @@ export class AssessoriasService {
     );
   }
 
+  save(record: Assessoria) {
+    return this.httpClient.post<Assessoria>(this.API, record).pipe(first());
+  }
+
 }
