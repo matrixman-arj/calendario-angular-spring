@@ -7,13 +7,15 @@ import { SharedModule } from '../shared/shared.module';
 import { AssessoriaFormComponent } from './assessoria-form/assessoria-form.component';
 import { AssessoriasRoutingModule } from './assessorias-routing.module';
 import { AssessoriasComponent } from './assessorias/assessorias.component';
+import { AssessoriasListaComponent } from './assessorias-lista/assessorias-lista.component';
 
 
 
 @NgModule({
   declarations: [
     AssessoriasComponent,
-    AssessoriaFormComponent
+    AssessoriaFormComponent,
+    AssessoriasListaComponent
   ],
   imports: [
     CommonModule,

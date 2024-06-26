@@ -1,8 +1,8 @@
 <mat-card>
   <mat-toolbar color="primary">Assessorias do DECEx </mat-toolbar>
 
-  <div *ngIf="assessorias$ | async as assessorias; else loading">
-    <table mat-table [dataSource]="assessorias" class="mat-elevation-z8">
+  <div *ngIf="assessorias$ | async as assessorias; else loading" class="full-width">
+    <table mat-table [dataSource]="assessorias" class="mat-elevation-z8" >
 
       <!-- Coluna de identidade -->
       <ng-container matColumnDef="descricao">
