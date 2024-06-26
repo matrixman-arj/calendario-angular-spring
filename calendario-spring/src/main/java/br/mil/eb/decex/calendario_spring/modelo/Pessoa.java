@@ -6,13 +6,13 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import br.mil.eb.decex.calendario_spring.converter.AssessoriaConverter;
+
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
 import br.mil.eb.decex.calendario_spring.enumerado.TipoAcesso;
 import br.mil.eb.decex.calendario_spring.modelo.jaas.Users;
 import br.mil.eb.decex.calendario_spring.util.EncodingSHA256;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -68,8 +68,7 @@ public class Pessoa implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private PostoGraduacao postoGraduacao;
 		
-	@ManyToOne
-	@Convert(converter = AssessoriaConverter.class)
+	@ManyToOne	
 	@JoinColumn(name="assessoria_id")
 	private Assessoria assessoria;
 	
@@ -149,12 +148,16 @@ public class Pessoa implements Serializable{
 	}
 	
 	/**
-	 * Assessoria atual do usuário
-	 * @return assessoria do usuário
+	 * Assessoria atual da pessoa
+	 * @return assessoria da pessoa
 	 */
-	public Assessoria getAssessoria() {		
-		return assessoria;		
-	}	
+	public Assessoria getAssessoria() {
+        if (this.assessoria == null) {
+            this.assessoria = new Assessoria();
+        }
+
+        return this.assessoria;
+    }
 	public void setAssessoria(Assessoria assessoria) {
 		this.assessoria = assessoria;
 	}

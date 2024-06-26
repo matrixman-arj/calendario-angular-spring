@@ -1,12 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { FloatLabelType } from '@angular/material/form-field';
+import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { NonNullableFormBuilder } from '@angular/forms';
+
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+
 import { PessoasService } from '../services/pessoas.service';
-import { Action } from 'rxjs/internal/scheduler/Action';
-import { AssessoriasService } from '../../assessorias/assessorias/services/assessorias.service';
-import { Assessoria } from '../../assessorias/model/assessoria';
+
 
 @Component({
   selector: 'app-pessoa-form',
@@ -15,34 +15,26 @@ import { Assessoria } from '../../assessorias/model/assessoria';
 })
 export class PessoaFormComponent implements OnInit {
 
-  assessoriaService = inject (PessoasService);
+  form = this.formBuilder.group({
 
-  listaAss: Assessoria[] = [];
-  form: FormGroup;
-  readonly floatLabelControl = new FormControl('liberado' as FloatLabelType);
+    identidade:     [''],
+    tipoAcesso:     [''],
+    nome:           [''],
+    nomeGuerra:     [''],
+    postoGraduacao: [''],
+    assessoria:     [''],
+    liberado:       [''],
+    ramal:          [''],
+    foto:           ['']
 
-  constructor(private formBuilder: FormBuilder,
+  });
+
+   constructor(private formBuilder: NonNullableFormBuilder,
     private service: PessoasService,
-    private snackBar: MatSnackBar){
-    this.form = this.formBuilder.group({
-
-      identidade:     [null],
-	    tipoAcesso:     [null],
-      nome:           [null],
-      nomeGuerra:     [null],
-	    postoGraduacao: [null],
-      assessoria:     [null],
-	    liberado:       [null],
-      ramal:          [null],
-      foto:           [null]
-
-    });
-
-
+    private snackBar: MatSnackBar,
+    private location: Location){
+    //this.form
   }
-
-
-
 
   ngOnInit(): void {
 
@@ -50,16 +42,18 @@ export class PessoaFormComponent implements OnInit {
 
   onSubmit() {
     this.service.save(this.form.value)
-      .subscribe(result => console.log(result), error => {
-        this.snackBar.open('Erro ao salvar pessoa');
-
-      });
+      .subscribe(result => this.onSuccess(), error => this.onError());
 
 
   }
 
   onCancel() {
+    this.location.back();
+  }
 
+  private onSuccess(){
+      this.snackBar.open('Pessoa salva com sucesso!', '', { duration: 3000});
+      this.onCancel();
   }
 
   private onError() {

@@ -2,7 +2,7 @@ package br.mil.eb.decex.calendario_spring.modelo;
 
 import java.io.Serializable;
 
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,6 +33,7 @@ public class Assessoria extends BaseModel<Long> implements Serializable {
     @Id
     @SequenceGenerator(name = "ASSESSORIA_ID_GENERATOR", sequenceName = "ASSESSORIA_ID_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "ASSESSORIA_ID_GENERATOR")
+    @JsonProperty("_id")
     private Long id;
     
     @Column
@@ -43,19 +44,20 @@ public class Assessoria extends BaseModel<Long> implements Serializable {
 	
     @ManyToOne
     @JoinColumn(name = "assessoria_pai_id")    
-    private Assessoria assessoriaPai;
+    private Assessoria assessoriaPai;    
     
-    /*@OneToMany(mappedBy = "assessoriaPai", cascade = {CascadeType.ALL})
-    private List<Assessoria> secao = new ArrayList<>();
-    */    
     
     @Column
     private int ordem;
     
     @Column
     private Boolean interna;
+
+    public Assessoria(String id){
+        this.id = Long.parseLong(id);
+    }
     
-    public Assessoria() {
+    public Assessoria() {        
         this.interna = Boolean.FALSE;
     }    
 
@@ -75,19 +77,6 @@ public class Assessoria extends BaseModel<Long> implements Serializable {
         this.descricao = descricao;
     }
 
-		/*
-    public Assessoria getAssessoriaPai() {
-        if (this.assessoriaPai == null) {
-            this.assessoriaPai = new Assessoria();
-        }
-
-        return this.assessoriaPai;
-    }
-
-    public void setAssessoriaPai(Assessoria assessoriaPai) {
-        this.assessoriaPai = assessoriaPai;
-    }  
-		 */ 
 
     public String getSigla() {
         return this.sigla;
@@ -97,16 +86,7 @@ public class Assessoria extends BaseModel<Long> implements Serializable {
         this.sigla = sigla;
     }
 
-	/* 
-    public List<Assessoria> getSecao() {
-        return this.secao;
-    }
-
-    public void setSecao(List<Assessoria> secao) {
-        this.secao = secao;
-    }
-		*/
-
+	
     public int getOrdem() {
         return this.ordem;
     }

@@ -16,9 +16,9 @@ export interface Pessoa {
 
 	postoGraduacao: string;
 
-	assessoria: Assessoria;
+	assessoria: string;
 
-	liberado: boolean;
+	liberado: string;
 
   ramal: string;
 

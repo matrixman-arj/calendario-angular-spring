@@ -3,7 +3,7 @@
 
     <mat-card-content>
       <div class="container">
-        <form [formGroup]="form">
+        <form [formGroup]="form" class="min-width">
 
             <mat-form-field class="full-width">
               <mat-label>Identidade</mat-label>
@@ -30,7 +30,7 @@
               <mat-label>Assessoria</mat-label>
               <mat-select formControlName="assessoria">
                 <mat-option value="null">None</mat-option>
-                <mat-option value= {1} >DTI</mat-option>
+                <mat-option value="1" >DTI</mat-option>
 
               </mat-select>
             </mat-form-field>

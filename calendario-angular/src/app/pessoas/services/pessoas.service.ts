@@ -38,7 +38,7 @@ export class PessoasService {
 
   }
 
-  save(record: Pessoa) {
+  save(record: Partial<Pessoa>) {
     return this.httpClient.post<Pessoa>(this.API, record).pipe(first());
   }
 
