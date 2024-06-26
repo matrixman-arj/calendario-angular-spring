@@ -1,5 +1,6 @@
 package br.mil.eb.decex.calendario_spring.modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +41,9 @@ import jakarta.persistence.Transient;
     query = "SELECT p FROM Pessoa p WHERE p.assessoria = :assessoria or p.assessoria.assessoriaPai = :assessoria"
 )*/
 
-public class Pessoa {
-
+public class Pessoa implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
     @Id
 	@SequenceGenerator(name="PESSOA_ID_GENERATOR", sequenceName="PESSOA_ID_SEQ", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PESSOA_ID_GENERATOR")	

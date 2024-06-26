@@ -25,7 +25,7 @@ public class PessoaController {
 
     private final PessoaRepository pessoaRepository;
     private final AssessoriaRepository assessoriaRepository;
-
+    
     
 
     @GetMapping
@@ -34,9 +34,17 @@ public class PessoaController {
 
     }
 
-    @GetMapping("/api/assessorias")
-    public @ResponseBody List<Assessoria> listAss(){
-        return assessoriaRepository.findAll();
+    @GetMapping("/assessorias")
+    public ResponseEntity <List<Assessoria>> listAss(){
+
+        try {
+            List<Assessoria> lista = this.assessoriaRepository.findAll();
+            return new ResponseEntity<>(lista, HttpStatus.OK);
+        } catch (Exception e) {
+
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @PostMapping

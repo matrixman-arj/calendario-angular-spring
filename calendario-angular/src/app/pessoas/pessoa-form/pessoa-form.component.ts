@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { FloatLabelType } from '@angular/material/form-field';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { PessoasService } from '../services/pessoas.service';
 import { Action } from 'rxjs/internal/scheduler/Action';
+import { AssessoriasService } from '../../assessorias/assessorias/services/assessorias.service';
+import { Assessoria } from '../../assessorias/model/assessoria';
 
 @Component({
   selector: 'app-pessoa-form',
@@ -13,6 +15,9 @@ import { Action } from 'rxjs/internal/scheduler/Action';
 })
 export class PessoaFormComponent implements OnInit {
 
+  assessoriaService = inject (PessoasService);
+
+  listaAss: Assessoria[] = [];
   form: FormGroup;
   readonly floatLabelControl = new FormControl('liberado' as FloatLabelType);
 
@@ -35,6 +40,8 @@ export class PessoaFormComponent implements OnInit {
 
 
   }
+
+
 
 
   ngOnInit(): void {

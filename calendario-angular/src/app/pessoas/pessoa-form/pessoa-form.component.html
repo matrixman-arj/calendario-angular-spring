@@ -25,16 +25,12 @@
               <input matInput placeholder="Posto ou garduação" formControlName="postoGraduacao">
             </mat-form-field>
 
+
             <mat-form-field class="full-width">
               <mat-label>Assessoria</mat-label>
-              <input matInput placeholder="Assessoria" formControlName="assessoria">
-            </mat-form-field>
-
-            <mat-form-field>
-              <mat-label>Assessoria</mat-label>
-              <mat-select [(ngModel)]="assessoria">
-                <mat-option>None</mat-option>
-                <mat-option *ngFor="let a of listAss" [ngValue]="a">{{a.sigla}}</mat-option>
+              <mat-select formControlName="assessoria">
+                <mat-option value="null">None</mat-option>
+                <mat-option value= {1} >DTI</mat-option>
 
               </mat-select>
             </mat-form-field>
@@ -60,8 +56,8 @@
             <label style="padding: 10px; "><strong>Acesso:</strong></label>
 
             <mat-radio-group formControlName="liberado">
-              <mat-radio-button value="liberado">Liberado</mat-radio-button>
-              <mat-radio-button value="bloqueado">Bloqueado</mat-radio-button>
+              <mat-radio-button value="true">Liberado</mat-radio-button>
+              <mat-radio-button value="false">Bloqueado</mat-radio-button>
             </mat-radio-group>
 
 

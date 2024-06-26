@@ -1,3 +1,5 @@
+import { Assessoria } from "../../assessorias/model/assessoria";
+
 export interface Pessoa {
 
 	_id: string;
@@ -14,7 +16,7 @@ export interface Pessoa {
 
 	postoGraduacao: string;
 
-	assessoria: string;
+	assessoria: Assessoria;
 
 	liberado: boolean;
 

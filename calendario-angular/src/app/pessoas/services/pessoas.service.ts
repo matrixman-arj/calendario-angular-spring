@@ -26,7 +26,7 @@ export class PessoasService {
 
   }
 
-  listAss() {
+  assessorias() {
     return this.httpClient.get<Assessoria[]>(this.API)
     .pipe(
       first(),

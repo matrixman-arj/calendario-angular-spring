@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { catchError, Observable, of } from 'rxjs';
 
@@ -6,6 +6,7 @@ import { ErrorDialogComponent } from '../../shared/components/error-dialog/error
 import { Pessoa } from '../model/pessoa';
 import { PessoasService } from '../services/pessoas.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Assessoria } from '../../assessorias/model/assessoria';
 
 @Component({
   selector: 'app-pessoas',
@@ -14,19 +15,26 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class PessoasComponent implements OnInit {
 
+  assessoriaService = inject (PessoasService);
+  listaAss: Assessoria[] = [];
+
   pessoas$: Observable<Pessoa[]>;
   displayedColumns = ['foto','identidade', 'nome', 'nomeGuerra', 'postoGraduacao', 'assessoria', 'ramal', 'acoes'];
 
   // pessoasService: PessoasService;
 
   constructor(
+
     private pessoasService: PessoasService,
     public dialog: MatDialog,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+
 
 
   ){
+
+    this.assessorias();
 
     this.pessoas$ = this.pessoasService.list()
     .pipe(
@@ -35,6 +43,19 @@ export class PessoasComponent implements OnInit {
         return of([])
       })
     );
+  }
+
+  assessorias(){
+    this.assessoriaService.assessorias().subscribe({
+      next: lista => {
+          this.listaAss = lista;
+      },
+      error: erro =>{
+        alert('Erro ao retornar lista de assessorias');
+      }
+
+
+    });
   }
 
   onError(errorMsg: string) {
