@@ -1,0 +1,19 @@
+mat-table {
+  overflow: auto;
+  max-height: 600px;
+  margin-bottom: 10px;
+
+}
+
+mat-cell {
+  margin-bottom: 10PX;
+  margin-top: 10PX;
+}
+
+.action-column {
+  flex: 0 0 115px;
+}
+
+.action-column-header {
+  flex: 0 0 95px;
+}

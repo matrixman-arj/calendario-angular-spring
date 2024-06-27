@@ -1,1 +1,37 @@
-<p>assessorias-lista works!</p>
+<mat-table  [dataSource]="assessorias">
+
+  <!-- Coluna de identidade -->
+  <ng-container matColumnDef="descricao">
+    <mat-header-cell *matHeaderCellDef> Descrição </mat-header-cell>
+    <mat-cell *matCellDef="let assessoria">{{ assessoria.descricao }}</mat-cell>
+  </ng-container>
+
+  <!-- Coluna de sigla -->
+  <ng-container matColumnDef="sigla">
+    <mat-header-cell *matHeaderCellDef> Sigla </mat-header-cell>
+    <mat-cell *matCellDef="let assessoria"> {{ assessoria.sigla }} </mat-cell>
+  </ng-container>
+
+  <!-- Coluna de ações -->
+  <ng-container matColumnDef="acoes">
+    <mat-header-cell *matHeaderCellDef class="action-column-header">
+      <button (click)="onAdd()" mat-mini-fab color="accent" aria-label="Adicionar uma assessoria">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-header-cell>
+
+    <mat-cell *matCellDef="let assessoria" class="action-column">
+      <button mat-icon-button color="primary" aria-label="Editar uma assessoria">
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <button mat-icon-button color="warn" aria-label="Remover assessoria">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-cell>
+
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

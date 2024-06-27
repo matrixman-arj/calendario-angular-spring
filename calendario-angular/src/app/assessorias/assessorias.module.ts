@@ -6,8 +6,9 @@ import { AppMaterialModule } from '../shared/app-material/app-material.module';
 import { SharedModule } from '../shared/shared.module';
 import { AssessoriaFormComponent } from './assessoria-form/assessoria-form.component';
 import { AssessoriasRoutingModule } from './assessorias-routing.module';
-import { AssessoriasComponent } from './assessorias/assessorias.component';
-import { AssessoriasListaComponent } from './assessorias-lista/assessorias-lista.component';
+import { AssessoriasComponent } from './containers/assessorias/assessorias.component';
+import { AssessoriaListaComponent } from './assessorias-lista/assessorias-lista.component';
+
 
 
 
@@ -15,7 +16,7 @@ import { AssessoriasListaComponent } from './assessorias-lista/assessorias-lista
   declarations: [
     AssessoriasComponent,
     AssessoriaFormComponent,
-    AssessoriasListaComponent
+    AssessoriaListaComponent
   ],
   imports: [
     CommonModule,

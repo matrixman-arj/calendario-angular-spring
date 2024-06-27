@@ -6,7 +6,7 @@ import { AppMaterialModule } from '../shared/app-material/app-material.module';
 import { SharedModule } from '../shared/shared.module';
 import { PessoaFormComponent } from './pessoa-form/pessoa-form.component';
 import { PessoasRoutingModule } from './pessoas-routing.module';
-import { PessoasComponent } from './pessoas/pessoas.component';
+import { PessoasComponent } from './containers/pessoas/pessoas.component';
 import { PessoasListaComponent } from './pessoas-lista/pessoas-lista.component';
 
 

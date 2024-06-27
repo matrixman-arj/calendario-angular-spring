@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AssessoriasComponent } from './assessorias/assessorias.component';
+import { AssessoriasComponent } from './containers/assessorias/assessorias.component';
 import { AssessoriaFormComponent } from './assessoria-form/assessoria-form.component';
 
 const routes: Routes = [
