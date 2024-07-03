@@ -1,6 +1,6 @@
 export interface Assessoria {
 
-	_id: string;
+	_id: number;
 
   sigla: string;
 
