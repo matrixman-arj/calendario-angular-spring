@@ -10,13 +10,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
 import br.mil.eb.decex.calendario_spring.enumerado.TipoAcesso;
 import br.mil.eb.decex.calendario_spring.enumerado.converters.PostoGraduacaoConverter;
-import br.mil.eb.decex.calendario_spring.enumerado.converters.TipoAcessoConverter;
 import br.mil.eb.decex.calendario_spring.modelo.jaas.Users;
 import br.mil.eb.decex.calendario_spring.util.EncodingSHA256;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -80,8 +80,8 @@ public class Pessoa implements Serializable{
 		liberado = Boolean.FALSE;
 	}
 	
-	
-	@Convert(converter = TipoAcessoConverter.class)
+	@Transient
+	@Enumerated(EnumType.STRING)
 	private TipoAcesso tipoAcesso;
 
 	@Column
