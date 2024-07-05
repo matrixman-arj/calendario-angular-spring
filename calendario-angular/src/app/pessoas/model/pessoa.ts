@@ -1,4 +1,4 @@
-import { Assessoria } from "../../assessorias/model/assessoria";
+
 
 export interface Pessoa {
 

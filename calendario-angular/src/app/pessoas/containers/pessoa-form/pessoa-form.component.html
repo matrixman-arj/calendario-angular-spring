@@ -22,7 +22,11 @@
 
             <mat-form-field class="full-width">
               <mat-label>Posto ou garduação</mat-label>
-              <input matInput placeholder="Posto ou garduação" formControlName="postoGraduacao">
+              <mat-select formControlName="postoGraduacao">
+                <mat-option value="null">None</mat-option>
+
+              <mat-option *ngFor="let value of postos " [value]="value.viewValue">{{ value.viewValue }}</mat-option>
+            </mat-select>
             </mat-form-field>
 
 

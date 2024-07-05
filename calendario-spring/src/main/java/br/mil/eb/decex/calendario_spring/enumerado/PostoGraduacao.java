@@ -17,7 +17,8 @@ public enum PostoGraduacao {
 	SEG_SARGENTO("2º SGT"),
 	TER_SARGENTO("3º SGT"),
 	CABO("Cabo"),
-	SOLDADO("Soldado");
+	SOLDADO("Soldado"),
+	FUNC_CIV("Funcionário Civil");
 	
 	private String value;
 	

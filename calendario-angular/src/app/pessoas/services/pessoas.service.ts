@@ -38,6 +38,10 @@ export class PessoasService {
 
   }
 
+  getPostoGraduacao() {
+    return this.httpClient.get(`${this.httpClient}/enumerado`);
+  }
+
   save(record: Partial<Pessoa>) {
     return this.httpClient.post<Pessoa>(this.API, record).pipe(first());
   }
