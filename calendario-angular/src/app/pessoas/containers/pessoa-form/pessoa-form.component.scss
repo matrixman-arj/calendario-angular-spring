@@ -9,7 +9,6 @@ mat-card {
 mat-toolbar {
   max-width: 100%;
   padding: 10px;
-  //text-justify: auto;
 }
 
 .container{
@@ -36,6 +35,10 @@ mat-toolbar {
 
 button {
   margin: 8px 8px 8px 0;
+}
+
+.label-radio {
+  padding: 10px;
 }
 
 

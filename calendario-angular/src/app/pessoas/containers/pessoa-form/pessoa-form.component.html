@@ -41,7 +41,10 @@
 
             <mat-form-field class="full-width">
               <mat-label>Tipo de acesso</mat-label>
-              <input matInput placeholder="Tipo de acesso" formControlName="tipoAcesso">
+              <mat-select formControlName="tipoAcesso">
+                <mat-option value="null">None</mat-option>
+              <mat-option *ngFor="let value of acessos " [value]="value.value">{{ value.viewValue }}</mat-option>
+            </mat-select>
             </mat-form-field>
 
             <mat-form-field class="full-width">
@@ -56,7 +59,7 @@
             </mat-form-field>
 
 
-            <label style="padding: 10px; "><strong>Acesso:</strong></label>
+            <mat-label class="label-radio"><strong>Acesso:</strong></mat-label>
 
             <mat-radio-group formControlName="liberado">
               <mat-radio-button value="true">Liberado</mat-radio-button>

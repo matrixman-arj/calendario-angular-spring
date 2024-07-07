@@ -1,18 +1,24 @@
-import { Assessoria } from './../../../assessorias/model/assessoria';
 import { Location } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
-
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { PessoasService } from '../../services/pessoas.service';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 import { AssessoriasService } from '../../../assessorias/services/assessorias.service';
-import { Observable } from 'rxjs';
-import { Pessoa } from '../../model/pessoa';
-import { HttpClient } from '@angular/common/http';
-import { PostoGraduacao } from '../../../enums/PostoGraduacao';
+import { PessoasService } from '../../services/pessoas.service';
+import { Assessoria } from './../../../assessorias/model/assessoria';
 
+interface PostoGraduacao {
+  value: string;
+  viewValue: string;
+}
+
+interface TipoAcesso {
+  value: string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-pessoa-form',
@@ -50,6 +56,13 @@ export class PessoaFormComponent implements OnInit {
 
   ]
 
+  acessos: TipoAcesso[] = [
+    {value: 'USUARIO', viewValue: 'Usuário'},
+    {value: 'ADMINISTRADOR', viewValue: 'Administrador'},
+    {value: 'AUDITORIO', viewValue: 'Auditório'},
+
+  ]
+
   assessorias: Observable<Assessoria[]> | undefined;
 
   form = this.formBuilder.group({
@@ -81,12 +94,6 @@ export class PessoaFormComponent implements OnInit {
   ngOnInit(): void {
 
     this.assessorias = this.serviceAsse.list();
-
-    /*this.serviceAsse.list().subscribe(listaAsse => {
-      this.assessorias = listaAsse;
-      console.log(listaAsse);
-    });*/
-
 
   }
 

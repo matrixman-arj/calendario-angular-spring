@@ -66,8 +66,9 @@ public class Pessoa implements Serializable{
 	@Column
 	private String nomeGuerra;
 	
-	@Convert(converter = PostoGraduacaoConverter.class)
-	private PostoGraduacao postoGraduacao;
+	//@Convert(converter = PostoGraduacaoConverter.class)
+	//@Enumerated(EnumType.STRING)
+	private String postoGraduacao;
 		
 	@ManyToOne	
 	@JoinColumn(name="assessoria_id")
@@ -141,12 +142,7 @@ public class Pessoa implements Serializable{
 	 * Posto/Graduação do militar
 	 * @return posto/graduação do militar
 	 */
-	public PostoGraduacao getPostoGraduacao() {
-		return postoGraduacao;
-	}
-	public void setPostoGraduacao(PostoGraduacao postoGraduacao) {
-		this.postoGraduacao = postoGraduacao;
-	}
+	
 	
 	/**
 	 * Assessoria atual da pessoa
@@ -161,6 +157,13 @@ public class Pessoa implements Serializable{
     }
 	public void setAssessoria(Assessoria assessoria) {
 		this.assessoria = assessoria;
+	}
+	
+	public String getPostoGraduacao() {
+		return postoGraduacao;
+	}
+	public void setPostoGraduacao(String postoGraduacao) {
+		this.postoGraduacao = postoGraduacao;
 	}
 		
 	/**

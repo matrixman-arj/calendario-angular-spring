@@ -35,7 +35,7 @@ public class CalendarioSpringApplication {
 			pessoa.setNome("Vanilton Gomes dos Santos");
 			pessoa.setNomeGuerra("Vanilton");
 			pessoa.setTipoAcesso(TipoAcesso.ADMINISTRADOR);
-			pessoa.setPostoGraduacao(PostoGraduacao.SEG_SARGENTO);
+			pessoa.setPostoGraduacao("2º SGT");
 			pessoa.setLiberado(true);
 			pessoa.setAssessoria(assessoria);
 			pessoa.setRamal("810 5678");
