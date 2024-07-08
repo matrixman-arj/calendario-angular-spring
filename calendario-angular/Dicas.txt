@@ -1,0 +1,22 @@
+###CRIAR UM COMPONENTE##
+
+No terminal, devemos utilizar o angular cli digitando o seguinte:
+
+ - ng -> que é uma diretiva do angular,
+ - g -> generate,
+ - c -> component,
+ - pessoas -> se quisermos gerar já dentro de uma pasta,
+ - /pessoas-lista -> aqui, após a barra, damos o nome ao novocomponente,
+ - Pronto, agora é só apertar o enter, que teremos o nosso compnente criado, com 4 arquivos
+ mais um update sendo realizado no arquivo de módulo, do nosso componente raíz,
+ ex: se estamos criando um componente para trabalhar com o componente pessoas,
+ o update será realizado no módulo de pessoas:
+
+CREATE src/app/pessoas/pessoas-lista/pessoas-lista.component.scss (0 bytes)
+CREATE src/app/pessoas/pessoas-lista/pessoas-lista.component.html (27 bytes)
+CREATE src/app/pessoas/pessoas-lista/pessoas-lista.component.spec.ts (635 bytes)
+CREATE src/app/pessoas/pessoas-lista/pessoas-lista.component.ts (299 bytes)
+UPDATE src/app/pessoas/pessoas.module.ts (834 bytes)
+
+
+### parei em 07:52 do vídeo 24 da Loiane.
