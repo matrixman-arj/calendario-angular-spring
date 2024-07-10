@@ -1,14 +1,15 @@
 <mat-card>
   <mat-toolbar color="primary">Assessorias do DECEx </mat-toolbar>
+  <div class="mat-elevation-z8">
+    <app-assessorias-lista *ngIf="assessorias$ | async as assessorias; else loading"
+      [assessorias]="assessorias"
+      (add)="onAdd()"
+    ></app-assessorias-lista>
 
-  <app-assessorias-lista *ngIf="assessorias$ | async as assessorias; else loading"
-    [assessorias]="assessorias"
-    (add)="onAdd()"
-  ></app-assessorias-lista>
-
-  <ng-template #loading>
-    <div class="loading-spinner">
-      <mat-spinner></mat-spinner>
-    </div>
-  </ng-template>
+    <ng-template #loading>
+      <div class="loading-spinner">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-template>
+  </div>
 </mat-card>

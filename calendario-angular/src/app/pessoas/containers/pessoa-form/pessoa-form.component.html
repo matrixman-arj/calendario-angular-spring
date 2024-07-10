@@ -1,6 +1,6 @@
 <mat-card>
   <mat-toolbar color="primary">Cadastrar ou atualizar uma Pessoa</mat-toolbar>
-
+  <div class="mat-elevation-z8">
     <mat-card-content>
       <div class="container">
         <form [formGroup]="form" class="min-width">
@@ -71,8 +71,11 @@
     </div>
   </mat-card-content>
 
-<mat-card-actions class="buttons">
-  <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
-  <button mat-raised-button (click)="onCancel()">Cancelar</button>
-</mat-card-actions>
+  <mat-card-actions class="buttons">
+    <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+    <button mat-raised-button (click)="onCancel()">Cancelar</button>
+  </mat-card-actions>
+
+</div>
+
 </mat-card>
