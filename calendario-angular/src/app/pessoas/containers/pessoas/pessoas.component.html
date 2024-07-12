@@ -1,7 +1,7 @@
 <mat-card>
   <mat-toolbar color="primary">Ramais do DECEx </mat-toolbar>
 
-  <div class="mat-elevation-z8">
+  <div class="mat-elevation-z8 column-flex">
     <app-pessoas-lista *ngIf="pessoas$ | async as pessoas; else loading"
       [pessoas]="pessoas"
       (add)="onAdd()"

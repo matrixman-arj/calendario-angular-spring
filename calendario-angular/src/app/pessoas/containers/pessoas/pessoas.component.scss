@@ -1,15 +1,8 @@
 mat-card {
   max-width: 90%;
-  padding: 15px;
   margin: 2em auto;
   text-align: center;
 
-}
-
-.column-flex{
-  display: flex;
-  flex-direction: column;
-  min-width: 300px;
 }
 
 mat-toolbar {
@@ -18,6 +11,13 @@ mat-toolbar {
   text-justify: auto;
 
 }
+
+.column-flex{
+  display: flex;
+  flex-direction: column;
+  min-width: 600px;
+}
+
 
 .loading-spinner {
   padding: 25px;
