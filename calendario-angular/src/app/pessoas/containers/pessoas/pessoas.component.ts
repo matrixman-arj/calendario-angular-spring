@@ -53,4 +53,6 @@ export class PessoasComponent implements OnInit {
     this.router.navigate(['new'], {relativeTo: this.route});
   }
 
+
+
 }

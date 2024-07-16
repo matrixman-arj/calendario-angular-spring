@@ -13,13 +13,16 @@ export class PessoasListaComponent implements OnInit {
 
  @Input() pessoas: Pessoa[] = [];
  @Output() add = new EventEmitter(false);
+ @Output() edit = new EventEmitter(false);
 
 
   readonly displayedColumns = ['foto','identidade', 'nome', 'nomeGuerra', 'postoGraduacao', 'assessoria', 'ramal', 'acoes'];
 
   // pessoasService: PessoasService;
 
-  constructor( ){  }
+  constructor( ){
+
+   }
 
   ngOnInit(): void {
     // TODO document why this method 'ngOnInit' is empty
@@ -29,6 +32,10 @@ export class PessoasListaComponent implements OnInit {
   onAdd(){
     this.add.emit(true);
 
+  }
+
+  onEdit(pessoa: Pessoa ){
+    this.edit.emit(pessoa);
   }
 
 }
