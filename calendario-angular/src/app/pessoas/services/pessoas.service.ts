@@ -38,6 +38,10 @@ export class PessoasService {
 
   }
 
+  loadById(id: string){
+   return this.httpClient.get<Pessoa>(`${this.API}/${id}`);
+  }
+
 
   save(record: Partial<Pessoa>) {
     return this.httpClient.post<Pessoa>(this.API, record).pipe(first());

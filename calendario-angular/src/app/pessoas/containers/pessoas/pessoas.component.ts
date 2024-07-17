@@ -53,6 +53,10 @@ export class PessoasComponent implements OnInit {
     this.router.navigate(['new'], {relativeTo: this.route});
   }
 
+  onEdit(pessoa: Pessoa) {
+    this.router.navigate(['edit', pessoa._id], {relativeTo: this.route});
+    }
+
 
 
 }

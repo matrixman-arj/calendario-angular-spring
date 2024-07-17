@@ -5,6 +5,7 @@
     <app-pessoas-lista *ngIf="pessoas$ | async as pessoas; else loading"
       [pessoas]="pessoas"
       (add)="onAdd()"
+      (edit)="onEdit($event)"
     ></app-pessoas-lista>
 
       <ng-template #loading>
