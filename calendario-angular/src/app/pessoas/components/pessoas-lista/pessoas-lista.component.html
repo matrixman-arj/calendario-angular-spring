@@ -4,7 +4,7 @@
     <!-- Coluna de identidade -->
     <ng-container matColumnDef="foto" >
       <mat-header-cell *matHeaderCellDef class="altura"> Foto </mat-header-cell>
-      <mat-cell *matCellDef="let pessoa"> <img src="assets/cliente.jpg"> </mat-cell>
+      <mat-cell *matCellDef="let pessoa"> {{pessoa.foto}} </mat-cell>
     </ng-container>
 
     <!-- Coluna de identidade -->
