@@ -1,3 +1,4 @@
+import { FileHandle } from "./file-handle.model";
 
 
 export interface Pessoa {
@@ -22,6 +23,6 @@ export interface Pessoa {
 
   ramal: string;
 
-  foto: string;
+  foto: FileHandle[];
 
 }

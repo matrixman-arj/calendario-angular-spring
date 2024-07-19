@@ -6,6 +6,7 @@ import { catchError, Observable, of } from 'rxjs';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 import { Pessoa } from '../../model/pessoa';
 import { PessoasService } from '../../services/pessoas.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class PessoasComponent implements OnInit {
 
   constructor(
     private pessoasService: PessoasService,
+    private sanitizer: DomSanitizer,
     public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,

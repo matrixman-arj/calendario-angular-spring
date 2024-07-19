@@ -15,6 +15,6 @@ export class PessoaResolver implements Resolve<Pessoa> {
     if (route.params && route.params['id']) {
       return this.service.loadById(route.params['id']);
     }
-    return of({_id:'' , identidade:'', users:'', tipoAcesso:'', nome:'', nomeGuerra:'', postoGraduacao:'', assessoria:1 , liberado:'', ramal:'', foto:''});
+    return of({_id:'' , identidade:'', users:'', tipoAcesso:'', nome:'', nomeGuerra:'', postoGraduacao:'', assessoria:1 , liberado:'', ramal:'', foto:[]});
   }
 }
