@@ -11,8 +11,13 @@ import { Assessoria } from '../../assessorias/model/assessoria';
 export class PessoasService {
 
   private readonly API = 'api/pessoas';
+  private readonly APIFOTO = 'api/pessoas/upload'
 
   constructor(private httpClient: HttpClient) { }
+
+  uploadFile(formData: FormData) {
+    return this.httpClient.post(this.APIFOTO, formData);
+  }
 
   list() {
     return this.httpClient.get<Pessoa[]>(this.API)
@@ -22,8 +27,6 @@ export class PessoasService {
       tap(pessoas => console.log(pessoas)),
 
     );
-
-
   }
 
   assessorias() {
@@ -48,3 +51,7 @@ export class PessoasService {
   }
 
 }
+function uploadFile(formData: any, FormData: { new(form?: HTMLFormElement, submitter?: HTMLElement | null): FormData; prototype: FormData; }) {
+  throw new Error('Function not implemented.');
+}
+
