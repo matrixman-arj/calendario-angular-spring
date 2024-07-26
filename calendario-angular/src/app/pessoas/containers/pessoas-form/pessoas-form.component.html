@@ -57,7 +57,15 @@
               <mat-label>Foto</mat-label>
               <input matInput placeholder="Foto" formControlName="foto">
               <input type="file"  accept="image/*" (change)="upload($event)">
+              <div *ngIf="url">
+                <img src="url" alt="" class="img-fuid img-thumbnail">
+              </div>
             </mat-form-field>
+
+            <input type="file"  accept="image/*" (change)="upload($event)">
+              <div *ngIf="url">
+                <img [src]="url" alt="" class="img-fuid img-thumbnail">
+              </div>
 
 
             <mat-label class="label-radio"><strong>Acesso:</strong></mat-label>

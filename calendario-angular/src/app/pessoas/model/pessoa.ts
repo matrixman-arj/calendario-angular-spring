@@ -23,6 +23,6 @@ export interface Pessoa {
 
   ramal: string;
 
-  foto: FileHandle[];
+  foto: string;
 
 }
