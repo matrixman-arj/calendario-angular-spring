@@ -1,0 +1,142 @@
+import { formatDate, Location } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormGroup, NonNullableFormBuilder, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+
+import { Assessoria } from '../../../assessorias/model/assessoria';
+import { AssessoriasService } from '../../../assessorias/services/assessorias.service';
+import { FileHandle } from '../../model/file-handle.model';
+import { Pessoa } from '../../model/pessoa';
+
+import { PessoasService } from '../../services/pessoas.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import * as fs from 'fs-extra';
+import { PostoGraduacao, PostoGraduacaoList } from '../../../enums/PostoGraduacao/PostoGraduacao';
+import { MatDialog } from '@angular/material/dialog';
+import { MediaService } from '../../../media.service';
+import { TipoAcesso, TipoAcessoList } from '../../../enums/TipoAcesso';
+import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
+
+@Component({
+  selector: 'app-pessoa-form',
+  templateUrl: './pessoas-form.component.html',
+  styleUrl: './pessoas-form.component.scss'
+})
+
+export class PessoasFormComponent implements OnInit {
+
+  form: UntypedFormGroup;
+  selectedFile: File | null = null;
+
+  @Output() add = new EventEmitter(false);
+
+  url?: string;
+
+
+  postos = PostoGraduacaoList;
+  selectedPosto: PostoGraduacao;
+
+  acessos = TipoAcessoList;
+  selectedAcesso: TipoAcesso;
+
+  assessorias: any[] = [];
+  selectedAssessoria: any;
+
+  upload(event: any) {
+    const file: File = event.target.files[0];
+    const identidade = this.form.get('identidade')?.value; // Captura o valor do campo identidade
+
+    if (file && identidade) {
+      // Renomeia o arquivo com o valor do campo identidade e extensão .jpg
+      const renamedFile = new File([file], `${identidade}.jpg`, { type: 'image/jpeg' });
+
+      const formData = new FormData();
+      formData.append('file', renamedFile);
+
+      this.mediaService.uploadFile(formData)
+        .subscribe((response: any) => {
+          console.log('response', response);
+          this.url = response.url;
+        });
+    }
+  }
+
+
+
+  constructor(  private http: HttpClient,
+    private formBuilder: UntypedFormBuilder,
+    private service: PessoasService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private location: Location,
+    private route: ActivatedRoute,
+    //public formUtils: FormUtilsService,
+    private assessoriasService: AssessoriasService,
+    private mediaService: MediaService
+
+  ) {
+
+      this.form = this.formBuilder.group({
+        _id: [null],
+        identidade: [''],
+        nomeGuerra: [null],
+        nome: [null],
+        postoGraduacao: [null],
+        tipoAcesso: [null],
+        assessoria: [null],
+        liberado: [null],
+        ramal: [null],
+        caminho: [null],
+        acessos: [null],
+        imagem: [null]
+
+      });
+
+        this.selectedPosto = PostoGraduacao.GEN_EX;
+        this.selectedAcesso = TipoAcesso.USUARIO;
+
+        this.assessoriasService.list().subscribe((data: any[]) => {
+        this.assessorias = data;
+       });
+
+    }
+
+
+  ngOnInit(): void {
+
+
+  }
+
+   onSubmit() {
+    this.service.save(this.form.value)
+    .subscribe(result => this.onSuccess(), error => this.onError());
+
+}
+
+  onAdd(){
+    this.add.emit(true);
+  }
+
+  onCancel() {
+    this.location.back();
+  }
+
+  private onSuccess() {
+    this.snackBar.open('Pessoa salva com successo!', '', { duration: 5000 });
+    this.onCancel();
+  }
+
+  private onError() {
+    this.dialog.open(ErrorDialogComponent, {
+      data: 'Erro ao salvar pessoa.'
+    });
+  }
+
+  // getErrorMessage(fieldName: string): string {
+  //   return this.formUtils.getFieldErrorMessage(this.form, fieldName);
+  // }
+
+}
