@@ -1,55 +1,58 @@
 <mat-card>
   <mat-table  [dataSource]="pessoas">
 
-    <!-- Coluna de identidade -->
-    <ng-container matColumnDef="foto" >
-      <mat-header-cell *matHeaderCellDef class="altura"> Foto </mat-header-cell>
-      <mat-cell *matCellDef="let pessoa"> {{pessoa.foto}} </mat-cell>
+    <!-- Coluna de foto -->
+    <ng-container matColumnDef="caminho" >
+      <mat-header-cell *matHeaderCellDef class="column-header-foto"> Foto </mat-header-cell>
+      <mat-cell *matCellDef="let pessoa" class="column-foto">
+        <img *ngIf="pessoa.caminho" [src]="pessoa.caminho " alt="Foto de {{pessoa.identidade}}" class="img-fixed-size">
+      </mat-cell>
+
     </ng-container>
 
     <!-- Coluna de identidade -->
     <ng-container matColumnDef="identidade">
-      <mat-header-cell *matHeaderCellDef> Identidade </mat-header-cell>
-      <mat-cell *matCellDef="let pessoa"> {{ pessoa.identidade }} </mat-cell>
+      <mat-header-cell class="column-header-idt" *matHeaderCellDef> Identidade </mat-header-cell>
+      <mat-cell *matCellDef="let pessoa" class="column-idt"> {{ pessoa.identidade }} </mat-cell>
     </ng-container>
 
     <!-- Coluna de nome -->
     <ng-container matColumnDef="nome">
-      <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
-      <mat-cell *matCellDef="let pessoa"> {{ pessoa.nome }}</mat-cell>
+      <mat-header-cell class="column-header-nome" *matHeaderCellDef>Nome</mat-header-cell>
+      <mat-cell *matCellDef="let pessoa" class="column-nome"> {{ pessoa.nome }}</mat-cell>
     </ng-container>
 
     <!-- Coluna de nome de Guerra -->
     <ng-container matColumnDef="nomeGuerra">
-      <mat-header-cell *matHeaderCellDef>Nome de Guerra</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.nomeGuerra }}
+      <mat-header-cell class="column-header-nomeGuerra" *matHeaderCellDef>Nome de Guerra</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let pessoa" class="column-nomeGuerra"> {{ pessoa.nomeGuerra }}
 
       </mat-cell>
     </ng-container>
 
     <!-- Coluna de Posto ou grduação -->
     <ng-container matColumnDef="postoGraduacao">
-      <mat-header-cell *matHeaderCellDef>Posto/Graduação</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.postoGraduacao }}
+      <mat-header-cell class="column-header-posto" *matHeaderCellDef>Posto/Graduação</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let pessoa" class="column-posto"> {{ pessoa.postoGraduacao }}
         <mat-icon aria-hidden="false" aria-label="Posto ou Graduação">{{ pessoa.postoGraduacao | posto }}</mat-icon>
       </mat-cell>
     </ng-container>
 
     <!-- Coluna de assessoria -->
     <ng-container matColumnDef="assessoria">
-      <mat-header-cell *matHeaderCellDef>Assessoria</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.assessoria.sigla }}</mat-cell>
+      <mat-header-cell class="column-header-asse" *matHeaderCellDef>Assessoria</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let pessoa" class="column-asse"> {{ pessoa.assessoria.sigla }}</mat-cell>
     </ng-container>
 
     <!-- Coluna de ramal -->
     <ng-container matColumnDef="ramal">
-      <mat-header-cell *matHeaderCellDef>Ramal</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let pessoa"> {{ pessoa.ramal }}</mat-cell>
+      <mat-header-cell class="column-header-ramal" *matHeaderCellDef>Ramal</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let pessoa" class="column-ramal"> {{ pessoa.ramal }}</mat-cell>
     </ng-container>
 
     <!-- Coluna de ações -->
     <ng-container matColumnDef="acoes">
-      <mat-header-cell *matHeaderCellDef class="action-column-header">
+      <mat-header-cell class="column-header" *matHeaderCellDef class="action-column-header">
         <button (click)="onAdd()" mat-mini-fab color="accent" aria-label="Adicionar uma pessoa">
           <mat-icon>add</mat-icon>
         </button>

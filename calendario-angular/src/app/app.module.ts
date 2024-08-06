@@ -7,6 +7,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,9 @@ import { AppComponent } from './app.component';
     AppRoutingModule,
     MatToolbarModule,
     MatListModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
+
   ],
   providers: [
     provideAnimationsAsync()

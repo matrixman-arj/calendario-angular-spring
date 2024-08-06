@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Pessoa } from '../../model/pessoa';
+import { MatTableDataSource } from '@angular/material/table';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -16,16 +18,20 @@ export class PessoasListaComponent implements OnInit {
  @Output() edit = new EventEmitter(false);
 
 
-  readonly displayedColumns = ['foto','identidade', 'nome', 'nomeGuerra', 'postoGraduacao', 'assessoria', 'ramal', 'acoes'];
+  readonly displayedColumns = ['caminho','identidade', 'nome', 'nomeGuerra', 'postoGraduacao', 'assessoria', 'ramal', 'acoes'];
 
   // pessoasService: PessoasService;
 
-  constructor( ){
+  dataSource = new MatTableDataSource<Pessoa>();
+
+  constructor(private http: HttpClient ){
 
    }
 
   ngOnInit(): void {
-    // TODO document why this method 'ngOnInit' is empty
+    this.http.get<Pessoa[]>('/api/pessoas').subscribe(data => {
+      this.dataSource.data = data;
+    });
 
   }
 
@@ -36,6 +42,10 @@ export class PessoasListaComponent implements OnInit {
 
   onEdit(pessoa: Pessoa ){
     this.edit.emit(pessoa);
+  }
+
+  getPersonImage(identidade: string): string {
+    return `assets/images/${identidade}.jpg`;
   }
 
 }

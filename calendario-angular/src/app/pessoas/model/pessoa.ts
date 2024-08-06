@@ -1,6 +1,3 @@
-import { FileHandle } from "./file-handle.model";
-
-
 export interface Pessoa {
 
 	_id: string;
@@ -23,6 +20,6 @@ export interface Pessoa {
 
   ramal: string;
 
-  foto: string;
+  caminho: string
 
 }

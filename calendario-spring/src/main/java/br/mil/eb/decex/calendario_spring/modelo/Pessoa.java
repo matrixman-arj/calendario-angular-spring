@@ -7,13 +7,13 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
+
 import br.mil.eb.decex.calendario_spring.enumerado.TipoAcesso;
-import br.mil.eb.decex.calendario_spring.enumerado.converters.PostoGraduacaoConverter;
+
 import br.mil.eb.decex.calendario_spring.modelo.jaas.Users;
 import br.mil.eb.decex.calendario_spring.util.EncodingSHA256;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -95,7 +95,7 @@ public class Pessoa implements Serializable{
 
 /**
 	 * Identificador de tabela. Código sequencial
-	 * @return chave primária da ação orçamentária 
+	 * @return chave primária da pessoa 
 	 */	
 	
 	public Long getId() {
@@ -106,8 +106,8 @@ public class Pessoa implements Serializable{
 	}
 
 	/**
-	 * Identidade do militar
-	 * @return identidade do militar 
+	 * Identidade da pessoa
+	 * @return identidade da pessoa
 	 */	
 	public String getIdentidade() {
 		return identidade;
@@ -117,8 +117,8 @@ public class Pessoa implements Serializable{
 	}
 
 	/**
-	 * Nome do militar
-	 * @return nome do militar 
+	 * Nome da pessoa
+	 * @return nome da pessoa 
 	 */
 	public String getNome() {
 		return nome;
@@ -128,8 +128,8 @@ public class Pessoa implements Serializable{
 	}
 
 	/**
-	 * Nome de guerra do militar
-	 * @return nome de guerra do militar
+	 * Nome de guerra da pessoa
+	 * @return nome de guerra da pessoa
 	 */
 	public String getNomeGuerra() {
 		return nomeGuerra;
@@ -139,8 +139,8 @@ public class Pessoa implements Serializable{
 	}
 
 	/**
-	 * Posto/Graduação do militar
-	 * @return posto/graduação do militar
+	 * Posto/Graduação da pessoa
+	 * @return posto/graduação da pessoa
 	 */
 	
 	

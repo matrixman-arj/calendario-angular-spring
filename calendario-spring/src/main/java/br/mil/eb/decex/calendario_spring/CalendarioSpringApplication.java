@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
+
 import br.mil.eb.decex.calendario_spring.enumerado.TipoAcesso;
 import br.mil.eb.decex.calendario_spring.modelo.Assessoria;
 import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
@@ -39,7 +39,7 @@ public class CalendarioSpringApplication {
 			pessoa.setLiberado(true);
 			pessoa.setAssessoria(assessoria);
 			pessoa.setRamal("810 5678");
-			pessoa.setCaminho("C:\\Projetos\\CALENDARIO\\Uploads\\usuarios\\0195623038.jpg");
+			pessoa.setCaminho("http://localhost:8080/media/0195623038.jpg");
 					
 
 			pessoaRepository.save(pessoa);

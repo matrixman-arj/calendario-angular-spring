@@ -8,7 +8,7 @@ import io.micrometer.common.util.StringUtils;
 public class AssessoriaConverter implements Converter<String, Assessoria>{
 
     @Override
-	public Assessoria convert(String id) {
+	public Assessoria convert(@SuppressWarnings("null") String id) {
 		if (!StringUtils.isEmpty(id)) {
 			Assessoria asse = new Assessoria();
 			asse.setId(Long.valueOf(id));

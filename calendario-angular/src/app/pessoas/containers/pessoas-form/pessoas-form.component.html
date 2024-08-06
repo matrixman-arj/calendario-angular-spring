@@ -8,6 +8,8 @@
             <mat-form-field class="full-width">
               <mat-label>Identidade</mat-label>
               <input matInput placeholder="Identidade" formControlName="identidade">
+
+
             </mat-form-field>
 
             <mat-form-field class="full-width">
@@ -34,7 +36,8 @@
               <mat-label>Assessoria</mat-label>
               <mat-select formControlName="assessoria">
                 <mat-option value="null">None</mat-option>
-                <mat-option  *ngFor="let assessoria of assessorias | async" [value]="assessoria">{{assessoria.sigla}}</mat-option>
+                <mat-option  *ngFor="let assessoria of assessorias" [value]="assessoria">
+                  {{ assessoria.sigla }}</mat-option>
               </mat-select>
             </mat-form-field>
 
@@ -52,20 +55,13 @@
               <input matInput placeholder="Ramal" formControlName="ramal">
             </mat-form-field>
 
-
             <mat-form-field class="full-width">
               <mat-label>Foto</mat-label>
-              <input matInput placeholder="Foto" formControlName="foto">
-              <input type="file"  accept="image/*" (change)="upload($event)">
-              <div *ngIf="url">
-                <img src="url" alt="" class="img-fuid img-thumbnail">
-              </div>
+              <input matInput placeholder="Foto" >
+              <img *ngIf="url" [src]="url" alt="" class="img-fluid img-thumbnail">
+              <br>
+              <input  type="file" id="" formControlName="caminho"  (change)="upload($event)" >
             </mat-form-field>
-
-            <input type="file"  accept="image/*" (change)="upload($event)">
-              <div *ngIf="url">
-                <img [src]="url" alt="" class="img-fuid img-thumbnail">
-              </div>
 
 
             <mat-label class="label-radio"><strong>Acesso:</strong></mat-label>
