@@ -42,7 +42,7 @@ public class FileSystemStorageService implements StorageService {
     public String store(MultipartFile file) {
         try {
             if (file.isEmpty()) {
-                throw new RuntimeException("Falha ao armazenar, arquivo vazio");
+                throw new IllegalArgumentException("Falha ao armazenar, arquivo vazio");
             }
 
             // Obter o nome original do arquivo
@@ -52,7 +52,7 @@ public class FileSystemStorageService implements StorageService {
 
             // Verificar se o destino do arquivo é dentro do diretório rootLocation
             if (!destinationFile.getParent().equals(rootLocation.toAbsolutePath())) {
-                throw new RuntimeException("Tentativa de salvar o arquivo fora do diretório permitido");
+                throw new IllegalArgumentException("Tentativa de salvar o arquivo fora do diretório permitido");
             }
 
             // Redimensionar a imagem
@@ -73,7 +73,7 @@ public class FileSystemStorageService implements StorageService {
             return filename;
 
         } catch (IOException e) {
-            throw new RuntimeException("Falha ao armazenar arquivo.", e);
+            throw new IllegalArgumentException("Falha ao armazenar arquivo.", e);
         }
     }
 
@@ -87,10 +87,10 @@ public class FileSystemStorageService implements StorageService {
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
-                throw new RuntimeException("Não foi possível ler o arquivo: " + filename);
+                throw new IllegalArgumentException("Não foi possível ler o arquivo: " + filename);
             }
         } catch (MalformedURLException e) {
-            throw new RuntimeException("Não foi possível ler o arquivo: " + filename);
+            throw new IllegalArgumentException("Não foi possível ler o arquivo: " + filename);
         }
     }
 
