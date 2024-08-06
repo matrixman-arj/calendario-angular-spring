@@ -66,8 +66,7 @@ public class Pessoa implements Serializable{
 	@Column
 	private String nomeGuerra;
 	
-	//@Convert(converter = PostoGraduacaoConverter.class)
-	//@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.STRING)
 	private String postoGraduacao;
 		
 	@ManyToOne	
