@@ -19,4 +19,4 @@ CREATE src/app/pessoas/pessoas-lista/pessoas-lista.component.ts (299 bytes)
 UPDATE src/app/pessoas/pessoas.module.ts (834 bytes)
 
 
-### parei em 4:5 do vídeo 27 da Loiane.
+### parei em 4:5 do vídeo 28 da Loiane.

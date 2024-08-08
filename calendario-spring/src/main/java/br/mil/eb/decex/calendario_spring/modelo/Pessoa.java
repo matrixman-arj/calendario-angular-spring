@@ -6,8 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
-
+import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
 import br.mil.eb.decex.calendario_spring.enumerado.TipoAcesso;
 
 import br.mil.eb.decex.calendario_spring.modelo.jaas.Users;
@@ -15,8 +14,8 @@ import br.mil.eb.decex.calendario_spring.util.EncodingSHA256;
 import jakarta.persistence.Column;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -66,8 +65,8 @@ public class Pessoa implements Serializable{
 	@Column
 	private String nomeGuerra;
 	
-	@Enumerated(EnumType.STRING)
-	private String postoGraduacao;
+	@Column
+	private PostoGraduacao postoGraduacao;
 		
 	@ManyToOne	
 	@JoinColumn(name="assessoria_id")
@@ -80,8 +79,7 @@ public class Pessoa implements Serializable{
 		liberado = Boolean.FALSE;
 	}
 	
-	@Transient
-	@Enumerated(EnumType.STRING)
+	@Column
 	private TipoAcesso tipoAcesso;
 
 	@Column
@@ -141,8 +139,12 @@ public class Pessoa implements Serializable{
 	 * Posto/Graduação da pessoa
 	 * @return posto/graduação da pessoa
 	 */
-	
-	
+	public PostoGraduacao  getPostoGraduacao() {
+		return postoGraduacao;
+	}
+
+
+			
 	/**
 	 * Assessoria atual da pessoa
 	 * @return assessoria da pessoa
@@ -156,15 +158,9 @@ public class Pessoa implements Serializable{
     }
 	public void setAssessoria(Assessoria assessoria) {
 		this.assessoria = assessoria;
-	}
+	}	
 	
-	public String getPostoGraduacao() {
-		return postoGraduacao;
-	}
-	public void setPostoGraduacao(String postoGraduacao) {
-		this.postoGraduacao = postoGraduacao;
-	}
-		
+
 	/**
 	 * Indica liberação para acesso ao sistema
 	 * @return true-> Acesso liberado <br/>false-> Acesso negado
@@ -272,5 +268,11 @@ public class Pessoa implements Serializable{
 	@Override
 	public String toString() {
 		return "Pessoa [identidade=" + identidade + ", nomeGuerra=" + nomeGuerra + "]";
+	}
+	public void setPostoGraduacao(PostoGraduacao postoGraduacao) {
+		this.postoGraduacao = postoGraduacao;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}	
 }

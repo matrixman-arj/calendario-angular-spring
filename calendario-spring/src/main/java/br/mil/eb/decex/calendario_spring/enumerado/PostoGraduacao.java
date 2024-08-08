@@ -1,5 +1,8 @@
 package br.mil.eb.decex.calendario_spring.enumerado;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum PostoGraduacao {
 
     GEN_EXERCITO("Gen Ex"),
@@ -21,18 +24,29 @@ public enum PostoGraduacao {
 	FUNC_CIV("Funcionário Civil");
 	
 	private String value;
-	
-	private PostoGraduacao(String value) {
-		this.value = value;
-	}
 
-	public String getValue() {
-		return value;
-	}
+    private PostoGraduacao(String value) {
+        this.value = value;
+    }
 
-	@Override
-	public String toString() {		
-		return value;
-	}
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
+
+    @JsonCreator
+    public static PostoGraduacao fromValue(String value) {
+        for (PostoGraduacao posto : PostoGraduacao.values()) {
+            if (posto.getValue().equalsIgnoreCase(value)) {
+                return posto;
+            }
+        }
+        throw new IllegalArgumentException("Unknown enum value: " + value);
+    }
+
+    @Override
+    public String toString() {        
+        return value;
+    }
 	
 }

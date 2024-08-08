@@ -27,14 +27,16 @@
               <mat-select formControlName="postoGraduacao">
                 <mat-option value="null">None</mat-option>
 
-              <mat-option *ngFor="let value of postos " [value]="value.viewValue">{{ value.viewValue }}</mat-option>
+                <mat-option *ngFor="let posto of postos" [value]="posto.viewValue">
+                  {{ posto.viewValue }}
+                </mat-option>
             </mat-select>
             </mat-form-field>
 
 
             <mat-form-field class="full-width">
               <mat-label>Assessoria</mat-label>
-              <mat-select formControlName="assessoria">
+              <mat-select formControlName="assessoria" [compareWith]="compareAssessoria">
                 <mat-option value="null">None</mat-option>
                 <mat-option  *ngFor="let assessoria of assessorias" [value]="assessoria">
                   {{ assessoria.sigla }}</mat-option>
@@ -46,7 +48,7 @@
               <mat-label>Tipo de acesso</mat-label>
               <mat-select formControlName="tipoAcesso">
                 <mat-option value="null">None</mat-option>
-              <mat-option *ngFor="let value of acessos " [value]="value.value">{{ value.viewValue }}</mat-option>
+              <mat-option *ngFor="let tipoAcesso of acessos " [value]="tipoAcesso.viewValue">{{ tipoAcesso.viewValue }}</mat-option>
             </mat-select>
             </mat-form-field>
 
@@ -57,11 +59,27 @@
 
             <mat-form-field class="full-width">
               <mat-label>Foto</mat-label>
+
+              <!-- Campo de texto (somente leitura) que mostra o caminho da imagem -->
+              <input matInput placeholder="Foto">
+
+              <!-- Exibição da imagem -->
+              <img *ngIf="url" [src]="url" alt="Foto da pessoa" class="img-fluid img-thumbnail">
+
+              <br>
+
+              <!-- Input para seleção de nova foto -->
+              <input type="file" (change)="upload($event)" >
+            </mat-form-field>
+
+            <!-- <mat-form-field class="full-width">
+              <mat-label>Foto</mat-label>
               <input matInput placeholder="Foto" >
               <img *ngIf="url" [src]="url" alt="" class="img-fluid img-thumbnail">
+
               <br>
               <input  type="file" id="" formControlName="caminho"  (change)="upload($event)" >
-            </mat-form-field>
+            </mat-form-field> -->
 
 
             <mat-label class="label-radio"><strong>Acesso:</strong></mat-label>

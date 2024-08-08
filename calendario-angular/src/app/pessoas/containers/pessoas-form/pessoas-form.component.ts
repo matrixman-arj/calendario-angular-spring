@@ -45,7 +45,10 @@ export class PessoasFormComponent implements OnInit {
   assessorias: any[] = [];
   selectedAssessoria: any;
 
+
+
   upload(event: any) {
+
     const file: File = event.target.files[0];
     const identidade = this.form.get('identidade')?.value; // Captura o valor do campo identidade
 
@@ -61,10 +64,34 @@ export class PessoasFormComponent implements OnInit {
           console.log('response', response);
           this.url = response.url;
         });
+
     }
   }
 
+  // upload(event: Event): void {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.files && input.files[0]) {
+  //     const file = input.files[0];
 
+  //     const reader = new FileReader();
+  //     reader.onload = (e: any) => {
+  //       this.url = e.target.result;
+
+  //       // Atualiza o valor do campo de caminho no formulário
+  //     this.form.patchValue({
+  //       caminho: file.name
+  //     });
+
+  //     };
+  //     reader.readAsDataURL(file);
+
+  //     const caminhoControl = this.form.get('caminho');
+  //     if (caminhoControl) {
+  //       // Agora você pode usar caminhoControl.value sem problemas
+  //       const caminhoValue = caminhoControl.value;
+  //     }
+  //   }
+  // }
 
   constructor(  private http: HttpClient,
     private formBuilder: UntypedFormBuilder,
@@ -90,23 +117,44 @@ export class PessoasFormComponent implements OnInit {
         liberado: [null],
         ramal: [null],
         caminho: [null],
-        acessos: [null],
-        imagem: [null]
+
 
       });
 
-        this.selectedPosto = PostoGraduacao.GEN_EX;
+        this.selectedPosto = PostoGraduacao.GEN_EXERCITO;
         this.selectedAcesso = TipoAcesso.USUARIO;
 
         this.assessoriasService.list().subscribe((data: any[]) => {
         this.assessorias = data;
        });
 
+
+
+    }
+
+    compareAssessoria(a1: Assessoria, a2: Assessoria): boolean {
+      return a1 && a2 ? a1._id === a2._id : a1 === a2;
     }
 
 
   ngOnInit(): void {
+    const pessoa: Pessoa = this.route.snapshot.data['pessoa'];
+    this.form.setValue({
+      _id: pessoa._id,
+      identidade: pessoa.identidade,
+      nome: pessoa.nome,
+      nomeGuerra: pessoa.nomeGuerra,
+      postoGraduacao: pessoa.postoGraduacao,
+      tipoAcesso: pessoa.tipoAcesso,
+      assessoria: pessoa.assessoria,
+      liberado: pessoa.liberado,
+      ramal: pessoa.ramal,
+      caminho: pessoa.caminho
 
+
+    });
+    // Se quiser mostrar a foto imediatamente no formulário de edição:
+  this.url = pessoa.caminho; // Assumindo que você tem uma variável de pré-visualização
 
   }
 

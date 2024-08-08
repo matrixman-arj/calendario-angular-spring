@@ -8,27 +8,28 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 @Converter(autoApply = true)
-public class PostoGraduacaoConverter implements AttributeConverter<PostoGraduacao, String>{
+public class PostoGraduacaoConverter implements AttributeConverter<PostoGraduacao, String> {
 
     @Override
-    public String convertToDatabaseColumn(PostoGraduacao postoGraduacao) {
-        if (postoGraduacao == null) {
+    public String convertToDatabaseColumn(PostoGraduacao attribute) {
+        if (attribute == null) {
             return null;
-           }
-            return postoGraduacao.getValue();
+        }
+        return attribute.getValue();
     }
 
     @Override
-    public PostoGraduacao convertToEntityAttribute(String value) {
-         if (value == null) {
+    public PostoGraduacao convertToEntityAttribute(String dbData) {
+        if (dbData == null) {
             return null;
-           }
-            return Stream.of(PostoGraduacao.values())
-                    .filter(postGradu -> postGradu.getValue().equals(value) )
-                    .findFirst()
-                    .orElseThrow(IllegalArgumentException :: new);
-    }
+        }
 
+        for (PostoGraduacao posto : PostoGraduacao.values()) {
+            if (posto.getValue().equals(dbData)) {
+                return posto;
+            }
+        }
+
+        throw new IllegalArgumentException("Unknown value: " + dbData);
+    }
 }
-
-

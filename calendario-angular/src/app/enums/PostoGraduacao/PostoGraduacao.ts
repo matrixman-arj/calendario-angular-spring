@@ -1,47 +1,41 @@
 
 export enum PostoGraduacao {
-  GEN_EX,
-  GEN_DIV,
-  GEN_BDA,
-  CORONEL,
-  TC,
-  MAJ,
-  CAP,
-  PRI_TEN,
-  SEG_TEN,
-  ASP,
-  SUB_TEN,
-  PRI_SGT,
-  SEG_SGT,
-  TER_SGT,
-  CB,
-  SD,
-  FC,
+  GEN_EXERCITO,
+	GEN_DIVISAO,
+	GEN_BRIGADA,
+	CORONEL,
+	TEN_CORONEL,
+	MAJOR,
+	CAPITAO,
+	PRI_TENENTE,
+	SEG_TENENTE,
+	ASP,
+	SUBTENENTE,
+	PRI_SARGENTO,
+	SEG_SARGENTO,
+	TER_SARGENTO,
+	CABO,
+	SOLDADO,
+	FUNC_CIV
 }
-
-
 export const PostoGraduacaoList = [
-  { value: PostoGraduacao.GEN_EX, viewValue: 'General de Exército' },
-  { value: PostoGraduacao.GEN_DIV, viewValue: 'General de Divisão' },
-  { value: PostoGraduacao.GEN_BDA, viewValue: 'General de Brigada' },
-  { value: PostoGraduacao.CORONEL, viewValue: 'Coronel' },
-  { value: PostoGraduacao.TC, viewValue: 'Tenente Coronel' },
-  { value: PostoGraduacao.MAJ, viewValue: 'Major' },
-  { value: PostoGraduacao.CAP, viewValue: 'Capitão' },
-  { value: PostoGraduacao.PRI_TEN, viewValue: '1º Tenente' },
-  { value: PostoGraduacao.SEG_TEN, viewValue: '2º Tenente' },
-  { value: PostoGraduacao.ASP, viewValue: 'Aspirante' },
-  { value: PostoGraduacao.SUB_TEN, viewValue: 'Sub Tenente' },
-  { value: PostoGraduacao.PRI_SGT, viewValue: '1º Sargento' },
-  { value: PostoGraduacao.SEG_SGT, viewValue: '2º Sargento' },
-  { value: PostoGraduacao.TER_SGT, viewValue: '3º Sargento' },
-  { value: PostoGraduacao.CB, viewValue: 'Cabo' },
-  { value: PostoGraduacao.SD, viewValue: 'Soldado' },
-  { value: PostoGraduacao.FC, viewValue: 'Funcionário Civíl' },
-
-
-
-
-
-
+  { value: PostoGraduacao.GEN_EXERCITO, viewValue: 'Gen Ex' },
+  { value: PostoGraduacao.GEN_DIVISAO, viewValue: 'Gen Div' },
+  { value: PostoGraduacao.GEN_BRIGADA, viewValue: 'Gen Bda' },
+  { value: PostoGraduacao.CORONEL, viewValue: 'Cel' },
+  { value: PostoGraduacao.TEN_CORONEL, viewValue: 'Ten Cel' },
+  { value: PostoGraduacao.MAJOR, viewValue: 'Maj' },
+  { value: PostoGraduacao.CAPITAO, viewValue: 'Cap' },
+  { value: PostoGraduacao.PRI_TENENTE, viewValue: '1º Ten' },
+  { value: PostoGraduacao.SEG_TENENTE, viewValue: '2º Ten' },
+  { value: PostoGraduacao.ASP, viewValue: 'Asp' },
+  { value: PostoGraduacao.SUBTENENTE, viewValue: 'ST' },
+  { value: PostoGraduacao.PRI_SARGENTO, viewValue: '1º SGT' },
+  { value: PostoGraduacao.SEG_SARGENTO, viewValue: '2º SGT' },
+  { value: PostoGraduacao.TER_SARGENTO, viewValue: '3º SGT' },
+  { value: PostoGraduacao.CABO, viewValue: 'Cabo' },
+  { value: PostoGraduacao.SOLDADO, viewValue: 'Soldado' },
+  { value: PostoGraduacao.FUNC_CIV, viewValue: 'Funcionário Civíl' },
 ];
+
+const postos = Object.values(PostoGraduacao);

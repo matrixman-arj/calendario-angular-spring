@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { PessoasService } from '../services/pessoas.service';
 import { Pessoa } from '../model/pessoa';
 import { Observable, of } from 'rxjs';
+import { Assessoria } from '../../assessorias/model/assessoria';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,6 @@ export class PessoaResolver implements Resolve<Pessoa> {
     if (route.params && route.params['id']) {
       return this.service.loadById(route.params['id']);
     }
-    return of({_id:'' , identidade:'', users:'', tipoAcesso:'', nome:'', nomeGuerra:'', postoGraduacao:'', assessoria:1 , liberado:'', ramal:'', caminho:''});
+    return of({_id:'' , identidade:'', users:'', tipoAcesso:'', nome:'', nomeGuerra:'', postoGraduacao:'', assessoria:{_id:1, sigla:'', descricao:'', assessoria_pai_id:1, ordem:0, interna:false} , liberado:'', ramal:'', caminho:''});
   }
 }

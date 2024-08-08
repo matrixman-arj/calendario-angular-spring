@@ -1,5 +1,8 @@
 package br.mil.eb.decex.calendario_spring.enumerado;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * Enumerado para definição dos perfis do usuário<p/>
  * 
@@ -17,16 +20,30 @@ public enum TipoAcesso {
 	ADMINISTRADOR("Administrador"),
 	AUDITORIO("Auditório");
 	
-private String value;
-	
-	private TipoAcesso(String value) {
-		this.value = value;
-	}
+	private String value;
 
-	public String getValue() {
-		return value;
-	}
-	public void setValue(String value) {
-		this.value = value;
-	}
+    private TipoAcesso(String value) {
+        this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
+
+    @JsonCreator
+    public static PostoGraduacao fromValue(String value) {
+        for (PostoGraduacao posto : PostoGraduacao.values()) {
+            if (posto.getValue().equalsIgnoreCase(value)) {
+                return posto;
+            }
+        }
+        throw new IllegalArgumentException("Unknown enum value: " + value);
+    }
+
+    @Override
+    public String toString() {        
+        return value;
+    }
+	
 }

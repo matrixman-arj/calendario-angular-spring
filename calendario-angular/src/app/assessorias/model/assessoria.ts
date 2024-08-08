@@ -6,4 +6,10 @@ export interface Assessoria {
 
 	descricao: string;
 
+  interna: boolean;
+
+  assessoria_pai_id: number;
+
+  ordem: number;
+
 }
