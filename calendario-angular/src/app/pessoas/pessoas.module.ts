@@ -9,9 +9,6 @@ import { PessoasFormComponent } from './containers/pessoas-form/pessoas-form.com
 import { PessoasComponent } from './containers/pessoas/pessoas.component';
 import { PessoasRoutingModule } from './pessoas-routing.module';
 
-
-
-
 @NgModule({
   declarations: [
     PessoasComponent,

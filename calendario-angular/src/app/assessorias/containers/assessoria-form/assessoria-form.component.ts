@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
 
@@ -7,6 +7,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AssessoriasService } from '../../services/assessorias.service';
 import { Assessoria } from '../../model/assessoria';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
+import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 
 
 @Component({
@@ -18,9 +21,13 @@ export class AssessoriaFormComponent implements OnInit {
 
   form: UntypedFormGroup;
 
-  constructor(private formBuilder: UntypedFormBuilder,
+  @Output() add = new EventEmitter(false);
+
+  constructor( private http: HttpClient,
+    private formBuilder: UntypedFormBuilder,
     private service: AssessoriasService,
     private snackBar: MatSnackBar,
+    private dialog: MatDialog,
     private location: Location,
     private route: ActivatedRoute,
   ) {
@@ -29,9 +36,9 @@ export class AssessoriaFormComponent implements OnInit {
       _id: [null],
       descricao: [null],
       sigla: [null],
-      assessoria_pai_id: [null],
-      ordem: [null],
-      interna: [null]
+      //assessoria_pai_id: [null],
+     // ordem: [null],
+      //interna: [null]
 
     });
   }
@@ -44,9 +51,9 @@ export class AssessoriaFormComponent implements OnInit {
         _id: assessoria._id,
         descricao: assessoria.descricao,
         sigla: assessoria.sigla,
-        assessoria_pai_id: assessoria.assessoria_pai_id,
-        ordem: assessoria.ordem,
-        interna: assessoria.interna
+       // assessoria_pai_id: assessoria.assessoria_pai_id,
+        //ordem: assessoria.ordem,
+        //: assessoria.interna
 
 
       });
@@ -58,6 +65,10 @@ export class AssessoriaFormComponent implements OnInit {
       .subscribe(result => this.onSuccess(), error => this.onError());
   }
 
+  onAdd(){
+    this.add.emit(true);
+  }
+
   onCancel() {
     this.location.back();
   }
@@ -67,9 +78,11 @@ export class AssessoriaFormComponent implements OnInit {
     this.onCancel();
 }
 
-  private onError() {
-    this.snackBar.open('Erro ao salvar assessoria.', '', { duration: 3000});
-  }
+private onError() {
+  this.dialog.open(ErrorDialogComponent, {
+    data: 'Erro ao salvar pessoa.'
+  });
+}
 
 
 }

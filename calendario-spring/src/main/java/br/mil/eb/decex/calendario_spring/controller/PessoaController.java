@@ -32,12 +32,12 @@ public class PessoaController {
     }
 
     @GetMapping ("/{id}")
-        public ResponseEntity<Pessoa> findById(@PathVariable Long id){
-            return pessoaRepository.findById(id)
-            .map(record -> ResponseEntity.ok().body(record))
-            .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Pessoa> findById(@PathVariable Long id){
+        return pessoaRepository.findById(id)
+        .map(record -> ResponseEntity.ok().body(record))
+        .orElse(ResponseEntity.notFound().build());
 
-        } 
+    } 
     
     @GetMapping("/posto-graduacao")
     public ResponseEntity<PostoGraduacao[]> getPostoGraduacaoValues() {

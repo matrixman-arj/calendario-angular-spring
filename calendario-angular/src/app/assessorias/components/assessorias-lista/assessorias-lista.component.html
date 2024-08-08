@@ -21,7 +21,7 @@
     </mat-header-cell>
 
     <mat-cell *matCellDef="let assessoria" class="action-column">
-      <button mat-icon-button color="primary" aria-label="Editar uma assessoria">
+      <button (click)="onEdit(assessoria)" mat-icon-button color="primary" aria-label="Editar uma assessoria">
         <mat-icon>edit</mat-icon>
       </button>
 

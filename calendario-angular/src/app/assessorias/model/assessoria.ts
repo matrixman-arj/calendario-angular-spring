@@ -1,15 +1,15 @@
 export interface Assessoria {
 
-	_id: number;
+	_id: string;
 
   sigla: string;
 
 	descricao: string;
 
-  interna: boolean;
+  //interna: boolean;
 
-  assessoria_pai_id: number;
+  //assessoria_pai_id: string;
 
-  ordem: number;
+  //ordem: number;
 
 }

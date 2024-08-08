@@ -10,11 +10,6 @@ import { AssessoriasComponent } from './containers/assessorias/assessorias.compo
 import { AssessoriaListaComponent } from './components/assessorias-lista/assessorias-lista.component';
 import { AssessoriaFormComponent } from './containers/assessoria-form/assessoria-form.component';
 
-
-
-
-
-
 @NgModule({
   declarations: [
     AssessoriasComponent,

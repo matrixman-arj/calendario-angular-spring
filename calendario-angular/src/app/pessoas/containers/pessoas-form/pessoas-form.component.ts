@@ -68,30 +68,6 @@ export class PessoasFormComponent implements OnInit {
     }
   }
 
-  // upload(event: Event): void {
-  //   const input = event.target as HTMLInputElement;
-  //   if (input.files && input.files[0]) {
-  //     const file = input.files[0];
-
-  //     const reader = new FileReader();
-  //     reader.onload = (e: any) => {
-  //       this.url = e.target.result;
-
-  //       // Atualiza o valor do campo de caminho no formulário
-  //     this.form.patchValue({
-  //       caminho: file.name
-  //     });
-
-  //     };
-  //     reader.readAsDataURL(file);
-
-  //     const caminhoControl = this.form.get('caminho');
-  //     if (caminhoControl) {
-  //       // Agora você pode usar caminhoControl.value sem problemas
-  //       const caminhoValue = caminhoControl.value;
-  //     }
-  //   }
-  // }
 
   constructor(  private http: HttpClient,
     private formBuilder: UntypedFormBuilder,

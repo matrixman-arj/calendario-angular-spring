@@ -4,6 +4,7 @@
     <app-assessorias-lista *ngIf="assessorias$ | async as assessorias; else loading"
       [assessorias]="assessorias"
       (add)="onAdd()"
+      (edit)="onEdit($event)"
     ></app-assessorias-lista>
 
     <ng-template #loading>

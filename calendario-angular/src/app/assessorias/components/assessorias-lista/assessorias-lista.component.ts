@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Assessoria } from '../../model/assessoria';
+import { HttpClient } from '@angular/common/http';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-assessorias-lista',
@@ -11,23 +13,31 @@ export class AssessoriaListaComponent implements OnInit {
 
 @Input() assessorias: Assessoria[] = [];
 @Output() add = new EventEmitter(false);
+@Output() edit = new EventEmitter(false);
 
 
   readonly displayedColumns = ['descricao','sigla', 'acoes'];
 
   // pessoasService: PessoasService;
 
-  constructor(
+  dataSource = new MatTableDataSource<Assessoria>();
 
+  constructor( private http: HttpClient){
 
-  ){ }
+  }
 
   ngOnInit(): void {
-    // TODO document why this method 'ngOnInit' is empty
+    this.http.get<Assessoria[]>('/api/assessorias').subscribe(data => {
+      this.dataSource.data = data;
+    });
   }
 
   onAdd(){
     this.add.emit(true);
+  }
+
+  onEdit(assessoria: Assessoria ){
+    this.edit.emit(assessoria);
   }
 
 }

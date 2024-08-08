@@ -52,4 +52,8 @@ export class AssessoriasComponent implements OnInit {
     this.router.navigate(['new'], {relativeTo: this.route});
   }
 
+  onEdit(assessoria: Assessoria) {
+    this.router.navigate(['edit', assessoria._id], {relativeTo: this.route});
+    }
+
 }
