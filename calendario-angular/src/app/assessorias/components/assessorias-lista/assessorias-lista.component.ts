@@ -14,6 +14,7 @@ export class AssessoriaListaComponent implements OnInit {
 @Input() assessorias: Assessoria[] = [];
 @Output() add = new EventEmitter(false);
 @Output() edit = new EventEmitter(false);
+@Output() delete = new EventEmitter(false);
 
 
   readonly displayedColumns = ['descricao','sigla', 'acoes'];
@@ -38,6 +39,10 @@ export class AssessoriaListaComponent implements OnInit {
 
   onEdit(assessoria: Assessoria ){
     this.edit.emit(assessoria);
+  }
+
+  onDelete(assessoria) {
+
   }
 
 }

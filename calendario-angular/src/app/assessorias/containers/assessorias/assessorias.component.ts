@@ -6,6 +6,7 @@ import { catchError, Observable, of } from 'rxjs';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 import { Assessoria } from '../../model/assessoria';
 import { AssessoriasService } from '../../services/assessorias.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class AssessoriasComponent implements OnInit {
     private assessoriasService: AssessoriasService,
     public dialog: MatDialog,
     private router: Router,
+    private snackBar: MatSnackBar,
     private route: ActivatedRoute
 
   ){
@@ -54,6 +56,19 @@ export class AssessoriasComponent implements OnInit {
 
   onEdit(assessoria: Assessoria) {
     this.router.navigate(['edit', assessoria._id], {relativeTo: this.route});
+    }
+
+    onRemove(assessoria: Assessoria) {
+      this.assessoriasService.remove(assessoria._id).subscribe(
+        () => {
+          this.snackBar.open('Assessoria removida com sucesso!', 'X', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center'
+
+          });
+        }
+      );
     }
 
 }

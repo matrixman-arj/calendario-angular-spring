@@ -48,5 +48,10 @@ export class AssessoriasService {
 
   }
 
+  remove(id: string) {
+    return this.httpClient.delete(`${this.API}/${id}`).pipe(first());
+
+  }
+
 
 }

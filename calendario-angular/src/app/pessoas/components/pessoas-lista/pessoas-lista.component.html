@@ -60,7 +60,7 @@
 
       <mat-cell *matCellDef="let pessoa" class="action-column">
         <button (click)="onEdit(pessoa)" mat-icon-button color="primary" aria-label="Editar uma pessoa">
-          <mat-icon>edit</mat-icon>
+          <mat-icon (click)="onDelete(pessoa)">edit</mat-icon>
         </button>
 
         <button mat-icon-button color="warn" aria-label="Remover pessoa">

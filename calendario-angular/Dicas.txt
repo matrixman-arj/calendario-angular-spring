@@ -19,7 +19,6 @@ CREATE src/app/pessoas/pessoas-lista/pessoas-lista.component.ts (299 bytes)
 UPDATE src/app/pessoas/pessoas.module.ts (834 bytes)
 
 
-### parei em 4:5 do vídeo 30 da Loiane.
+### parei em 4:5 do vídeo 32 da Loiane.
+Que trata da parte de remoção, agora no Front-end
 
-Que trata da lógica para identificarmos se a pessoa estás sendo criada ou atualizada.
-Continuação agora na API....

@@ -16,6 +16,7 @@ export class PessoasListaComponent implements OnInit {
  @Input() pessoas: Pessoa[] = [];
  @Output() add = new EventEmitter(false);
  @Output() edit = new EventEmitter(false);
+ @Output() delete = new EventEmitter(false);
 
 
   readonly displayedColumns = ['caminho','identidade', 'nome', 'nomeGuerra', 'postoGraduacao', 'assessoria', 'ramal', 'acoes'];
@@ -42,6 +43,11 @@ export class PessoasListaComponent implements OnInit {
 
   onEdit(pessoa: Pessoa ){
     this.edit.emit(pessoa);
+  }
+
+  onDelete(pessoa: Pessoa){
+    this.delete.emit(pessoa);
+
   }
 
   getPersonImage(identidade: string): string {
