@@ -20,7 +20,7 @@ export class AssessoriasService {
     .pipe(
       first(),
       //delay(5000),
-      tap(assessorias => console.log(assessorias))
+      //tap(assessorias => console.log(assessorias))
     );
   }
 
@@ -29,8 +29,24 @@ export class AssessoriasService {
    }
 
 
-  save(record: Partial<Assessoria>) {
+   save(record: Partial<Assessoria>) {
+    //console.log(record);
+    if (record._id) {
+     // console.log('update');
+      return this.update(record);
+    }
+   // console.log('create');
+    return this.create(record);
+  }
+
+  private create(record: Partial<Assessoria>){
     return this.httpClient.post<Assessoria>(this.API, record).pipe(first());
   }
+
+  private update(record: Partial<Assessoria>) {
+    return this.httpClient.put<Assessoria>(`${this.API}/${record._id}`, record).pipe(first());
+
+  }
+
 
 }
