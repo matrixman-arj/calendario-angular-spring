@@ -61,18 +61,18 @@ export class PessoasComponent implements OnInit {
     this.router.navigate(['edit', pessoa._id], {relativeTo: this.route});
     }
 
-    onRemove(pessoa: Pessoa) {
-      this.pessoasService.remove(pessoa._id).subscribe(
-        () => {
-          this.snackBar.open('Pessoa removida com sucesso!', 'X', {
-            duration: 3000,
-            verticalPosition: 'top',
-            horizontalPosition: 'center'
+  onRemove(pessoa: Pessoa) {
+    this.pessoasService.remove(pessoa._id).subscribe(
+      () => {
+        this.snackBar.open('Pessoa removida com sucesso!', 'X', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center'
 
-          });
-        }
-      );
-    }
+        });
+      }
+    );
+  }
 
 
 }

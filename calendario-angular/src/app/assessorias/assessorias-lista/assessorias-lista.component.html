@@ -1,0 +1,43 @@
+<mat-card>
+  <mat-table  [dataSource]="assessorias">
+
+
+
+    <!-- Coluna decricao -->
+    <ng-container matColumnDef="descricao">
+      <mat-header-cell class="column-header-idt" *matHeaderCellDef> Descricao </mat-header-cell>
+      <mat-cell *matCellDef="let pessoa" class="column-idt"> {{ assessoria.descricao }} </mat-cell>
+    </ng-container>
+
+    <!-- Coluna sigla -->
+    <ng-container matColumnDef="sigla">
+      <mat-header-cell class="column-header-nome" *matHeaderCellDef>Sigla</mat-header-cell>
+      <mat-cell *matCellDef="let pessoa" class="column-nome"> {{ assessoria.sigla }}</mat-cell>
+    </ng-container>
+
+
+
+    <!-- Coluna de ações -->
+    <ng-container matColumnDef="acoes">
+      <mat-header-cell class="column-header" *matHeaderCellDef class="action-column-header">
+        <button (click)="onAdd()" mat-mini-fab color="accent" aria-label="Adicionar uma assessoria">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-header-cell>
+
+      <mat-cell *matCellDef="let assessoria" class="action-column">
+        <button (click)="onEdit(assessoria)" mat-icon-button color="primary" aria-label="Editar uma assessoria">
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <button (click)="onDelete(assessoria)" mat-icon-button color="warn" aria-label="Remover assessoria">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</mat-card>
