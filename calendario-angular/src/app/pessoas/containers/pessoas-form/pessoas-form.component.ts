@@ -13,7 +13,7 @@ import { Pessoa } from '../../model/pessoa';
 
 import { PessoasService } from '../../services/pessoas.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import * as fs from 'fs-extra';
+
 import { PostoGraduacao, PostoGraduacaoList } from '../../../enums/PostoGraduacao/PostoGraduacao';
 import { MatDialog } from '@angular/material/dialog';
 import { MediaService } from '../../../media.service';
