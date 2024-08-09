@@ -41,8 +41,8 @@ export class AssessoriaListaComponent implements OnInit {
     this.edit.emit(assessoria);
   }
 
-  onDelete(assessoria) {
-
+  onDelete(assessoria: Assessoria) {
+    this.delete.emit(assessoria);
   }
 
 }
