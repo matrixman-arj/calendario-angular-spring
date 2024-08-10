@@ -84,11 +84,12 @@ export class PessoasFormComponent implements OnInit {
         nomeGuerra: [null],
         nome: [null],
         postoGraduacao: [null],
+        antiguidade:[null],
         tipoAcesso: [null],
         assessoria: [null],
         liberado: [null],
         ramal: [null],
-        caminho: [null],
+        caminho: [null]
 
 
       });
@@ -118,7 +119,7 @@ export class PessoasFormComponent implements OnInit {
       nome: pessoa.nome,
       nomeGuerra: pessoa.nomeGuerra,
       postoGraduacao: pessoa.postoGraduacao,
-      antiguidada: pessoa.antiguidade,
+      antiguidade: pessoa.antiguidade,
       tipoAcesso: pessoa.tipoAcesso,
       assessoria: pessoa.assessoria,
       liberado: pessoa.liberado,

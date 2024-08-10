@@ -16,7 +16,7 @@ export interface Pessoa {
 
 	postoGraduacao: string;
 
-  antiguidade: string;
+  antiguidade: number;
 
 	assessoria: Assessoria;
 

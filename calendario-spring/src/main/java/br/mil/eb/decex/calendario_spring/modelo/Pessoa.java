@@ -88,6 +88,7 @@ public class Pessoa implements Serializable{
     @Column
     private String caminho;
 
+	@Column
 	private String antiguidade;
 
 /**
@@ -219,7 +220,7 @@ public class Pessoa implements Serializable{
 		return antiguidade;
 	}
 	public void setAntiguidade(String antiguidade) {
-		this.antiguidade = ramal;
+		this.antiguidade = antiguidade;
 	}
 
 	/**
