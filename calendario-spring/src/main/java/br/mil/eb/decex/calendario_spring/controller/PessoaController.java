@@ -43,6 +43,7 @@ public class PessoaController {
     
     @GetMapping("/posto-graduacao")
     public ResponseEntity<PostoGraduacao[]> getPostoGraduacaoValues() {
+       
         return ResponseEntity.ok(PostoGraduacao.values());
     }
 

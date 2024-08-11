@@ -9,7 +9,6 @@ import { PessoasService } from '../../services/pessoas.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-
 @Component({
   selector: 'app-pessoas',
   templateUrl: './pessoas.component.html',
@@ -27,7 +26,8 @@ export class PessoasComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private snackBar: MatSnackBar,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+
 
   ){
 

@@ -28,6 +28,7 @@
                 <mat-option value="null">None</mat-option>
 
                 <mat-option *ngFor="let posto of postos" [value]="posto.viewValue">
+                  <img [src]="posto.imageUrl" alt="{{ posto.viewValue }}" style="width: 24px; height: 40px; margin-right: 8px;">
                   {{ posto.viewValue }}
                 </mat-option>
             </mat-select>
