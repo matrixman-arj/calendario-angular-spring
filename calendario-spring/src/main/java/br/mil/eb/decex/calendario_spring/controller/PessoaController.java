@@ -42,7 +42,7 @@ public class PessoaController {
     } 
     
     @GetMapping("/posto-graduacao")
-    public ResponseEntity<PostoGraduacao[]> getPostoGraduacaoValues() {
+    public ResponseEntity<PostoGraduacao[]> getPostoGraduacaoValues() {       
         return ResponseEntity.ok(PostoGraduacao.values());
     }
 
@@ -58,16 +58,16 @@ public class PessoaController {
         return pessoaRepository.findById(id)
                 .map(recordFound -> {
                     recordFound.setIdentidade(pessoa.getIdentidade());
+                    recordFound.setUsers(pessoa.getUsers());
                     recordFound.setNome(pessoa.getNome());
                     recordFound.setNomeGuerra(pessoa.getNomeGuerra());
+                    recordFound.setPostoGraduacao(pessoa.getPostoGraduacao());
                     recordFound.setAntiguidade(pessoa.getAntiguidade());
                     recordFound.setAssessoria(pessoa.getAssessoria());
                     recordFound.setCaminho(pessoa.getCaminho());
                     recordFound.setLiberado(pessoa.getLiberado());
-                    recordFound.setPostoGraduacao(pessoa.getPostoGraduacao());
                     recordFound.setRamal(pessoa.getRamal());
                     recordFound.setTipoAcesso(pessoa.getTipoAcesso());
-                    recordFound.setUsers(pessoa.getUsers());
                     Pessoa updated = pessoaRepository.save(recordFound);
                     return ResponseEntity.ok().body(updated);
                 })

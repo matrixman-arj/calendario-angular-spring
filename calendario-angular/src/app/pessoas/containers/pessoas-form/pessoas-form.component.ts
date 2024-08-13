@@ -1,24 +1,19 @@
-import { formatDate, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 
 import { Assessoria } from '../../../assessorias/model/assessoria';
 import { AssessoriasService } from '../../../assessorias/services/assessorias.service';
-import { FileHandle } from '../../model/file-handle.model';
-import { Pessoa } from '../../model/pessoa';
-
-import { PessoasService } from '../../services/pessoas.service';
-import { DomSanitizer } from '@angular/platform-browser';
-import * as fs from 'fs-extra';
 import { PostoGraduacao, PostoGraduacaoList } from '../../../enums/PostoGraduacao/PostoGraduacao';
-import { MatDialog } from '@angular/material/dialog';
-import { MediaService } from '../../../media.service';
 import { TipoAcesso, TipoAcessoList } from '../../../enums/TipoAcesso';
+import { MediaService } from '../../../media.service';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
+import { Pessoa } from '../../model/pessoa';
+import { PessoasService } from '../../services/pessoas.service';
 
 @Component({
   selector: 'app-pessoa-form',
@@ -84,15 +79,17 @@ export class PessoasFormComponent implements OnInit {
 
       this.form = this.formBuilder.group({
         _id: [null],
+        users: [null],
         identidade: [''],
         nomeGuerra: [null],
         nome: [null],
         postoGraduacao: [null],
+        antiguidade:[null],
         tipoAcesso: [null],
         assessoria: [null],
         liberado: [null],
         ramal: [null],
-        caminho: [null],
+        caminho: [null]
 
 
       });
@@ -118,9 +115,11 @@ export class PessoasFormComponent implements OnInit {
     this.form.setValue({
       _id: pessoa._id,
       identidade: pessoa.identidade,
+      users: pessoa.users,
       nome: pessoa.nome,
       nomeGuerra: pessoa.nomeGuerra,
       postoGraduacao: pessoa.postoGraduacao,
+      antiguidade: pessoa.antiguidade,
       tipoAcesso: pessoa.tipoAcesso,
       assessoria: pessoa.assessoria,
       liberado: pessoa.liberado,

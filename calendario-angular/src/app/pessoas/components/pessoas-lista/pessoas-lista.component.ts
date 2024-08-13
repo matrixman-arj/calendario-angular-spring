@@ -3,8 +3,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Pessoa } from '../../model/pessoa';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
-
-
+import { PostoGraduacao, PostoGraduacaoList } from '../../../enums/PostoGraduacao/PostoGraduacao';
+import { TipoAcesso, TipoAcessoList } from '../../../enums/TipoAcesso';
+import { SharedModule } from '../../../shared/shared.module';
 
 @Component({
   selector: 'app-pessoas-lista',
@@ -19,13 +20,30 @@ export class PessoasListaComponent implements OnInit {
  @Output() delete = new EventEmitter(false);
 
 
+
+
+ postos = PostoGraduacaoList;
+ selectedPosto = PostoGraduacao.GEN_EXERCITO;
+
+
+ acessos = TipoAcessoList;
+ selectedAcesso: TipoAcesso | undefined;
+
+
+
+
   readonly displayedColumns = ['caminho','identidade', 'nome', 'nomeGuerra', 'postoGraduacao', 'assessoria', 'ramal', 'acoes'];
 
   // pessoasService: PessoasService;
 
   dataSource = new MatTableDataSource<Pessoa>();
 
-  constructor(private http: HttpClient ){
+  constructor(
+    private http: HttpClient,
+    private shared: SharedModule
+
+
+   ){
 
    }
 
@@ -50,8 +68,16 @@ export class PessoasListaComponent implements OnInit {
 
   }
 
-  getPersonImage(identidade: string): string {
-    return `assets/images/${identidade}.jpg`;
-  }
+
+  getPostoImage(postoGraduacao: PostoGraduacao): string {
+    const posto = PostoGraduacaoList.find(p => p.value === postoGraduacao);
+    const imageUrl = posto ? posto.imageUrl : '';
+    console.log('Posto:', posto);
+    console.log('Image URL:', imageUrl);
+    return imageUrl;
+}
+
+
+
 
 }

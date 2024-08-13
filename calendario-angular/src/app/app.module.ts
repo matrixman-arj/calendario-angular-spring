@@ -8,18 +8,25 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
+import { PostoPipe } from './shared/pipes/posto.pipe';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PostoPipe
+
   ],
+  exports: [PostoPipe],
+
   imports: [
     BrowserModule,
     AppRoutingModule,
     MatToolbarModule,
     MatListModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+
 
   ],
   providers: [
