@@ -31,7 +31,7 @@ export const PostoGraduacaoList = [
   { value: PostoGraduacao.ASP, viewValue: 'Asp', imageUrl: 'assets/images/asp.png' },
   { value: PostoGraduacao.SUBTENENTE, viewValue: 'ST', imageUrl: 'assets/images/st.png' },
   { value: PostoGraduacao.PRI_SARGENTO, viewValue: '1º SGT', imageUrl: 'assets/images/1_sgt.png' },
-  { value: PostoGraduacao.SEG_SARGENTO, viewValue: '2º SGT', imageUrl: 'assets/images/2sgt.png'  },
+  { value: PostoGraduacao.SEG_SARGENTO, viewValue: '2º SGT', imageUrl: 'assets/images/2_sgt.png'  },
   { value: PostoGraduacao.TER_SARGENTO, viewValue: '3º SGT', imageUrl: 'assets/images/3_sgt.png' },
   { value: PostoGraduacao.CABO, viewValue: 'Cabo', imageUrl: 'assets/images/cabo.png'},
   { value: PostoGraduacao.SOLDADO, viewValue: 'Soldado', imageUrl: 'assets/images/soldado.png' },

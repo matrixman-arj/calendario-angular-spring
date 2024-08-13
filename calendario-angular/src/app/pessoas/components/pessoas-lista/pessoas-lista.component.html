@@ -36,8 +36,8 @@
       <mat-cell *matCellDef="let pessoa">
         <div>{{ pessoa.postoGraduacao }}</div>
         <img [src]="getPostoImage(pessoa.postoGraduacao)"
-             style="width: 24px; height: 24px; margin-right: 8px;">
-             {{ pessoa.postoGraduacao | posto }}
+             style="width: 24px; height: 40px; margin-right: 8px;">
+             {{ pessoa.postoGraduacao }}
       </mat-cell>
     </ng-container>
 

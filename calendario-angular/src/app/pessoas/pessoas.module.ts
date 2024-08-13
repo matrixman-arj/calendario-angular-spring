@@ -8,7 +8,7 @@ import { PessoasListaComponent } from './components/pessoas-lista/pessoas-lista.
 import { PessoasFormComponent } from './containers/pessoas-form/pessoas-form.component';
 import { PessoasComponent } from './containers/pessoas/pessoas.component';
 import { PessoasRoutingModule } from './pessoas-routing.module';
-import { AppModule } from "../app.module";
+
 
 @NgModule({
   declarations: [
@@ -21,8 +21,8 @@ import { AppModule } from "../app.module";
     PessoasRoutingModule,
     AppMaterialModule,
     SharedModule,
-    ReactiveFormsModule,
-    AppModule
+    ReactiveFormsModule
+
 ]
 })
 export class PessoasModule { }
