@@ -34,15 +34,11 @@
     <ng-container matColumnDef="postoGraduacao">
       <mat-header-cell *matHeaderCellDef>Posto/Graduação</mat-header-cell>
       <mat-cell *matCellDef="let pessoa">
-        <div>{{ pessoa.postoGraduacao }}</div>
-        <img [src]="getPostoImage(pessoa.postoGraduacao)"
-             style="width: 24px; height: 40px; margin-right: 8px;">
-             {{ pessoa.postoGraduacao }}
+        <img [src]="getPostoImage(pessoa.postoGraduacao)" style="width: 24px; height: 45px; margin-right: 8px;">
+        {{ pessoa.postoGraduacao }}
       </mat-cell>
     </ng-container>
-
-
-
+   
     <!-- Coluna de assessoria -->
     <ng-container matColumnDef="assessoria">
       <mat-header-cell class="column-header-asse" *matHeaderCellDef>Assessoria</mat-header-cell>

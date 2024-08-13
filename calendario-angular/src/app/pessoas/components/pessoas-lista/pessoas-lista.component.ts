@@ -68,14 +68,20 @@ export class PessoasListaComponent implements OnInit {
 
   }
 
+  getPostoImage(postoGraduacao: string): string {
+    const posto = PostoGraduacaoList.find(p => p.viewValue === postoGraduacao);
+    return posto ? posto.imageUrl : '';
+  }
 
-  getPostoImage(postoGraduacao: PostoGraduacao): string {
-    const posto = PostoGraduacaoList.find(p => p.value === postoGraduacao);
-    const imageUrl = posto ? posto.imageUrl : '';
-    console.log('Posto:', posto);
-    console.log('Image URL:', imageUrl);
-    return imageUrl;
-}
+
+
+//   getPostoImage(postoGraduacao: PostoGraduacao): string {
+//     const posto = PostoGraduacaoList.find(p => p.value === postoGraduacao);
+//     const imageUrl = posto ? posto.imageUrl : '';
+//     console.log('Posto:', posto);
+//     console.log('Image URL:', imageUrl);
+//     return imageUrl;
+// }
 
 
 
