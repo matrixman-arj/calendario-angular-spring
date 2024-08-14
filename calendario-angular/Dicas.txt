@@ -19,6 +19,6 @@ CREATE src/app/pessoas/pessoas-lista/pessoas-lista.component.ts (299 bytes)
 UPDATE src/app/pessoas/pessoas.module.ts (834 bytes)
 
 
-### parei em 4:5 do vídeo 32 da Loiane.
-Que trata da parte de remoção, agora no Front-end
+### parei em 4:5 do vídeo 33 da Loiane.
+Que trata da parte de diálogo para confirmar a remoção, no Front-end
 

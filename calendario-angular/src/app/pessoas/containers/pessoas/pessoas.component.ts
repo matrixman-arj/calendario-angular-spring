@@ -8,6 +8,7 @@ import { Pessoa } from '../../model/pessoa';
 import { PessoasService } from '../../services/pessoas.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfimationDialogComponent } from '../../../shared/components/error-dialog/confimation-dialog/confimation-dialog.component';
 
 @Component({
   selector: 'app-pessoas',
@@ -16,7 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class PessoasComponent implements OnInit {
 
-  pessoas$: Observable<Pessoa[]>;
+  pessoas$!: Observable<Pessoa[]>;
 
   // pessoasService: PessoasService;
 
@@ -30,7 +31,10 @@ export class PessoasComponent implements OnInit {
 
 
   ){
+    this.refresh();
+   }
 
+  refresh(){
     this.pessoas$ = this.pessoasService.list()
     .pipe(
       catchError(error => {
@@ -38,8 +42,8 @@ export class PessoasComponent implements OnInit {
         return of([])
       })
     );
-  }
 
+  }
 
   onError(errorMsg: string) {
     this.dialog.open(ErrorDialogComponent, {
@@ -59,19 +63,33 @@ export class PessoasComponent implements OnInit {
 
   onEdit(pessoa: Pessoa) {
     this.router.navigate(['edit', pessoa._id], {relativeTo: this.route});
+    this.refresh();
     }
 
   onRemove(pessoa: Pessoa) {
-    this.pessoasService.remove(pessoa._id).subscribe(
-      () => {
-        this.snackBar.open('Pessoa removida com sucesso!', 'X', {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'center'
 
-        });
+    const dialogRef = this.dialog.open(ConfimationDialogComponent, {
+      data: 'Tem certeza quanto a remoção dessa pessoa?',
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+
+      if (result){
+        this.pessoasService.remove(pessoa._id).subscribe(
+          () => {
+            this.refresh();
+            this.snackBar.open('Pessoa removida com sucesso!', 'X', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center'
+
+            });
+          }
+        );
       }
-    );
+    });
+
+
   }
 
 

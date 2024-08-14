@@ -7,6 +7,7 @@ import { ErrorDialogComponent } from '../../../shared/components/error-dialog/er
 import { Assessoria } from '../../model/assessoria';
 import { AssessoriasService } from '../../services/assessorias.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfimationDialogComponent } from '../../../shared/components/error-dialog/confimation-dialog/confimation-dialog.component';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AssessoriasComponent implements OnInit {
 
-  assessorias$: Observable<Assessoria[]>;
+  assessorias$!: Observable<Assessoria[]>;
 
   // pessoasService: PessoasService;
 
@@ -28,7 +29,10 @@ export class AssessoriasComponent implements OnInit {
     private route: ActivatedRoute
 
   ){
+    this.refresh();
+  }
 
+    refresh(){
     this.assessorias$ = this.assessoriasService.list()
     .pipe(
       catchError(error => {
@@ -56,19 +60,31 @@ export class AssessoriasComponent implements OnInit {
 
   onEdit(assessoria: Assessoria) {
     this.router.navigate(['edit', assessoria._id], {relativeTo: this.route});
+    this.refresh();
     }
 
     onRemove(assessoria: Assessoria) {
-      this.assessoriasService.remove(assessoria._id).subscribe(
-        () => {
-          this.snackBar.open('Assessoria removida com sucesso!', 'X', {
-            duration: 3000,
-            verticalPosition: 'top',
-            horizontalPosition: 'center'
 
-          });
-        }
-      );
-    }
+    const dialogRef = this.dialog.open(ConfimationDialogComponent, {
+      data: 'Tem certeza quanto a remoção dessa assessoria?',
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+
+      if (result){
+        this.assessoriasService.remove(assessoria._id).subscribe(
+          () => {
+            this.refresh();
+            this.snackBar.open('Assessoria removida com sucesso!', 'X', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center'
+
+            });
+          }
+        );
+      }
+    });
+  }
 
 }
