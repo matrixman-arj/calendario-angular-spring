@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { PostoPipe } from './shared/pipes/posto.pipe';
 
+import { IMaskModule } from 'angular-imask';
 
 @NgModule({
   declarations: [
@@ -20,13 +21,13 @@ import { PostoPipe } from './shared/pipes/posto.pipe';
   exports: [PostoPipe],
 
   imports: [
+    IMaskModule,
     BrowserModule,
     AppRoutingModule,
     MatToolbarModule,
     MatListModule,
     HttpClientModule,
     FormsModule,
-
 
   ],
   providers: [

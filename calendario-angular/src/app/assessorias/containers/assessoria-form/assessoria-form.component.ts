@@ -1,6 +1,6 @@
 
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -33,9 +33,9 @@ export class AssessoriaFormComponent implements OnInit {
   ) {
 
     this.form = this.formBuilder.group({
-      _id: [null],
-      descricao: [null],
-      sigla: [null],
+      _id: [''],
+      descricao: ['', Validators.required],
+      sigla: ['', Validators.required],
       //assessoria_pai_id: [null],
      // ordem: [null],
       //interna: [null]

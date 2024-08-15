@@ -7,19 +7,21 @@
 
             <mat-form-field class="full-width">
               <mat-label>Identidade</mat-label>
-              <input matInput placeholder="Identidade" formControlName="identidade">
+              <input matInput placeholder="Identidade" formControlName="identidade" [imask]="{mask: '000.000.000-0'}"/>
 
-
+              <mat-error *ngIf="form.get('identidade')?.invalid">{{errorMessage("identidade")}}</mat-error>
             </mat-form-field>
 
             <mat-form-field class="full-width">
               <mat-label>Nome completo</mat-label>
               <input matInput placeholder="Nome completo" formControlName="nome">
+              <mat-error *ngIf="form.get('nome')?.invalid">{{errorMessage("nome")}}</mat-error>
             </mat-form-field>
 
             <mat-form-field  class="full-width">
               <mat-label>Nome de guerra</mat-label>
               <input matInput placeholder="Nome de guerra" formControlName="nomeGuerra">
+              <mat-error *ngIf="form.get('nomeGuerra')?.invalid">{{errorMessage("nomeGuerra")}}</mat-error>
             </mat-form-field>
 
             <mat-form-field class="full-width">
@@ -31,6 +33,7 @@
                   <img [src]="posto.imageUrl" alt="{{ posto.viewValue }}" style="width: 24px; height: 45px; margin-right: 8px;">
                   {{ posto.viewValue }}
                 </mat-option>
+                <mat-error *ngIf="form.get('postoGraduacao')?.invalid">{{errorMessage("postoGraduacao")}}</mat-error>
             </mat-select>
             </mat-form-field>
 
@@ -42,11 +45,13 @@
                 <mat-option  *ngFor="let assessoria of assessorias" [value]="assessoria">
                   {{ assessoria.sigla }}</mat-option>
               </mat-select>
+              <mat-error *ngIf="form.get('assessoria')?.invalid">{{errorMessage("assessoria")}}</mat-error>
             </mat-form-field>
 
             <mat-form-field class="full-width">
               <mat-label>Antiguidade</mat-label>
               <input matInput placeholder="Antiguidade" formControlName="antiguidade">
+              <mat-error *ngIf="form.get('antiguidade')?.invalid">{{errorMessage("antiguidade")}}</mat-error>
             </mat-form-field>
 
             <mat-form-field class="full-width">
@@ -54,23 +59,26 @@
               <mat-select formControlName="tipoAcesso">
                 <mat-option value="null">None</mat-option>
               <mat-option *ngFor="let tipoAcesso of acessos " [value]="tipoAcesso.viewValue">{{ tipoAcesso.viewValue }}</mat-option>
+              <mat-error *ngIf="form.get('tipoAcesso')?.invalid">{{errorMessage("tipoAcesso")}}</mat-error>
             </mat-select>
             </mat-form-field>
 
             <mat-form-field class="full-width">
               <mat-label>Ramal</mat-label>
-              <input matInput placeholder="Ramal" formControlName="ramal">
+              <input matInput placeholder="Ramal" formControlName="ramal"  [imask]="{mask: '810 - 0000'}"/>
+              <mat-error *ngIf="form.get('ramal')?.invalid">{{errorMessage("ramal")}}</mat-error>
             </mat-form-field>
 
             <mat-form-field class="metade-full-width-foto">
               <mat-label>Foto</mat-label>
               <!-- Campo de texto (somente leitura) que mostra o caminho da imagem -->
-              <input matInput placeholder="Foto">
+              <input matInput placeholder="Foto" formControlName="caminho">
               <!-- Exibição da imagem -->
               <img *ngIf="url" [src]="url" alt="Foto da pessoa">
               <br>
               <!-- Input para seleção de nova foto -->
               <input type="file" (change)="upload($event)" >
+              <mat-error *ngIf="form.get('caminho')?.invalid">{{errorMessage("caminho")}}</mat-error>
             </mat-form-field>
 
             <mat-label class="label-radio"><strong>Acesso:</strong></mat-label>

@@ -8,6 +8,7 @@ import { PessoasListaComponent } from './components/pessoas-lista/pessoas-lista.
 import { PessoasFormComponent } from './containers/pessoas-form/pessoas-form.component';
 import { PessoasComponent } from './containers/pessoas/pessoas.component';
 import { PessoasRoutingModule } from './pessoas-routing.module';
+import { IMaskModule } from 'angular-imask';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { PessoasRoutingModule } from './pessoas-routing.module';
     PessoasRoutingModule,
     AppMaterialModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    IMaskModule
 
 ]
 })

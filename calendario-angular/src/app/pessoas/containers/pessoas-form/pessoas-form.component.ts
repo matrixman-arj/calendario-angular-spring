@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -78,18 +78,18 @@ export class PessoasFormComponent implements OnInit {
   ) {
 
       this.form = this.formBuilder.group({
-        _id: [null],
-        users: [null],
-        identidade: [''],
-        nomeGuerra: [null],
-        nome: [null],
-        postoGraduacao: [null],
-        antiguidade:[null],
-        tipoAcesso: [null],
-        assessoria: [null],
-        liberado: [null],
-        ramal: [null],
-        caminho: [null]
+        _id: [''],
+        users: [''],
+        identidade: ['', Validators.required, Validators.minLength(5), Validators.pattern('000.000.000-0')],
+        nomeGuerra: ['', Validators.required,],
+        nome: ['', Validators.required,],
+        postoGraduacao: ['', Validators.required,],
+        antiguidade:[''],
+        tipoAcesso: ['', Validators.required,],
+        assessoria: ['', Validators.required,],
+        liberado: ['', Validators.required,],
+        ramal: ['', Validators.required,],
+        caminho: ['', Validators.required,]
 
 
       });
@@ -158,8 +158,26 @@ export class PessoasFormComponent implements OnInit {
     });
   }
 
-  // getErrorMessage(fieldName: string): string {
-  //   return this.formUtils.getFieldErrorMessage(this.form, fieldName);
-  // }
+  errorMessage(fieldName: string): string {
+    const field = this.form.get(fieldName);
+    if (field?.hasError('required')){
+      return 'Campo obrigatório';
+
+    }
+    if (field?.hasError('minlength')){
+      const requiredLength = field.errors ? field.errors['minlength']['requiredLength'] : 5;
+      return `Tamanho minimo precisa ser de ${requiredLength} caractéres.`;
+
+    }
+
+    if (field?.hasError('pattern')){
+      const requiredPattern = field.errors ? field.errors['pattern']['requiredPattern'] : '000.000.000-0';
+      return `O campo só pode conter ${requiredPattern} como valores.`;
+
+    }
+
+    return 'Campo inválido';
+    // return this.formUtils.getFieldErrorMessage(this.form, fieldName);
+  }
 
 }
