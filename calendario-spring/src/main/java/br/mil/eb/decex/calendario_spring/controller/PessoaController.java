@@ -3,6 +3,7 @@ package br.mil.eb.decex.calendario_spring.controller;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,9 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
 import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
 import br.mil.eb.decex.calendario_spring.repository.PessoaRepository;
-
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 
+@Validated
 @RestController
 @RequestMapping("api/pessoas")
 @AllArgsConstructor
@@ -34,7 +38,7 @@ public class PessoaController {
     }
 
     @GetMapping ("/{id}")
-    public ResponseEntity<Pessoa> findById(@PathVariable Long id){
+    public ResponseEntity<Pessoa> findById(@PathVariable @NotNull @Positive Long id){
         return pessoaRepository.findById(id)
         .map(recordFound -> ResponseEntity.ok().body(recordFound))
         .orElse(ResponseEntity.notFound().build());
@@ -48,13 +52,13 @@ public class PessoaController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Pessoa create(@RequestBody Pessoa pessoa) {
+    public Pessoa create(@RequestBody @Valid Pessoa pessoa) {
         pessoa.setCaminho("http://localhost:8080/media/" + pessoa.getIdentidade() + ".jpg");        
         return pessoaRepository.save(pessoa);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Pessoa> update(@PathVariable Long id, @RequestBody Pessoa pessoa) {
+    public ResponseEntity<Pessoa> update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid Pessoa pessoa) {
         return pessoaRepository.findById(id)
                 .map(recordFound -> {
                     recordFound.setIdentidade(pessoa.getIdentidade());
@@ -75,7 +79,7 @@ public class PessoaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id) {
         return pessoaRepository.findById(id)
         .map(recordFound -> {
             pessoaRepository.deleteById(id);

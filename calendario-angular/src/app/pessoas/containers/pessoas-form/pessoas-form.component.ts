@@ -81,15 +81,15 @@ export class PessoasFormComponent implements OnInit {
         _id: [''],
         users: [''],
         identidade: ['', Validators.required, Validators.minLength(5), Validators.pattern('000.000.000-0')],
-        nomeGuerra: ['', Validators.required,],
-        nome: ['', Validators.required,],
-        postoGraduacao: ['', Validators.required,],
+        nomeGuerra: ['', Validators.required],
+        nome: ['', Validators.required],
+        postoGraduacao: ['', Validators.required],
         antiguidade:[''],
-        tipoAcesso: ['', Validators.required,],
-        assessoria: ['', Validators.required,],
-        liberado: ['', Validators.required,],
-        ramal: ['', Validators.required,],
-        caminho: ['', Validators.required,]
+        tipoAcesso: ['', Validators.required],
+        assessoria: ['', Validators.required],
+        liberado: ['', Validators.required],
+        ramal: ['', Validators.required],
+        caminho: ['', Validators.required]
 
 
       });

@@ -23,6 +23,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 
 
@@ -49,7 +52,9 @@ public class Pessoa implements Serializable{
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PESSOA_ID_GENERATOR")	
 	@JsonProperty("_id")
 	private Long id;
-		
+	
+	
+	@Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{1}$")
 	@Column(unique=true)
 	private String identidade;
 	
@@ -59,18 +64,25 @@ public class Pessoa implements Serializable{
 	@Transient
 	private List<TipoAcesso> listaTipoAcesso;
 	
+	
 	@Column
 	private String nome;
+	
 	
 	@Column
 	private String nomeGuerra;
 	
+	
 	@Column
 	private PostoGraduacao postoGraduacao;
-		
+	
+	
+	
 	@ManyToOne	
 	@JoinColumn(name="assessoria_id")
 	private Assessoria assessoria;
+	
+	
 	
 	@Column
 	private Boolean liberado;
@@ -79,15 +91,22 @@ public class Pessoa implements Serializable{
 		liberado = Boolean.FALSE;
 	}
 	
+	
+	
 	@Column
 	private TipoAcesso tipoAcesso;
 
+	
+	
+	@Pattern(regexp = "^810 - \\d{4}$")
 	@Column
     private String ramal;
     
+	
     @Column
     private String caminho;
 
+	
 	@Column
 	private String antiguidade;
 

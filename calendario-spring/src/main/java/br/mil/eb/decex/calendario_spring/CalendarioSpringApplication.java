@@ -31,14 +31,14 @@ public class CalendarioSpringApplication {
 			assessoriaRepository.save(assessoria);
 
 			Pessoa pessoa = new Pessoa();
-			pessoa.setIdentidade("0195623038");
+			pessoa.setIdentidade("019.562.303-8");
 			pessoa.setNome("Vanilton Gomes dos Santos");
 			pessoa.setNomeGuerra("Vanilton");
 			pessoa.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa.setPostoGraduacao(PostoGraduacao.valueOf("SEG_SARGENTO"));
 			pessoa.setLiberado(true);
 			pessoa.setAssessoria(assessoria);
-			pessoa.setRamal("810 5678");
+			pessoa.setRamal("810 - 5678");
 			pessoa.setCaminho("http://localhost:8080/media/0195623038.jpg");
 					
 
