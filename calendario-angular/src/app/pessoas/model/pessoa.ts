@@ -20,7 +20,7 @@ export interface Pessoa {
 
 	assessoria: Assessoria;
 
-	liberado: string;
+	acesso: string;
 
   ramal: string;
 

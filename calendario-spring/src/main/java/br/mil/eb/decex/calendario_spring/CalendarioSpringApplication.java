@@ -36,7 +36,8 @@ public class CalendarioSpringApplication {
 			pessoa.setNomeGuerra("Vanilton");
 			pessoa.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa.setPostoGraduacao(PostoGraduacao.valueOf("SEG_SARGENTO"));
-			pessoa.setLiberado(true);
+			pessoa.setAcesso(true);
+			pessoa.setAntiguidade("1");
 			pessoa.setAssessoria(assessoria);
 			pessoa.setRamal("810 - 5678");
 			pessoa.setCaminho("http://localhost:8080/media/0195623038.jpg");

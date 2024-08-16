@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
@@ -29,6 +32,7 @@ import jakarta.validation.constraints.Pattern;
 
 
 
+@SuppressWarnings("deprecation")
 @Entity
 /*@NamedQuery(
     name = "todas.pessoas",
@@ -44,6 +48,8 @@ import jakarta.validation.constraints.Pattern;
     query = "SELECT p FROM Pessoa p WHERE p.assessoria = :assessoria or p.assessoria.assessoriaPai = :assessoria"
 )*/
 
+@SQLDelete(sql = "UPDATE Pessoa SET acesso = 'false' WHERE id = ? ")
+@Where(clause = "acesso = 'true'")
 public class Pessoa implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -53,8 +59,9 @@ public class Pessoa implements Serializable{
 	@JsonProperty("_id")
 	private Long id;
 	
-	
-	@Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{1}$")
+	@NotBlank
+	@NotNull
+	@Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d$", message = "Formato de identidade inválido. Deve estar no formato 000.000.000-0.")
 	@Column(unique=true)
 	private String identidade;
 	
@@ -64,11 +71,13 @@ public class Pessoa implements Serializable{
 	@Transient
 	private List<TipoAcesso> listaTipoAcesso;
 	
-	
+	@NotBlank
+	@NotNull
 	@Column
 	private String nome;
 	
-	
+	@NotBlank
+	@NotNull
 	@Column
 	private String nomeGuerra;
 	
@@ -85,10 +94,11 @@ public class Pessoa implements Serializable{
 	
 	
 	@Column
-	private Boolean liberado;
-		
+	private Boolean acesso;
+	
+	
 	public Pessoa(){
-		liberado = Boolean.FALSE;
+		acesso = Boolean.FALSE;
 	}
 	
 	
@@ -98,7 +108,7 @@ public class Pessoa implements Serializable{
 
 	
 	
-	@Pattern(regexp = "^810 - \\d{4}$")
+	@Pattern(regexp = "^810 - \\d{4}$", message = "Formato do ramal inválido. Deve estar no formato 000 - 0000")
 	@Column
     private String ramal;
     
@@ -185,11 +195,11 @@ public class Pessoa implements Serializable{
 	 * Indica liberação para acesso ao sistema
 	 * @return true-> Acesso liberado <br/>false-> Acesso negado
 	 */
-	public Boolean getLiberado() {
-		return liberado;
+	public Boolean getAcesso() {
+		return acesso;
 	}
-	public void setLiberado(Boolean liberado) {
-		this.liberado = liberado;
+	public void setAcesso(Boolean acesso) {
+		this.acesso = acesso;
 	}	
 
 	/**

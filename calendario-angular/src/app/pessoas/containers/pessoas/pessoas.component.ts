@@ -62,8 +62,8 @@ export class PessoasComponent implements OnInit {
   }
 
   onEdit(pessoa: Pessoa) {
-    this.router.navigate(['edit', pessoa._id], {relativeTo: this.route});
     this.refresh();
+    this.router.navigate(['edit', pessoa._id], {relativeTo: this.route});
     }
 
   onRemove(pessoa: Pessoa) {

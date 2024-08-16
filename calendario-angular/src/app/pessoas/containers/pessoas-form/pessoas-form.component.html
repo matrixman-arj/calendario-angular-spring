@@ -72,18 +72,18 @@
             <mat-form-field class="metade-full-width-foto">
               <mat-label>Foto</mat-label>
               <!-- Campo de texto (somente leitura) que mostra o caminho da imagem -->
-              <input matInput placeholder="Foto" formControlName="caminho">
+              <input matInput placeholder="Foto">
               <!-- Exibição da imagem -->
               <img *ngIf="url" [src]="url" alt="Foto da pessoa">
               <br>
               <!-- Input para seleção de nova foto -->
-              <input type="file" (change)="upload($event)" >
+              <input type="file" (change)="upload($event)">
               <mat-error *ngIf="form.get('caminho')?.invalid">{{errorMessage("caminho")}}</mat-error>
             </mat-form-field>
 
             <mat-label class="label-radio"><strong>Acesso:</strong></mat-label>
 
-            <mat-radio-group formControlName="liberado">
+            <mat-radio-group formControlName="acesso">
               <mat-radio-button [value]="true">Liberado</mat-radio-button>
               <mat-radio-button [value]="false">Bloqueado</mat-radio-button>
             </mat-radio-group>

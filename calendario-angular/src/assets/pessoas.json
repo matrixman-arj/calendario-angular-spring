@@ -1,3 +1,3 @@
 [
-  { "_id": "1", "identidade": "0195623038" , "foto": "cliente.jpg", "nome": "Vanilton Gomes dos Santos", "nomeGuerra": "Vanilton", "postoGraduacao": "2º Sgt", "assessoria": "DTI", "users":"", "tipoAcesso": "", "liberado": true, "ramal": "810 5051" }
+  { "_id": "1", "identidade": "0195623038" , "foto": "cliente.jpg", "nome": "Vanilton Gomes dos Santos", "nomeGuerra": "Vanilton", "postoGraduacao": "2º Sgt", "assessoria": "DTI", "users":"", "tipoAcesso": "", "acesso": true, "ramal": "810 5051" }
 ]

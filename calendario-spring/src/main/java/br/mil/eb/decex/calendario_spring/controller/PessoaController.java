@@ -69,7 +69,7 @@ public class PessoaController {
                     recordFound.setAntiguidade(pessoa.getAntiguidade());
                     recordFound.setAssessoria(pessoa.getAssessoria());
                     recordFound.setCaminho(pessoa.getCaminho());
-                    recordFound.setLiberado(pessoa.getLiberado());
+                    recordFound.setAcesso(pessoa.getAcesso());
                     recordFound.setRamal(pessoa.getRamal());
                     recordFound.setTipoAcesso(pessoa.getTipoAcesso());
                     Pessoa updated = pessoaRepository.save(recordFound);

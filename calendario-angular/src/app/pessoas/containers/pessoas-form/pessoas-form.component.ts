@@ -80,15 +80,15 @@ export class PessoasFormComponent implements OnInit {
       this.form = this.formBuilder.group({
         _id: [''],
         users: [''],
-        identidade: ['', Validators.required, Validators.minLength(5), Validators.pattern('000.000.000-0')],
+        identidade: ['',[Validators.required, Validators.pattern('^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{1}$')]],
         nomeGuerra: ['', Validators.required],
         nome: ['', Validators.required],
         postoGraduacao: ['', Validators.required],
         antiguidade:[''],
         tipoAcesso: ['', Validators.required],
         assessoria: ['', Validators.required],
-        liberado: ['', Validators.required],
-        ramal: ['', Validators.required],
+        acesso: ['', Validators.required],
+        ramal: ['', [Validators.required, Validators.pattern('^810 - \\d{4}$')]],
         caminho: ['', Validators.required]
 
 
@@ -122,7 +122,7 @@ export class PessoasFormComponent implements OnInit {
       antiguidade: pessoa.antiguidade,
       tipoAcesso: pessoa.tipoAcesso,
       assessoria: pessoa.assessoria,
-      liberado: pessoa.liberado,
+      acesso: pessoa.acesso,
       ramal: pessoa.ramal,
       caminho: pessoa.caminho
 

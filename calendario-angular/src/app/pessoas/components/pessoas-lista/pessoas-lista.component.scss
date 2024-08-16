@@ -13,6 +13,21 @@ mat-header-cell, mat-cell {
 }
 
 
+.posto-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.img-patente {
+  text-align: right;
+  width: 24px;
+  height: 45;
+
+}
+
+
+
 /* Define o tamanho fixo da imagem */
 .img-fixed-size {
   padding-top: 10px;
