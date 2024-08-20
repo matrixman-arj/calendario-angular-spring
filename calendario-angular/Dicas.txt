@@ -19,6 +19,6 @@ CREATE src/app/pessoas/pessoas-lista/pessoas-lista.component.ts (299 bytes)
 UPDATE src/app/pessoas/pessoas.module.ts (834 bytes)
 
 
-### finalizou o vídeo 36 da Loiane.
-Que trata da parte de inatividade da pessoa ao invés de deletar do banco, no Back-end
+### finalizou o vídeo 39 da Loiane.
+Que trata da parte de criação de serviço, no Back-end
 

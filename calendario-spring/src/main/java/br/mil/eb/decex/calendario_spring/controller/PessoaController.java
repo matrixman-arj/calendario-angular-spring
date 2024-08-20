@@ -17,19 +17,25 @@ import org.springframework.web.bind.annotation.RestController;
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
 import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
 import br.mil.eb.decex.calendario_spring.repository.PessoaRepository;
+import br.mil.eb.decex.calendario_spring.service.PessoaService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
 
 @Validated
 @RestController
 @RequestMapping("api/pessoas")
-@AllArgsConstructor
 public class PessoaController {
     
-    private final PessoaRepository pessoaRepository;        
+    private final PessoaRepository pessoaRepository;
+    private final PessoaService pessoaService;    
     
+    
+
+    public PessoaController(PessoaRepository pessoaRepository, PessoaService pessoaService) {
+        this.pessoaRepository = pessoaRepository;
+        this.pessoaService = pessoaService;
+    }
 
     @GetMapping
     public List<Pessoa> list() {
@@ -39,7 +45,7 @@ public class PessoaController {
 
     @GetMapping ("/{id}")
     public ResponseEntity<Pessoa> findById(@PathVariable @NotNull @Positive Long id){
-        return pessoaRepository.findById(id)
+        return pessoaService.findById(id)
         .map(recordFound -> ResponseEntity.ok().body(recordFound))
         .orElse(ResponseEntity.notFound().build());
 
@@ -54,38 +60,25 @@ public class PessoaController {
     @ResponseStatus(code = HttpStatus.CREATED)
     public Pessoa create(@RequestBody @Valid Pessoa pessoa) {
         pessoa.setCaminho("http://localhost:8080/media/" + pessoa.getIdentidade() + ".jpg");        
-        return pessoaRepository.save(pessoa);
+        return pessoaService.create(pessoa);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Pessoa> update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid Pessoa pessoa) {
-        return pessoaRepository.findById(id)
-                .map(recordFound -> {
-                    recordFound.setIdentidade(pessoa.getIdentidade());
-                    recordFound.setUsers(pessoa.getUsers());
-                    recordFound.setNome(pessoa.getNome());
-                    recordFound.setNomeGuerra(pessoa.getNomeGuerra());
-                    recordFound.setPostoGraduacao(pessoa.getPostoGraduacao());
-                    recordFound.setAntiguidade(pessoa.getAntiguidade());
-                    recordFound.setAssessoria(pessoa.getAssessoria());
-                    recordFound.setCaminho(pessoa.getCaminho());
-                    recordFound.setAcesso(pessoa.getAcesso());
-                    recordFound.setRamal(pessoa.getRamal());
-                    recordFound.setTipoAcesso(pessoa.getTipoAcesso());
-                    Pessoa updated = pessoaRepository.save(recordFound);
-                    return ResponseEntity.ok().body(updated);
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Pessoa> update(@PathVariable @NotNull @Positive Long id, 
+                @RequestBody @Valid Pessoa pessoa) {
+        return pessoaService.update(id, pessoa)
+                .map(recordFound -> ResponseEntity.ok().body(recordFound))
+                .orElse(ResponseEntity.notFound().build());  
+                    
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id) {
-        return pessoaRepository.findById(id)
-        .map(recordFound -> {
-            pessoaRepository.deleteById(id);
-            return ResponseEntity.noContent().<Void>build();
-         })
-         .orElse(ResponseEntity.notFound().build());
+        if (pessoaService.delete(id)){
+        return ResponseEntity.noContent().<Void>build();
+        }
+       return ResponseEntity.notFound().build();
+        
 
     }
 
