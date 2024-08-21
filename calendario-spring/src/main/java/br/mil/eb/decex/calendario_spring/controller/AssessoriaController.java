@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.mil.eb.decex.calendario_spring.modelo.Assessoria;
-
-import br.mil.eb.decex.calendario_spring.repository.AssessoriaRepository;
+import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
 import br.mil.eb.decex.calendario_spring.service.AssessoriaService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -38,16 +38,15 @@ public class AssessoriaController {
     }
 
     @GetMapping
-    public @ResponseBody List<Assessoria> list() {
+    public List<Assessoria> list() {
         return assessoriaService.list();
 
     }
 
     @GetMapping ("/{id}")
-    public ResponseEntity<Assessoria> findById(@PathVariable Long id){
-        return assessoriaService.findById(id)
-        .map(recordFound -> ResponseEntity.ok().body(recordFound))
-        .orElse(ResponseEntity.notFound().build());
+    public Assessoria findById(@PathVariable @NotNull @Positive Long id){
+        return assessoriaService.findById(id);
+       
 
     }
     
@@ -59,22 +58,17 @@ public class AssessoriaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Assessoria> update(@PathVariable Long id, @RequestBody Assessoria assessoria) {
-        return assessoriaService.update(id, assessoria)
-                .map(recordFound -> ResponseEntity.ok().body(recordFound))
-                .orElse(ResponseEntity.notFound().build()); 
-                                
+    public Assessoria update(@PathVariable @NotNull @Positive Long id, 
+                @RequestBody @Valid Assessoria assessoria) {
+        return assessoriaService.update(id, assessoria);
+                                    
     }
 
    
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id) {
-        if (assessoriaService.delete(id)){
-        return ResponseEntity.noContent().<Void>build();
-        }
-       return ResponseEntity.notFound().build();
-        
-
-    }
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable @NotNull @Positive Long id) {        
+       assessoriaService.delete(id);
+    }   
 
 }

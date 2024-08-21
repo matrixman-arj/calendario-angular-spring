@@ -44,10 +44,9 @@ public class PessoaController {
     }
 
     @GetMapping ("/{id}")
-    public ResponseEntity<Pessoa> findById(@PathVariable @NotNull @Positive Long id){
-        return pessoaService.findById(id)
-        .map(recordFound -> ResponseEntity.ok().body(recordFound))
-        .orElse(ResponseEntity.notFound().build());
+    public Pessoa findById(@PathVariable @NotNull @Positive Long id){
+        return pessoaService.findById(id);
+        
 
     } 
     
@@ -64,22 +63,16 @@ public class PessoaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Pessoa> update(@PathVariable @NotNull @Positive Long id, 
+    public Pessoa update(@PathVariable @NotNull @Positive Long id, 
                 @RequestBody @Valid Pessoa pessoa) {
-        return pessoaService.update(id, pessoa)
-                .map(recordFound -> ResponseEntity.ok().body(recordFound))
-                .orElse(ResponseEntity.notFound().build());  
-                    
+        return pessoaService.update(id, pessoa);
+                                    
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id) {
-        if (pessoaService.delete(id)){
-        return ResponseEntity.noContent().<Void>build();
-        }
-       return ResponseEntity.notFound().build();
-        
-
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable @NotNull @Positive Long id) {        
+       pessoaService.delete(id);
     }
 
 }

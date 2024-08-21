@@ -3,12 +3,13 @@ package br.mil.eb.decex.calendario_spring.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import br.mil.eb.decex.calendario_spring.exception.RecordNotFoundException;
 import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
 import br.mil.eb.decex.calendario_spring.repository.PessoaRepository;
 import jakarta.validation.Valid;
@@ -29,8 +30,8 @@ public class PessoaService {
         return pessoaRepository.findAll();
 
     }
-        public Optional<Pessoa> findById(@PathVariable @NotNull @Positive Long id){
-        return pessoaRepository.findById(id);   
+        public Pessoa findById(@PathVariable @NotNull @Positive Long id){
+        return pessoaRepository.findById(id).orElseThrow(() ->  new RecordNotFoundException(id));   
 
     }
 
@@ -39,7 +40,7 @@ public class PessoaService {
         return pessoaRepository.save(pessoa);
     }
 
-    public Optional<Pessoa> update(@NotNull @Positive Long id, @RequestBody @Valid Pessoa pessoa) {
+    public Pessoa update(@NotNull @Positive Long id, @RequestBody @Valid Pessoa pessoa) {
         return pessoaRepository.findById(id)
                 .map(recordFound -> {
                     recordFound.setIdentidade(pessoa.getIdentidade());
@@ -55,18 +56,15 @@ public class PessoaService {
                     recordFound.setTipoAcesso(pessoa.getTipoAcesso());
                     return pessoaRepository.save(recordFound);
                     
-                });
+                }).orElseThrow(() ->  new RecordNotFoundException(id));
                 
     }  
 
-    public boolean delete(@PathVariable @NotNull @Positive Long id) {
-        return pessoaRepository.findById(id)
-        .map(recordFound -> {
-            pessoaRepository.deleteById(id);
-            return true;
-         })
-         .orElse(false);
+    public void delete(@PathVariable @NotNull @Positive Long id) {
 
+        pessoaRepository.delete(pessoaRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(id)));
+        
     }
 
 }

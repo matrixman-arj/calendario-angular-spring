@@ -1,7 +1,5 @@
 package br.mil.eb.decex.calendario_spring.enumerado.converters;
 
-import java.util.stream.Stream;
-
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
 
 import jakarta.persistence.AttributeConverter;
