@@ -2,6 +2,7 @@ package br.mil.eb.decex.calendario_spring.dto;
 
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
 import br.mil.eb.decex.calendario_spring.enumerado.TipoAcesso;
+import br.mil.eb.decex.calendario_spring.modelo.Assessoria;
 import br.mil.eb.decex.calendario_spring.modelo.jaas.Users;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,7 +24,9 @@ public record PessoaDTO(Long id,
 	                    @NotNull
                         String nomeGuerra,
 
-                        PostoGraduacao postoGraduacao, 
+                        PostoGraduacao postoGraduacao,
+                        
+                        Assessoria assessoria,
                         
                         Boolean acesso, 
                         

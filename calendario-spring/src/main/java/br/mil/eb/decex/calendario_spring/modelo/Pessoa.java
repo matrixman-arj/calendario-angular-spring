@@ -214,7 +214,7 @@ public class Pessoa implements Serializable{
 
 	public List<TipoAcesso> getListaTipoAcesso() {
 		if (listaTipoAcesso == null){
-			listaTipoAcesso = new ArrayList<TipoAcesso>();
+			listaTipoAcesso = new ArrayList<>();
 		}
 		
 		return listaTipoAcesso;
@@ -261,13 +261,14 @@ public class Pessoa implements Serializable{
 	 */
 	public Users parseUsers() {
 		
-		Users users = new Users();
 		
-		users.setName(identidade);
-		users.addRole(TipoAcesso.USUARIO);
-		users.setPass(EncodingSHA256.encodingBase64(identidade));
+		Users users2 = new Users();
+		
+		users2.setName(identidade);
+		users2.addRole(TipoAcesso.USUARIO);
+		users2.setPass(EncodingSHA256.encodingBase64(identidade));
 			
-		return users;
+		return users2;
 	}
 	
 	@Override

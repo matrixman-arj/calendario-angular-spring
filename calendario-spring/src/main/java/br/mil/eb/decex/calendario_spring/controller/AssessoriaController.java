@@ -4,7 +4,6 @@ package br.mil.eb.decex.calendario_spring.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.mil.eb.decex.calendario_spring.dto.AssessoriaDTO;
 import br.mil.eb.decex.calendario_spring.modelo.Assessoria;
-import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
+
 import br.mil.eb.decex.calendario_spring.service.AssessoriaService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -38,13 +38,13 @@ public class AssessoriaController {
     }
 
     @GetMapping
-    public List<Assessoria> list() {
+    public List<AssessoriaDTO> list() {
         return assessoriaService.list();
 
     }
 
     @GetMapping ("/{id}")
-    public Assessoria findById(@PathVariable @NotNull @Positive Long id){
+    public AssessoriaDTO findById(@PathVariable @NotNull @Positive Long id){
         return assessoriaService.findById(id);
        
 
@@ -53,12 +53,12 @@ public class AssessoriaController {
    
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Assessoria create(@RequestBody Assessoria assessoria) {        
+    public AssessoriaDTO create(@RequestBody Assessoria assessoria) {        
         return assessoriaService.create(assessoria);
     }
 
     @PutMapping("/{id}")
-    public Assessoria update(@PathVariable @NotNull @Positive Long id, 
+    public AssessoriaDTO update(@PathVariable @NotNull @Positive Long id, 
                 @RequestBody @Valid Assessoria assessoria) {
         return assessoriaService.update(id, assessoria);
                                     

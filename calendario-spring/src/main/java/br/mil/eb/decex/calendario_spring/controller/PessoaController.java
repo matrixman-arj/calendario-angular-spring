@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.mil.eb.decex.calendario_spring.dto.PessoaDTO;
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
-import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
 import br.mil.eb.decex.calendario_spring.repository.PessoaRepository;
 import br.mil.eb.decex.calendario_spring.service.PessoaService;
 import jakarta.validation.Valid;
@@ -27,6 +27,7 @@ import jakarta.validation.constraints.Positive;
 @RequestMapping("api/pessoas")
 public class PessoaController {
     
+    @SuppressWarnings("unused")
     private final PessoaRepository pessoaRepository;
     private final PessoaService pessoaService;    
     
@@ -38,13 +39,13 @@ public class PessoaController {
     }
 
     @GetMapping
-    public List<Pessoa> list() {
-        return pessoaRepository.findAll();
+    public List<PessoaDTO> list() {
+        return pessoaService.list();
 
     }
 
     @GetMapping ("/{id}")
-    public Pessoa findById(@PathVariable @NotNull @Positive Long id){
+    public PessoaDTO findById(@PathVariable @NotNull @Positive Long id){
         return pessoaService.findById(id);
         
 
@@ -57,14 +58,14 @@ public class PessoaController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Pessoa create(@RequestBody @Valid Pessoa pessoa) {
-        pessoa.setCaminho("http://localhost:8080/media/" + pessoa.getIdentidade() + ".jpg");        
+    public PessoaDTO create(@RequestBody @Valid PessoaDTO pessoa) {
+        //pessoa.caminho("http://localhost:8080/media/" + pessoa.identidade() + ".jpg");        
         return pessoaService.create(pessoa);
     }
 
     @PutMapping("/{id}")
-    public Pessoa update(@PathVariable @NotNull @Positive Long id, 
-                @RequestBody @Valid Pessoa pessoa) {
+    public PessoaDTO update(@PathVariable @NotNull @Positive Long id, 
+                @RequestBody @Valid @NotNull PessoaDTO pessoa) {
         return pessoaService.update(id, pessoa);
                                     
     }
