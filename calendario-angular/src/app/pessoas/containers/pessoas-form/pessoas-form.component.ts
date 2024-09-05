@@ -22,9 +22,21 @@ import { PessoasService } from '../../services/pessoas.service';
 })
 
 export class PessoasFormComponent implements OnInit {
-
+  onAssessoriaChange(assessoriaPai: Assessoria): void {
+    if (assessoriaPai && assessoriaPai._id) {
+      this.assessoriasFilhas = this.assessorias.filter(a => a.assessoriaPai?._id === assessoriaPai._id);
+      console.log(assessoriaPai)
+      this.form.get('assessoriaFilha')?.reset(); // Limpa a seleção de assessoria filha ao mudar a assessoria pai
+    } else {
+      this.assessoriasFilhas = [];
+      console.log(this.assessoriasFilhas)
+    }
+  }
   form: UntypedFormGroup;
   selectedFile: File | null = null;
+  assessorias: Assessoria[] = [];
+  assessoriasFilhas: Assessoria[] = [];
+  selectedAssessoria: any;
 
   @Output() add = new EventEmitter(false);
 
@@ -37,8 +49,7 @@ export class PessoasFormComponent implements OnInit {
   acessos = TipoAcessoList;
   selectedAcesso: TipoAcesso;
 
-  assessorias: any[] = [];
-  selectedAssessoria: any;
+
 
 
 
@@ -86,7 +97,8 @@ export class PessoasFormComponent implements OnInit {
         postoGraduacao: ['', Validators.required],
         antiguidade:[''],
         tipoAcesso: ['', Validators.required],
-        assessoria: ['', Validators.required],
+        assessoria: [null, Validators.required],
+        assessoriaFilha:[null],
         acesso: ['', Validators.required],
         ramal: ['', [Validators.required, Validators.pattern('^810 - \\d{4}$')]],
         caminho: ['', Validators.required]
@@ -110,6 +122,8 @@ export class PessoasFormComponent implements OnInit {
     }
 
 
+
+
   ngOnInit(): void {
     const pessoa: Pessoa = this.route.snapshot.data['pessoa'];
     this.form.setValue({
@@ -122,6 +136,7 @@ export class PessoasFormComponent implements OnInit {
       antiguidade: pessoa.antiguidade,
       tipoAcesso: pessoa.tipoAcesso,
       assessoria: pessoa.assessoria,
+      assessoriaFilha: pessoa.assessoria,
       acesso: pessoa.acesso,
       ramal: pessoa.ramal,
       caminho: pessoa.caminho

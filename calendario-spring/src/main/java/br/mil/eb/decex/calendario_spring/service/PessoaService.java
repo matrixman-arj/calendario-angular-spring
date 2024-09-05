@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import br.mil.eb.decex.calendario_spring.dto.PessoaDTO;
 import br.mil.eb.decex.calendario_spring.dto.mapper.PessoaMapper;
@@ -34,14 +33,13 @@ public class PessoaService {
                 .collect(Collectors.toList());
 
     }
-        public PessoaDTO findById(@PathVariable @NotNull @Positive Long id){
+        public PessoaDTO findById(@NotNull @Positive Long id){
         return pessoaRepository.findById(id).map(pessoaMapper::toDTO)
                 .orElseThrow(() ->  new RecordNotFoundException(id));   
 
     }
 
     public PessoaDTO create(@Valid @NotNull PessoaDTO pessoa) {
-       // pessoa.caminho("http://localhost:8080/media/" + pessoa.identidade() + ".jpg");        
         return pessoaMapper.toDTO(pessoaRepository.save(pessoaMapper.toEntity(pessoa)));
     }
 
@@ -66,7 +64,7 @@ public class PessoaService {
                 
     }  
 
-    public void delete(@PathVariable @NotNull @Positive Long id) {
+    public void delete(@NotNull @Positive Long id) {
 
         pessoaRepository.delete(pessoaRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(id)));

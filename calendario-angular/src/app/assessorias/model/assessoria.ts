@@ -6,10 +6,10 @@ export interface Assessoria {
 
 	descricao: string;
 
-  //interna: boolean;
+  interna: boolean;
 
-  //assessoria_pai_id: string;
+  assessoriaPai?: Assessoria | null;  // Pode ser null ou um objeto Assessoria
 
-  //ordem: number;
+  ordem: number;
 
 }

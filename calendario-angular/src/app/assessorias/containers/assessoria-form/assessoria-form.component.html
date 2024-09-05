@@ -11,6 +11,15 @@
           <input matInput placeholder="Sigla" formControlName="sigla">
         </mat-form-field>
 
+        <mat-form-field class="full-width">
+          <mat-label>Assessoria Pai</mat-label>
+          <mat-select formControlName="assessoriaPai" (selectionChange)="onAssessoriaChange($event.value)">
+            <mat-option *ngFor="let assessoria of assessorias" [value]="assessoria">
+              {{ assessoria.sigla }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
 
 
       </form>

@@ -5,6 +5,8 @@ import { AppMaterialModule } from './app-material/app-material.module';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 import { PostoPipe } from './pipes/posto.pipe';
 import { ConfimationDialogComponent } from './components/error-dialog/confimation-dialog/confimation-dialog.component';
+import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import { ConfimationDialogComponent } from './components/error-dialog/confimatio
   imports: [
     AppMaterialModule,
     CommonModule,
+    FormsModule,       // Adicione o FormsModule aqui
+    MatSelectModule    // Adicione o MatSelectModule aqui
 
   ],
   exports: [

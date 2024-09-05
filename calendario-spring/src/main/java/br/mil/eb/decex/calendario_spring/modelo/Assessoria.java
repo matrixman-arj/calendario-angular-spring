@@ -1,9 +1,12 @@
 package br.mil.eb.decex.calendario_spring.modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 
 @Entity
@@ -43,9 +46,11 @@ public class Assessoria extends BaseModel<Long> implements Serializable {
     private String descricao;
 	
     @ManyToOne
-    @JoinColumn(name = "assessoria_pai_id")    
-    private Assessoria assessoriaPai;    
+    @JoinColumn(name = "assessoria_pai_id")	
+    private Assessoria assessoriaPai;
     
+    // @OneToMany(mappedBy = "assessoriaPai", cascade = {CascadeType.ALL})
+    // private List<Assessoria> secao = new ArrayList<>();
     
     @Column
     private int ordem;
@@ -103,7 +108,25 @@ public class Assessoria extends BaseModel<Long> implements Serializable {
 		this.interna = interna;
 	}
 
-	@SuppressWarnings("unused")
+    // public Assessoria getAssessoriaPai() {
+    //     if (this.assessoriaPai == null) {
+    //         this.assessoriaPai = new Assessoria();
+    //     }
+
+    //     return this.assessoriaPai;
+    // }
+
+    
+    public Assessoria getAssessoriaPai() {
+        return assessoriaPai;
+    }
+
+    public void setAssessoriaPai(Assessoria assessoriaPai) {
+        this.assessoriaPai = assessoriaPai;
+    }
+
+
+    @SuppressWarnings("unused")
 	public int hashCode() {
         boolean prime = true;
         int result = 1;

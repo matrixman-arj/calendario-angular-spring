@@ -24,6 +24,7 @@ public record PessoaDTO(Long id,
 	                    @NotNull
                         String nomeGuerra,
 
+                       
                         PostoGraduacao postoGraduacao,
                         
                         Assessoria assessoria,

@@ -15,6 +15,6 @@ export class AssessoriaResolver implements Resolve<Assessoria> {
     if (route.params && route.params['id']) {
       return this.service.loadById(route.params['id']);
     }
-    return of({_id:'', sigla:'', descricao:'', assessoria_pai_id:'', ordem:0, interna:false} );
+    return of({_id:'', sigla:'', descricao:'',  assessoriaPai: null,  ordem:0, interna:false} );
   }
 }

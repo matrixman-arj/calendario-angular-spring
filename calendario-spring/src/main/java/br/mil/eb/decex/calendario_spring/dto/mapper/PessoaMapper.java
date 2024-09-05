@@ -36,6 +36,7 @@ public class PessoaMapper {
         pessoa.setNome(pessoaDTO.nome());
         pessoa.setNomeGuerra(pessoaDTO.nomeGuerra());
         pessoa.setPostoGraduacao(pessoaDTO.postoGraduacao());
+        pessoa.setAssessoria(pessoaDTO.assessoria());
         pessoa.setAcesso(pessoaDTO.acesso());
         pessoa.setTipoAcesso(pessoaDTO.tipoAcesso());
         pessoa.setRamal(pessoaDTO.ramal());

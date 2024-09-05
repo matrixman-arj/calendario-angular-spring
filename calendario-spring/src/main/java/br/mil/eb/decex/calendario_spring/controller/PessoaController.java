@@ -58,8 +58,7 @@ public class PessoaController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public PessoaDTO create(@RequestBody @Valid PessoaDTO pessoa) {
-        //pessoa.caminho("http://localhost:8080/media/" + pessoa.identidade() + ".jpg");        
+    public PessoaDTO create(@Valid PessoaDTO pessoa) {       
         return pessoaService.create(pessoa);
     }
 

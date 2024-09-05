@@ -43,6 +43,11 @@ public class AssessoriaController {
 
     }
 
+    @GetMapping("/filhas/{assessoriaPaiId}")
+    public List<AssessoriaDTO> getFilhasByAssessoriaPaiId(@PathVariable @NotNull @Positive Long assessoriaPaiId) {
+    return assessoriaService.findFilhasByPaiId(assessoriaPaiId);
+}
+
     @GetMapping ("/{id}")
     public AssessoriaDTO findById(@PathVariable @NotNull @Positive Long id){
         return assessoriaService.findById(id);

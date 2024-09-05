@@ -19,6 +19,10 @@ import { ErrorDialogComponent } from '../../../shared/components/error-dialog/er
 })
 export class AssessoriaFormComponent implements OnInit {
 
+  // assessoria: Assessoria[] = [];
+  assessorias: Assessoria[] = [];
+  assessoriasFilhas: Assessoria[] = [];
+
   form: UntypedFormGroup;
 
   @Output() add = new EventEmitter(false);
@@ -36,9 +40,9 @@ export class AssessoriaFormComponent implements OnInit {
       _id: [''],
       descricao: ['', Validators.required],
       sigla: ['', Validators.required],
-      //assessoria_pai_id: [null],
-     // ordem: [null],
-      //interna: [null]
+      assessoriaPai: [null],
+      ordem: [null],
+      interna: [null]
 
     });
   }
@@ -51,13 +55,30 @@ export class AssessoriaFormComponent implements OnInit {
         _id: assessoria._id,
         descricao: assessoria.descricao,
         sigla: assessoria.sigla,
-       // assessoria_pai_id: assessoria.assessoria_pai_id,
-        //ordem: assessoria.ordem,
-        //: assessoria.interna
-
+        assessoriaPai: assessoria.assessoriaPai,
+        ordem: assessoria.ordem,
+        interna: assessoria.interna
 
       });
 
+      this.service.list().subscribe(data => {
+        this.assessorias = data;
+      });
+
+      this.service.listFilha().subscribe(data => {
+        this.assessoriasFilhas = data;
+      });
+
+
+
+
+  }
+
+   // Método para filtrar as assessorias filhas com base na assessoria selecionada
+   onAssessoriaChange(assessoria: Assessoria): void {
+    this.assessoriasFilhas = this.assessorias.filter(
+      a => a.assessoriaPai && a.assessoriaPai._id === assessoria._id
+    );
   }
 
   onSubmit() {
@@ -86,3 +107,5 @@ private onError() {
 
 
 }
+
+

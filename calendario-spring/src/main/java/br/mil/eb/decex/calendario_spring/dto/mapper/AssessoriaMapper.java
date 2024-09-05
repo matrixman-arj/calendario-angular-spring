@@ -11,8 +11,14 @@ import br.mil.eb.decex.calendario_spring.modelo.Assessoria;
 public class AssessoriaMapper {
 
      public AssessoriaDTO toDTO(Assessoria assessoria){
-        return new AssessoriaDTO(assessoria.getId(), assessoria.getSigla(), 
-                                 assessoria.getDescricao(), assessoria, assessoria.getOrdem(), null);
+        return new AssessoriaDTO(
+            assessoria.getId(), 
+            assessoria.getSigla(),                                 
+            assessoria.getDescricao(),
+            assessoria.getAssessoriaPai(),             
+            assessoria.getOrdem(), 
+            assessoria.isInterna()
+        );
     }
 
     public Assessoria toEntity(AssessoriaDTO assessoriaDTO){

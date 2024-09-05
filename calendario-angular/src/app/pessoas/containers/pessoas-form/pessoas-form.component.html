@@ -37,8 +37,7 @@
             </mat-select>
             </mat-form-field>
 
-
-            <mat-form-field class="full-width">
+             <!-- <mat-form-field class="full-width">
               <mat-label>Assessoria</mat-label>
               <mat-select formControlName="assessoria" [compareWith]="compareAssessoria">
                 <mat-option value="null">None</mat-option>
@@ -46,7 +45,35 @@
                   {{ assessoria.sigla }}</mat-option>
               </mat-select>
               <mat-error *ngIf="form.get('assessoria')?.invalid">{{errorMessage("assessoria")}}</mat-error>
+            </mat-form-field> -->
+
+            <mat-form-field class="full-width">
+              <mat-label>Assessoria</mat-label>
+              <mat-select formControlName="assessoria" (selectionChange)="onAssessoriaChange($event.value)">
+                <mat-option *ngFor="let assessoria of assessorias" [value]="assessoria">
+                  {{ assessoria.sigla }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
+
+            <mat-form-field class="full-width" *ngIf="assessoriasFilhas.length > 0">
+              <mat-label>Assessoria Filha</mat-label>
+              <mat-select formControlName="assessoriaFilha">
+                <mat-option *ngFor="let filha of assessoriasFilhas" [value]="filha">
+                  {{ filha.sigla }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!-- <mat-form-field class="full-width">
+              <mat-label>Assessoria</mat-label>
+              <mat-select formControlName="assessoria" [compareWith]="compareAssessoria">
+                <mat-option value="null">None</mat-option>
+                <mat-option  *ngFor="let assessoria of assessorias" [value]="assessoria">
+                  {{ assessoria.sigla }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('assessoria')?.invalid">{{errorMessage("assessoria")}}</mat-error>
+            </mat-form-field> -->
 
             <mat-form-field class="full-width">
               <mat-label>Antiguidade</mat-label>

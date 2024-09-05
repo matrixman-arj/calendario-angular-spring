@@ -33,6 +33,13 @@ public class AssessoriaService {
 
     }
 
+    public List<AssessoriaDTO> findFilhasByPaiId(Long assessoriaPaiId) {
+        List<Assessoria> filhas = assessoriaRepository.findByAssessoriaPaiId(assessoriaPaiId);
+        return filhas.stream()
+                .map(assessoriaMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
      public AssessoriaDTO findById(@PathVariable @NotNull @Positive Long id){
         return assessoriaRepository.findById(id).map(assessoriaMapper::toDTO)
                 .orElseThrow(() ->  new RecordNotFoundException(id)); 

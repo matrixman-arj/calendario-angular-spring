@@ -19,6 +19,6 @@ CREATE src/app/pessoas/pessoas-lista/pessoas-lista.component.ts (299 bytes)
 UPDATE src/app/pessoas/pessoas.module.ts (834 bytes)
 
 
-### parei no 04:46 do vídeo 42 da Loiane.
-Que trata da continuação da parte de DTO, no Back-end
+### parei no 20:37 do vídeo 43 da Loiane.
+Que trata da utilização de enum no Back-end
 
