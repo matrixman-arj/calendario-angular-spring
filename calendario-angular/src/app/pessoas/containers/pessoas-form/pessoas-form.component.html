@@ -58,7 +58,7 @@
 
             <mat-form-field class="full-width" *ngIf="assessoriasFilhas.length > 0">
               <mat-label>Assessoria Filha</mat-label>
-              <mat-select formControlName="assessoriaFilha">
+              <mat-select formControlName="assessoria">
                 <mat-option *ngFor="let filha of assessoriasFilhas" [value]="filha">
                   {{ filha.sigla }}
                 </mat-option>

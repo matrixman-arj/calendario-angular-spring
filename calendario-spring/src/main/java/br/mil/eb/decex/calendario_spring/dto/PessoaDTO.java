@@ -25,18 +25,29 @@ public record PessoaDTO(Long id,
                         String nomeGuerra,
 
                        
+	                    @NotNull
                         PostoGraduacao postoGraduacao,
                         
+                        
+	                    @NotNull
                         Assessoria assessoria,
                         
+                        
+	                    @NotNull
                         Boolean acesso, 
                         
+                        
+	                    @NotNull
                         TipoAcesso tipoAcesso, 
                         @Pattern(regexp = "^810 - \\d{4}$", message = "Formato do ramal inválido. Deve estar no formato 000 - 0000") 
                         String ramal, 
-                        
-                        String caminho, 
-                        
+
+                       
+	                    @NotNull
+                        String caminho,
+
+                        @NotBlank
+	                    @NotNull
                         String antiguidade  
                         ) {
 

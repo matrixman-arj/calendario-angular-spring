@@ -11,14 +11,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
 import br.mil.eb.decex.calendario_spring.enumerado.TipoAcesso;
-
 import br.mil.eb.decex.calendario_spring.modelo.jaas.Users;
 import br.mil.eb.decex.calendario_spring.util.EncodingSHA256;
+
 import jakarta.persistence.Column;
-
 import jakarta.persistence.Entity;
-
-
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,7 +23,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Transient;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
@@ -59,8 +55,7 @@ public class Pessoa implements Serializable{
 	@JsonProperty("_id")
 	private Long id;
 	
-	@NotBlank
-	@NotNull
+	@NotNull	
 	@Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d$", message = "Formato de identidade inválido. Deve estar no formato 000.000.000-0.")
 	@Column(unique=true)
 	private String identidade;
@@ -71,28 +66,28 @@ public class Pessoa implements Serializable{
 	@Transient
 	private List<TipoAcesso> listaTipoAcesso;
 	
-	@NotBlank
+	
 	@NotNull
 	@Column
 	private String nome;
 	
-	@NotBlank
+	
 	@NotNull
 	@Column
 	private String nomeGuerra;
 	
-	
+	@NotNull
 	@Column
 	private PostoGraduacao postoGraduacao;
 	
 	
-	
+	@NotNull
 	@ManyToOne	
 	@JoinColumn(name="assessoria_id")
 	private Assessoria assessoria;
 	
 	
-	
+	@NotNull
 	@Column
 	private Boolean acesso;
 	
@@ -102,21 +97,21 @@ public class Pessoa implements Serializable{
 	}
 	
 	
-	
+	@NotNull
 	@Column
 	private TipoAcesso tipoAcesso;
 
 	
-	
+	@NotNull
 	@Pattern(regexp = "^810 - \\d{4}$", message = "Formato do ramal inválido. Deve estar no formato 000 - 0000")
 	@Column
     private String ramal;
     
-	
+	@NotNull
     @Column
     private String caminho;
 
-	
+	@NotNull
 	@Column
 	private String antiguidade;
 

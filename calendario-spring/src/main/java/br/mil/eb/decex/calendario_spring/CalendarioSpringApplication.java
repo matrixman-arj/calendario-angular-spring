@@ -28,7 +28,30 @@ public class CalendarioSpringApplication {
 			assessoria.setDescricao("Divisão de Técnologia da informação");
 			assessoria.setSigla("DTI");
 
+			Assessoria assessoria2 = new Assessoria();
+			assessoria2.setDescricao("Divisão Administrativa");
+			assessoria2.setSigla("Div Adm");
+
+			Assessoria assessoria3 = new Assessoria();
+			assessoria3.setDescricao("Seção de Manutenção");
+			assessoria3.setSigla("MNT");
+			assessoria3.setAssessoriaPai(assessoria);
+
+			Assessoria assessoria4 = new Assessoria();
+			assessoria4.setDescricao("Seção de Redes");
+			assessoria4.setSigla("Redes");
+			assessoria4.setAssessoriaPai(assessoria);
+
+			Assessoria assessoria5 = new Assessoria();
+			assessoria5.setDescricao("Seção de Garagem");
+			assessoria5.setSigla("Garagem");
+			assessoria5.setAssessoriaPai(assessoria2);
+
 			assessoriaRepository.save(assessoria);
+			assessoriaRepository.save(assessoria2);
+			assessoriaRepository.save(assessoria3);
+			assessoriaRepository.save(assessoria4);
+			assessoriaRepository.save(assessoria5);
 
 			Pessoa pessoa = new Pessoa();
 			pessoa.setIdentidade("019.562.303-8");

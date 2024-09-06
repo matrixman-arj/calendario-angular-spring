@@ -58,7 +58,7 @@ public class PessoaController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public PessoaDTO create(@Valid PessoaDTO pessoa) {       
+    public PessoaDTO create(@RequestBody @Valid PessoaDTO pessoa) {       
         return pessoaService.create(pessoa);
     }
 

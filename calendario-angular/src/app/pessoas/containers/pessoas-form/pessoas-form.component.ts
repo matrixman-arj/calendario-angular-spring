@@ -22,16 +22,7 @@ import { PessoasService } from '../../services/pessoas.service';
 })
 
 export class PessoasFormComponent implements OnInit {
-  onAssessoriaChange(assessoriaPai: Assessoria): void {
-    if (assessoriaPai && assessoriaPai._id) {
-      this.assessoriasFilhas = this.assessorias.filter(a => a.assessoriaPai?._id === assessoriaPai._id);
-      console.log(assessoriaPai)
-      this.form.get('assessoriaFilha')?.reset(); // Limpa a seleção de assessoria filha ao mudar a assessoria pai
-    } else {
-      this.assessoriasFilhas = [];
-      console.log(this.assessoriasFilhas)
-    }
-  }
+
   form: UntypedFormGroup;
   selectedFile: File | null = null;
   assessorias: Assessoria[] = [];
@@ -74,6 +65,17 @@ export class PessoasFormComponent implements OnInit {
     }
   }
 
+  onAssessoriaChange(assessoriaPai: Assessoria): void {
+    if (assessoriaPai && assessoriaPai._id) {
+      this.assessoriasFilhas = this.assessorias.filter(a => a.assessoriaPai?._id === assessoriaPai._id);
+      console.log(assessoriaPai)
+      this.form.get('assessoriaFilha')?.reset(); // Limpa a seleção de assessoria filha ao mudar a assessoria pai
+    } else {
+      this.assessoriasFilhas = [];
+      console.log(this.assessoriasFilhas)
+    }
+  }
+
 
   constructor(  private http: HttpClient,
     private formBuilder: UntypedFormBuilder,
@@ -103,7 +105,6 @@ export class PessoasFormComponent implements OnInit {
         ramal: ['', [Validators.required, Validators.pattern('^810 - \\d{4}$')]],
         caminho: ['', Validators.required]
 
-
       });
 
         this.selectedPosto = PostoGraduacao.GEN_EXERCITO;
@@ -113,33 +114,28 @@ export class PessoasFormComponent implements OnInit {
         this.assessorias = data;
        });
 
-
-
     }
 
     compareAssessoria(a1: Assessoria, a2: Assessoria): boolean {
       return a1 && a2 ? a1._id === a2._id : a1 === a2;
     }
 
-
-
-
   ngOnInit(): void {
     const pessoa: Pessoa = this.route.snapshot.data['pessoa'];
     this.form.setValue({
-      _id: pessoa._id,
-      identidade: pessoa.identidade,
-      users: pessoa.users,
-      nome: pessoa.nome,
-      nomeGuerra: pessoa.nomeGuerra,
-      postoGraduacao: pessoa.postoGraduacao,
-      antiguidade: pessoa.antiguidade,
-      tipoAcesso: pessoa.tipoAcesso,
-      assessoria: pessoa.assessoria,
-      assessoriaFilha: pessoa.assessoria,
-      acesso: pessoa.acesso,
-      ramal: pessoa.ramal,
-      caminho: pessoa.caminho
+      _id: pessoa._id || '',
+      identidade: pessoa.identidade || '',
+      users: pessoa.users || '',
+      nome: pessoa.nome || '',
+      nomeGuerra: pessoa.nomeGuerra || '',
+      postoGraduacao: pessoa.postoGraduacao || '',
+      antiguidade: pessoa.antiguidade || '',
+      tipoAcesso: pessoa.tipoAcesso || '',
+      assessoria: pessoa.assessoria || null,
+      assessoriaFilha: pessoa.assessoria || null,
+      acesso: pessoa.acesso || '',
+      ramal: pessoa.ramal || '',
+      caminho: pessoa.caminho || ''
 
 
     });
