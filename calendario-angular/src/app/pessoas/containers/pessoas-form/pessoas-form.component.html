@@ -37,16 +37,6 @@
             </mat-select>
             </mat-form-field>
 
-             <!-- <mat-form-field class="full-width">
-              <mat-label>Assessoria</mat-label>
-              <mat-select formControlName="assessoria" [compareWith]="compareAssessoria">
-                <mat-option value="null">None</mat-option>
-                <mat-option  *ngFor="let assessoria of assessorias" [value]="assessoria">
-                  {{ assessoria.sigla }}</mat-option>
-              </mat-select>
-              <mat-error *ngIf="form.get('assessoria')?.invalid">{{errorMessage("assessoria")}}</mat-error>
-            </mat-form-field> -->
-
             <mat-form-field class="full-width">
               <mat-label>Assessoria</mat-label>
               <mat-select formControlName="assessoria" (selectionChange)="onAssessoriaChange($event.value)">
@@ -64,16 +54,6 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-
-            <!-- <mat-form-field class="full-width">
-              <mat-label>Assessoria</mat-label>
-              <mat-select formControlName="assessoria" [compareWith]="compareAssessoria">
-                <mat-option value="null">None</mat-option>
-                <mat-option  *ngFor="let assessoria of assessorias" [value]="assessoria">
-                  {{ assessoria.sigla }}</mat-option>
-              </mat-select>
-              <mat-error *ngIf="form.get('assessoria')?.invalid">{{errorMessage("assessoria")}}</mat-error>
-            </mat-form-field> -->
 
             <mat-form-field class="full-width">
               <mat-label>Antiguidade</mat-label>

@@ -47,8 +47,6 @@ public class Assessoria extends BaseModel<Long> implements Serializable {
     @JoinColumn(name = "assessoria_pai_id")	
     private Assessoria assessoriaPai;
     
-    // @OneToMany(mappedBy = "assessoriaPai", cascade = {CascadeType.ALL})
-    // private List<Assessoria> secao = new ArrayList<>();
     
     @Column
     private int ordem;
@@ -105,14 +103,6 @@ public class Assessoria extends BaseModel<Long> implements Serializable {
 	public void setInterna(Boolean interna) {
 		this.interna = interna;
 	}
-
-    // public Assessoria getAssessoriaPai() {
-    //     if (this.assessoriaPai == null) {
-    //         this.assessoriaPai = new Assessoria();
-    //     }
-
-    //     return this.assessoriaPai;
-    // }
 
     
     public Assessoria getAssessoriaPai() {

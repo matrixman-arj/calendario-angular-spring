@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'pessoas'},
   { path: '', pathMatch: 'full', redirectTo: 'assessorias'},
+  { path: '', pathMatch: 'full', redirectTo: 'agendamentos'},
 
   {
     path: 'pessoas',
@@ -13,6 +14,11 @@ const routes: Routes = [
   {
     path: 'assessorias',
     loadChildren: () => import('./assessorias/assessorias.module').then(m => m.AssessoriasModule)
+  },
+
+  {
+    path: 'agendamentos',
+    loadChildren: () => import('./agendamentos/agendamentos.module').then(m => m.AgendamentosModule)
   }
 
 ];

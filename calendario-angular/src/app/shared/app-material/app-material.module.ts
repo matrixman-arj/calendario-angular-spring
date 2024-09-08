@@ -12,23 +12,29 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 
 @NgModule({
   exports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
+    MatButtonModule,
     MatCardModule,
     MatListModule,
+    MatDialogModule,
     MatTableModule,
     MatToolbarModule,
     MatProgressSpinnerModule,
-    MatDialogModule,
-    MatButtonModule,
     MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatRadioModule,
-    MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatGridListModule
   ],
 
 })

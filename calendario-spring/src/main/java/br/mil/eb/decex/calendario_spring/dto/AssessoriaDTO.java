@@ -8,7 +8,8 @@ import jakarta.validation.constraints.NotNull;
 
 public record AssessoriaDTO(
     
-    @JsonProperty("_id")Long id, 
+    @JsonProperty("_id")
+    Long id, 
     
     @NotBlank
 	@NotNull

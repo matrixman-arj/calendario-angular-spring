@@ -15,7 +15,8 @@ import { IMaskModule } from 'angular-imask';
 @NgModule({
   declarations: [
     AppComponent,
-    PostoPipe
+    PostoPipe,
+
 
   ],
   exports: [PostoPipe],

@@ -1,0 +1,35 @@
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field>
+      <mat-label>Hora Início</mat-label>
+      <input matInput type="time" formControlName="horaInicio">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Hora Fim</mat-label>
+      <input matInput type="time" formControlName="horaFim">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Pessoa</mat-label>
+      <mat-select formControlName="pessoa">
+        <!-- Populate with persons -->
+        <mat-option *ngFor="let pessoa of pessoas" [value]="pessoa">{{ pessoa.nomeGuerra }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Itens</mat-label>
+      <mat-select formControlName="itens" multiple>
+        <!-- Populate with items -->
+        <mat-option *ngFor="let item of itens" [value]="item">{{ item }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onSubmit()" [disabled]="!form.valid">Agendar</button>
+  <button mat-button (click)="dialogRef.close()">Cancelar</button>
+</mat-dialog-actions>
+

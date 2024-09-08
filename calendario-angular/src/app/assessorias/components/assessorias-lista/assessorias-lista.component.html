@@ -1,6 +1,7 @@
-<mat-table  [dataSource]="assessorias">
+<mat-card>
+  <mat-table  [dataSource]="assessorias">
 
-  <!-- Coluna de identidade -->
+  <!-- Coluna de descrição -->
   <ng-container matColumnDef="descricao">
     <mat-header-cell *matHeaderCellDef> Descrição </mat-header-cell>
     <mat-cell *matCellDef="let assessoria">{{ assessoria.descricao }}</mat-cell>
@@ -35,3 +36,4 @@
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
+</mat-card>

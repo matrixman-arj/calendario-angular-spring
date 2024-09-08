@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-toolbar color="primary">Agendamentos para o Auditório do DECEx </mat-toolbar>
+  <div class="mat-elevation-z8">
+    <app-agendamentos-lista *ngIf="agendamentos$ | async as agendamentos; else loading"
+      [agendamentos]="agendamentos"
+      (add)="onAdd()"
+      (edit)="onEdit($event)"
+      (delete)="onRemove($event)"
+    ></app-agendamentos-lista>
+
+    <ng-template #loading>
+      <div class="loading-spinner">
+
+      </div>
+    </ng-template>
+  </div>
+</mat-card>

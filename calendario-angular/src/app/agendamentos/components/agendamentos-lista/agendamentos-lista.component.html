@@ -1,0 +1,53 @@
+<mat-card>
+  <mat-table [dataSource]="agendamentos">
+
+    <ng-container matColumnDef="data">
+      <mat-header-cell *matHeaderCellDef> Data </mat-header-cell>
+      <mat-cell *matCellDef="let agendamento">{{ agendamento.data }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="horaInicio">
+      <mat-header-cell *matHeaderCellDef> Início </mat-header-cell>
+      <mat-cell *matCellDef="let agendamento"> {{agendamento.horaInicio}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="horaFim">
+      <mat-header-cell *matHeaderCellDef> Fim </mat-header-cell>
+      <mat-cell *matCellDef="let agendamento"> {{agendamento.horaFim}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="pessoa">
+      <mat-header-cell *matHeaderCellDef> Fim </mat-header-cell>
+      <mat-cell *matCellDef="let agendamento"> {{agendamento.pessoa}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="assessoria">
+      <mat-header-cell *matHeaderCellDef> Fim </mat-header-cell>
+      <mat-cell *matCellDef="let agendamento"> {{agendamento.assessoria}} </mat-cell>
+    </ng-container>
+
+     <!-- Coluna de ações -->
+  <ng-container matColumnDef="acoes">
+    <mat-header-cell *matHeaderCellDef class="action-column-header">
+      <button (click)="onAdd()" mat-mini-fab color="accent" aria-label="Adicionar um agendamento">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-header-cell>
+
+    <mat-cell *matCellDef="let agendamento" class="action-column">
+      <button (click)="onEdit(agendamento)" mat-icon-button color="primary" aria-label="Editar um agendamento">
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <button (click)="onDelete(agendamento)" mat-icon-button color="warn" aria-label="Remover agendamento">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </mat-table>
+
+
+</mat-card>
