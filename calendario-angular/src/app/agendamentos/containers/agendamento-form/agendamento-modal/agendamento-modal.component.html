@@ -1,3 +1,4 @@
+<h2>Agendar para {{ data.date.toLocaleString() }}</h2>
 <mat-dialog-content>
   <form [formGroup]="form">
     <mat-form-field>
@@ -11,25 +12,25 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Pessoa</mat-label>
+      <mat-label>Solicitante</mat-label>
       <mat-select formControlName="pessoa">
         <!-- Populate with persons -->
-        <mat-option *ngFor="let pessoa of pessoas" [value]="pessoa">{{ pessoa.nomeGuerra }}</mat-option>
+        <mat-option *ngFor="let pessoa of pessoas" [value]="pessoa">{{ pessoa.postoGraduacao}} - {{ pessoa.nomeGuerra }}</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Itens</mat-label>
-      <mat-select formControlName="itens" multiple>
+      <mat-label>Acessórios</mat-label>
+      <mat-select formControlName="acessorios" multiple>
         <!-- Populate with items -->
-        <mat-option *ngFor="let item of itens" [value]="item">{{ item }}</mat-option>
+        <mat-option *ngFor="let acessorio of acessorios" [value]="acessorio">{{ acessorio.viewValue }}</mat-option>
       </mat-select>
     </mat-form-field>
   </form>
 </mat-dialog-content>
 
-<mat-dialog-actions>
-  <button mat-button (click)="onSubmit()" [disabled]="!form.valid">Agendar</button>
-  <button mat-button (click)="dialogRef.close()">Cancelar</button>
+<mat-dialog-actions class="buttons">
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!form.valid">Agendar</button>
+  <button mat-raised-button (click)="dialogRef.close()">Cancelar</button>
 </mat-dialog-actions>
 

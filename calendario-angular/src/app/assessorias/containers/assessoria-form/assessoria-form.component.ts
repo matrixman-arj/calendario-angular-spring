@@ -101,7 +101,7 @@ export class AssessoriaFormComponent implements OnInit {
 
 private onError() {
   this.dialog.open(ErrorDialogComponent, {
-    data: 'Erro ao salvar pessoa.'
+    data: 'Erro ao salvar assessoria.'
   });
 }
 

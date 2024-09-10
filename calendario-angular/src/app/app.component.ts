@@ -3,6 +3,7 @@ import { PessoasService } from './pessoas/services/pessoas.service';
 
 @Component({
   selector: 'app-root',
+  // template: '<ejs-schedule></ejs-schedule>',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

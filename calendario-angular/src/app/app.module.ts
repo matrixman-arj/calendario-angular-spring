@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { PostoPipe } from './shared/pipes/posto.pipe';
 
 import { IMaskModule } from 'angular-imask';
+import { RecurrenceEditorModule, ScheduleModule, DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
 
 @NgModule({
   declarations: [
@@ -29,9 +30,12 @@ import { IMaskModule } from 'angular-imask';
     MatListModule,
     HttpClientModule,
     FormsModule,
+    ScheduleModule,
+    RecurrenceEditorModule
 
   ],
   providers: [
+    DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService,
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]

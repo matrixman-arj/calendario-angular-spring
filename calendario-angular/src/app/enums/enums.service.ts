@@ -8,6 +8,7 @@ import { delay, first, tap } from 'rxjs';
 import { Pessoa } from '../pessoas/model/pessoa';
 import { PostoGraduacao } from './PostoGraduacao';
 import { TipoAcesso } from './TipoAcesso';
+import { Acessorios } from './Acessorios/Acessorios';
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +27,14 @@ export class EnumsService {
 
 getAcessoEnums() {
   return this.httpClient.get<TipoAcesso[]>(`${this.httpClient}/enumerado`);
+}
+
+  getAcessoriosEnums() {
+    return this.httpClient.get<Acessorios[]>(`${this.httpClient}/enumerado`);
+
+  }
 
 }
 
-}
+
 

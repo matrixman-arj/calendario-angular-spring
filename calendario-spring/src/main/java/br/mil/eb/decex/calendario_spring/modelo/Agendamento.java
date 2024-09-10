@@ -2,10 +2,18 @@ package br.mil.eb.decex.calendario_spring.modelo;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import br.mil.eb.decex.calendario_spring.enumerado.Acessorios;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,6 +31,7 @@ public class Agendamento {
     @JsonProperty("_id")
     private Long id;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull
     private LocalDate data;
 
@@ -39,6 +48,12 @@ public class Agendamento {
     @ManyToOne
     @JoinColumn(name = "assessoria_id")
     private Assessoria assessoria;
+
+    @ElementCollection(targetClass = Acessorios.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "produto_acessorios", joinColumns = @JoinColumn(name = "produto_id"))
+    @Column
+    private Set<Acessorios> acessorios;
 
     public Long getId() {
         return id;
@@ -87,6 +102,15 @@ public class Agendamento {
     public void setAssessoria(Assessoria assessoria) {
         this.assessoria = assessoria;
     }
+
+    public Set<Acessorios> getAcessorios() {
+        return acessorios;
+    }
+
+    public void setAcessorios(Set<Acessorios> acessorios) {
+        this.acessorios = acessorios;
+    }
+    
 
     @Override
     public int hashCode() {
@@ -148,6 +172,5 @@ public class Agendamento {
         return "Agendamento [id=" + id + ", data=" + data + ", horaInicio=" + horaInicio + ", horaFim=" + horaFim
                 + ", pessoa=" + pessoa + ", assessoria=" + assessoria + "]";
     }
-
     
 }
