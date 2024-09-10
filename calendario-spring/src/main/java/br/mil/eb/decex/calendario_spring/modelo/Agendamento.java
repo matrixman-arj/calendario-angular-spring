@@ -2,6 +2,7 @@ package br.mil.eb.decex.calendario_spring.modelo;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -54,6 +55,16 @@ public class Agendamento {
     @CollectionTable(name = "produto_acessorios", joinColumns = @JoinColumn(name = "produto_id"))
     @Column
     private Set<Acessorios> acessorios;
+
+    private String audiencia;
+
+    private String evento;
+
+    private String diex;
+
+    private String militarLigacao;
+
+
 
     public Long getId() {
         return id;
@@ -110,7 +121,39 @@ public class Agendamento {
     public void setAcessorios(Set<Acessorios> acessorios) {
         this.acessorios = acessorios;
     }
-    
+       
+
+    public String getAudiencia() {
+        return audiencia;
+    }
+
+    public void setAudiencia(String audiencia) {
+        this.audiencia = audiencia;
+    }
+
+    public String getEvento() {
+        return evento;
+    }
+
+    public void setEvento(String evento) {
+        this.evento = evento;
+    }
+
+    public String getDiex() {
+        return diex;
+    }
+
+    public void setDiex(String diex) {
+        this.diex = diex;
+    }
+
+    public String getMilitarLigacao() {
+        return militarLigacao;
+    }
+
+    public void setMilitarLigacao(String militarLigacao) {
+        this.militarLigacao = militarLigacao;
+    }
 
     @Override
     public int hashCode() {
@@ -122,6 +165,11 @@ public class Agendamento {
         result = prime * result + ((horaFim == null) ? 0 : horaFim.hashCode());
         result = prime * result + ((pessoa == null) ? 0 : pessoa.hashCode());
         result = prime * result + ((assessoria == null) ? 0 : assessoria.hashCode());
+        result = prime * result + ((acessorios == null) ? 0 : acessorios.hashCode());
+        result = prime * result + ((audiencia == null) ? 0 : audiencia.hashCode());
+        result = prime * result + ((evento == null) ? 0 : evento.hashCode());
+        result = prime * result + ((diex == null) ? 0 : diex.hashCode());
+        result = prime * result + ((militarLigacao == null) ? 0 : militarLigacao.hashCode());
         return result;
     }
 
@@ -164,13 +212,43 @@ public class Agendamento {
                 return false;
         } else if (!assessoria.equals(other.assessoria))
             return false;
+        if (acessorios == null) {
+            if (other.acessorios != null)
+                return false;
+        } else if (!acessorios.equals(other.acessorios))
+            return false;
+        if (audiencia == null) {
+            if (other.audiencia != null)
+                return false;
+        } else if (!audiencia.equals(other.audiencia))
+            return false;
+        if (evento == null) {
+            if (other.evento != null)
+                return false;
+        } else if (!evento.equals(other.evento))
+            return false;
+        if (diex == null) {
+            if (other.diex != null)
+                return false;
+        } else if (!diex.equals(other.diex))
+            return false;
+        if (militarLigacao == null) {
+            if (other.militarLigacao != null)
+                return false;
+        } else if (!militarLigacao.equals(other.militarLigacao))
+            return false;
         return true;
     }
 
     @Override
     public String toString() {
         return "Agendamento [id=" + id + ", data=" + data + ", horaInicio=" + horaInicio + ", horaFim=" + horaFim
-                + ", pessoa=" + pessoa + ", assessoria=" + assessoria + "]";
+                + ", pessoa=" + pessoa + ", assessoria=" + assessoria + ", acessorios=" + acessorios + ", audiencia="
+                + audiencia + ", evento=" + evento + ", diex=" + diex + ", militarLigacao=" + militarLigacao + "]";
     }
+
+    
+    
+
     
 }

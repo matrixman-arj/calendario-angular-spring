@@ -28,7 +28,8 @@ export class AgendamentoModalComponent implements OnInit {
   assessorias: Assessoria [] = [];
   selectedAcessorios: Acessorios;
 
-  acessorios = AcessoriosList;
+  acessorios = AcessoriosList; // Lista de acessórios
+  allSelected: boolean = false; // Flag para verificar se todos estão selecionados
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -43,11 +44,17 @@ export class AgendamentoModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.form = this.formBuilder.group({
+       _id: [''],
       data: [data.date, Validators.required],
       horaInicio: ['', Validators.required],
       horaFim: ['', Validators.required],
       pessoa: [null, Validators.required],
-      acessorios: [null, Validators.required]
+      assessoria: [null, Validators.required],
+      acessorios: [null, Validators.required],
+      audiencia: [null, Validators.required],
+      evento: [null, Validators.required],
+      diex: [null, Validators.required],
+      militarLigacao: [null, Validators.required]
     });
 
     this.assessoriasService.list().subscribe((data: any[]) => {
@@ -62,7 +69,9 @@ export class AgendamentoModalComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    const agendamento: Agendamento = this.route.snapshot.data['acessorios'];
+    const agendamento = this.data.agendamento; // Obtém o agendamento passado
+    const date = this.data.date; // Obtém a data passada
+    // const agendamento: Agendamento = this.route.snapshot.data['acessorios'];
     const data = new Date(); // Supondo que você tenha uma data como objeto Date
     const formattedDate = data.toISOString().split('T')[0]; // Converte para 'YYYY-MM-DD'
 
@@ -71,15 +80,77 @@ export class AgendamentoModalComponent implements OnInit {
       // outros campos
     };
 
+  //   this.form.setValue({
+  //     _id: agendamento._id || '',
+  //     data: agendamento.data || '',
+  //     horaInicio: agendamento.horaInicio || '',
+  //     horaFim: agendamento.horaFim || '',
+  //     assessoria: agendamento.assessoria || '',
+  //     pessoa: agendamento.pessoa || '',
+  //     acessorios: agendamento.acessorios || '',
+  //     audiencia: agendamento.audiencia || '',
+  //     evento: agendamento.evento || '',
+  //     diex: agendamento.diex || '',
+  //     militarLigacao: agendamento.militarLigacao || '',
+
+  //   });
+  // }
+
+  if (agendamento) {
     this.form.setValue({
       _id: agendamento._id || '',
-      data: agendamento.data || '',
+      data: date || '', // Usa a data passada no modal
       horaInicio: agendamento.horaInicio || '',
       horaFim: agendamento.horaFim || '',
       assessoria: agendamento.assessoria || '',
       pessoa: agendamento.pessoa || '',
-
+      acessorios: agendamento.acessorios || '',
+      audiencia: agendamento.audiencia || '',
+      evento: agendamento.evento || '',
+      diex: agendamento.diex || '',
+      militarLigacao: agendamento.militarLigacao || '',
     });
+  } else {
+    // Caso seja um novo agendamento
+    this.form.setValue({
+      _id: '',
+      data: date || '', // Usa apenas a data passada no modal
+      horaInicio: '',
+      horaFim: '',
+      assessoria: '',
+      pessoa: '',
+      acessorios: '',
+      audiencia: '',
+      evento: '',
+      diex: '',
+      militarLigacao: '',
+    });
+  }
+}
+
+
+  // Lógica para alternar a seleção de todos os acessórios
+  toggleAllAcessorios() {
+    this.allSelected = !this.allSelected; // Alterna o estado de todos selecionados
+    if (this.allSelected) {
+      // Seleciona todos os acessórios
+      this.form.controls['acessorios'].setValue([...this.acessorios]);
+    } else {
+      // Desseleciona todos os acessórios
+      this.form.controls['acessorios'].setValue([]);
+    }
+  }
+
+  // Verifica se um acessório específico está selecionado
+  isAcessorioSelected(acessorio: any): boolean {
+    const selectedAcessorios = this.form.controls['acessorios'].value;
+    return selectedAcessorios.includes(acessorio);
+  }
+
+  // Função chamada quando a seleção de acessórios muda
+  onAcessoriosChange(event: any) {
+    const selectedAcessorios = event.value;
+    this.allSelected = selectedAcessorios.length === this.acessorios.length;
   }
 
   onSubmit() {

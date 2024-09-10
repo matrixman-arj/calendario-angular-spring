@@ -15,9 +15,15 @@ public class AgendamentoMapper {
     }
     return new AgendamentoDTO(agendamento.getId(), agendamento.getAssessoria(),                                 
                                   agendamento.getPessoa(), agendamento.getData(),
-                                  agendamento.getHoraInicio(), agendamento.getHoraFim() 
-        );
+                                  agendamento.getHoraInicio(), agendamento.getHoraFim(),
+                                  agendamento.getAcessorios(), agendamento.getAudiencia(),
+                                  agendamento.getEvento(), agendamento.getDiex(), 
+                                  agendamento.getMilitarLigacao());
     }
+
+
+
+    
 
     public Agendamento toEntity(AgendamentoDTO agendamentoDTO){
 
@@ -34,6 +40,11 @@ public class AgendamentoMapper {
         agendamento.setData(agendamentoDTO.data());
         agendamento.setHoraInicio(agendamentoDTO.horaInicio());
         agendamento.setHoraFim(agendamentoDTO.horaFim());
+        agendamento.setAcessorios(agendamentoDTO.acessorios());
+        agendamento.setAudiencia(agendamentoDTO.audiencia());
+        agendamento.setEvento(agendamentoDTO.evento());
+        agendamento.setDiex(agendamentoDTO.diex());
+        agendamento.setMilitarLigacao(agendamentoDTO.militarLigacao());
         return agendamento;
     }
 

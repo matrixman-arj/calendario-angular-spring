@@ -21,16 +21,49 @@
 
     <mat-form-field>
       <mat-label>Acessórios</mat-label>
-      <mat-select formControlName="acessorios" multiple>
-        <!-- Populate with items -->
-        <mat-option *ngFor="let acessorio of acessorios" [value]="acessorio">{{ acessorio.viewValue }}</mat-option>
+      <mat-select formControlName="acessorios" multiple (selectionChange)="onAcessoriosChange($event)">
+        <mat-option (click)="toggleAllAcessorios()" [value]="allSelected" onkeypress="allSelected">
+          {{ allSelected ? 'Desmarcar todos' : 'Selecionar todos' }}
+        </mat-option>
+        <mat-option *ngFor="let acessorio of acessorios" [value]="acessorio" onkeypress="isAcessorioSelected(acessorio)">
+          {{ acessorio.viewValue }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
+
+    <!--<mat-form-field>
+      <mat-label>Acessórios</mat-label>
+      <mat-select formControlName="acessorios" multiple>
+        <!-- Populate with items -->
+       <!--- <mat-option *ngFor="let acessorio of acessorios" [value]="acessorio">{{ acessorio.viewValue }}</mat-option>
+      </mat-select>
+    </mat-form-field>-->
+
+    <mat-form-field>
+      <mat-label>Audiência</mat-label>
+      <input matInput type="text" formControlName="audiencia">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Evento</mat-label>
+      <input matInput type="text" formControlName="evento">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Diex n°</mat-label>
+      <input matInput type="text" formControlName="diex">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Militar de ligação</mat-label>
+      <input matInput type="text" formControlName="militarLigacao">
+    </mat-form-field>
+
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions class="buttons">
-  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!form.valid">Agendar</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()">Agendar</button>
   <button mat-raised-button (click)="dialogRef.close()">Cancelar</button>
 </mat-dialog-actions>
 
