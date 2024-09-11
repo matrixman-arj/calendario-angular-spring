@@ -18,12 +18,12 @@
 
     <ng-container matColumnDef="pessoa">
       <mat-header-cell *matHeaderCellDef> Solicitante </mat-header-cell>
-      <mat-cell *matCellDef="let agendamento"> {{agendamento.pessoa}} </mat-cell>
+      <mat-cell *matCellDef="let agendamento">{{agendamento.pessoa.postoGraduacao}} - {{agendamento.pessoa.nomeGuerra}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="assessoria">
       <mat-header-cell *matHeaderCellDef> Assessoria </mat-header-cell>
-      <mat-cell *matCellDef="let agendamento"> {{agendamento.assessoria}} </mat-cell>
+      <mat-cell *matCellDef="let agendamento"> {{agendamento.assessoria.sigla}} </mat-cell>
     </ng-container>
 
      <!-- Coluna de ações -->

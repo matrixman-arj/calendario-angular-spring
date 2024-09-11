@@ -12,6 +12,7 @@ import { AgendamentosService } from '../../../services/agendamentos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ErrorDialogComponent } from '../../../../shared/components/error-dialog/error-dialog.component';
 import { Location } from '@angular/common';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-agendamento-modal',
@@ -26,7 +27,6 @@ export class AgendamentoModalComponent implements OnInit {
 
   pessoas: Pessoa [] = [];
   assessorias: Assessoria [] = [];
-  selectedAcessorios: Acessorios;
 
   acessorios = AcessoriosList; // Lista de acessórios
   allSelected: boolean = false; // Flag para verificar se todos estão selecionados
@@ -48,8 +48,8 @@ export class AgendamentoModalComponent implements OnInit {
       data: [data.date, Validators.required],
       horaInicio: ['', Validators.required],
       horaFim: ['', Validators.required],
-      pessoa: [null, Validators.required],
-      assessoria: [null, Validators.required],
+      pessoa: ['', Validators.required],
+      assessoria: ['', Validators.required],
       acessorios: [null, Validators.required],
       audiencia: [null, Validators.required],
       evento: [null, Validators.required],
@@ -65,45 +65,27 @@ export class AgendamentoModalComponent implements OnInit {
       this.pessoas = data;
      });
 
-     this.selectedAcessorios = Acessorios.EQUIPA_SOM;
+
 
   }
   ngOnInit(): void {
-    const agendamento = this.data.agendamento; // Obtém o agendamento passado
-    const date = this.data.date; // Obtém a data passada
-    // const agendamento: Agendamento = this.route.snapshot.data['acessorios'];
-    const data = new Date(); // Supondo que você tenha uma data como objeto Date
-    const formattedDate = data.toISOString().split('T')[0]; // Converte para 'YYYY-MM-DD'
 
-    const requestBody = {
-      data: formattedDate, // Envia apenas a parte da data
-      // outros campos
-    };
+    //Aqui recebe o formulario que chamado agendamento
+    const agendamento = { ...this.form.value };
 
-  //   this.form.setValue({
-  //     _id: agendamento._id || '',
-  //     data: agendamento.data || '',
-  //     horaInicio: agendamento.horaInicio || '',
-  //     horaFim: agendamento.horaFim || '',
-  //     assessoria: agendamento.assessoria || '',
-  //     pessoa: agendamento.pessoa || '',
-  //     acessorios: agendamento.acessorios || '',
-  //     audiencia: agendamento.audiencia || '',
-  //     evento: agendamento.evento || '',
-  //     diex: agendamento.diex || '',
-  //     militarLigacao: agendamento.militarLigacao || '',
+    //Desse formulário, pegamos o valor do campo data e transformamos em dia/mês/ano
+    agendamento.data = DateTime.fromISO(agendamento.data).toFormat('yyyy-MM-dd');
 
-  //   });
-  // }
+
 
   if (agendamento) {
     this.form.setValue({
       _id: agendamento._id || '',
-      data: date || '', // Usa a data passada no modal
+      data: agendamento.data || '', // Usa a data passada no modal
       horaInicio: agendamento.horaInicio || '',
       horaFim: agendamento.horaFim || '',
-      assessoria: agendamento.assessoria || '',
       pessoa: agendamento.pessoa || '',
+      assessoria: agendamento.pessoa.assessoria || '',
       acessorios: agendamento.acessorios || '',
       audiencia: agendamento.audiencia || '',
       evento: agendamento.evento || '',
@@ -114,7 +96,7 @@ export class AgendamentoModalComponent implements OnInit {
     // Caso seja um novo agendamento
     this.form.setValue({
       _id: '',
-      data: date || '', // Usa apenas a data passada no modal
+      data: '', // Usa apenas a data passada no modal
       horaInicio: '',
       horaFim: '',
       assessoria: '',
@@ -126,20 +108,44 @@ export class AgendamentoModalComponent implements OnInit {
       militarLigacao: '',
     });
   }
+
+   // Escuta mudanças no campo "pessoa"
+  this.form.get('pessoa')?.valueChanges.subscribe((selectedPessoa: Pessoa) => {
+    if (selectedPessoa && selectedPessoa.assessoria) {
+      // Atualiza o campo "assessoria" com a assessoria da pessoa selecionada
+      this.form.patchValue({ assessoria: selectedPessoa.assessoria });
+    }
+  });
+
 }
 
 
   // Lógica para alternar a seleção de todos os acessórios
-  toggleAllAcessorios() {
-    this.allSelected = !this.allSelected; // Alterna o estado de todos selecionados
-    if (this.allSelected) {
-      // Seleciona todos os acessórios
-      this.form.controls['acessorios'].setValue([...this.acessorios]);
-    } else {
-      // Desseleciona todos os acessórios
-      this.form.controls['acessorios'].setValue([]);
-    }
-  }
+  // toggleAllAcessorios() {
+  //   this.allSelected = !this.allSelected; // Alterna o estado de todos selecionados
+
+  //   if (this.allSelected) {
+  //     // Seleciona todos os valores do enum (como strings)
+  //     this.form.controls['acessorios'].setValue(this.acessorios.map(acessorio => acessorio.viewValue));
+  //   } else {
+  //     // Desseleciona todos os acessórios
+  //     this.form.controls['acessorios'].setValue([]);
+  //   }
+  // }
+
+
+  // toggleAllAcessorios() {
+  //   this.allSelected = !this.allSelected; // Alterna o estado de todos selecionados
+  //   if (this.allSelected) {
+  //     // Seleciona todos os acessórios
+  //     this.form.controls['acessorios'].setValue([...this.acessorios]);
+  //   } else {
+  //     // Desseleciona todos os acessórios
+  //     this.form.controls['acessorios'].setValue([]);
+  //   }
+  // }
+
+
 
   // Verifica se um acessório específico está selecionado
   isAcessorioSelected(acessorio: any): boolean {

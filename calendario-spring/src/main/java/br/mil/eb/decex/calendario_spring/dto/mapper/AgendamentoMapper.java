@@ -21,10 +21,6 @@ public class AgendamentoMapper {
                                   agendamento.getMilitarLigacao());
     }
 
-
-
-    
-
     public Agendamento toEntity(AgendamentoDTO agendamentoDTO){
 
         if (agendamentoDTO == null) {

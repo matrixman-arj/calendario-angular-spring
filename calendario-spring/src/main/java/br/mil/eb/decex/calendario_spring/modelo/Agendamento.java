@@ -2,7 +2,6 @@ package br.mil.eb.decex.calendario_spring.modelo;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -32,8 +31,8 @@ public class Agendamento {
     @JsonProperty("_id")
     private Long id;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate data;
 
     @NotNull
@@ -52,7 +51,7 @@ public class Agendamento {
 
     @ElementCollection(targetClass = Acessorios.class)
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "produto_acessorios", joinColumns = @JoinColumn(name = "produto_id"))
+    @CollectionTable(name = "agendamento_acessorios", joinColumns = @JoinColumn(name = "agendamento_id"))
     @Column
     private Set<Acessorios> acessorios;
 

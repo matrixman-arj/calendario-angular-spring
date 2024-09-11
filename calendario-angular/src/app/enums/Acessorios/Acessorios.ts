@@ -1,4 +1,5 @@
 
+
 export enum Acessorios {
     NOTEBOOK,
     PROJETOR,
@@ -11,11 +12,12 @@ export enum Acessorios {
 }
 
 export const AcessoriosList = [
-  { value: Acessorios.NOTEBOOK, viewValue: 'Notebook' },
-  { value: Acessorios.PROJETOR, viewValue: 'Projetor' },
-  { value: Acessorios.EQUIPA_SOM, viewValue: 'Equipamento de som' },
-  { value: Acessorios.MIC_PUPITO, viewValue: 'Microfone do púlpito' },
-  { value: Acessorios.MIC_S_FIO, viewValue: 'Microfone sem fio' },
-  { value: Acessorios.MIC_LAPELA, viewValue: 'Microfone de lapela' },
-  { value: Acessorios.PASS_SLIDE, viewValue: 'Passador de slide' },
+  { value: 'NOTEBOOK', viewValue: 'Notebook' },
+  { value: 'PROJETOR', viewValue: 'Projetor' },
+  { value: 'EQUIPA_SOM', viewValue: 'Equipamento de som' },
+  { value: 'MIC_PUPITO', viewValue: 'Microfone do púlpito' },
+  { value: 'MIC_S_FIO', viewValue: 'Microfone sem fio' },
+  { value: 'MIC_LAPELA', viewValue: 'Microfone de lapela' },
+  { value: 'PASS_SLIDE', viewValue: 'Passador de slide' },
 ];
+
