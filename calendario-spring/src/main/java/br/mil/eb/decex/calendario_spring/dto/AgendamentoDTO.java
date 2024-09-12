@@ -7,21 +7,21 @@ import java.util.Set;
 import br.mil.eb.decex.calendario_spring.enumerado.Acessorios;
 import br.mil.eb.decex.calendario_spring.modelo.Assessoria;
 import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
-import jakarta.validation.constraints.NotNull;
+
 
 public record AgendamentoDTO(
 
         Long id,
 
-        @NotNull Assessoria assessoria,
+        Assessoria assessoria,
 
-        @NotNull Pessoa pessoa,
+        Pessoa pessoa,
 
-        @NotNull LocalDate data,
+        LocalDate data,
 
-        @NotNull LocalTime horaInicio,
+        LocalTime horaInicio,
 
-        @NotNull LocalTime horaFim,
+        LocalTime horaFim,
 
         Set<Acessorios> acessorios,
         

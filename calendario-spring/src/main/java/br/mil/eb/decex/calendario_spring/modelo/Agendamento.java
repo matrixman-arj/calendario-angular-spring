@@ -31,14 +31,14 @@ public class Agendamento {
     @JsonProperty("_id")
     private Long id;
 
-    @NotNull
+    
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate data;
 
-    @NotNull
+   
     private LocalTime horaInicio;
 
-    @NotNull
+   
     private LocalTime horaFim;
 
     @ManyToOne
@@ -55,12 +55,16 @@ public class Agendamento {
     @Column
     private Set<Acessorios> acessorios;
 
+    @Column
     private String audiencia;
 
+    @Column
     private String evento;
 
+    @Column
     private String diex;
 
+    @Column
     private String militarLigacao;
 
 

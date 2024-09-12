@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
@@ -54,6 +55,11 @@ public class Pessoa implements Serializable{
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PESSOA_ID_GENERATOR")	
 	@JsonProperty("_id")
 	private Long id;
+
+	 @JsonCreator
+    public Pessoa(@JsonProperty("_id") Long id) {
+        this.id = id;
+    }
 	
 	@NotNull	
 	@Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d$", message = "Formato de identidade inválido. Deve estar no formato 000.000.000-0.")

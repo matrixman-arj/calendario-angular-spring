@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import br.mil.eb.decex.calendario_spring.dto.AgendamentoDTO;
-
+import br.mil.eb.decex.calendario_spring.dto.PessoaDTO;
 import br.mil.eb.decex.calendario_spring.dto.mapper.AgendamentoMapper;
 import br.mil.eb.decex.calendario_spring.exception.RecordNotFoundException;
 import br.mil.eb.decex.calendario_spring.modelo.Agendamento;
@@ -64,6 +64,26 @@ public class AgendamentoService {
 
         return agendamentoMapper.toDTO(agendamentoRepository.save(agendamento));
     }
+
+    public AgendamentoDTO update(@NotNull @Positive Long id, @Valid AgendamentoDTO agendamento) {
+        return agendamentoRepository.findById(id)
+                .map(recordFound -> {
+                    recordFound.setData(agendamento.data());
+                    recordFound.setHoraInicio(agendamento.horaInicio());
+                    recordFound.setHoraFim(agendamento.horaFim());
+                    recordFound.setPessoa(agendamento.pessoa());
+                    recordFound.setAssessoria(agendamento.assessoria());
+                    recordFound.setAcessorios(agendamento.acessorios());
+                    recordFound.setAudiencia(agendamento.audiencia());
+                    recordFound.setEvento(agendamento.evento());
+                    recordFound.setDiex(agendamento.diex());                   
+                    recordFound.setMilitarLigacao(agendamento.militarLigacao());
+
+                    return agendamentoMapper.toDTO(agendamentoRepository.save(recordFound));
+                    
+                }).orElseThrow(() ->  new RecordNotFoundException(id));
+                
+    } 
 
     // Métodos para update e delete, se necessário
 }
