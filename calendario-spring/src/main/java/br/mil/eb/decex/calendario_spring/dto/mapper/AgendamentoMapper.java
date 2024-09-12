@@ -28,7 +28,7 @@ public class AgendamentoMapper {
         }
 
         Agendamento agendamento = new Agendamento();
-        if (agendamentoDTO != null) {
+        if (agendamentoDTO.id() != null) {
             agendamento.setId(agendamentoDTO.id());            
         }
         agendamento.setAssessoria(agendamentoDTO.assessoria());

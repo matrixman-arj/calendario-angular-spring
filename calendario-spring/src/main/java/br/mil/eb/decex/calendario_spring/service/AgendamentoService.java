@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import br.mil.eb.decex.calendario_spring.dto.AgendamentoDTO;
-import br.mil.eb.decex.calendario_spring.dto.PessoaDTO;
 import br.mil.eb.decex.calendario_spring.dto.mapper.AgendamentoMapper;
 import br.mil.eb.decex.calendario_spring.exception.RecordNotFoundException;
 import br.mil.eb.decex.calendario_spring.modelo.Agendamento;
@@ -19,22 +19,27 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+@Validated
 @Service
 public class AgendamentoService {
 
-    private final AgendamentoRepository agendamentoRepository;
+    private final AgendamentoRepository agendamentoRepository;    
+    private final AgendamentoMapper agendamentoMapper;
     private final PessoaRepository pessoaRepository;
     private final AssessoriaRepository assessoriaRepository;
-    private final AgendamentoMapper agendamentoMapper;
 
-    public AgendamentoService(AgendamentoRepository agendamentoRepository,
+    public AgendamentoService(AgendamentoRepository agendamentoRepository,                              
+                              AgendamentoMapper agendamentoMapper,
                               PessoaRepository pessoaRepository,
-                              AssessoriaRepository assessoriaRepository,
-                              AgendamentoMapper agendamentoMapper) {
-        this.agendamentoRepository = agendamentoRepository;
+                              AssessoriaRepository assessoriaRepository
+
+                              
+                              ) {
+        
+        this.agendamentoRepository = agendamentoRepository;        
+        this.agendamentoMapper = agendamentoMapper;
         this.pessoaRepository = pessoaRepository;
         this.assessoriaRepository = assessoriaRepository;
-        this.agendamentoMapper = agendamentoMapper;
     }
 
     public List<AgendamentoDTO> list() {
@@ -52,18 +57,29 @@ public class AgendamentoService {
     }
 
     public AgendamentoDTO create(@Valid @NotNull AgendamentoDTO agendamentoDTO) {
+        // Verifique se a pessoa existe
         Pessoa pessoa = pessoaRepository.findById(agendamentoDTO.pessoa().getId())
                 .orElseThrow(() -> new RecordNotFoundException(agendamentoDTO.pessoa().getId()));
-
+    
+        // Verifique se a assessoria existe
         Assessoria assessoria = assessoriaRepository.findById(agendamentoDTO.assessoria().getId())
                 .orElseThrow(() -> new RecordNotFoundException(agendamentoDTO.assessoria().getId()));
-
+    
+        // Mapeie o DTO para a entidade Agendamento
         Agendamento agendamento = agendamentoMapper.toEntity(agendamentoDTO);
+        
+        // Associe as entidades que já estão salvas
         agendamento.setPessoa(pessoa);
         agendamento.setAssessoria(assessoria);
-
+    
+        // Salve o agendamento
         return agendamentoMapper.toDTO(agendamentoRepository.save(agendamento));
     }
+    
+
+    // public AgendamentoDTO create(@Valid @NotNull AgendamentoDTO agendamento) {        
+    //     return agendamentoMapper.toDTO(agendamentoRepository.save(agendamentoMapper.toEntity(agendamento)));
+    // }
 
     public AgendamentoDTO update(@NotNull @Positive Long id, @Valid AgendamentoDTO agendamento) {
         return agendamentoRepository.findById(id)
@@ -85,5 +101,10 @@ public class AgendamentoService {
                 
     } 
 
-    // Métodos para update e delete, se necessário
+    public void delete(@NotNull @Positive Long id) {
+
+        agendamentoRepository.delete(agendamentoRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(id)));
+        
+    }
 }
