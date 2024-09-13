@@ -34,12 +34,9 @@ export class AssessoriasService {
     );
   }
 
-
-
   loadById(id: string){
     return this.httpClient.get<Assessoria>(`${this.API}/${id}`);
    }
-
 
    save(record: Partial<Assessoria>) {
     //console.log(record);

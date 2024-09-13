@@ -50,7 +50,7 @@ export class AgendamentoModalComponent implements OnInit {
       horaFim: ['', Validators.required],
       pessoa: ['', Validators.required],
       assessoria: ['', Validators.required],
-      acessorios: [null, Validators.required],
+      acessorios: [[], Validators.required],
       audiencia: [null, Validators.required],
       evento: [null, Validators.required],
       diex: [null, Validators.required],
@@ -84,8 +84,8 @@ export class AgendamentoModalComponent implements OnInit {
       data: agendamento.data || '', // Usa a data passada no modal
       horaInicio: agendamento.horaInicio || '',
       horaFim: agendamento.horaFim || '',
-      pessoa: agendamento.pessoa || '',
-      assessoria: agendamento.pessoa.assessoria || '',
+      pessoa: {_id: this.form.value.pessoa._id},
+      assessoria: agendamento.assessoria || null,// Ajustado para lidar com o ID da assessoria
       acessorios: agendamento.acessorios || '',
       audiencia: agendamento.audiencia || '',
       evento: agendamento.evento || '',
@@ -111,9 +111,9 @@ export class AgendamentoModalComponent implements OnInit {
 
    // Escuta mudanças no campo "pessoa"
   this.form.get('pessoa')?.valueChanges.subscribe((selectedPessoa: Pessoa) => {
-    if (selectedPessoa && selectedPessoa.assessoria) {
+    if (selectedPessoa && selectedPessoa.assessoria._id) {
       // Atualiza o campo "assessoria" com a assessoria da pessoa selecionada
-      this.form.patchValue({ assessoria: selectedPessoa.assessoria });
+      this.form.patchValue({ assessoria: selectedPessoa.assessoria._id });
     }
   });
 
@@ -161,13 +161,20 @@ export class AgendamentoModalComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      this.dialogRef.close(this.form.value);
-    }
 
-    this.agendamentosService.save(this.form.value)
+    const agendamento = {
+      ...this.form.value,
+      //pessoa: {_id: this.form.value.pessoa._id} , // Ajustando o formato da pessoa
+      assessoria: { _id: this.form.value.assessoria }, // Ajustando o formato da assessoria
+      acessorios: this.form.value.acessorios.map((a: any) => a) // Certificando que acessorios estão em formato correto
+    };
+
+    this.dialogRef.close(agendamento);
+
+    this.agendamentosService.save(agendamento)
     .subscribe(result => this.onSuccess(), error => this.onError());
   }
-
+  }
   onAdd(){
     this.add.emit(true);
   }

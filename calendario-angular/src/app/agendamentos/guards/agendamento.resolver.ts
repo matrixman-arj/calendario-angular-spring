@@ -16,7 +16,7 @@ export class AgendamentoResolver implements Resolve<Agendamento> {
     if (route.params && route.params['id']) {
       return this.service.loadById(route.params['id']);
     }
-    return of({_id:'', data:'', horaInicio:'',  horaFim: '',  pessoa:0, assessoria:0, acessorios:'', audiencia:'', evento:'', diex:'', militarLigacao:'' } );
+    return of({_id:'', data:'', horaInicio:'',  horaFim: '',  pessoa:0, assessoria:0, acessorios:[], audiencia:'', evento:'', diex:'', militarLigacao:'' } );
   }
 }
 

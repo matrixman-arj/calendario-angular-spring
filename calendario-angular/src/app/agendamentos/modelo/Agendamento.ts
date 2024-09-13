@@ -8,7 +8,7 @@ export interface Agendamento {
   horaFim?: string;
   pessoa?: number;
   assessoria?: number;
-  acessorios?: string;
+  acessorios?: string[];
   audiencia?: string;
   evento?: string;
   diex?: string;
