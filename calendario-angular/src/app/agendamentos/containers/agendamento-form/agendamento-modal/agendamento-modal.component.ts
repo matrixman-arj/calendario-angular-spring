@@ -84,7 +84,7 @@ export class AgendamentoModalComponent implements OnInit {
       data: agendamento.data || '', // Usa a data passada no modal
       horaInicio: agendamento.horaInicio || '',
       horaFim: agendamento.horaFim || '',
-      pessoa: {_id: this.form.value.pessoa._id},
+      pessoa: agendamento.pessoa || null,
       assessoria: agendamento.assessoria || null,// Ajustado para lidar com o ID da assessoria
       acessorios: agendamento.acessorios || '',
       audiencia: agendamento.audiencia || '',

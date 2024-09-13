@@ -41,6 +41,11 @@ public class AgendamentoMapper {
         agendamento.setEvento(agendamentoDTO.evento());
         agendamento.setDiex(agendamentoDTO.diex());
         agendamento.setMilitarLigacao(agendamentoDTO.militarLigacao());
+
+        // Adicione logs para verificar o estado da entidade
+        //System.out.println("Agendamento a ser salvo: " + agendamento);
+
+
         return agendamento;
     }
 
