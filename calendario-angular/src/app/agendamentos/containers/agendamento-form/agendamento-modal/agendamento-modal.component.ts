@@ -162,9 +162,15 @@ export class AgendamentoModalComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
 
+      // Obtenha o valor completo da pessoa selecionada
+    const selectedPessoa = this.form.get('pessoa')?.value;
+
+    // Verifique se está pegando o valor correto
+    console.log('Selected Pessoa:', selectedPessoa);
+
     const agendamento = {
       ...this.form.value,
-      //pessoa: {_id: this.form.value.pessoa._id} , // Ajustando o formato da pessoa
+      pessoa: { _id: this.form.value.pessoa.id }, // Certifique que estamos enviando o _id correto
       assessoria: { _id: this.form.value.assessoria }, // Ajustando o formato da assessoria
       acessorios: this.form.value.acessorios.map((a: any) => a) // Certificando que acessorios estão em formato correto
     };

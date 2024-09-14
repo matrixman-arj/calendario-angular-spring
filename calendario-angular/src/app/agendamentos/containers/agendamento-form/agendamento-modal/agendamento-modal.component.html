@@ -14,43 +14,20 @@
     <mat-form-field>
       <mat-label>Solicitante</mat-label>
       <mat-select formControlName="pessoa">
-        <!-- Populate with persons -->
-        <mat-option *ngFor="let pessoa of pessoas" [value]="pessoa">{{ pessoa.postoGraduacao}} - {{ pessoa.nomeGuerra }}</mat-option>
+        <mat-option *ngFor="let pessoa of pessoas" [value]="pessoa">
+          {{ pessoa.postoGraduacao}} - {{ pessoa.nomeGuerra }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Acessórios</mat-label>
       <mat-select formControlName="acessorios" multiple (selectionChange)="onAcessoriosChange($event)">
-        <!-- <mat-option (click)="toggleAllAcessorios()">
-          {{ allSelected ? 'Desmarcar todos' : 'Selecionar todos' }}
-        </mat-option> -->
         <mat-option *ngFor="let acessorio of acessorios" [value]="acessorio.viewValue"> <!-- valor correto -->
           {{ acessorio.viewValue }}
         </mat-option>
       </mat-select>
     </mat-form-field>
-
-
-    <!-- <mat-form-field>
-      <mat-label>Acessórios</mat-label>
-      <mat-select formControlName="acessorios" multiple (selectionChange)="onAcessoriosChange($event)">
-        <mat-option (click)="toggleAllAcessorios()">
-          {{ allSelected ? 'Desmarcar todos' : 'Selecionar todos' }}
-        </mat-option>
-        <mat-option *ngFor="let acessorio of acessorios" [value]="acessorio" onkeypress="isAcessorioSelected(acessorio)">
-          {{ acessorio.viewValue }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field> -->
-
-    <!--<mat-form-field>
-      <mat-label>Acessórios</mat-label>
-      <mat-select formControlName="acessorios" multiple>
-        <!-- Populate with items -->
-       <!--- <mat-option *ngFor="let acessorio of acessorios" [value]="acessorio">{{ acessorio.viewValue }}</mat-option>
-      </mat-select>
-    </mat-form-field>-->
 
     <mat-form-field>
       <mat-label>Audiência</mat-label>
