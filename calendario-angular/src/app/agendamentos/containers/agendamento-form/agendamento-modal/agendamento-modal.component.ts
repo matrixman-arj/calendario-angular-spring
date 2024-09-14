@@ -23,6 +23,8 @@ export class AgendamentoModalComponent implements OnInit {
 
   form: UntypedFormGroup;
 
+  isSubmitting = false; // Adicione uma variável para controlar o estado de submissão
+
   @Output() add = new EventEmitter(false);
 
   pessoas: Pessoa [] = [];
@@ -160,13 +162,9 @@ export class AgendamentoModalComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.form.valid) {
+    if (this.form.valid && !this.isSubmitting) {
 
-      // Obtenha o valor completo da pessoa selecionada
-    const selectedPessoa = this.form.get('pessoa')?.value;
-
-    // Verifique se está pegando o valor correto
-    console.log('Selected Pessoa:', selectedPessoa);
+      this.isSubmitting = true; // Defina o estado de submissão
 
     const agendamento = {
       ...this.form.value,
@@ -178,7 +176,16 @@ export class AgendamentoModalComponent implements OnInit {
     this.dialogRef.close(agendamento);
 
     this.agendamentosService.save(agendamento)
-    .subscribe(result => this.onSuccess(), error => this.onError());
+    .subscribe(
+      result => {
+        this.onSuccess();
+        this.isSubmitting = false; // Defina o estado de submissão
+      },
+        error => {
+          this.onError();
+          this.isSubmitting = false; // Defina o estado de submissão
+      }
+    );
   }
   }
   onAdd(){

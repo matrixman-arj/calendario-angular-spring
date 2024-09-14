@@ -30,20 +30,57 @@ export class AgendamentoFormComponent implements OnInit {
   );
 
   diaAtivo: WritableSignal<DateTime | null> = signal(null);
-  diasDaSemana: Signal<string[]> = signal(Info.weekdays('short'));
+  diasDaSemana: Signal<string[]> = signal(['dom.', ...Info.weekdays('short').slice(0, 6)]);
+  // diasDaSemana: Signal<string[]> = signal(Info.weekdays('short'));
+
   daysOfMonth: Signal<DateTime[]> = computed(() => {
-    return Interval.fromDateTimes(
-      this.primeiroDiaDoMesAtivo().startOf('week'),
-      this.primeiroDiaDoMesAtivo().endOf('month').endOf('week'),
-    )
-      .splitBy({ day: 1 })
-      .map((d) => {
-        if (d.start === null) {
-          throw new Error('Wrong dates');
-        }
-        return d.start;
-      });
+    // Define o primeiro e o último dia do mês atual
+    const startOfCurrentMonth = this.primeiroDiaDoMesAtivo().startOf('month');
+    const endOfCurrentMonth = this.primeiroDiaDoMesAtivo().endOf('month');
+
+    // Calcula os dias da semana em que o primeiro e o último dia do mês atual caem
+    const startOfWeek = startOfCurrentMonth.weekday;
+    const endOfWeek = endOfCurrentMonth.weekday;
+
+    // Adiciona dias necessários do mês anterior para completar a primeira semana
+    let days = [];
+    if (startOfWeek !== 7) { // Se não for domingo
+      const daysFromPreviousMonth = startOfCurrentMonth.minus({ days: startOfWeek });
+      for (let i = 0; i < startOfWeek; i++) {
+        days.push(daysFromPreviousMonth.plus({ days: i }));
+      }
+    }
+
+    // Adiciona todos os dias do mês atual
+    for (let i = 0; i < endOfCurrentMonth.day; i++) {
+      days.push(startOfCurrentMonth.plus({ days: i }));
+    }
+
+    // Adiciona dias do mês seguinte para completar a última semana até atingir 35 dias
+    const remainingDays = 35 - days.length;
+    for (let i = 1; i <= remainingDays; i++) {
+      days.push(endOfCurrentMonth.plus({ days: i }));
+    }
+
+    return days.slice(0, 35); // Retorna exatamente 35 dias
   });
+
+
+
+  // daysOfMonth: Signal<DateTime[]> = computed(() => {
+  //   return Interval.fromDateTimes(
+  //     this.primeiroDiaDoMesAtivo().startOf('week'),
+  //     this.primeiroDiaDoMesAtivo().endOf('month').endOf('week'),
+  //   )
+  //     .splitBy({ day: 1 })
+  //     .map((d) => {
+  //       if (d.start === null) {
+  //         throw new Error('Wrong dates');
+  //       }
+  //       return d.start;
+  //     });
+  // });
+
   DATE_MED = DateTime.DATE_MED;
   activeDayMeetings: Signal<string[]> = computed(() => {
     const activeDay = this.diaAtivo();
