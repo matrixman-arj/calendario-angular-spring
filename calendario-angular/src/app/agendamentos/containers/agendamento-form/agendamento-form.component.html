@@ -26,9 +26,12 @@
 
                 @if (diaAtivo() && activeDayMeetings().length > 0) {
                   @for (meeting of activeDayMeetings(); track $index) {
-                    <div>{{ meeting }}</div>
+                    <div>
+                      {{ meeting.horaInicio }} - {{ meeting.horaFim }} | Assessoria: {{ meeting.assessoria }}
+                    </div>
                   }
                 }
+
               </div>
             </div>
 
@@ -55,23 +58,29 @@
           <div class="calendar-grid">
             @for (dayOfMonth of daysOfMonth(); track $index) {
               <div
-              [ngClass]="{
-                'calendar-grid-cell': true,
-                'calendar-grid-cell-active': diaAtivo()?.toISODate() === dayOfMonth.toISODate(),
-                'calendar-grid-cell-inactive': dayOfMonth.month !== primeiroDiaDoMesAtivo().month,
-                'calendar-grid-cell-today': dayOfMonth.toISODate() === hoje().toISODate()
-              }"
-              (click)="openAgendamentoModal(dayOfMonth)"
-            >
-              <!-- Contêiner para o número do dia -->
-              <div class="calendar-grid-cell-day-number">
-                {{ dayOfMonth.day }}
+                [ngClass]="{
+                  'calendar-grid-cell': true,
+                  'calendar-grid-cell-active': diaAtivo()?.toISODate() === dayOfMonth.toISODate(),
+                  'calendar-grid-cell-inactive': dayOfMonth.month !== primeiroDiaDoMesAtivo().month,
+                  'calendar-grid-cell-today': dayOfMonth.toISODate() === hoje().toISODate()
+                }"
+                (click)="openAgendamentoModal(dayOfMonth)"
+              >
+                <!-- Contêiner para o número do dia -->
+                <div class="calendar-grid-cell-day-number">
+                  {{ dayOfMonth.day }}
+                </div>
+
+                <!-- Lista de agendamentos do dia -->
+                <div *ngFor="let agendamento of getAgendamentosForDay(dayOfMonth)">
+                  <div class="calendar-event">
+                    {{ agendamento.horaInicio }} - {{ agendamento.horaFim }} | {{ agendamento.assessoria.sigla }}
+                  </div>
+                </div>
               </div>
-            </div>
-
-
             }
           </div>
+
         </div>
 
       </div>

@@ -1,4 +1,4 @@
-import { Component, computed, EventEmitter, input, InputSignal, OnInit, Output, signal, Signal, WritableSignal } from '@angular/core';
+import { Component, computed, EventEmitter, Input, input, InputSignal, OnInit, Output, signal, Signal, WritableSignal } from '@angular/core';
 
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AgendamentosService } from '../../services/agendamentos.service';
@@ -15,6 +15,7 @@ import { PessoasService } from '../../../pessoas/services/pessoas.service';
 import { AgendamentoModalComponent } from './agendamento-modal/agendamento-modal.component';
 import { Meetings } from './meetings.interface';
 import { DateTime, Info, Interval } from 'luxon';
+import { Agendamento } from '../../modelo/Agendamento';
 
 @Component({
   selector: 'app-agendamento-form',
@@ -22,6 +23,9 @@ import { DateTime, Info, Interval } from 'luxon';
   styleUrl: './agendamento-form.component.scss'
 })
 export class AgendamentoFormComponent implements OnInit {
+
+  @Input() agendamentos2: { [key: string]: Agendamento[] } = {}; // Inicializa com um objeto vazio
+
 
   agendamentos: InputSignal<Meetings> = input.required();
   hoje: Signal<DateTime> = signal(DateTime.local());
@@ -67,6 +71,8 @@ export class AgendamentoFormComponent implements OnInit {
 
 
 
+
+
   // daysOfMonth: Signal<DateTime[]> = computed(() => {
   //   return Interval.fromDateTimes(
   //     this.primeiroDiaDoMesAtivo().startOf('week'),
@@ -82,7 +88,8 @@ export class AgendamentoFormComponent implements OnInit {
   // });
 
   DATE_MED = DateTime.DATE_MED;
-  activeDayMeetings: Signal<string[]> = computed(() => {
+
+  activeDayMeetings: Signal<any[]> = computed(() => {
     const activeDay = this.diaAtivo();
     if (activeDay === null) {
       return [];
@@ -93,8 +100,13 @@ export class AgendamentoFormComponent implements OnInit {
       return [];
     }
 
-    return this.agendamentos()[activeDayISO] ?? [];
+    return this.agendamentos2[activeDayISO]?.map(agendamento => ({
+      horaInicio: agendamento.horaInicio ? DateTime.fromISO(agendamento.horaInicio).toFormat('HH:mm') : 'N/A',
+      horaFim: agendamento.horaFim ? DateTime.fromISO(agendamento.horaFim).toFormat('HH:mm') : 'N/A',
+      assessoria: agendamento.assessoria
+    })) || [];
   });
+
 
   goToPreviousMonth(): void {
     this.primeiroDiaDoMesAtivo.set(
@@ -110,6 +122,49 @@ export class AgendamentoFormComponent implements OnInit {
 
   goToToday(): void {
     this.primeiroDiaDoMesAtivo.set(this.hoje().startOf('month'));
+  }
+
+  getAgendamentosForDay(day: DateTime): any[] {
+    const dayISO = day.toISODate();
+    if (!dayISO) {
+      return []; // Retorna uma lista vazia se dayISO for null
+    }
+
+    // Verificar e depurar se os agendamentos estão sendo encontrados
+    const agendamentos = this.agendamentos2[dayISO] || [];
+    console.log(`Agendamentos para ${dayISO}:`, agendamentos);
+
+    return agendamentos.map(agendamento => {
+      const horaInicio = agendamento.horaInicio ? DateTime.fromISO(agendamento.horaInicio).toFormat('HH:mm') : 'N/A';
+      const horaFim = agendamento.horaFim ? DateTime.fromISO(agendamento.horaFim).toFormat('HH:mm') : 'N/A';
+
+      return {
+        horaInicio: horaInicio,
+        horaFim: horaFim,
+        assessoria: agendamento.assessoria
+      };
+    });
+  }
+
+  isAgendamentoValido(agendamento: any, day: DateTime): boolean {
+    const agendamentosDoDia = this.getAgendamentosForDay(day);
+    const horaInicioNovo = DateTime.fromISO(agendamento.horaInicio);
+    const horaFimNovo = DateTime.fromISO(agendamento.horaFim);
+
+    for (const ag of agendamentosDoDia) {
+      const horaInicioExistente = DateTime.fromISO(ag.horaInicio);
+      const horaFimExistente = DateTime.fromISO(ag.horaFim);
+
+      // Verifica se o novo agendamento não está dentro do intervalo de um agendamento existente
+      if (
+        (horaInicioNovo < horaFimExistente && horaInicioNovo >= horaInicioExistente) ||
+        (horaFimNovo > horaInicioExistente && horaFimNovo <= horaFimExistente)
+      ) {
+        return false; // Agendamento inválido
+      }
+    }
+
+    return true; // Agendamento válido
   }
 
   form: UntypedFormGroup;
@@ -143,10 +198,34 @@ export class AgendamentoFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  // TODO document why this method 'ngOnInit' is empty
-
+  // Carrega os agendamentos do servidor
+  this.http.get<Agendamento[]>('/api/agendamentos').subscribe(data => {
+    this.agendamentos2 = this.mapAgendamentosPorData(data);
+    console.log('Agendamentos carregados:', this.agendamentos2); // Adicione este log
+  });
 
 }
+
+// Mapeia os agendamentos por data
+mapAgendamentosPorData(agendamentos2: Agendamento[]): { [key: string]: Agendamento[] } {
+  const agendamentosMap: { [key: string]: Agendamento[] } = {};
+  agendamentos2.forEach(agendamento => {
+    // Verifique se agendamento.data é definido e válido
+    if (agendamento.data) {
+      const dataISO = DateTime.fromISO(agendamento.data).toISODate(); // Obtém a data em ISO
+      if (dataISO) {
+        if (!agendamentosMap[dataISO]) {
+          agendamentosMap[dataISO] = [];
+        }
+        agendamentosMap[dataISO].push(agendamento);
+      }
+    }
+  });
+  return agendamentosMap;
+}
+
+
+
 
 openAgendamentoModal(day: DateTime, agendamento?: any): void {
   // Configura a hora para o início do dia
@@ -165,10 +244,19 @@ openAgendamentoModal(day: DateTime, agendamento?: any): void {
 
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
-      // Tratar o resultado do modal, como adicionar ou atualizar o agendamento
+      if (this.isAgendamentoValido(result, day)) {
+        // Salva o novo agendamento se for válido
+        // Aqui você deve adicionar a lógica para salvar o agendamento
+      } else {
+        // Exibe uma mensagem de erro
+        this.snackBar.open('O agendamento não pode ser salvo. Existe um conflito de horário.', 'Fechar', {
+          duration: 5000
+        });
+      }
     }
   });
 }
+
 
 onSubmit() {
 

@@ -103,3 +103,14 @@ mat-toolbar {
 .calendar-headline-control {
   cursor: pointer;
 }
+
+.calendar-event {
+  background-color: rgba(0, 123, 255, 0.1); /* Cor de fundo sutil */
+  margin-top: 5px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
