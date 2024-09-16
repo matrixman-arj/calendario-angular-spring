@@ -17,6 +17,7 @@ import { ConfimationDialogComponent } from '../../../shared/components/error-dia
 })
 export class PessoasComponent implements OnInit {
 
+
   pessoas$!: Observable<Pessoa[]>;
 
   // pessoasService: PessoasService;
@@ -38,7 +39,7 @@ export class PessoasComponent implements OnInit {
     this.pessoas$ = this.pessoasService.list()
     .pipe(
       catchError(error => {
-        this.onError('Erro ao carregar pssoas');
+        this.onError('Erro ao carregar pessoas');
         return of([])
       })
     );
@@ -62,9 +63,24 @@ export class PessoasComponent implements OnInit {
   }
 
   onEdit(pessoa: Pessoa) {
-    this.refresh();
     this.router.navigate(['edit', pessoa._id], {relativeTo: this.route});
+    this.refresh();
     }
+
+  // onEdit(pessoa: Pessoa) {
+  //   this.refresh();
+
+  //   console.log('Pessoa para editar:', pessoa); // Adicione este log
+  //   console.log('ID da pessoa:', pessoa._id);   // Adicione este log
+
+  //   if (pessoa._id) {
+  //     this.router.navigate(['edit', pessoa._id], { relativeTo: this.route });
+  //   } else {
+  //     console.error('Erro: pessoa._id é indefinido ou nulo.', pessoa);
+  //     // Exiba uma mensagem de erro ou tome outra ação apropriada
+  //   }
+  // }
+
 
   onRemove(pessoa: Pessoa) {
 
