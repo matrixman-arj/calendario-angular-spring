@@ -21,6 +21,7 @@ export class AssessoriaFormComponent implements OnInit {
 
   // assessoria: Assessoria[] = [];
   assessorias: Assessoria[] = [];
+  assessoriasPai: Assessoria[] = [];
   assessoriasFilhas: Assessoria[] = [];
 
   form: UntypedFormGroup;
@@ -45,6 +46,11 @@ export class AssessoriaFormComponent implements OnInit {
       interna: [null]
 
     });
+
+    this.service.listPai().subscribe((data: any[]) => {
+      this.assessoriasPai = data;
+     });
+
   }
 
   ngOnInit(): void {

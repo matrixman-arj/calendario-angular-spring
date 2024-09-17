@@ -40,7 +40,7 @@
             <mat-form-field class="full-width">
               <mat-label>Assessoria</mat-label>
               <mat-select formControlName="assessoria" (selectionChange)="onAssessoriaChange($event.value)">
-                <mat-option *ngFor="let assessoria of assessorias" [value]="assessoria">
+                <mat-option *ngFor="let assessoria of assessoriasPai" [value]="assessoria">
                   {{ assessoria.sigla }}
                 </mat-option>
               </mat-select>

@@ -26,6 +26,7 @@ export class PessoasFormComponent implements OnInit {
   form: UntypedFormGroup;
   selectedFile: File | null = null;
   assessorias: Assessoria[] = [];
+  assessoriasPai: Assessoria[] = [];
   assessoriasFilhas: Assessoria[] = [];
   selectedAssessoria: any;
 
@@ -112,6 +113,10 @@ export class PessoasFormComponent implements OnInit {
 
         this.assessoriasService.list().subscribe((data: any[]) => {
         this.assessorias = data;
+       });
+
+       this.assessoriasService.listPai().subscribe((data: any[]) => {
+        this.assessoriasPai = data;
        });
 
     }

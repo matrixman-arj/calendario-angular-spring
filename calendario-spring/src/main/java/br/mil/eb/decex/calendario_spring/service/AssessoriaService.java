@@ -44,6 +44,11 @@ public class AssessoriaService {
         return assessoriaRepository.findById(id).map(assessoriaMapper::toDTO)
                 .orElseThrow(() ->  new RecordNotFoundException(id)); 
      }
+
+      // Método para buscar assessorias sem assessoriaPai
+    public List<Assessoria> getAssessoriasWithoutAssessoriaPai() {
+        return assessoriaRepository.findAssessoriasWithoutAssessoriaPai();
+    }
      
     public AssessoriaDTO create(@Valid Assessoria assessoria) {        
         return assessoriaMapper.toDTO(assessoriaRepository.save(assessoria));

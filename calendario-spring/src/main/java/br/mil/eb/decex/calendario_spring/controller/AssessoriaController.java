@@ -4,6 +4,7 @@ package br.mil.eb.decex.calendario_spring.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,6 +56,12 @@ public class AssessoriaController {
 
     }
     
+    // Endpoint para buscar assessorias sem assessoriaPai
+    @GetMapping("/semAssessoriaPai")
+    public ResponseEntity<List<Assessoria>> getAssessoriasWithoutAssessoriaPai() {
+        List<Assessoria> assessorias = assessoriaService.getAssessoriasWithoutAssessoriaPai();
+        return ResponseEntity.ok(assessorias);
+    }
    
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
