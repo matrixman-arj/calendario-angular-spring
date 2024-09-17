@@ -4,7 +4,7 @@
     <app-agendamentos-lista *ngIf="agendamentos$ | async as agendamentos; else loading"
       [agendamentos]="agendamentos"
       (add)="onAdd()"
-      (edit)="onEdit($event)"
+      (edit)="onEditAgendamento($event)"
       (delete)="onRemove($event)"
     ></app-agendamentos-lista>
 

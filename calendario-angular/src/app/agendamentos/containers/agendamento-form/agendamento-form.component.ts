@@ -25,7 +25,7 @@ import { Agendamento } from '../../modelo/Agendamento';
 export class AgendamentoFormComponent implements OnInit {
 
   @Input() agendamentos2: { [key: string]: Agendamento[] } = {}; // Inicializa com um objeto vazio
-
+  @Output() editAgendamento = new EventEmitter<Agendamento>();
 
   agendamentos: InputSignal<Meetings> = input.required();
   hoje: Signal<DateTime> = signal(DateTime.local());
@@ -68,24 +68,6 @@ export class AgendamentoFormComponent implements OnInit {
 
     return days.slice(0, 35); // Retorna exatamente 35 dias
   });
-
-
-
-
-
-  // daysOfMonth: Signal<DateTime[]> = computed(() => {
-  //   return Interval.fromDateTimes(
-  //     this.primeiroDiaDoMesAtivo().startOf('week'),
-  //     this.primeiroDiaDoMesAtivo().endOf('month').endOf('week'),
-  //   )
-  //     .splitBy({ day: 1 })
-  //     .map((d) => {
-  //       if (d.start === null) {
-  //         throw new Error('Wrong dates');
-  //       }
-  //       return d.start;
-  //     });
-  // });
 
   DATE_MED = DateTime.DATE_MED;
 
@@ -132,7 +114,7 @@ export class AgendamentoFormComponent implements OnInit {
 
     // Verificar e depurar se os agendamentos estão sendo encontrados
     const agendamentos = this.agendamentos2[dayISO] || [];
-    console.log(`Agendamentos para ${dayISO}:`, agendamentos);
+    // console.log(`Agendamentos para ${dayISO}:`, agendamentos);
 
     return agendamentos.map(agendamento => {
       const horaInicio = agendamento.horaInicio ? DateTime.fromISO(agendamento.horaInicio).toFormat('HH:mm') : 'N/A';
@@ -225,16 +207,19 @@ mapAgendamentosPorData(agendamentos2: Agendamento[]): { [key: string]: Agendamen
 }
 
 
+openAgendamentoModal(day: DateTime | null, agendamento?: Agendamento): void {
+  // Se `day` for nulo, use a data do agendamento; caso contrário, use a data atual
+  const dateOnly = day ? day.startOf('day') : DateTime.fromISO(agendamento?.data ?? DateTime.local().toISODate());
 
+  // Verificar se `agendamento` existe
+  if (!agendamento) {
+    console.error('Agendamento indefinido ou inválido');
+    return;
+  }
 
-openAgendamentoModal(day: DateTime, agendamento?: any): void {
-  // Configura a hora para o início do dia
-  const dateOnly = day.startOf('day');
-
-  // Cria um objeto que inclui a data e o agendamento (se houver)
   const dataToPass = {
     date: dateOnly,
-    agendamento: agendamento || null // Passa o agendamento se existir, ou null se for novo
+    agendamento: agendamento // Passa o agendamento para edição
   };
 
   const dialogRef = this.dialog.open(AgendamentoModalComponent, {
@@ -244,9 +229,11 @@ openAgendamentoModal(day: DateTime, agendamento?: any): void {
 
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
-      if (this.isAgendamentoValido(result, day)) {
-        // Salva o novo agendamento se for válido
-        // Aqui você deve adicionar a lógica para salvar o agendamento
+      const dayISO = dateOnly.toISODate();
+      if (dayISO && this.isAgendamentoValido(result, dateOnly)) {
+        // Salva ou atualiza o agendamento
+        this.agendamentos2[dayISO] = [...(this.agendamentos2[dayISO] || []), result];
+        this.snackBar.open('Agendamento salvo com sucesso!', '', { duration: 5000 });
       } else {
         // Exibe uma mensagem de erro
         this.snackBar.open('O agendamento não pode ser salvo. Existe um conflito de horário.', 'Fechar', {
@@ -256,6 +243,12 @@ openAgendamentoModal(day: DateTime, agendamento?: any): void {
     }
   });
 }
+
+  // Novo método para escutar o evento de edição
+  onEditAgendamento(agendamento: Agendamento): void {
+    this.openAgendamentoModal(null, agendamento);
+  }
+
 
 
 onSubmit() {

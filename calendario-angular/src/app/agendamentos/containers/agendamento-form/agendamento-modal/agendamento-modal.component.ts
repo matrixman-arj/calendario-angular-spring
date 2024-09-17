@@ -23,8 +23,6 @@ export class AgendamentoModalComponent implements OnInit {
 
   form: UntypedFormGroup;
 
-  isSubmitting = false; // Adicione uma variável para controlar o estado de submissão
-
   @Output() add = new EventEmitter(false);
 
   pessoas: Pessoa [] = [];
@@ -86,7 +84,7 @@ export class AgendamentoModalComponent implements OnInit {
       data: agendamento.data || '', // Usa a data passada no modal
       horaInicio: agendamento.horaInicio || '',
       horaFim: agendamento.horaFim || '',
-      pessoa: agendamento.pessoa || null,
+      pessoa: {_id: this.form.value.pessoa._id},
       assessoria: agendamento.assessoria || null,// Ajustado para lidar com o ID da assessoria
       acessorios: agendamento.acessorios || '',
       audiencia: agendamento.audiencia || '',
@@ -162,13 +160,11 @@ export class AgendamentoModalComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.form.valid && !this.isSubmitting) {
-
-      this.isSubmitting = true; // Defina o estado de submissão
+    if (this.form.valid) {
 
     const agendamento = {
       ...this.form.value,
-      pessoa: { _id: this.form.value.pessoa.id }, // Certifique que estamos enviando o _id correto
+      //pessoa: {_id: this.form.value.pessoa._id} , // Ajustando o formato da pessoa
       assessoria: { _id: this.form.value.assessoria }, // Ajustando o formato da assessoria
       acessorios: this.form.value.acessorios.map((a: any) => a) // Certificando que acessorios estão em formato correto
     };
@@ -176,16 +172,7 @@ export class AgendamentoModalComponent implements OnInit {
     this.dialogRef.close(agendamento);
 
     this.agendamentosService.save(agendamento)
-    .subscribe(
-      result => {
-        this.onSuccess();
-        this.isSubmitting = false; // Defina o estado de submissão
-      },
-        error => {
-          this.onError();
-          this.isSubmitting = false; // Defina o estado de submissão
-      }
-    );
+    .subscribe(result => this.onSuccess(), error => this.onError());
   }
   }
   onAdd(){

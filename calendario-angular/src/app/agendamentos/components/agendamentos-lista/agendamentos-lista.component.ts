@@ -14,7 +14,7 @@ export class AgendamentosListaComponent implements OnInit {
 
   @Input() agendamentos: Agendamento[] = [];
   @Output() add = new EventEmitter(false);
-  @Output() edit = new EventEmitter(false);
+  @Output() edit = new EventEmitter<Agendamento>(); // Mudança aqui para passar o agendamento
   @Output() delete = new EventEmitter(false);
 
   readonly displayedColumns = ['data','horaInicio', 'horaFim', 'pessoa', 'assessoria', 'acoes'];
@@ -29,6 +29,8 @@ export class AgendamentosListaComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.dataSource.data = this.agendamentos;
+
     this.http.get<Agendamento[]>('/api/agendamentos').subscribe(data => {
       this.dataSource.data = data;
     });
@@ -41,7 +43,7 @@ export class AgendamentosListaComponent implements OnInit {
   }
 
   onEdit(agendamento: Agendamento ){
-    this.edit.emit(agendamento);
+    this.edit.emit(agendamento);// Emite o agendamento para o componente pai
   }
 
   onDelete(agendamento: Agendamento) {
