@@ -12,7 +12,6 @@ import { Assessoria } from '../model/assessoria';
 export class AssessoriasService {
 
   private readonly API = 'api/assessorias';
-  private readonly APIFILHA = '/api/assessorias/filhas/${assessoriaPai._id}';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -25,14 +24,18 @@ export class AssessoriasService {
     );
   }
 
-  listFilha(): Observable<Assessoria[]> {
-    return this.httpClient.get<Assessoria[]>(this.APIFILHA)
-    .pipe(
-      first(),
-      //delay(5000),
-      //tap(assessorias => console.log(assessorias))
-    );
+  listFilha(id: string): Observable<Assessoria[]> {
+    return this.httpClient.get<Assessoria[]>(`${this.API}/${id}`);
   }
+
+  // listFilha(): Observable<Assessoria[]> {
+  //   return this.httpClient.get<Assessoria[]>(this.APIFILHA)
+  //   .pipe(
+  //     first(),
+  //     //delay(5000),
+  //     //tap(assessorias => console.log(assessorias))
+  //   );
+  // }
 
   loadById(id: string){
     return this.httpClient.get<Assessoria>(`${this.API}/${id}`);

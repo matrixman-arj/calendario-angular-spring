@@ -47,31 +47,34 @@ export class AssessoriaFormComponent implements OnInit {
     });
   }
 
+  ngOnInit(): void {
+    const assessoria: Assessoria = this.route.snapshot.data['assessoria'];
 
+    // Inicializar os controles com patchValue
+    this.form.patchValue({
+      _id: assessoria._id,
+      descricao: assessoria.descricao,
+      sigla: assessoria.sigla,
+      assessoriaPai: null, // Inicializar como null
+      ordem: assessoria.ordem,
+      interna: assessoria.interna
+    });
 
-    ngOnInit(): void {
-      const assessoria: Assessoria = this.route.snapshot.data['assessoria'];
-      this.form.setValue({
-        _id: assessoria._id,
-        descricao: assessoria.descricao,
-        sigla: assessoria.sigla,
-        assessoriaPai: assessoria.assessoriaPai,
-        ordem: assessoria.ordem,
-        interna: assessoria.interna
+    // Carregar a lista de assessorias e atualizar o valor do assessoriaPai
+    this.service.list().subscribe(data => {
+      this.assessorias = data;
 
+      // Atualizar o assessoriaPai após carregar a lista
+      this.form.patchValue({
+        assessoriaPai: this.assessorias.find(a => a._id === assessoria.assessoriaPai?._id) || null
       });
+    });
 
-      this.service.list().subscribe(data => {
-        this.assessorias = data;
-      });
-
-      this.service.listFilha().subscribe(data => {
+    if (assessoria.assessoriaPai && assessoria.assessoriaPai._id) {
+      this.service.listFilha(assessoria.assessoriaPai._id).subscribe(data => {
         this.assessoriasFilhas = data;
       });
-
-
-
-
+    }
   }
 
    // Método para filtrar as assessorias filhas com base na assessoria selecionada
