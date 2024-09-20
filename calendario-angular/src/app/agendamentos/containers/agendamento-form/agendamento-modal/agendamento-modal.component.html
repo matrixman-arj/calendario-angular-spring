@@ -14,7 +14,7 @@
     <mat-form-field>
       <mat-label>Solicitante</mat-label>
       <mat-select formControlName="pessoa">
-        <mat-option *ngFor="let pessoa of pessoas" [value]="pessoa">
+        <mat-option *ngFor="let pessoa of pessoas" [value]="pessoa._id">
           {{ pessoa.postoGraduacao}} - {{ pessoa.nomeGuerra }}
         </mat-option>
       </mat-select>

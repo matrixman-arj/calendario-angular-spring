@@ -16,6 +16,7 @@ import { AgendamentoModalComponent } from './agendamento-modal/agendamento-modal
 import { Meetings } from './meetings.interface';
 import { DateTime, Info, Interval } from 'luxon';
 import { Agendamento } from '../../modelo/Agendamento';
+import { AgendamentoModalService } from '../../../agendamento-modal.service';
 
 @Component({
   selector: 'app-agendamento-form',
@@ -24,6 +25,7 @@ import { Agendamento } from '../../modelo/Agendamento';
 })
 export class AgendamentoFormComponent implements OnInit {
 
+  // @Input() agendamentos: Agendamento[] = [];
   @Input() agendamentos2: { [key: string]: Agendamento[] } = {}; // Inicializa com um objeto vazio
   @Output() editAgendamento = new EventEmitter<Agendamento>();
 
@@ -115,7 +117,6 @@ export class AgendamentoFormComponent implements OnInit {
     // Verificar e depurar se os agendamentos estão sendo encontrados
     const agendamentos = this.agendamentos2[dayISO] || [];
     // console.log(`Agendamentos para ${dayISO}:`, agendamentos);
-
     return agendamentos.map(agendamento => {
       const horaInicio = agendamento.horaInicio ? DateTime.fromISO(agendamento.horaInicio).toFormat('HH:mm') : 'N/A';
       const horaFim = agendamento.horaFim ? DateTime.fromISO(agendamento.horaFim).toFormat('HH:mm') : 'N/A';
@@ -160,6 +161,7 @@ export class AgendamentoFormComponent implements OnInit {
   constructor( private http: HttpClient,
     private formBuilder: UntypedFormBuilder,
     private service: AgendamentosService,
+    private agendamentoModalService: AgendamentoModalService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private location: Location,
@@ -207,48 +209,137 @@ mapAgendamentosPorData(agendamentos2: Agendamento[]): { [key: string]: Agendamen
 }
 
 
+// openAgendamentoModal(day: DateTime, agendamento?: Agendamento): void {
+//   // Configura a hora para o início do dia
+//   const dateOnly = day.startOf('day');
+//   const dayISO = dateOnly.toISODate();
+
+//   if (dayISO === null) {
+//     // Caso `toISODate()` retorne null, trate o erro ou retorne da função
+//     console.error('Data inválida');
+//     return;
+//   }
+
+//   // Cria um objeto que inclui a data e o agendamento (se houver)
+//   const dataToPass = {
+//     date: dateOnly,
+//     agendamento: agendamento || null // Passa o agendamento se existir, ou null se for novo
+//   };
+
+//   const dialogRef = this.dialog.open(AgendamentoModalComponent, {
+//     width: '600px',
+//     data: dataToPass // Passa a data e o agendamento para o modal
+//   });
+
+//   dialogRef.afterClosed().subscribe(result => {
+//     if (result) {
+//       if (this.isAgendamentoValido(result, day)) {
+//         // Atualiza `agendamentos2` usando a data ISO válida
+//         this.agendamentos2[dayISO] = [...(this.agendamentos2[dayISO] || []), result];
+//         this.snackBar.open('Agendamento salvo com sucesso!', '', { duration: 5000 });
+//       } else {
+//         // Exibe uma mensagem de erro
+//         this.snackBar.open('O agendamento não pode ser salvo. Existe um conflito de horário.', 'Fechar', {
+//           duration: 5000
+//         });
+//       }
+//     }
+//   });
+// }
+
+// Método para criar um novo agendamento
+// openAgendamentoModal(day: DateTime | null, agendamento?: Agendamento): void {
+//   const dialogRef = this.agendamentoModalService.openAgendamentoModal(day, agendamento);
+
+//   dialogRef.afterClosed().subscribe(result => {
+//     if (result) {
+//       const dayISO = day ? day.toISODate() : DateTime.fromISO(result.data).toISODate();
+//       if (dayISO) {
+//         // Atualizar os agendamentos após criação ou edição
+//         this.agendamentos2[dayISO] = [...(this.agendamentos2[dayISO] || []), result];
+//         this.snackBar.open('Agendamento salvo com sucesso!', '', { duration: 5000 });
+//       }
+//     }
+//   });
+// }
+
+// openAgendamentoModal(day: DateTime | null, agendamento?: Agendamento): void {
+//   const dialogRef = this.agendamentoModalService.openAgendamentoModal(day, agendamento);
+
+//   dialogRef.afterClosed().subscribe(result => {
+//       if (result) {
+//           // Se o agendamento possui um _id, atualize o existente
+//           const dayISO = day ? day.toISODate() : DateTime.fromISO(result.data).toISODate();
+
+//           if (dayISO) { // Verifique se dayISO não é nulo
+//               if (result._id) {
+//                   // Atualiza o agendamento existente
+//                   this.agendamentos2[dayISO] = this.agendamentos2[dayISO].map(ag => ag._id === result._id ? result : ag);
+//               } else {
+//                   // Adiciona como novo agendamento
+//                   this.agendamentos2[dayISO] = [...(this.agendamentos2[dayISO] || []), result];
+//               }
+//               this.snackBar.open('Agendamento salvo com sucesso!', '', { duration: 5000 });
+//           }
+//       }
+//   });
+// }
+
+
 openAgendamentoModal(day: DateTime | null, agendamento?: Agendamento): void {
-  // Se `day` for nulo, use a data do agendamento; caso contrário, use a data atual
-  const dateOnly = day ? day.startOf('day') : DateTime.fromISO(agendamento?.data ?? DateTime.local().toISODate());
-
-  // Verificar se `agendamento` existe
-  if (!agendamento) {
-    console.error('Agendamento indefinido ou inválido');
-    return;
-  }
-
-  const dataToPass = {
-    date: dateOnly,
-    agendamento: agendamento // Passa o agendamento para edição
-  };
-
-  const dialogRef = this.dialog.open(AgendamentoModalComponent, {
-    width: '600px',
-    data: dataToPass // Passa a data e o agendamento para o modal
-  });
+  const dialogRef = this.agendamentoModalService.openAgendamentoModal(day, agendamento);
 
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
-      const dayISO = dateOnly.toISODate();
-      if (dayISO && this.isAgendamentoValido(result, dateOnly)) {
-        // Salva ou atualiza o agendamento
-        this.agendamentos2[dayISO] = [...(this.agendamentos2[dayISO] || []), result];
+      const dayISO = day ? day.toISODate() : DateTime.fromISO(result.data).toISODate();
+
+      if (dayISO) {
+        if (result._id) {
+          // Atualiza o agendamento existente
+          this.agendamentos2[dayISO] = this.agendamentos2[dayISO].map(ag =>
+            ag._id === result._id ? result : ag
+          );
+        } else {
+          // Adiciona como um novo agendamento
+          this.agendamentos2[dayISO] = [...(this.agendamentos2[dayISO] || []), result];
+        }
         this.snackBar.open('Agendamento salvo com sucesso!', '', { duration: 5000 });
-      } else {
-        // Exibe uma mensagem de erro
-        this.snackBar.open('O agendamento não pode ser salvo. Existe um conflito de horário.', 'Fechar', {
-          duration: 5000
-        });
       }
     }
   });
 }
 
-  // Novo método para escutar o evento de edição
-  onEditAgendamento(agendamento: Agendamento): void {
-    this.openAgendamentoModal(null, agendamento);
-  }
 
+
+
+
+// Novo método para escutar o evento de edição
+onEditAgendamento(agendamento: Agendamento): void {
+  const dialogRef = this.agendamentoModalService.openAgendamentoModal(null, agendamento);
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      const dayISO = DateTime.fromISO(result.data).toISODate();
+      if (dayISO) {
+        // Atualizar os agendamentos após edição
+        this.agendamentos2[dayISO] = [...(this.agendamentos2[dayISO] || []), result];
+        this.snackBar.open('Agendamento salvo com sucesso!', '', { duration: 5000 });
+      }
+    }
+  });
+}
+
+
+
+// onEditAgendamento( agendamento: Agendamento): void {
+//   const dialogRef = this.agendamentoModalService.openAgendamentoModal(null, agendamento);
+
+//   dialogRef.afterClosed().subscribe(result => {
+//     if (result) {
+//       // Atualizar os agendamentos após edição
+//     }
+//   });
+// }
 
 
 onSubmit() {

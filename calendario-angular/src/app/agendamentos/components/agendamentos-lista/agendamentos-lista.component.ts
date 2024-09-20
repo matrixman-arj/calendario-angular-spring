@@ -3,6 +3,7 @@ import { Agendamento } from '../../modelo/Agendamento';
 
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
+import { DateTime } from 'luxon';
 
 
 @Component({
@@ -11,6 +12,8 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './agendamentos-lista.component.scss'
 })
 export class AgendamentosListaComponent implements OnInit {
+
+  diaAtivo: DateTime | null = null; // Defina a propriedade diaAtivo aqui
 
   @Input() agendamentos: Agendamento[] = [];
   @Output() add = new EventEmitter(false);

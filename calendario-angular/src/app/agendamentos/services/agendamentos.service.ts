@@ -25,7 +25,7 @@ export class AgendamentosService {
     return this.httpClient.get<Agendamento>(`${this.API}/${id}`);
    }
 
-  save(record: Partial<Agendamento>) {
+   save(record: Partial<Agendamento>) {
     //console.log(record);
     if (record._id) {
      // console.log('update');
