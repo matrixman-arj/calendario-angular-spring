@@ -1,19 +1,20 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
+import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Pessoa } from '../../../../pessoas/model/pessoa';
 import { Assessoria } from '../../../../assessorias/model/assessoria';
 import { AssessoriasService } from '../../../../assessorias/services/assessorias.service';
 import { PessoasService } from '../../../../pessoas/services/pessoas.service';
-import { Acessorios, AcessoriosList } from '../../../../enums/Acessorios/Acessorios';
-import { Agendamento } from '../../../modelo/Agendamento';
+import { AcessoriosList } from '../../../../enums/Acessorios/Acessorios';
+
 import { ActivatedRoute } from '@angular/router';
 import { AgendamentosService } from '../../../services/agendamentos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ErrorDialogComponent } from '../../../../shared/components/error-dialog/error-dialog.component';
 import { Location } from '@angular/common';
 import { DateTime } from 'luxon';
-import { HttpClient } from '@angular/common/http';
+import { Agendamento } from '../../../modelo/Agendamento';
+
 
 @Component({
   selector: 'app-agendamento-modal',
@@ -24,6 +25,8 @@ export class AgendamentoModalComponent implements OnInit {
 
   form: UntypedFormGroup;
 
+  isSubmitting = false; // Adicione uma variável para controlar o estado de submissão
+
   @Output() add = new EventEmitter(false);
 
   pessoas: Pessoa [] = [];
@@ -31,6 +34,7 @@ export class AgendamentoModalComponent implements OnInit {
 
   acessorios = AcessoriosList; // Lista de acessórios
   allSelected: boolean = false; // Flag para verificar se todos estão selecionados
+  dateHoje: any;
 
 
   constructor(
@@ -43,25 +47,26 @@ export class AgendamentoModalComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     public dialogRef: MatDialogRef<AgendamentoModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: { agendamento: Agendamento, date: Date }
   ) {
     this.form = this.formBuilder.group({
-      _id: [],
-      data: [data.date], // Certifique-se de que está capturando uma data válida
+      _id: [''],
+      data: [this.dateHoje], // Certifique-se de que está capturando uma data válida
       horaInicio: ['', Validators.required], // Deve capturar uma string de hora
       horaFim: ['', Validators.required], // Deve capturar uma string de hora
-      pessoa: [null, Validators.required], // Captura o ID da pessoa
+      pessoa: [null], // Captura o ID da pessoa
       assessoria: [null], // Captura o ID da assessoria
       acessorios: [[]], // Captura uma lista de acessórios
-      audiencia: ['', Validators.required],
-      evento: ['', Validators.required],
-      diex: ['', Validators.required],
-      militarLigacao: ['', Validators.required]
+      audiencia: [null, Validators.required],
+      evento: [null, Validators.required],
+      diex: [null, Validators.required],
+      militarLigacao: [null, Validators.required]
     });
 
 
     this.assessoriasService.list().subscribe((data: any[]) => {
       this.assessorias = data;
+      console.log(data)
      });
 
      this.pessoasService.list().subscribe((data: any[]) => {
@@ -69,84 +74,90 @@ export class AgendamentoModalComponent implements OnInit {
      });
   }
 
+  comparePessoa(p1: Pessoa, p2: Pessoa): boolean {
+    return p1 && p2 ? p1._id === p2._id : p1 === p2;
+  }
+
+
   ngOnInit(): void {
+    // Verifique se o agendamento foi passado
+  const agendamento: Agendamento | undefined = this.data.agendamento;
 
-    //Aqui recebe o formulario que chamado agendamento
-    const agendamento = { ...this.form.value };
-
-    //Desse formulário, pegamos o valor do campo data e transformamos em dia/mês/ano
-    agendamento.data = DateTime.fromISO(agendamento.data).toFormat('yyyy-MM-dd');
-    console.log(agendamento.data)
-
-
-    if (this.data.agendamento) {
-      // Preenche o formulário com os dados do agendamento
-      this.form.patchValue({
-        _id: this.data.agendamento._id || '',
-        data: this.data.agendamento.data || '',
-        horaInicio: this.data.agendamento.horaInicio || '',
-        horaFim: this.data.agendamento.horaFim || '',
-        pessoa: this.data.agendamento.pessoa?._id || null,
-        assessoria: this.data.agendamento.assessoria?._id || null,
-        acessorios: this.data.agendamento.acessorios || '',
-        audiencia: this.data.agendamento.audiencia || '',
-        evento: this.data.agendamento.evento || '',
-        diex: this.data.agendamento.diex || '',
-        militarLigacao: this.data.agendamento.militarLigacao || '',
-      });
+  if (agendamento) {
+    // Se for edição, preencha o formulário com os dados do agendamento
+    this.form.patchValue({
+      _id: agendamento._id || '',
+      data: agendamento.data || '',
+      horaInicio: agendamento.horaInicio || '',
+      horaFim: agendamento.horaFim || '',
+      pessoa: agendamento.pessoa ? agendamento.pessoa._id : '', // Preencha com o ID da pessoa
+      assessoria: agendamento.assessoria ? agendamento.assessoria._id : '', // Preencha com o ID da assessoria
+      acessorios: agendamento.acessorios || [],
+      audiencia: agendamento.audiencia || '',
+      evento: agendamento.evento || '',
+      diex: agendamento.diex || '',
+      militarLigacao: agendamento.militarLigacao || ''
+    });
     } else {
-    // Caso seja um novo agendamento
-    this.form.setValue({
-      _id: '',
-      data: '', // Usa apenas a data passada no modal
-      horaInicio: '',
-      horaFim: '',
-      assessoria: '',
-      pessoa: '',
-      acessorios: '',
-      audiencia: '',
-      evento: '',
-      diex: '',
-      militarLigacao: '',
+      // Valores padrão se não houver agendamento existente
+      this.form.setValue({
+        _id: '',
+        data: this.data.date || '',
+        horaInicio: '',
+        horaFim: '',
+        pessoa: '',
+        assessoria: '',
+        acessorios: '',
+        audiencia: '',
+        evento: '',
+        diex: '',
+        militarLigacao: ''
+      });
+
+       // Log para verificar se o ID está sendo passado
+  console.log('Agendamento recebido no modal:', agendamento);
+    }
+
+    // Escuta mudanças no campo "pessoa"
+    this.form.get('pessoa')?.valueChanges.subscribe((selectedPessoa: Pessoa) => {
+      if (selectedPessoa && selectedPessoa.assessoria && selectedPessoa.assessoria._id) {
+        // Atualiza o campo "assessoria" com a assessoria da pessoa selecionada
+        this.form.patchValue({ assessoria: selectedPessoa.assessoria._id });
+      }
     });
   }
 
-   // Escuta mudanças no campo "pessoa"
-   this.form.get('pessoa')?.valueChanges.subscribe((selectedPessoa: Pessoa) => {
-    if (selectedPessoa && selectedPessoa.assessoria && selectedPessoa.assessoria._id) {
-        // Atualiza o campo "assessoria" com a assessoria da pessoa selecionada
-        this.form.patchValue({ assessoria: selectedPessoa.assessoria._id });
-    }
-});
+  // Escutar mudanças no campo 'pessoa'
+onPessoaChange(pessoaId: string): void {
+  // Encontre a pessoa selecionada a partir da lista de pessoas
+  const selectedPessoa = this.pessoas.find(pessoa => pessoa._id === pessoaId);
 
-
+  // Se a pessoa tiver uma assessoria associada, atualize o campo 'assessoria'
+  if (selectedPessoa && selectedPessoa.assessoria) {
+    this.form.patchValue({ assessoria: selectedPessoa.assessoria._id });
+  } else {
+    // Se a pessoa não tiver assessoria, deixe o campo vazio ou com algum valor padrão
+    this.form.patchValue({ assessoria: null });
+  }
 }
 
 
-  // Lógica para alternar a seleção de todos os acessórios
-  // toggleAllAcessorios() {
-  //   this.allSelected = !this.allSelected; // Alterna o estado de todos selecionados
 
-  //   if (this.allSelected) {
-  //     // Seleciona todos os valores do enum (como strings)
-  //     this.form.controls['acessorios'].setValue(this.acessorios.map(acessorio => acessorio.viewValue));
-  //   } else {
-  //     // Desseleciona todos os acessórios
-  //     this.form.controls['acessorios'].setValue([]);
-  //   }
-  // }
+// Função para garantir que a data seja formatada corretamente
+formatDate(date: any): string {
+  if (date instanceof DateTime) {
+      // Se for DateTime de Luxon, usar toISODate e tratar caso retorne null
+      return date.toISODate() ?? ''; // Usa uma string vazia se for null
+  } else if (date instanceof Date) {
+      // Se for Date nativo do JavaScript, formata manualmente
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+  }
+  return ''; // Valor padrão se a data estiver indefinida ou em formato desconhecido
+}
 
-
-  // toggleAllAcessorios() {
-  //   this.allSelected = !this.allSelected; // Alterna o estado de todos selecionados
-  //   if (this.allSelected) {
-  //     // Seleciona todos os acessórios
-  //     this.form.controls['acessorios'].setValue([...this.acessorios]);
-  //   } else {
-  //     // Desseleciona todos os acessórios
-  //     this.form.controls['acessorios'].setValue([]);
-  //   }
-  // }
 
 
 
@@ -162,133 +173,50 @@ export class AgendamentoModalComponent implements OnInit {
     this.allSelected = selectedAcessorios.length === this.acessorios.length;
   }
 
+
+
   // onSubmit() {
+  //   this.agendamentosService.save(this.form.value)
+  //   .subscribe(result => this.onSuccess(), error => this.onError());
 
-  //   if (this.form.valid && !this.isSubmitting) {
-  //     this.isSubmitting = true; // Evita múltiplas submissões
-
-  //     const agendamento = {
-  //         ...this.form.value,
-  //         _id: this.form.value._id, // Certifique-se de enviar o _id para identificar o agendamento existente
-  //         pessoa: this.pessoas.find(p => p._id === this.form.value.pessoa), // Envia o objeto completo
-  //         assessoria: { _id: this.form.value.assessoria },
-  //         acessorios: this.form.value.acessorios
-  //     };
-
-  //     this.agendamentosService.save(agendamento).subscribe(
-  //         result => {
-  //             this.dialogRef.close(result);
-  //             this.onSuccess();
-  //         },
-  //         error => {
-  //             this.onError();
-  //             this.isSubmitting = false; // Reseta para false em caso de erro
-  //         }
-  //     );
-  // }
-
-    // if (this.form.valid) {
-
-    //   const agendamento = {
-    //     ...this.form.value,
-    //     pessoa: this.pessoas.find(p => p._id === this.form.value.pessoa), // Envia o objeto completo
-    //     assessoria: { _id: this.form.value.assessoria }, // Ajustando o formato da assessoria
-    //     acessorios: this.form.value.acessorios.map((a: any) => a) // Certificando que acessorios estão em formato correto
-    //   };
-
-    //   this.dialogRef.close(agendamento);
-
-    //   this.agendamentosService.save(agendamento)
-    //   .subscribe(result => this.onSuccess(), error => this.onError());
-    // }
   // }
 
 
-//   onSubmit() {
-//     if (this.form.valid && !this.isSubmitting) {
-//         this.isSubmitting = true;
 
-//         const agendamento = {
-//             ...this.form.value,
-//             data: DateTime.fromISO(this.form.value.data).toISODate(),
-//             pessoa: this.pessoas.find(p => p._id === this.form.value.pessoa),
-//             assessoria: { _id: this.form.value.assessoria },
-//             acessorios: this.form.value.acessorios
-//         };
+  onSubmit(): void {
+    if (this.form.valid && !this.isSubmitting) {
+      this.isSubmitting = true;
 
-//         console.log('Agendamento a ser salvo:', agendamento);
+      const agendamento = {
+        ...this.form.value,
+        _id: this.form.value._id, // Certifique-se de que o ID está sendo enviado corretamente
+        data: this.formatDate(this.form.value.data), // Formata a data corretamente
+        pessoa: { _id: this.form.value.pessoa }, // Certifique-se de que está enviando o _id da pessoa
+        assessoria: { _id: this.form.value.assessoria }, // Certifique-se de que está enviando o _id da assessoria
+        acessorios: this.form.value.acessorios // Acessórios continuam como estão
+      };
 
-//         this.agendamentosService.save(agendamento).subscribe(
-//             result => {
-//                 console.log('Resposta da API:', result);
-//                 this.dialogRef.close(result);
-//                 this.onSuccess();
-//                 this.isSubmitting = false;
-//             },
-//             error => {
-//                 console.error('Erro ao salvar agendamento:', error);
-//                 this.onError();
-//                 this.isSubmitting = false;
-//             }
-//         );
-//     }
-// }
+      this.agendamentosService.save(agendamento).subscribe(
 
-// onSubmit() {
-//   if (this.form.valid) {
-
-//   const agendamento = {
-//     ...this.form.value,
-//     //pessoa: {_id: this.form.value.pessoa._id} , // Ajustando o formato da pessoa
-//     assessoria: { _id: this.form.value.assessoria }, // Ajustando o formato da assessoria
-//     acessorios: this.form.value.acessorios.map((a: any) => a) // Certificando que acessorios estão em formato correto
-//   };
-
-//   this.dialogRef.close(agendamento);
-
-//   this.agendamentosService.save(agendamento)
-//   .subscribe(result => this.onSuccess(), error => this.onError());
-// }
-// }
-
-// onSubmit() {
-//   console.log('1')
-//   if (this.form.valid) {
-//     console.log('2')
-
-//     const agendamento = {
-//       ...this.form.value,
-//       _id: this.form.value._id,  // Mantém o _id se estiver presente (para edições)
-//       assessoria: { _id: this.form.value.assessoria },  // Certifique-se de ajustar o formato de assessoria
-//       acessorios: this.form.value.acessorios.map((a: any) => a),  // Ajusta o formato dos acessórios
-//     };
-//     console.log(agendamento)
-//     this.dialogRef.close(agendamento);  // Retorna o agendamento para o componente pai
-
-//     this.agendamentosService.save(agendamento).subscribe(
-//       result => this.onSuccess(),
-//       error => this.onError()
-//     );
-//   }
-// }
-
-
-onSubmit() {
-    if (this.form.valid) {
-
-    const agendamento = {
-      ...this.form.value,
-      pessoa: {_id: this.form.value.pessoa._id} , // Ajustando o formato da pessoa
-      assessoria: { _id: this.form.value.assessoria }, // Ajustando o formato da assessoria
-      acessorios: this.form.value.acessorios.map((a: any) => a) // Certificando que acessorios estão em formato correto
-    };
-
-    this.dialogRef.close(agendamento);
-
-    this.agendamentosService.save(agendamento)
-    .subscribe(result => this.onSuccess(), error => this.onError());
+        result => {
+          this.snackBar.open('Agendamento salvo com sucesso!', '', { duration: 5000 });
+          this.dialogRef.close(result); // Fecha o modal
+          this.isSubmitting = false;
+          console.log('Dados do formulário antes de salvar:', this.form.value);
+        },
+        error => {
+          this.snackBar.open('Erro ao salvar agendamento!', '', { duration: 5000 });
+          this.isSubmitting = false;
+        }
+      );
+    }
   }
-  }
+
+
+// Função para formatar a data usando Luxon
+// formatDate(date: any): string {
+//   return DateTime.fromISO(date).toFormat('yyyy-MM-dd'); // Usa Luxon para formatar
+// }
 
 
   onAdd(){

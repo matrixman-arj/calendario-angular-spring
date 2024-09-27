@@ -4,26 +4,26 @@ export interface Pessoa {
 
 	_id: string;
 
-  identidade: string;
+	identidade: string;
 
 	users: string;
 
 	tipoAcesso: string;
 
-  nome: string;
+	nome: string;
 
-  nomeGuerra: string;
+	nomeGuerra: string;
 
 	postoGraduacao: string;
 
-  antiguidade: number;
+	antiguidade: number;
 
 	assessoria: Assessoria;
 
 	acesso: string;
 
-  ramal: string;
+	ramal: string;
 
-  caminho: string
+	caminho: string
 
 }

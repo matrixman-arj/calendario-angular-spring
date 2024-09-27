@@ -11,14 +11,22 @@
       <input matInput type="time" formControlName="horaFim">
     </mat-form-field>
 
+    <!-- <mat-form-field *ngFor="let pessoa of pessoas">
+      <mat-label>Solicitante</mat-label>
+      <output matOutput type="text" formControlName="pessoa" [value]="pessoa">
+        {{ pessoa.postoGraduacao}} - {{ pessoa.nomeGuerra }}
+      </output>
+    </mat-form-field> -->
+
     <mat-form-field>
       <mat-label>Solicitante</mat-label>
-      <mat-select formControlName="pessoa">
+      <mat-select formControlName="pessoa" (selectionChange)="onPessoaChange($event.value)">
         <mat-option *ngFor="let pessoa of pessoas" [value]="pessoa._id">
           {{ pessoa.postoGraduacao}} - {{ pessoa.nomeGuerra }}
         </mat-option>
       </mat-select>
     </mat-form-field>
+
 
     <mat-form-field>
       <mat-label>Acessórios</mat-label>

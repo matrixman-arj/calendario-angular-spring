@@ -1,3 +1,5 @@
+import { Assessoria } from "../../assessorias/model/assessoria";
+import { Pessoa } from "../../pessoas/model/pessoa";
 
 
 export interface Agendamento {
@@ -6,8 +8,8 @@ export interface Agendamento {
   data?: string;
   horaInicio?: string;
   horaFim?: string;
-  pessoa?: number;
-  assessoria?: number;
+  pessoa: Pessoa;
+  assessoria:Assessoria;
   acessorios?: string[];
   audiencia?: string;
   evento?: string;
