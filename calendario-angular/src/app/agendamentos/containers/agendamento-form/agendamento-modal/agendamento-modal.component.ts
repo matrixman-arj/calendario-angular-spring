@@ -49,20 +49,34 @@ export class AgendamentoModalComponent implements OnInit {
     public dialogRef: MatDialogRef<AgendamentoModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { agendamento: Agendamento, date: Date }
   ) {
-    this.form = this.formBuilder.group({
-      _id: [''],
-      data: [this.dateHoje], // Certifique-se de que está capturando uma data válida
-      horaInicio: ['', Validators.required], // Deve capturar uma string de hora
-      horaFim: ['', Validators.required], // Deve capturar uma string de hora
-      pessoa: [null], // Captura o ID da pessoa
-      assessoria: [null], // Captura o ID da assessoria
-      acessorios: [[]], // Captura uma lista de acessórios
-      audiencia: [null, Validators.required],
-      evento: [null, Validators.required],
-      diex: [null, Validators.required],
-      militarLigacao: [null, Validators.required]
-    });
-
+    if(this.data.agendamento){
+      this.form = this.formBuilder.group({
+        _id: [''],
+        data: [this.dateHoje], // Certifique-se de que está capturando uma data válida
+        horaInicio: ['', Validators.required], // Deve capturar uma string de hora
+        horaFim: ['', Validators.required], // Deve capturar uma string de hora
+        pessoa: [null], // Captura o ID da pessoa
+        assessoria: [null], // Captura o ID da assessoria
+        acessorios: [[]], // Captura uma lista de acessórios
+        audiencia: [null, Validators.required],
+        evento: [null, Validators.required],
+        diex: [null, Validators.required],
+        militarLigacao: [null, Validators.required]
+      });
+    } else {
+      this.form = this.formBuilder.group({
+        data: [this.dateHoje], // Certifique-se de que está capturando uma data válida
+        horaInicio: ['', Validators.required], // Deve capturar uma string de hora
+        horaFim: ['', Validators.required], // Deve capturar uma string de hora
+        pessoa: [null], // Captura o ID da pessoa
+        assessoria: [null], // Captura o ID da assessoria
+        acessorios: [[]], // Captura uma lista de acessórios
+        audiencia: [null, Validators.required],
+        evento: [null, Validators.required],
+        diex: [null, Validators.required],
+        militarLigacao: [null, Validators.required]
+      });
+    }
 
     this.assessoriasService.list().subscribe((data: any[]) => {
       this.assessorias = data;
@@ -82,26 +96,28 @@ export class AgendamentoModalComponent implements OnInit {
   ngOnInit(): void {
     // Verifique se o agendamento foi passado
   const agendamento: Agendamento | undefined = this.data.agendamento;
-
-  if (agendamento) {
-    // Se for edição, preencha o formulário com os dados do agendamento
-    this.form.patchValue({
-      _id: agendamento._id || '',
-      data: agendamento.data || '',
-      horaInicio: agendamento.horaInicio || '',
-      horaFim: agendamento.horaFim || '',
-      pessoa: agendamento.pessoa ? agendamento.pessoa._id : '', // Preencha com o ID da pessoa
-      assessoria: agendamento.assessoria ? agendamento.assessoria._id : '', // Preencha com o ID da assessoria
-      acessorios: agendamento.acessorios || [],
-      audiencia: agendamento.audiencia || '',
-      evento: agendamento.evento || '',
-      diex: agendamento.diex || '',
-      militarLigacao: agendamento.militarLigacao || ''
-    });
+    // const id = this.data.agendamento._id
+    if (agendamento) {
+      // Se for edição, preencha o formulário com os dados do agendamento
+      this.form.patchValue({
+        _id: agendamento.id || null,
+        data: agendamento.data || '',
+        horaInicio: agendamento.horaInicio || '',
+        horaFim: agendamento.horaFim || '',
+        pessoa: agendamento.pessoa ? agendamento.pessoa._id : '', // Preencha com o ID da pessoa
+        assessoria: agendamento.assessoria ? agendamento.assessoria._id : '', // Preencha com o ID da assessoria
+        acessorios: agendamento.acessorios || [],
+        audiencia: agendamento.audiencia || '',
+        evento: agendamento.evento || '',
+        diex: agendamento.diex || '',
+        militarLigacao: agendamento.militarLigacao || ''
+      });
+      console.log(agendamento)
     } else {
+      console.log(this.dateHoje)
       // Valores padrão se não houver agendamento existente
       this.form.setValue({
-        _id: '',
+        // _id: null,
         data: this.data.date || '',
         horaInicio: '',
         horaFim: '',
@@ -189,12 +205,13 @@ formatDate(date: any): string {
 
       const agendamento = {
         ...this.form.value,
-        _id: this.form.value._id, // Certifique-se de que o ID está sendo enviado corretamente
-        data: this.formatDate(this.form.value.data), // Formata a data corretamente
+        id: this.form.value._id, // Certifique-se de que o ID está sendo enviado corretamente
+        data: this.form.value.data, // Formata a data corretamente
         pessoa: { _id: this.form.value.pessoa }, // Certifique-se de que está enviando o _id da pessoa
         assessoria: { _id: this.form.value.assessoria }, // Certifique-se de que está enviando o _id da assessoria
         acessorios: this.form.value.acessorios // Acessórios continuam como estão
       };
+      console.log(agendamento)
 
       this.agendamentosService.save(agendamento).subscribe(
 
@@ -202,7 +219,8 @@ formatDate(date: any): string {
           this.snackBar.open('Agendamento salvo com sucesso!', '', { duration: 5000 });
           this.dialogRef.close(result); // Fecha o modal
           this.isSubmitting = false;
-          console.log('Dados do formulário antes de salvar:', this.form.value);
+          console.log('Dados do formulário antes de salvar:', agendamento);
+          console.log('data:', this.form.value.data);
         },
         error => {
           this.snackBar.open('Erro ao salvar agendamento!', '', { duration: 5000 });

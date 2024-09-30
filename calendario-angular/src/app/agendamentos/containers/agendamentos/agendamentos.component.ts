@@ -68,8 +68,8 @@ export class AgendamentosComponent implements OnInit{
   //   }
 
   onEdit(agendamento: Agendamento): void {
-    if (agendamento._id) {
-      this.router.navigate(['edit', agendamento._id], { relativeTo: this.route });
+    if (agendamento.id) {
+      this.router.navigate(['edit', agendamento.id], { relativeTo: this.route });
     } else {
       console.error('ID do agendamento está indefinido:', agendamento);
     }
@@ -85,7 +85,7 @@ export class AgendamentosComponent implements OnInit{
     dialogRef.afterClosed().subscribe((result: boolean) => {
 
       if (result){
-        this.agendamentosService.remove(agendamento._id).subscribe(
+        this.agendamentosService.remove(agendamento.id).subscribe(
           () => {
             this.refresh();
             this.snackBar.open('Agendamento removido com sucesso!', 'X', {

@@ -58,43 +58,32 @@ export class AgendamentosListaComponent implements OnInit {
     this.add.emit(true);
   }
 
-  onEdit(agendamento: Agendamento ){
-    console.log(agendamento._id)
-    this.edit.emit(agendamento);// Emite o agendamento para o componente pai
+  // onEdit(agendamento: Agendamento ){
+  //   console.log("Id do agendamento para edição: ", agendamento._id)
+  //   this.edit.emit(agendamento);// Emite o agendamento para o componente pai
 
-    const day = DateTime.local(); // Usa a data atual como DateTime
-    this.openAgendamentoModal(day, agendamento);
-  }
+  //   // Certifica-se de que a data do agendamento está sendo passada corretamente
+  //   const agendamentoData = agendamento.data ? DateTime.fromISO(agendamento.data) : DateTime.local();
 
-  //  Novo método para escutar o evento de edição
-//   onEdit(agendamento: Agendamento): void {
-//     console.log(agendamento.pessoa)
-//     if (agendamento.data) {
-//         const day = DateTime.fromISO(agendamento.data); // Mantém como DateTime
-//         this.openAgendamentoModal(day, agendamento); // Chama o modal com o DateTime e o agendamento
-//     } else {
-//         console.error('A data do agendamento está indefinida.');
-//         // Define um comportamento padrão, como atribuir a data atual
-//         const day = DateTime.local(); // Usa a data atual como DateTime
-//         this.openAgendamentoModal(day, agendamento);
-//     }
-// }
+  //   const day = DateTime.local(); // Usa a data atual como DateTime
+  //   this.openAgendamentoModal(agendamentoData, agendamento);
+  // }
 
-// Função para abrir o modal de edição com os dados do agendamento selecionado
-// onEdit(agendamento: Agendamento): void {
-//   const dialogRef = this.dialog.open(AgendamentoModalComponent, {
-//     width: '600px',
-//     data: { agendamento: agendamento } // Passa o agendamento selecionado como dado
-//   });
+   //Novo método para escutar o evento de edição
+  onEdit(agendamento: Agendamento): void {
+    console.log(agendamento.id)
+    if (agendamento.data) {
+        //const day = DateTime.fromISO(agendamento.data); // Mantém como DateTime
+        const day = DateTime.local(); // Usa a data atual como DateTime
+        this.openAgendamentoModal(day, agendamento); // Chama o modal com o DateTime e o agendamento
 
-//   // Ação após fechar o modal (caso precise atualizar a lista, por exemplo)
-//   dialogRef.afterClosed().subscribe(result => {
-//     if (result) {
-//       // Faça alguma ação, como recarregar a lista de agendamentos
-//       this.refresh();
-//     }
-//   });
-// }
+    } else {
+        console.error('A data do agendamento está indefinida.');
+        // Define um comportamento padrão, como atribuir a data atual
+        const day = DateTime.local(); // Usa a data atual como DateTime
+        this.openAgendamentoModal(day, agendamento);
+    }
+}
 
 refresh(){
   this.agendamentos$ = this.agendamentosService.list()
@@ -105,20 +94,6 @@ refresh(){
     })
   );
 }
-
-
-
-  // onEdit(agendamento: Agendamento): void {
-  //     if (agendamento.data) {
-  //         const day = DateTime.fromISO(agendamento.data).toFormat('yyyy-MM-dd'); // Extrai a data do agendamento
-  //         this.openAgendamentoModal(day, agendamento); // Chama o modal com a data e o agendamento
-  //     } else {
-  //         console.error('A data do agendamento está indefinida.');
-  //         // Aqui você pode definir um comportamento padrão, como atribuir a data atual
-  //         const day = DateTime.local();
-  //         this.openAgendamentoModal(day, agendamento);
-  //     }
-  // }
 
   openAgendamentoModal(day: DateTime, agendamento?: any): void {
     // Configura a hora para o início do dia
@@ -132,7 +107,8 @@ refresh(){
 
     const dialogRef = this.dialog.open(AgendamentoModalComponent, {
       width: '600px',
-      data: dataToPass // Passa a data e o agendamento para o modal
+      data: dataToPass, // Passa a data e o agendamento para o modal
+      id: agendamento.id
     });
 
     dialogRef.afterClosed().subscribe(result => {

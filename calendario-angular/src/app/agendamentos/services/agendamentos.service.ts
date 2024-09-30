@@ -26,13 +26,15 @@ export class AgendamentosService {
    }
 
    save(record: Partial<Agendamento>) {
-    //console.log(record);
-    if (record._id) {
+    console.log(record);
+    if (record.id != null) {
      // console.log('update');
       return this.update(record);
+    } else {
+
+      return this.create(record);
     }
    // console.log('create');
-    return this.create(record);
   }
 
   private create(record: Partial<Agendamento>){
@@ -40,11 +42,11 @@ export class AgendamentosService {
   }
 
   private update(record: Partial<Agendamento>) {
-    return this.httpClient.put<Agendamento>(`${this.API}/${record._id}`, record).pipe(first());
+    return this.httpClient.put<Agendamento>(`${this.API}/${record.id}`, record).pipe(first());
 
   }
 
-  remove(id: string) {
+  remove(id: number) {
     return this.httpClient.delete(`${this.API}/${id}`).pipe(first());
 
   }

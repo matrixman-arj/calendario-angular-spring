@@ -225,9 +225,10 @@ openAgendamentoModal(day: DateTime, agendamento?: any): void {
 
   // Cria um objeto que inclui a data e o agendamento (se houver)
   const dataToPass = {
-    date: dateOnly,
+    date: dateOnly.toISODate(),
     agendamento: agendamento || null // Passa o agendamento se existir, ou null se for novo
   };
+  console.log(dataToPass.date)
 
   const dialogRef = this.dialog.open(AgendamentoModalComponent, {
     width: '600px',
@@ -242,6 +243,7 @@ openAgendamentoModal(day: DateTime, agendamento?: any): void {
         // Aqui você deve adicionar a lógica para salvar o agendamento
 
         this.refreshCalendar();
+        this.refresh();
       } else {
         // Exibe uma mensagem de erro
         this.snackBar.open('O agendamento não pode ser salvo. Existe um conflito de horário.', 'Fechar', {

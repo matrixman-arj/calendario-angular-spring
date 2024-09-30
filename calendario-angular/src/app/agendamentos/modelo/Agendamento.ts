@@ -4,7 +4,7 @@ import { Pessoa } from "../../pessoas/model/pessoa";
 
 export interface Agendamento {
 
-  _id: string;
+  id: number;
   data?: string;
   horaInicio?: string;
   horaFim?: string;
