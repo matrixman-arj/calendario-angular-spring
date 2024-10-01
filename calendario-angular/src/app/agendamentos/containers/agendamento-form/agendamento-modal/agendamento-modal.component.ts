@@ -28,6 +28,7 @@ export class AgendamentoModalComponent implements OnInit {
   isSubmitting = false; // Adicione uma variável para controlar o estado de submissão
 
   @Output() add = new EventEmitter(false);
+  @Output() edit = new EventEmitter(false);
 
   pessoas: Pessoa [] = [];
   assessorias: Assessoria [] = [];
@@ -218,6 +219,7 @@ formatDate(date: any): string {
         result => {
           this.snackBar.open('Agendamento salvo com sucesso!', '', { duration: 5000 });
           this.dialogRef.close(result); // Fecha o modal
+          this.edit.emit(); // Emite um evento para o componente pai
           this.isSubmitting = false;
           console.log('Dados do formulário antes de salvar:', agendamento);
           console.log('data:', this.form.value.data);
@@ -239,6 +241,10 @@ formatDate(date: any): string {
 
   onAdd(){
     this.add.emit(true);
+  }
+
+  onEdit(agendamento: Agendamento ){
+    this.edit.emit(agendamento);
   }
 
   onCancel() {
