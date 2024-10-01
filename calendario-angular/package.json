@@ -23,6 +23,7 @@
     "@syncfusion/ej2-angular-schedule": "^26.2.12",
     "@syncfusion/ej2-material-theme": "^26.2.11",
     "angular-imask": "^7.6.1",
+    "angular-resizable-element": "^7.0.2",
     "bootstrap": "^5.3.3",
     "calendario-angular": "file:",
     "luxon": "^3.5.0",

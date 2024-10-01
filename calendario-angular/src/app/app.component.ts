@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PessoasService } from './pessoas/services/pessoas.service';
+import { ResizeEvent } from 'angular-resizable-element';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,10 @@ import { PessoasService } from './pessoas/services/pessoas.service';
 })
 export class AppComponent {
   title = 'calendario-angular';
+
+  onResizeEnd(event: ResizeEvent): void {
+    console.log('Resize event:', event);
+  }
 
   constructor(
         private pessoaService: PessoasService

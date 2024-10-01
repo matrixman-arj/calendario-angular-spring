@@ -12,6 +12,7 @@ import { PostoPipe } from './shared/pipes/posto.pipe';
 
 import { IMaskModule } from 'angular-imask';
 import { RecurrenceEditorModule, ScheduleModule, DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
+import { ResizableModule } from 'angular-resizable-element';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { RecurrenceEditorModule, ScheduleModule, DayService, WeekService, WorkWe
     HttpClientModule,
     FormsModule,
     ScheduleModule,
-    RecurrenceEditorModule
+    RecurrenceEditorModule,
+    ResizableModule
 
   ],
   providers: [

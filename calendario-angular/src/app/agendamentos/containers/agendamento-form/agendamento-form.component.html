@@ -72,11 +72,22 @@
                 </div>
 
                 <!-- Lista de agendamentos do dia -->
-                <div *ngFor="let agendamento of getAgendamentosForDay(dayOfMonth)">
+                <!-- <div *ngFor="let agendamento of getAgendamentosForDay(dayOfMonth)">
                   <div class="calendar-event">
                     {{ agendamento.horaInicio }} - {{ agendamento.horaFim }} | {{ agendamento.assessoria.sigla }}
                   </div>
+                </div> -->
+
+                <div *ngFor="let agendamento of getAgendamentosForDay(dayOfMonth)"
+                    mwlResizable
+                    (resizeEnd)="onResizeEnd($event, agendamento)"
+                    (resizeEdges)="{ left: true, right: true }">
+                  <div class="calendar-event" (click)="openAgendamentoModal(dayOfMonth, agendamento)">
+                    {{ agendamento.horaInicio }} - {{ agendamento.horaFim }} | {{ agendamento.assessoria.sigla }}
+                  </div>
                 </div>
+
+
               </div>
             }
           </div>

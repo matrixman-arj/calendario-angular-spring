@@ -9,6 +9,7 @@ import { ConfimationDialogComponent } from '../../../shared/components/error-dia
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 import { AgendamentosService } from '../../services/agendamentos.service';
 import { FormBuilder } from '@angular/forms';
+import { ResizeEvent } from 'angular-resizable-element';
 
 @Component({
   selector: 'app-agendamentos',
@@ -17,10 +18,9 @@ import { FormBuilder } from '@angular/forms';
 })
 export class AgendamentosComponent implements OnInit{
 
-  // @Input() diaAtivo: DateTime | null = null; // Defina a propriedade diaAtivo aqui
-  // @Input() agendamentos: { [key: string]: Agendamento[] } = {}; // Inicializa com um objeto vazio
-  // @Output() editAgendamento = new EventEmitter<Agendamento>();
-
+  onResizeEnd(event: ResizeEvent): void {
+    console.log('Resize event:', event);
+  }
 
   agendamentos$!: Observable<Agendamento[]>;
 
@@ -62,11 +62,6 @@ export class AgendamentosComponent implements OnInit{
     this.router.navigate(['new'], {relativeTo: this.route});
   }
 
-  // onEdit(agendamento: Agendamento) {
-  //   this.router.navigate(['edit', agendamento._id], {relativeTo: this.route});
-  //   this.refresh();
-  //   }
-
   onEdit(agendamento: Agendamento): void {
     if (agendamento.id) {
       this.router.navigate(['edit', agendamento.id], { relativeTo: this.route });
@@ -99,124 +94,5 @@ export class AgendamentosComponent implements OnInit{
       }
     });
   }
-
-  // getAgendamentosForDay(day: DateTime): any[] {
-  //   const dayISO = day.toISODate();
-  //   if (!dayISO) {
-  //     return []; // Retorna uma lista vazia se dayISO for null
-  //   }
-
-  //   // Verificar e depurar se os agendamentos estão sendo encontrados
-  //   const agendamentos = this.agendamentos[dayISO] || [];
-  //   // console.log(`Agendamentos para ${dayISO}:`, agendamentos);
-
-  //   return agendamentos.map(agendamento => {
-  //     const horaInicio = agendamento.horaInicio ? DateTime.fromISO(agendamento.horaInicio).toFormat('HH:mm') : 'N/A';
-  //     const horaFim = agendamento.horaFim ? DateTime.fromISO(agendamento.horaFim).toFormat('HH:mm') : 'N/A';
-
-  //     return {
-  //       horaInicio: horaInicio,
-  //       horaFim: horaFim,
-  //       assessoria: agendamento.assessoria
-  //     };
-  //   });
-  // }
-
-  // isAgendamentoValido(agendamento: any, day: DateTime): boolean {
-  //   const agendamentosDoDia = this.getAgendamentosForDay(day);
-  //   const horaInicioNovo = DateTime.fromISO(agendamento.horaInicio);
-  //   const horaFimNovo = DateTime.fromISO(agendamento.horaFim);
-
-  //   for (const ag of agendamentosDoDia) {
-  //     const horaInicioExistente = DateTime.fromISO(ag.horaInicio);
-  //     const horaFimExistente = DateTime.fromISO(ag.horaFim);
-
-  //     // Verifica se o novo agendamento não está dentro do intervalo de um agendamento existente
-  //     if (
-  //       (horaInicioNovo < horaFimExistente && horaInicioNovo >= horaInicioExistente) ||
-  //       (horaFimNovo > horaInicioExistente && horaFimNovo <= horaFimExistente)
-  //     ) {
-  //       return false; // Agendamento inválido
-  //     }
-  //   }
-
-  //   return true; // Agendamento válido
-  // }
-
-  // openAgendamentoModal(day: DateTime | null, agendamento?: Agendamento): void {
-  //   const dialogRef = this.agendamentoModalService.openAgendamentoModal(day, agendamento);
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if (result) {
-  //       const dayISO = day ? day.toISODate() : DateTime.fromISO(result.data).toISODate();
-
-  //       if (dayISO) {
-  //         if (result._id) {
-  //           // Atualiza o agendamento existente
-  //           this.agendamentos[dayISO] = this.agendamentos[dayISO].map(ag =>
-  //             ag._id === result._id ? result : ag
-  //           );
-  //         } else {
-  //           // Adiciona como um novo agendamento
-  //           this.agendamentos[dayISO] = [...(this.agendamentos[dayISO] || []), result];
-  //         }
-  //         this.snackBar.open('Agendamento salvo com sucesso!', '', { duration: 5000 });
-  //       }
-  //     }
-  //   });
-  // }
-
-
-//   openAgendamentoModal(day: DateTime | null, agendamento?: Agendamento): void {
-//     const dialogRef = this.agendamentoModalService.openAgendamentoModal(day, agendamento);
-
-//     dialogRef.afterClosed().subscribe(result => {
-//         if (result) {
-//             const dayISO = day ? day.toISODate() : DateTime.fromISO(result.data).toISODate();
-
-//             if (dayISO) {
-//                 if (result._id) {
-//                     // Atualiza o agendamento existente
-//                     this.agendamentos[dayISO] = this.agendamentos[dayISO].map(ag =>
-//                         ag._id === result._id ? result : ag
-//                     );
-//                 } else {
-//                     // Adiciona como novo agendamento
-//                     this.agendamentos[dayISO] = [...(this.agendamentos[dayISO] || []), result];
-//                 }
-//                 this.snackBar.open('Agendamento salvo com sucesso!', '', { duration: 5000 });
-//             }
-//         }
-//     });
-// }
-
-
-
-  // Modifique o método para aceitar apenas o agendamento
-  // onEditAgendamento(agendamento: Agendamento): void {
-  //   if (agendamento.data) {
-  //       const day = DateTime.fromISO(agendamento.data); // Extrai a data do agendamento
-  //       this.openAgendamentoModal(day, agendamento); // Chama o modal com a data e o agendamento
-  //   } else {
-  //       console.error('A data do agendamento está indefinida.');
-  //       // Aqui você pode definir um comportamento padrão, como atribuir a data atual
-  //       const day = DateTime.local();
-  //       this.openAgendamentoModal(day, agendamento);
-  //   }
-
-
-
-
-
-  // Novo método para escutar o evento de edição
-  // onEditAgendamento(diaAtivo: DateTime | null, agendamento: Agendamento): void {
-  //   const dialogRef = this.agendamentoModalService.openAgendamentoModal(null, agendamento);
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result) {
-    //     // Atualizar os agendamentos após edição
-    //   }
-    // });
-  // }
 }
 

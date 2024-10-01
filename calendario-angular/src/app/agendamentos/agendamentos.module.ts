@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { AgendamentosComponent } from './containers/agendamentos/agendamentos.component';
 import { AgendamentoModalComponent } from './containers/agendamento-form/agendamento-modal/agendamento-modal.component';
+import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 
 
 
@@ -32,6 +33,13 @@ import { AgendamentoModalComponent } from './containers/agendamento-form/agendam
     MatCardModule, // Certifique-se de importar o MatCardModule
     ReactiveFormsModule,
     MatInputModule, // Outros módulos do Angular Material que você esteja usando
+    ResizableModule
   ]
 })
-export class AgendamentosModule { }
+export class AgendamentosModule {
+
+  onResizeEnd(event: ResizeEvent): void {
+    console.log('Resize event:', event);
+  }
+
+ }
