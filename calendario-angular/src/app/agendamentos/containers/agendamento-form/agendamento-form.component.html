@@ -1,5 +1,7 @@
 
 <mat-card>
+
+
   <mat-toolbar color="primary">Agendamentos do mês</mat-toolbar>
 
     <mat-card-content>
@@ -37,15 +39,16 @@
 
             <div class="calendar-headline-controls">
               <div class="calendar-headline-control" (click)="goToPreviousMonth()">
-                «
+                <button mat-button (click)="previousMonth()">« Anterior </button>
               </div>
               <div
                 class="calendar-headline-control calendar-headline-control-today"
                 (click)="goToToday()"
+
               >
                 Mês
               </div>
-              <div class="calendar-headline-control" (click)="goToNextMonth()">»</div>
+              <div class="calendar-headline-control" (click)="goToNextMonth()"><button mat-button (click)="nextMonth()"> Próximo »</button></div>
             </div>
           </div>
 
@@ -71,13 +74,6 @@
                   {{ dayOfMonth.day }}
                 </div>
 
-                <!-- Lista de agendamentos do dia -->
-                <!-- <div *ngFor="let agendamento of getAgendamentosForDay(dayOfMonth)">
-                  <div class="calendar-event">
-                    {{ agendamento.horaInicio }} - {{ agendamento.horaFim }} | {{ agendamento.assessoria.sigla }}
-                  </div>
-                </div> -->
-
                 <div *ngFor="let agendamento of getAgendamentosForDay(dayOfMonth)"
                     mwlResizable
                     (resizeEnd)="onResizeEnd($event, agendamento)"
@@ -97,5 +93,4 @@
       </div>
 
     </mat-card-content>
-
 </mat-card>

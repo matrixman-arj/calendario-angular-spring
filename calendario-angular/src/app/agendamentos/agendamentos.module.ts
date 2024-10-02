@@ -12,7 +12,8 @@ import { MatInputModule } from '@angular/material/input';
 import { AgendamentosComponent } from './containers/agendamentos/agendamentos.component';
 import { AgendamentoModalComponent } from './containers/agendamento-form/agendamento-modal/agendamento-modal.component';
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
-
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
 
 
 @NgModule({
@@ -33,7 +34,11 @@ import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
     MatCardModule, // Certifique-se de importar o MatCardModule
     ReactiveFormsModule,
     MatInputModule, // Outros módulos do Angular Material que você esteja usando
-    ResizableModule
+    ResizableModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ]
 })
 export class AgendamentosModule {
