@@ -19,6 +19,7 @@ import { Agendamento } from '../../modelo/Agendamento';
 import { catchError, Observable, of } from 'rxjs';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 import { ResizeEvent } from 'angular-resizable-element';
+import { CalendarEvent } from 'angular-calendar';
 
 
 @Component({
@@ -27,6 +28,9 @@ import { ResizeEvent } from 'angular-resizable-element';
   styleUrl: './agendamento-form.component.scss'
 })
 export class AgendamentoFormComponent implements OnInit {
+
+  viewDate: Date = new Date();
+  events: CalendarEvent[] = [];
 
   agendamentos$!: Observable<Agendamento[]>;
 
@@ -39,8 +43,9 @@ export class AgendamentoFormComponent implements OnInit {
   );
 
   diaAtivo: WritableSignal<DateTime | null> = signal(null);
-  diasDaSemana: Signal<string[]> = signal(['dom.', ...Info.weekdays('short').slice(0, 6)]);
-  // diasDaSemana: Signal<string[]> = signal(Info.weekdays('short'));
+  diasDaSemana: Signal<string[]> = signal(['Domingo', 'Segunda', 'terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']);
+  // diasDaSemana: Signal<string[]> = signal(['domingo', ...Info.weekdays('short').slice(0, 6)]);
+
 
   daysOfMonth: Signal<DateTime[]> = computed(() => {
     // Define o primeiro e o último dia do mês atual
@@ -107,9 +112,27 @@ export class AgendamentoFormComponent implements OnInit {
     );
   }
 
-  goToToday(): void {
-    this.primeiroDiaDoMesAtivo.set(this.hoje().startOf('month'));
+  // goToToday(): void {
+  //   this.primeiroDiaDoMesAtivo.set(this.hoje().startOf('month'));
+  // }
+
+
+  goToToday() {
+    this.viewDate = new Date();
   }
+
+  previousMonth() {
+    const prevMonth = new Date(this.viewDate);
+    prevMonth.setMonth(prevMonth.getMonth() - 1);
+    this.viewDate = prevMonth;
+  }
+
+  nextMonth() {
+    const nextMonth = new Date(this.viewDate);
+    nextMonth.setMonth(nextMonth.getMonth() + 1);
+    this.viewDate = nextMonth;
+  }
+
 
   getAgendamentosForDay(day: DateTime): any[] {
     const dayISO = day.toISODate();
@@ -214,41 +237,6 @@ mapAgendamentosPorData(agendamentos2: Agendamento[]): { [key: string]: Agendamen
   return agendamentosMap;
 }
 
-// openAgendamentoModal(day: DateTime, agendamento?: Agendamento): void {
-//   const dateOnly = day.startOf('day');
-
-//   const dataToPass = {
-//     date: dateOnly.toISODate(),
-//     agendamento: agendamento || null // Passa o agendamento se existir, ou null se for novo
-//   };
-
-//   const dialogRef = this.dialog.open(AgendamentoModalComponent, {
-//     width: '600px',
-//     data: dataToPass // Passa a data e o agendamento para o modal
-//   });
-
-//   dialogRef.afterClosed().subscribe(result => {
-//     if (result) {
-//       if (this.isAgendamentoValido(result, day)) {
-//         // Salva ou atualiza o agendamento aqui
-//         if (result.id) {
-//           // Atualizar agendamento existente
-//           this.service.save(result).subscribe(() => {
-//             this.refreshCalendar();
-//           });
-//         } else {
-//           // Criar novo agendamento
-//           this.service.save(result).subscribe(() => {
-//             this.refreshCalendar();
-//           });
-//         }
-//       } else {
-//         this.snackBar.open('Conflito de horário!', 'Fechar', { duration: 5000 });
-//       }
-//     }
-//   });
-// }
-
 
 openAgendamentoModal(day: DateTime, agendamento?: Agendamento): void {
   const dataToPass = agendamento
@@ -278,6 +266,44 @@ openAgendamentoModal(day: DateTime, agendamento?: Agendamento): void {
           this.refreshCalendar();
           });
       }
+    }
+  });
+}
+
+addNewEvent(): void {
+  const dialogRef = this.dialog.open(AgendamentoModalComponent, {
+    width: '400px',
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result) {
+      this.events = [
+        ...this.events,
+        {
+          title: result.title,
+          start: result.start,
+          end: result.end,
+          color: {
+            primary: '#ad2121',
+            secondary: '#FAE3E3',
+          },
+        },
+      ];
+    }
+  });
+}
+
+handleEvent(event: CalendarEvent): void {
+  const dialogRef = this.dialog.open(AgendamentoModalComponent, {
+    width: '400px',
+    data: event,
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result) {
+      event.title = result.title;
+      event.start = result.start;
+      event.end = result.end;
     }
   });
 }
@@ -335,5 +361,7 @@ onSubmit() {
 
 
   }
+
+
 
 }
