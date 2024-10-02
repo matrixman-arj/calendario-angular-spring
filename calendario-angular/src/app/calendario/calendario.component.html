@@ -1,0 +1,10 @@
+<div class="calendar-container">
+  <h1>Agendamento de Auditório</h1>
+  <button mat-raised-button color="primary" (click)="addNewEvent()">Agendar Evento</button>
+
+  <mwl-calendar-week-view
+    [viewDate]="viewDate"
+    [events]="events"
+    (eventClicked)="handleEvent($event.event)">
+  </mwl-calendar-week-view>
+</div>
