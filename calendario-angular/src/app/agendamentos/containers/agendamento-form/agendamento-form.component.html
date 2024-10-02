@@ -8,10 +8,10 @@
       <div class="calendar-container">
         <div class="calendar">
           <div class="calendar-headline">
-            <div class="calendar-headline-month">
+            <!-- <div class="calendar-headline-month">
               {{ primeiroDiaDoMesAtivo().monthShort }},
               {{ primeiroDiaDoMesAtivo().year }}
-            </div>
+            </div> -->
 
             <div class="schedule">
               <div class="schedule-headline">
@@ -46,7 +46,10 @@
                 (click)="goToToday()"
 
               >
-                Mês
+              <div class="calendar-headline-month">
+                <!-- {{ primeiroDiaDoMesAtivo().monthShort }}, -->
+                {{ primeiroDiaDoMesAtivo().setLocale('pt-BR').toFormat('LLLL yyyy') }}
+              </div>
               </div>
               <div class="calendar-headline-control" (click)="goToNextMonth()"><button mat-button (click)="nextMonth()"> Próximo »</button></div>
             </div>
