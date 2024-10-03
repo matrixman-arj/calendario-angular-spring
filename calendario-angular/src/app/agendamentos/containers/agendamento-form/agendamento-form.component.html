@@ -1,94 +1,81 @@
-
 <mat-card>
-
-
-  <!-- <mat-toolbar color="primary">Agendamentos do mês</mat-toolbar> -->
-
-    <mat-card-content>
-      <div class="calendar-container">
-        <div class="calendar">
-          <div class="calendar-headline">
-            <!-- <div class="calendar-headline-month">
-              {{ primeiroDiaDoMesAtivo().monthShort }},
-              {{ primeiroDiaDoMesAtivo().year }}
-            </div> -->
-
-            <div class="schedule">
-              <div class="schedule-headline">
-                @if (diaAtivo(); as activeDay) {
-                  <div>{{ activeDay.toLocaleString(DATE_MED) }}</div>
-                } @else {
-                  <div>Selecione uma data</div>
-                }
-              </div>
-              <!-- <div>
-                @if (diaAtivo() && activeDayMeetings().length === 0) {
-                  <div>Sem agendamentos para hoje</div>
-                }
-
-                @if (diaAtivo() && activeDayMeetings().length > 0) {
-                  @for (meeting of activeDayMeetings(); track $index) {
-                    <div>
-                      {{ meeting.horaInicio }} - {{ meeting.horaFim }} | Assessoria: {{ meeting.assessoria }}
-                    </div>
-                  }
-                }
-
-              </div> -->
+  <mat-card-content>
+    <div class="calendar-container">
+      <div class="calendar">
+        <div class="calendar-headline">
+          <div class="schedule">
+            <div class="schedule-headline">
+              <ng-container *ngIf="diaAtivo() as activeDay; else noSelection">
+                <div>{{ activeDay.toLocaleString(DATE_MED) }}</div>
+              </ng-container>
+              <ng-template #noSelection>
+                <div>Selecione uma data</div>
+              </ng-template>
             </div>
+            <div>
+              <ng-container *ngIf="diaAtivo() && activeDayMeetings().length === 0">
+                <div>Sem agendamentos para hoje</div>
+              </ng-container>
 
-            <div class="calendar-headline-controls">
-              <div class="calendar-headline-control" (click)="goToPreviousMonth()">
-                <button mat-button (click)="previousMonth()">«</button>
-              </div>
-
-              <div class="calendar-headline-control calendar-headline-control-today" (click)="goToToday()" style="margin-top: 10px;">
-
-                <!-- <div class="calendar-headline-month">
-                  {{ primeiroDiaDoMesAtivo().monthShort }},
-                </div> -->
-                {{primeiroDiaDoMesAtivo().setLocale('pt-BR').toFormat('LLLL yyyy')}}
-
-              </div>
-
-              <div class="calendar-headline-control" (click)="goToNextMonth()">
-                <button mat-button (click)="nextMonth()">»</button>
-              </div>
+              <ng-container *ngIf="diaAtivo() && activeDayMeetings().length > 0">
+                <div *ngFor="let meeting of activeDayMeetings(); trackBy: trackById">
+                  {{ meeting.horaInicio }} - {{ meeting.horaFim }} | Assessoria: {{ meeting.assessoria }}
+                </div>
+              </ng-container>
             </div>
           </div>
 
+          <div class="calendar-headline-controls">
+            <div class="calendar-headline-control" (click)="goToPreviousMonth()">
+              <button mat-button (click)="previousMonth()">«</button>
+            </div>
 
-          <div class="calendar-weeks-grid">
-            @for (weekDay of diasDaSemana(); track $index) {
-              <div class="calendar-weeks-grid-cell">{{ weekDay }}</div>
-            }
-          </div>
-          <div class="calendar-grid">
-            @for (dayOfMonth of daysOfMonth(); track $index) {
-              <div
-                [ngClass]="{
-                  'calendar-grid-cell': true,
-                  'calendar-grid-cell-active': diaAtivo()?.toISODate() === dayOfMonth.toISODate(),
-                  'calendar-grid-cell-inactive': dayOfMonth.month !== primeiroDiaDoMesAtivo().month,
-                  'calendar-grid-cell-today': dayOfMonth.toISODate() === hoje().toISODate()
-                }"
-                (click)="openAgendamentoModal(dayOfMonth)"
-              >
-                <!-- Contêiner para o número do dia -->
-                <div class="calendar-grid-cell-day-number">
-                  {{ dayOfMonth.day }}
-                </div>
+            <div class="calendar-headline-control calendar-headline-control-today" (click)="goToToday()" style="margin-top: 10px;">
+              {{ primeiroDiaDoMesAtivo().setLocale('pt-BR').toFormat('LLLL yyyy') }}
+            </div>
 
-                <div *ngFor="let agendamento of getAgendamentosForDay(dayOfMonth)" mwlResizable
-                    (resizeEnd)="onResizeEnd($event, agendamento)" (resizeEdges)="{ left: true, right: true }">
-                  <div class="calendar-event" (click)="openAgendamentoModal(dayOfMonth, agendamento)">
-                    {{ agendamento.horaInicio }} - {{ agendamento.horaFim }} | {{ agendamento.assessoria.sigla }}
-                  </div>
-                </div>
-              </div>
-            }
+            <div class="calendar-headline-control" (click)="goToNextMonth()">
+              <button mat-button (click)="nextMonth()">»</button>
+            </div>
           </div>
         </div>
+
+        <div class="calendar-weeks-grid">
+          <!-- Correção no loop para dias da semana -->
+          <div *ngFor="let weekDay of diasDaSemana(); let i = index">
+            <div class="calendar-weeks-grid-cell">{{ weekDay }}</div>
+          </div>
+        </div>
+
+        <div class="calendar-grid">
+          <!-- Renderiza os dias do mês -->
+          <div *ngFor="let dayOfMonth of daysOfMonth(); let i = index"
+               [ngClass]="{
+                 'calendar-grid-cell': true,
+                 'calendar-grid-cell-active': diaAtivo()?.toISODate() === dayOfMonth.toISODate(),
+                 'calendar-grid-cell-inactive': dayOfMonth.month !== primeiroDiaDoMesAtivo().month,
+                 'calendar-grid-cell-today': dayOfMonth.toISODate() === hoje().toISODate()
+               }"
+               (click)="openAgendamentoModal(dayOfMonth)">
+
+            <!-- Contêiner para o número do dia -->
+            <div class="calendar-grid-cell-day-number">
+              {{ dayOfMonth.day }}
+            </div>
+
+            <!-- Exibir agendamentos para o dia -->
+            <div *ngFor="let agendamento of getAgendamentosForDay(dayOfMonth)"
+                 mwlResizable
+                 (resizeEnd)="onResizeEnd($event, agendamento)">
+              <!-- Ao clicar no agendamento existente, impede a propagação e abre o modal para edição -->
+              <div class="calendar-event" (click)="openAgendamentoModal(dayOfMonth, agendamento); $event.stopPropagation()">
+                {{ agendamento.horaInicio }} - {{ agendamento.horaFim }} | {{ agendamento.assessoria.sigla }}
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-    </mat-card-content>
+    </div>
+  </mat-card-content>
 </mat-card>

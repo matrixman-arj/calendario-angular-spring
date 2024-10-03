@@ -148,10 +148,18 @@ export class AgendamentoFormComponent implements OnInit {
       const horaFim = agendamento.horaFim ? DateTime.fromISO(agendamento.horaFim).toFormat('HH:mm') : 'N/A';
 
       return {
-
+        // Preenche o modal para edição, quando clicado em um agengamento existente a partir do calendário
+        id: agendamento.id,
+        data: agendamento.data,
         horaInicio: agendamento.horaInicio,
         horaFim: agendamento.horaFim,
-        assessoria: agendamento.assessoria
+        pessoa: agendamento.pessoa,
+        assessoria: agendamento.assessoria,
+        acessorios: agendamento.acessorios,
+        audiencia: agendamento.audiencia,
+        evento: agendamento.evento,
+        diex: agendamento.diex,
+        militarLigacao: agendamento.militarLigacao
 
 
       };
@@ -210,6 +218,11 @@ export class AgendamentoFormComponent implements OnInit {
     });
   }
 
+  trackById(index: number, meeting: any): number {
+    return meeting.id; // Substitua 'id' pelo campo que identifica exclusivamente o objeto
+  }
+
+
   ngOnInit(): void {
   // Carrega os agendamentos do servidor
   this.http.get<Agendamento[]>('/api/agendamentos').subscribe(data => {
@@ -238,37 +251,79 @@ mapAgendamentosPorData(agendamentos2: Agendamento[]): { [key: string]: Agendamen
 }
 
 
+// openAgendamentoModal(day: DateTime, agendamento?: Agendamento): void {
+//   const dataToPass = agendamento
+//     ? { // Se houver um agendamento, passa os dados para edição
+//         date: day.toISODate(),
+//         agendamento: agendamento
+//       }
+//     : { // Caso contrário, passa um objeto vazio para criação
+//         date: day.toISODate(),
+//         agendamento: null
+//       };
+
+//   const dialogRef = this.dialog.open(AgendamentoModalComponent, {
+//     width: '600px',
+//     data: dataToPass
+//   });
+
+//   dialogRef.afterClosed().subscribe(result => {
+//     if (result) {
+//       // Se houver resultado, processa o resultado
+//       if (agendamento) {
+//         // Aqui você atualiza o agendamento existente
+//         Object.assign(agendamento, result);
+//       } else {
+//         // Aqui você cria um novo agendamento
+//         this.service.save(result).subscribe(() => {
+//           this.refreshCalendar();
+//           });
+//       }
+//     }
+//   });
+// }
+
 openAgendamentoModal(day: DateTime, agendamento?: Agendamento): void {
-  const dataToPass = agendamento
-    ? { // Se houver um agendamento, passa os dados para edição
+  // Se o agendamento for passado, abrir o modal preenchido para edição
+  if (agendamento) {
+    const dialogRef = this.dialog.open(AgendamentoModalComponent, {
+      width: '600px',
+      data: {
         date: day.toISODate(),
-        agendamento: agendamento
+        agendamento: agendamento  // Passa o agendamento para ser editado
       }
-    : { // Caso contrário, passa um objeto vazio para criação
-        date: day.toISODate(),
-        agendamento: null
-      };
+    });
 
-  const dialogRef = this.dialog.open(AgendamentoModalComponent, {
-    width: '600px',
-    data: dataToPass
-  });
-
-  dialogRef.afterClosed().subscribe(result => {
-    if (result) {
-      // Se houver resultado, processa o resultado
-      if (agendamento) {
-        // Aqui você atualiza o agendamento existente
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Atualiza o agendamento existente
         Object.assign(agendamento, result);
-      } else {
-        // Aqui você cria um novo agendamento
+        this.service.save(agendamento).subscribe(() => {
+          this.refreshCalendar();
+        });
+      }
+    });
+  } else {
+    // Se não houver agendamento, abrir o modal vazio para criar um novo agendamento
+    const dialogRef = this.dialog.open(AgendamentoModalComponent, {
+      width: '600px',
+      data: {
+        date: day.toISODate(),
+        agendamento: null  // Passa null para indicar que é um novo agendamento
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Adiciona o novo agendamento
         this.service.save(result).subscribe(() => {
           this.refreshCalendar();
-          });
+        });
       }
-    }
-  });
+    });
+  }
 }
+
 
 addNewEvent(): void {
   const dialogRef = this.dialog.open(AgendamentoModalComponent, {
