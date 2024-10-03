@@ -107,7 +107,7 @@ mat-toolbar {
   background-color: #efd863;
   font-size: 18px;
   font-weight: bold;
-  color: #4b42c9;
+  color: #6f121f;
 }
 
 .calendar-headline-controls {
@@ -162,25 +162,28 @@ mat-toolbar {
 }
 
 .calendar-event {
-  background-color: #f0f0f0;
+  position: relative;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
   padding: 5px;
-  border-radius: 4px;
-  margin-top: 5px;
-  font-size: 12px;
+  cursor: pointer;
+  resize: horizontal;  /* Permite o redimensionamento horizontal */
+  overflow: hidden;
+  min-width: 100px;  /* Define uma largura mínima correspondente a 1 dia */
 }
 
-.day-today {
-  background-color: #bbdefb;
+.calendar-event::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: rgba(0, 0, 0, 0.1);
+  cursor: ew-resize;  /* Estiliza para indicar redimensionamento horizontal */
 }
 
-.day-weekend {
-  background-color: #ffeb3b;
+.calendar-event:hover::after {
+  background: rgba(0, 0, 0, 0.2);
 }
 
-.day-with-event {
-  background-color: #ffc107;
-}
-
-.day-regular {
-  background-color: #f0f0f0;
-}

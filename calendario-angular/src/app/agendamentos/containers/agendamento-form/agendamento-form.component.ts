@@ -363,30 +363,65 @@ handleEvent(event: CalendarEvent): void {
   });
 }
 
-
 onResizeEnd(event: ResizeEvent, agendamento: Agendamento): void {
-  // Captura a mudança de tamanho do redimensionamento nas bordas que você quer controlar (por ex., 'bottom')
-  const resizedDuration = event.edges.bottom
-    ? event.rectangle.height // Assumindo que o redimensionamento altera a altura
-    : 0; // Se não houver redimensionamento, atribui 0
+  const { edges, rectangle } = event;
 
-  // Verifica se agendamento.horaFim existe antes de processá-lo
-  if (agendamento.horaFim !== null && agendamento.horaFim !== undefined) {
-    // Atualiza a hora de fim com base no redimensionamento (por exemplo, altura em minutos)
-     DateTime.fromISO(agendamento.horaFim as string)
-      .plus({ minutes: resizedDuration }) // Garante que 'resizedDuration' é um número
-      .toISOTime();
-  } else {
-    // Define undefined se horaFim for null ou undefined
-    agendamento.horaFim = undefined;
+  // Supondo que a largura de cada dia no calendário seja 100px
+  const larguraPorDia = 100;
+
+  // Se o redimensionamento ocorrer na borda direita
+  if (edges.right && rectangle?.width) {
+    const diasAdicionados = Math.floor(rectangle.width / larguraPorDia);  // Calcula quantos dias foram adicionados
+
+    if (diasAdicionados > 0) {
+      // Atualiza a data de fim com base no número de dias adicionados
+      const novaDataFim = DateTime.fromISO(agendamento.horaFim ?? agendamento.data ?? '').plus({ days: diasAdicionados });
+
+      // Atualiza tanto a hora de fim quanto a data de fim, convertendo `null` para `undefined`
+      agendamento.horaFim = novaDataFim.toISOTime() ?? undefined;  // Atualiza a hora de fim
+      agendamento.data = novaDataFim.toISODate() ?? undefined;  // Atualiza a data de fim
+    }
+  }
+
+  // Se o redimensionamento ocorrer na borda inferior (para alterar o horário de fim)
+  if (edges.bottom && rectangle?.height) {
+    const minutosAdicionados = Math.round(rectangle.height / 20);  // Supondo que 20px = 1 minuto
+    const novaHoraFim = DateTime.fromISO(agendamento.horaFim ?? agendamento.data ?? '').plus({ minutes: minutosAdicionados });
+
+    // Atualiza o horário de fim, convertendo `null` para `undefined`
+    agendamento.horaFim = novaHoraFim.toISOTime() ?? undefined;
   }
 
   // Salva o agendamento atualizado
   this.service.save(agendamento).subscribe(() => {
     this.snackBar.open('Agendamento atualizado com sucesso!', 'Fechar', { duration: 3000 });
-    this.refreshCalendar();
+    this.refreshCalendar();  // Recarrega o calendário para refletir as mudanças
   });
 }
+
+// onResizeEnd(event: ResizeEvent, agendamento: Agendamento): void {
+//   // Captura a mudança de tamanho do redimensionamento nas bordas que você quer controlar (por ex., 'bottom')
+//   const resizedDuration = event.edges.bottom
+//     ? event.rectangle.height // Assumindo que o redimensionamento altera a altura
+//     : 0; // Se não houver redimensionamento, atribui 0
+
+//   // Verifica se agendamento.horaFim existe antes de processá-lo
+//   if (agendamento.horaFim !== null && agendamento.horaFim !== undefined) {
+//     // Atualiza a hora de fim com base no redimensionamento (por exemplo, altura em minutos)
+//      DateTime.fromISO(agendamento.horaFim as string)
+//       .plus({ minutes: resizedDuration }) // Garante que 'resizedDuration' é um número
+//       .toISOTime();
+//   } else {
+//     // Define undefined se horaFim for null ou undefined
+//     agendamento.horaFim = undefined;
+//   }
+
+//   // Salva o agendamento atualizado
+//   this.service.save(agendamento).subscribe(() => {
+//     this.snackBar.open('Agendamento atualizado com sucesso!', 'Fechar', { duration: 3000 });
+//     this.refreshCalendar();
+//   });
+// }
 
 // Função para recarregar os agendamentos e atualizar o calendário
 refreshCalendar(): void {
