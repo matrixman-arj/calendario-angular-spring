@@ -2,7 +2,7 @@
 <mat-card>
 
 
-  <mat-toolbar color="primary">Agendamentos do mês</mat-toolbar>
+  <!-- <mat-toolbar color="primary">Agendamentos do mês</mat-toolbar> -->
 
     <mat-card-content>
       <div class="calendar-container">
@@ -21,7 +21,7 @@
                   <div>Selecione uma data</div>
                 }
               </div>
-              <div>
+              <!-- <div>
                 @if (diaAtivo() && activeDayMeetings().length === 0) {
                   <div>Sem agendamentos para hoje</div>
                 }
@@ -34,24 +34,26 @@
                   }
                 }
 
-              </div>
+              </div> -->
             </div>
 
             <div class="calendar-headline-controls">
               <div class="calendar-headline-control" (click)="goToPreviousMonth()">
-                <button mat-button (click)="previousMonth()">« Anterior </button>
+                <button mat-button (click)="previousMonth()">«</button>
               </div>
-              <div
-                class="calendar-headline-control calendar-headline-control-today"
-                (click)="goToToday()"
 
-              >
-              <div class="calendar-headline-month">
-                <!-- {{ primeiroDiaDoMesAtivo().monthShort }}, -->
-                {{ primeiroDiaDoMesAtivo().setLocale('pt-BR').toFormat('LLLL yyyy') }}
+              <div class="calendar-headline-control calendar-headline-control-today" (click)="goToToday()" style="margin-top: 10px;">
+
+                <!-- <div class="calendar-headline-month">
+                  {{ primeiroDiaDoMesAtivo().monthShort }},
+                </div> -->
+                {{primeiroDiaDoMesAtivo().setLocale('pt-BR').toFormat('LLLL yyyy')}}
+
               </div>
+
+              <div class="calendar-headline-control" (click)="goToNextMonth()">
+                <button mat-button (click)="nextMonth()">»</button>
               </div>
-              <div class="calendar-headline-control" (click)="goToNextMonth()"><button mat-button (click)="nextMonth()"> Próximo »</button></div>
             </div>
           </div>
 
@@ -77,23 +79,16 @@
                   {{ dayOfMonth.day }}
                 </div>
 
-                <div *ngFor="let agendamento of getAgendamentosForDay(dayOfMonth)"
-                    mwlResizable
-                    (resizeEnd)="onResizeEnd($event, agendamento)"
-                    (resizeEdges)="{ left: true, right: true }">
+                <div *ngFor="let agendamento of getAgendamentosForDay(dayOfMonth)" mwlResizable
+                    (resizeEnd)="onResizeEnd($event, agendamento)" (resizeEdges)="{ left: true, right: true }">
                   <div class="calendar-event" (click)="openAgendamentoModal(dayOfMonth, agendamento)">
                     {{ agendamento.horaInicio }} - {{ agendamento.horaFim }} | {{ agendamento.assessoria.sigla }}
                   </div>
                 </div>
-
-
               </div>
             }
           </div>
-
         </div>
-
       </div>
-
     </mat-card-content>
 </mat-card>
