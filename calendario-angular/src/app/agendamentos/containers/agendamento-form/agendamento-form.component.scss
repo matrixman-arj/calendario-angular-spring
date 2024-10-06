@@ -107,7 +107,9 @@ mat-toolbar {
   background-color: #efd863;
   font-size: 18px;
   font-weight: bold;
-  color: #6f121f;
+  color: #469bfd;
+  -webkit-text-stroke-width: 0.1px;
+  -webkit-text-stroke-color: rgb(58, 18, 170);
 }
 
 .calendar-headline-controls {
