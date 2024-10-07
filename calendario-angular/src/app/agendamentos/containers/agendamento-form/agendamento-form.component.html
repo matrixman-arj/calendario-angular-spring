@@ -54,6 +54,11 @@
         <div class="calendar-grid">
           <!-- Renderiza os dias do mês -->
           <div *ngFor="let dayOfMonth of daysOfMonth(); let i = index"
+              mwlResizable
+              (resizeEnd)="onResizeEnd($event, agendamento)"
+              mwlDroppable
+               (drop)="onDrop($event, dayOfMonth)"
+               class="calendar-grid-cell"
                [ngClass]="{
                  'calendar-grid-cell': true,
                  'calendar-grid-cell-active': diaAtivo()?.toISODate() === dayOfMonth.toISODate(),
@@ -63,16 +68,20 @@
                (click)="openAgendamentoModal(dayOfMonth)">
 
             <!-- Contêiner para o número do dia -->
-            <div class="calendar-grid-cell-day-number">
+            <div class="calendar-grid-cell-day-number"  (click)="openAgendamentoModal(dayOfMonth)">
               {{ dayOfMonth.day }}
             </div>
 
             <!-- Exibir agendamentos para o dia -->
             <div *ngFor="let agendamento of getAgendamentosForDay(dayOfMonth)"
-                 mwlResizable
-                 (resizeEnd)="onResizeEnd($event, agendamento)">
-              <!-- Ao clicar no agendamento existente, impede a propagação e abre o modal para edição -->
-              <div class="calendar-event" (click)="openAgendamentoModal(dayOfMonth, agendamento); $event.stopPropagation()">
+            mwlResizable
+
+            (resizeEnd)="onResizeEnd($event, agendamento)"
+            mwlDraggable
+            [dropData]="agendamento"
+            [dragAxis]="{x: true, y: true}"
+            class="calendar-event"
+            (click)="openAgendamentoModal(dayOfMonth, agendamento); $event.stopPropagation()">
                 {{ agendamento.horaInicio }} - {{ agendamento.horaFim }} | {{ agendamento.assessoria.sigla }}
               </div>
             </div>
@@ -80,6 +89,6 @@
         </div>
 
       </div>
-    </div>
+
   </mat-card-content>
 </mat-card>

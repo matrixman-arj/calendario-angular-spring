@@ -20,6 +20,7 @@ import { catchError, Observable, of } from 'rxjs';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 import { ResizeEvent } from 'angular-resizable-element';
 import { CalendarEvent } from 'angular-calendar';
+import { DropEvent } from 'angular-draggable-droppable';
 
 
 @Component({
@@ -31,6 +32,8 @@ export class AgendamentoFormComponent implements OnInit {
 
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
+
+  agendamento!: Agendamento;
 
   agendamentos$!: Observable<Agendamento[]>;
 
@@ -363,41 +366,58 @@ handleEvent(event: CalendarEvent): void {
   });
 }
 
+
+onDrop(event: DropEvent, newDay: DateTime): void {
+  const agendamento = event.dropData as Agendamento;
+
+  if (agendamento && newDay) {
+    // Atualiza a data de início e fim do agendamento para o novo dia
+    agendamento.data = newDay.toISODate() ?? undefined;  // Atualiza a data do agendamento
+
+    // Atualize a hora de início e fim, se necessário. Você pode manter o mesmo horário
+    // ou ajustar de acordo com a necessidade do seu sistema.
+
+    this.service.save(agendamento).subscribe(() => {
+      this.snackBar.open('Agendamento movido com sucesso!', 'Fechar', { duration: 3000 });
+      this.refreshCalendar();  // Atualiza o calendário para refletir as mudanças
+    });
+  }
+}
+
+calendarCellWidth: number = 100; // Suponha que você conheça a largura de cada célula de dia
+
+
 onResizeEnd(event: ResizeEvent, agendamento: Agendamento): void {
-  const { edges, rectangle } = event;
 
-  // Supondo que a largura de cada dia no calendário seja 100px
-  const larguraPorDia = 100;
+  console.log('Evento de redimensionamento:', event);
 
-  // Se o redimensionamento ocorrer na borda direita
-  if (edges.right && rectangle?.width) {
-    const diasAdicionados = Math.floor(rectangle.width / larguraPorDia);  // Calcula quantos dias foram adicionados
+  // Calcule a quantidade de dias que o evento foi redimensionado
+  const resizedDays = Math.ceil((event.rectangle.width ?? 0) / this.calendarCellWidth); // Assuma que você tenha uma variável 'calendarCellWidth'
 
-    if (diasAdicionados > 0) {
-      // Atualiza a data de fim com base no número de dias adicionados
-      const novaDataFim = DateTime.fromISO(agendamento.horaFim ?? agendamento.data ?? '').plus({ days: diasAdicionados });
+  if (resizedDays > 0) {
+    const startDate = agendamento.data ? DateTime.fromISO(agendamento.data) : DateTime.local(); // Use a data atual se undefined
+    const newEndDate = startDate.plus({ days: resizedDays }); // Nova data de fim calculada com base no redimensionamento
 
-      // Atualiza tanto a hora de fim quanto a data de fim, convertendo `null` para `undefined`
-      agendamento.horaFim = novaDataFim.toISOTime() ?? undefined;  // Atualiza a hora de fim
-      agendamento.data = novaDataFim.toISODate() ?? undefined;  // Atualiza a data de fim
+    // Atualiza o agendamento para abranger os dias novos
+    for (let i = 0; i <= resizedDays; i++) {
+      const currentDay = startDate.plus({ days: i }).toISODate();
+
+      // Salve o agendamento em cada dia adicional
+      const newAgendamento = {
+        ...agendamento,
+        data: agendamento.data ?? undefined, // Converte 'null' para 'undefined'
+      };
+
+      // Chama o serviço para salvar o agendamento
+      this.service.save(newAgendamento).subscribe(() => {
+        this.refreshCalendar();
+        this.snackBar.open('Agendamento atualizado com sucesso!', 'Fechar', { duration: 3000 });
+      });
     }
   }
-
-  // Se o redimensionamento ocorrer na borda inferior (para alterar o horário de fim)
-  if (edges.bottom && rectangle?.height) {
-    const minutosAdicionados = Math.round(rectangle.height / 20);  // Supondo que 20px = 1 minuto
-    const novaHoraFim = DateTime.fromISO(agendamento.horaFim ?? agendamento.data ?? '').plus({ minutes: minutosAdicionados });
-
-    // Atualiza o horário de fim, convertendo `null` para `undefined`
-    agendamento.horaFim = novaHoraFim.toISOTime() ?? undefined;
-  }
-
-  // Salva o agendamento atualizado
-  this.service.save(agendamento).subscribe(() => {
-    this.snackBar.open('Agendamento atualizado com sucesso!', 'Fechar', { duration: 3000 });
-    this.refreshCalendar();  // Recarrega o calendário para refletir as mudanças
-  });
 }
+
+
 
 // onResizeEnd(event: ResizeEvent, agendamento: Agendamento): void {
 //   // Captura a mudança de tamanho do redimensionamento nas bordas que você quer controlar (por ex., 'bottom')

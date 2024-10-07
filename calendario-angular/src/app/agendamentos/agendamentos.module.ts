@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AgendamentosListaComponent } from './components/agendamentos-lista/agendamentos-lista.component';
 import { AgendamentoFormComponent } from './containers/agendamento-form/agendamento-form.component';
@@ -14,12 +14,12 @@ import { AgendamentoModalComponent } from './containers/agendamento-form/agendam
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { DragAndDropModule } from 'angular-draggable-droppable';
 
 
 @NgModule({
   declarations: [
     AgendamentosComponent,
-    AgendamentoFormComponent,
     AgendamentosListaComponent,
     AgendamentoModalComponent
   ],
@@ -34,11 +34,16 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
     MatCardModule, // Certifique-se de importar o MatCardModule
     ReactiveFormsModule,
     MatInputModule, // Outros módulos do Angular Material que você esteja usando
-    ResizableModule,
+
+
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exports:[
+
   ]
 })
 export class AgendamentosModule {

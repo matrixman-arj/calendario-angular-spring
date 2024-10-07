@@ -22,19 +22,19 @@ import { CalendariosComponent } from './calendarios/calendarios.component';
 import { AgendamentoModalComponent } from './agendamentos/containers/agendamento-form/agendamento-modal/agendamento-modal.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { SharedModule } from './shared/shared.module';
+import { AgendamentoFormComponent } from './agendamentos/containers/agendamento-form/agendamento-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PostoPipe,
     CalendarioComponent,
-    CalendariosComponent,
-
-
-
+    CalendariosComponent,  ],
+  exports: [
+    PostoPipe,
 
   ],
-  exports: [PostoPipe],
 
   imports: [
     IMaskModule,
@@ -50,7 +50,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     FormsModule,
     ScheduleModule,
     RecurrenceEditorModule,
-    ResizableModule,
+    SharedModule,
 
     CalendarModule.forRoot({
       provide: DateAdapter,
