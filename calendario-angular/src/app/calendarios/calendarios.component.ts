@@ -1,58 +1,54 @@
-import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { CalendarEvent } from 'angular-calendar';
-import { AgendamentoModalComponent } from '../agendamentos/containers/agendamento-form/agendamento-modal/agendamento-modal.component';
+import { Component } from "@angular/core";
+import { CalendarEvent } from "angular-calendar";
+import { Subject } from "rxjs";
+
 
 @Component({
   selector: 'app-calendarios',
   templateUrl: './calendarios.component.html',
-  styleUrl: './calendarios.component.scss'
+  styleUrls: ['./calendarios.component.scss']
 })
+
 export class CalendariosComponent {
+  viewDays: number = 7; // Inicia com visualização de uma semana
+  viewDate: Date = new Date(); // Data atual
+  events: CalendarEvent[] = []; // Eventos do calendário
+  locale: string = 'pt'; // Localidade (Português)
+  weekStartsOn: number = 1; // Semana começa na segunda-feira
+  excludeDays: number[] = []; // Dias excluídos
+  startsWithToday: boolean = true; // Começa com a data de hoje
+  hourSegments: number = 4; // Segmentos por hora (15 minutos)
+  dayStartHour: number = 6; // Início do dia às 6h
+  dayEndHour: number = 22; // Fim do dia às 22h
+  refresh: Subject<any> = new Subject(); // Para atualizar o calendário
 
-
-  viewDate: Date = new Date();
-  events: CalendarEvent[] = [];
-
-  constructor(public dialog: MatDialog) {}
-
-  addNewEvent(): void {
-    const dialogRef = this.dialog.open(AgendamentoModalComponent, {
-      width: '400px',
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.events = [
-          ...this.events,
-          {
-            title: result.title,
-            start: result.start,
-            end: result.end,
-            color: {
-              primary: '#ad2121',
-              secondary: '#FAE3E3',
-            },
-          },
-        ];
-      }
-    });
+  // Métodos para lidar com as interações do calendário
+  viewDaysOptionChanged(viewDays: number): void {
+    this.viewDays = viewDays;
+    this.refresh.next(true); // Atualiza o calendário
   }
 
-  handleEvent(event: CalendarEvent): void {
-    const dialogRef = this.dialog.open(AgendamentoModalComponent, {
-      width: '400px',
-      data: event,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        event.title = result.title;
-        event.start = result.start;
-        event.end = result.end;
-      }
-    });
+  viewDaysChanged(event: any): void {
+    // Lógica para lidar com mudança de visualização
   }
 
+  dayHeaderClicked(day: any): void {
+    // Lógica para lidar com o clique no cabeçalho do dia
+  }
 
+  hourClicked(hour: any): void {
+    // Lógica para lidar com o clique na hora
+  }
+
+  segmentClicked(action: string, segment: any): void {
+    // Lógica para lidar com o clique no segmento da hora
+  }
+
+  eventClicked(action: string, event: any): void {
+    // Lógica para lidar com o clique no evento
+  }
+
+  eventTimesChanged(event: any): void {
+    // Lógica para lidar com a alteração no tempo do evento
+  }
 }

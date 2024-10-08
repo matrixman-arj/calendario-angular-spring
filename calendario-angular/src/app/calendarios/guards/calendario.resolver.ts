@@ -4,18 +4,18 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 
 import { Observable, of } from 'rxjs';
 import { CalendariosService } from '../services/calendarios.service';
-import { Agendamento } from '../../agendamentos/modelo/Agendamento';
-import { Pessoa } from '../../pessoas/model/pessoa';
+
+import { Calendarios } from '../modelo/Calendarios';
 
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class CalendariosResolver implements Resolve<Agendamento> {
+export class CalendariosResolver implements Resolve<Calendarios> {
   constructor(private service: CalendariosService) { }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Agendamento> | Promise<Agendamento> | Agendamento {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Calendarios> | Promise<Calendarios> | Calendarios {
     if (route.params && route.params['id']) {
       return this.service.loadById(route.params['id']);
     }

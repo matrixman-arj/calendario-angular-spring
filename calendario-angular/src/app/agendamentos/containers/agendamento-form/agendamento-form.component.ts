@@ -19,7 +19,7 @@ import { Agendamento } from '../../modelo/Agendamento';
 import { catchError, Observable, of } from 'rxjs';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 import { ResizeEvent } from 'angular-resizable-element';
-import { CalendarEvent } from 'angular-calendar';
+import { CalendarEvent, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { DropEvent } from 'angular-draggable-droppable';
 
 
@@ -30,8 +30,10 @@ import { DropEvent } from 'angular-draggable-droppable';
 })
 export class AgendamentoFormComponent implements OnInit {
 
+
+
   viewDate: Date = new Date();
-  events: CalendarEvent[] = [];
+  // events: CalendarEvent[] = [];
 
   agendamento!: Agendamento;
 
@@ -366,6 +368,31 @@ handleEvent(event: CalendarEvent): void {
   });
 }
 
+onEventTimesChanged({
+  event,
+  newStart,
+  newEnd,
+}: CalendarEventTimesChangedEvent): void {
+  event.start = newStart;
+  event.end = newEnd;
+  // Atualize as mudanças no servidor ou backend aqui, se necessário
+  this.refresh(); // Atualiza a visualização do calendário
+}
+
+
+events: CalendarEvent[] = [
+  {
+    start: new Date('2024-10-09'),
+    end: new Date('2024-10-09'),
+    title: 'Agendamento Teste',
+    resizable: {
+      beforeStart: true,
+      afterEnd: true, // Habilita redimensionamento nas duas extremidades
+    },
+  },
+];
+
+
 
 onDrop(event: DropEvent, newDay: DateTime): void {
   const agendamento = event.dropData as Agendamento;
@@ -388,34 +415,30 @@ calendarCellWidth: number = 100; // Suponha que você conheça a largura de cada
 
 
 onResizeEnd(event: ResizeEvent, agendamento: Agendamento): void {
-
   console.log('Evento de redimensionamento:', event);
 
-  // Calcule a quantidade de dias que o evento foi redimensionado
-  const resizedDays = Math.ceil((event.rectangle.width ?? 0) / this.calendarCellWidth); // Assuma que você tenha uma variável 'calendarCellWidth'
+  // Suponha que a largura de cada célula do dia no calendário seja conhecida
+  const calendarCellWidth = 100; // Ajuste este valor conforme necessário
+
+  // Calcule quantos dias o evento foi redimensionado
+  const resizedDays = Math.ceil((event.rectangle.width ?? 0) / calendarCellWidth);
 
   if (resizedDays > 0) {
-    const startDate = agendamento.data ? DateTime.fromISO(agendamento.data) : DateTime.local(); // Use a data atual se undefined
-    const newEndDate = startDate.plus({ days: resizedDays }); // Nova data de fim calculada com base no redimensionamento
+    const startDate = agendamento.data ? DateTime.fromISO(agendamento.data) : DateTime.local(); // Data de início do agendamento
+    const newEndDate = startDate.plus({ days: resizedDays }); // Calcula a nova data de fim com base no redimensionamento
 
-    // Atualiza o agendamento para abranger os dias novos
-    for (let i = 0; i <= resizedDays; i++) {
-      const currentDay = startDate.plus({ days: i }).toISODate();
+    // Atualiza a data de fim do agendamento para refletir o redimensionamento
+    agendamento.data = startDate.toISODate() ?? undefined;
+    agendamento.horaFim = newEndDate.toISODate() ?? undefined;  // Atualiza a hora de fim
 
-      // Salve o agendamento em cada dia adicional
-      const newAgendamento = {
-        ...agendamento,
-        data: agendamento.data ?? undefined, // Converte 'null' para 'undefined'
-      };
-
-      // Chama o serviço para salvar o agendamento
-      this.service.save(newAgendamento).subscribe(() => {
-        this.refreshCalendar();
-        this.snackBar.open('Agendamento atualizado com sucesso!', 'Fechar', { duration: 3000 });
-      });
-    }
+    // Chame o serviço para salvar as mudanças
+    this.service.save(agendamento).subscribe(() => {
+      this.refreshCalendar(); // Atualiza o calendário para refletir as mudanças
+      this.snackBar.open('Agendamento atualizado com sucesso!', 'Fechar', { duration: 3000 });
+    });
   }
 }
+
 
 
 

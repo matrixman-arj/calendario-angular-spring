@@ -45,9 +45,9 @@ mat-card {
 }
 
 .calendar-grid-cell {
-  position: relative; /* Permite o uso de posicionamento absoluto para os filhos */
+  // position: relative; /* Permite o uso de posicionamento absoluto para os filhos */
   padding: 5px;
-  display: flex;
+  display: table-column; /* Alinha um agendamento embaixo do outro*/
   align-items: flex-start; /* Alinha o conteúdo ao topo */
   justify-content: flex-start; /* Alinha o conteúdo à esquerda */
   border-bottom: 1px solid rgb(190, 190, 190);
@@ -181,12 +181,17 @@ mat-card {
   background: rgba(0, 0, 0, 0.2);
 }
 
-.calendar-event {
-  position: relative;
-  padding: 10px;
-  border: 1px solid #ccc;
-  background-color: #f0f0f0;
-  cursor: move;
+// .calendar-event {
+//   position: relative;
+//   padding: 10px;
+//   border: 1px solid #ccc;
+//   background-color: #f0f0f0;
+//   cursor: move;
+// }
+
+.mwl-resizable {
+  border: 1px solid #d3d3d3; /* Adiciona um indicativo visual para redimensionamento */
+  resize: horizontal; /* Permite o redimensionamento horizontal */
 }
 
 .mwl-resizable-handle {
@@ -216,7 +221,24 @@ mat-card {
   border: 1px solid #ccc;
 }
 
-.calendar-event-container.mwlResizable {
-  resize: horizontal;
-  overflow: auto;
+// .calendar-event-container.mwlResizable {
+//   resize: horizontal;
+//   overflow: auto;
+// }
+
+
+/* Certifique-se de que os eventos fiquem um embaixo do outro */
+.calendar-event {
+  display: block;        /* Define cada agendamento como um bloco */
+  width: 100%;/* Faz o evento ocupar toda a largura */
+  cursor: ew-resize; /* Cursor de redimensionamento horizontal */
+  background-color: #c7ec50;
+  margin-bottom: 10px; /* Adiciona espaçamento entre os eventos */
 }
+
+/* Se necessário, ajuste o contêiner dos eventos */
+.calendar-day {
+  display: flex;
+  flex-direction: column; /* Força o conteúdo a ser exibido em colunas */
+}
+

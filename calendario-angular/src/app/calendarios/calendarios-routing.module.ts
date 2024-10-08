@@ -5,8 +5,8 @@ import { CalendariosResolver } from "./guards/calendario.resolver";
 
 const routes: Routes = [
   { path: '', component: CalendariosComponent},
-  { path: 'new', component: CalendariosComponent, resolve:{calendario: CalendariosResolver}},
-  { path: 'edit/:id', component: CalendariosComponent, resolve:{calendario: CalendariosResolver}}
+  { path: 'new', component: CalendariosComponent, resolve:{calendarios: CalendariosResolver}},
+  { path: 'edit/:id', component: CalendariosComponent, resolve:{calendarios: CalendariosResolver}}
 
 ];
 

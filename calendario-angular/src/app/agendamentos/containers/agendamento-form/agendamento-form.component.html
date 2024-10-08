@@ -1,9 +1,11 @@
 <mat-card>
   <mat-card-content>
     <div class="calendar-container">
+
       <div class="calendar">
         <div class="calendar-headline">
           <div class="schedule">
+
             <div class="schedule-headline">
               <ng-container *ngIf="diaAtivo() as activeDay; else noSelection">
                 <div>{{ activeDay.toLocaleString(DATE_MED) }}</div>
@@ -13,18 +15,19 @@
               </ng-template>
             </div>
             <div>
-              <ng-container *ngIf="diaAtivo() && activeDayMeetings().length === 0">
+              <!-- <ng-container *ngIf="diaAtivo() && activeDayMeetings().length === 0">
                 <div>Sem agendamentos para hoje</div>
-              </ng-container>
+              </ng-container> -->
 
-              <ng-container *ngIf="diaAtivo() && activeDayMeetings().length > 0">
+              <!-- <ng-container *ngIf="diaAtivo() && activeDayMeetings().length > 0">
                 <div *ngFor="let meeting of activeDayMeetings(); trackBy: trackById">
                   {{ meeting.horaInicio }} - {{ meeting.horaFim }} | Assessoria: {{ meeting.assessoria }}
                 </div>
-              </ng-container>
+              </ng-container> -->
             </div>
           </div>
 
+          <!-- Aqui se inicia o espaço onde são apresentados botões de navegação mês e ano-->
           <div class="calendar-headline-controls">
             <div class="calendar-headline-control" (click)="goToPreviousMonth()">
               <button mat-button (click)="previousMonth()">
@@ -42,6 +45,7 @@
               </button>
             </div>
           </div>
+           <!-- Aqui finaliza o espaço onde são apresentados botões de navegação mês e ano-->
         </div>
 
         <div class="calendar-weeks-grid">
@@ -73,22 +77,21 @@
             </div>
 
             <!-- Exibir agendamentos para o dia -->
-            <div *ngFor="let agendamento of getAgendamentosForDay(dayOfMonth)"
-            mwlResizable
+            <div *ngFor="let agendamento of getAgendamentosForDay(dayOfMonth)" class="calendar-event" mwlResizable
 
-            (resizeEnd)="onResizeEnd($event, agendamento)"
-            mwlDraggable
-            [dropData]="agendamento"
-            [dragAxis]="{x: true, y: true}"
-            class="calendar-event"
-            (click)="openAgendamentoModal(dayOfMonth, agendamento); $event.stopPropagation()">
+                (resizeEnd)="onResizeEnd($event, agendamento)"
+                mwlDraggable
+                [dropData]="agendamento"
+                [dragAxis]="{x: true, y: true}"
+                (click)="openAgendamentoModal(dayOfMonth, agendamento); $event.stopPropagation()">
+                <!-- Aqui é exibido os dados do agendamento -->
+             <div class= "calendar-day">
                 {{ agendamento.horaInicio }} - {{ agendamento.horaFim }} | {{ agendamento.assessoria.sigla }}
+             </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
-
   </mat-card-content>
 </mat-card>

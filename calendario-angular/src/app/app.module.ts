@@ -16,27 +16,33 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IMaskModule } from 'angular-imask';
 import { RecurrenceEditorModule, ScheduleModule, DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
-import { ResizableModule } from 'angular-resizable-element';
-import { CalendarioComponent } from './calendario/calendario.component';
+
 import { CalendariosComponent } from './calendarios/calendarios.component';
-import { AgendamentoModalComponent } from './agendamentos/containers/agendamento-form/agendamento-modal/agendamento-modal.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { SharedModule } from './shared/shared.module';
+import { CalendarioComponent } from './calendario/calendario.component';
+import { CommonModule } from '@angular/common';
 import { AgendamentoFormComponent } from './agendamentos/containers/agendamento-form/agendamento-form.component';
+import { ResizableModule } from 'angular-resizable-element';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     PostoPipe,
     CalendarioComponent,
-    CalendariosComponent,  ],
+    CalendariosComponent,
+
+
+  ],
   exports: [
     PostoPipe,
 
   ],
 
   imports: [
+    CommonModule,
     IMaskModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -51,6 +57,8 @@ import { AgendamentoFormComponent } from './agendamentos/containers/agendamento-
     ScheduleModule,
     RecurrenceEditorModule,
     SharedModule,
+    ResizableModule,
+
 
     CalendarModule.forRoot({
       provide: DateAdapter,

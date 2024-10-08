@@ -5,6 +5,8 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'pessoas'},
   { path: '', pathMatch: 'full', redirectTo: 'assessorias'},
   { path: '', pathMatch: 'full', redirectTo: 'agendamentos'},
+  { path: '', pathMatch: 'full', redirectTo: 'calendarios'},
+  { path: '', pathMatch: 'full', redirectTo: 'calendario'},
 
   {
     path: 'pessoas',
@@ -19,6 +21,17 @@ const routes: Routes = [
   {
     path: 'agendamentos',
     loadChildren: () => import('./agendamentos/agendamentos.module').then(m => m.AgendamentosModule)
+  },
+
+  {
+    path: 'calendarios',
+    loadChildren: () => import('./calendarios/calendarios.module').then(m => m.CalendariosModule)
+  },
+
+
+  {
+    path: 'calendario',
+    loadChildren: () => import('./calendario/calendario.module').then(m => m.CalendarioModule)
   }
 
 ];
