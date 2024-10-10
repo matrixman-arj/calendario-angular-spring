@@ -1,5 +1,10 @@
 mat-card {
-  max-width: 95%;
+  width: 94vw;
+  height: 96vh;
+  // max-width: 95%;
+  // max-height: 95%;
+  // padding-bottom: 30px;
+  // margin-bottom: 10px;
 
   margin: 0em auto;
   align-content: center;
@@ -111,16 +116,16 @@ mat-card {
   cursor: pointer;
 }
 
-.calendar-event {
-  background-color: rgba(0, 123, 255, 0.1); /* Cor de fundo sutil */
-  margin-top: 5px;
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-size: 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+// .calendar-event {
+//   background-color: rgba(0, 123, 255, 0.1); /* Cor de fundo sutil */
+//   margin-top: 5px;
+//   padding: 2px 4px;
+//   border-radius: 4px;
+//   font-size: 10px;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   white-space: nowrap;
+// }
 
 // .calendar-container {
 //   display: grid;
@@ -162,8 +167,9 @@ mat-card {
   cursor: pointer;
   resize: horizontal;  /* Permite o redimensionamento horizontal */
   overflow: hidden;
-  min-width: 100px;  /* Define uma largura mínima correspondente a 1 dia */
-  max-width: 150px;  /* Define uma largura mínima correspondente a 1 dia */
+  min-width: 100px;     /* Define uma largura mínima correspondente a 1 dia */
+  max-width: 150px;     /* Define uma largura máxima correspondente a 1 dia */
+  max-height: 12px;     /* Define uma altura máxima correspondente a cada agendamento */
 }
 
 // .calendar-event::after {
@@ -189,11 +195,6 @@ mat-card {
 //   cursor: move;
 // }
 
-.mwl-resizable {
-  border: 1px solid #d3d3d3; /* Adiciona um indicativo visual para redimensionamento */
-  resize: horizontal; /* Permite o redimensionamento horizontal */
-}
-
 .mwl-resizable-handle {
   position: absolute;
   top: 0;
@@ -212,14 +213,14 @@ mat-card {
   cursor: ew-resize;
 }
 
-.calendar-event-container {
-  position: relative;
-  display: block;
-  background-color: #f3f3f3;
-  padding: 5px;
-  cursor: ew-resize; /* Cursor de redimensionamento */
-  border: 1px solid #ccc;
-}
+// .calendar-event-container {
+//   position: relative;
+//   display: block;
+//   background-color: #f3f3f3;
+//   padding: 5px;
+//   cursor: ew-resize; /* Cursor de redimensionamento */
+//   border: 1px solid #ccc;
+// }
 
 // .calendar-event-container.mwlResizable {
 //   resize: horizontal;
@@ -231,10 +232,11 @@ mat-card {
 .calendar-event {
   display: block;        /* Define cada agendamento como um bloco */
   width: 100%;/* Faz o evento ocupar toda a largura */
-  cursor: ew-resize; /* Cursor de redimensionamento horizontal */
   background-color: #c7ec50;
   margin-bottom: 10px; /* Adiciona espaçamento entre os eventos */
 }
+
+
 
 /* Se necessário, ajuste o contêiner dos eventos */
 .calendar-day {

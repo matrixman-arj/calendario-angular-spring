@@ -1,4 +1,4 @@
-import { Component, computed, EventEmitter, Input, input, InputSignal, OnInit, Output, signal, Signal, WritableSignal } from '@angular/core';
+import { Component, computed, ElementRef, EventEmitter, Input, input, InputSignal, OnInit, Output, Renderer2, signal, Signal, WritableSignal } from '@angular/core';
 
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AgendamentosService } from '../../services/agendamentos.service';
@@ -30,7 +30,11 @@ import { DropEvent } from 'angular-draggable-droppable';
 })
 export class AgendamentoFormComponent implements OnInit {
 
-
+  private resizing = false;
+  private initialX = 0;
+  private initialWidth = 0;
+  private calendarCellWidth = 100; // Defina o valor de largura para uma célula do dia
+  private currentAgendamento: any;
 
   viewDate: Date = new Date();
   // events: CalendarEvent[] = [];
@@ -210,6 +214,8 @@ export class AgendamentoFormComponent implements OnInit {
     private route: ActivatedRoute,
     private assessoriasService: AssessoriasService,
     private pessoasService: PessoasService,
+    private renderer: Renderer2,
+    private el: ElementRef
 
   ) {
 
@@ -222,6 +228,47 @@ export class AgendamentoFormComponent implements OnInit {
       assessoria: [null]
     });
   }
+
+    startResizing(event: MouseEvent, agendamento: any) {
+      this.resizing = true;
+      this.initialX = event.clientX;
+      this.currentAgendamento = agendamento;
+
+      // Escuta para o movimento e finalização do redimensionamento
+      this.renderer.listen('document', 'mousemove', this.resize.bind(this));
+      this.renderer.listen('document', 'mouseup', this.stopResizing.bind(this));
+    }
+
+    resize(event: MouseEvent) {
+      if (!this.resizing) {
+        return;
+      }
+
+      const deltaX = event.clientX - this.initialX;
+      const resizedDays = Math.ceil(deltaX / this.calendarCellWidth); // Calcula quantos dias foram redimensionados
+
+      if (resizedDays > 0) {
+        // Calcula a nova data de fim com base no redimensionamento
+        const startDate = DateTime.fromISO(this.currentAgendamento.data);
+        const newEndDate = startDate.plus({ days: resizedDays - 1 });
+
+        // Atualiza o agendamento, mas sem mexer no DOM diretamente
+        this.currentAgendamento.horaFim = newEndDate.toISO();
+      }
+    }
+
+    stopResizing() {
+      this.resizing = false;
+
+      // Salvar as alterações do agendamento, se necessário
+      this.saveAgendamento(this.currentAgendamento);
+    }
+
+    saveAgendamento(agendamento: any) {
+      // Aqui, você pode salvar o agendamento no banco de dados, ou atualizar o modelo de dados
+      console.log('Agendamento salvo:', agendamento);
+    }
+
 
   trackById(index: number, meeting: any): number {
     return meeting.id; // Substitua 'id' pelo campo que identifica exclusivamente o objeto
@@ -411,7 +458,7 @@ onDrop(event: DropEvent, newDay: DateTime): void {
   }
 }
 
-calendarCellWidth: number = 100; // Suponha que você conheça a largura de cada célula de dia
+// calendarCellWidth: number = 100; // Suponha que você conheça a largura de cada célula de dia
 
 
 onResizeEnd(event: ResizeEvent, agendamento: Agendamento): void {
