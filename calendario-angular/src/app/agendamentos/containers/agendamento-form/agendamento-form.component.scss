@@ -157,7 +157,7 @@ mat-card {
 .calendar-event {
   position: relative;
   border: 1px solid #ccc;
-  background-color: #f9f9f9;
+  background-color: #82f18d;
   padding: 5px;
   cursor: pointer;
   resize: horizontal;  /* Permite o redimensionamento horizontal */
@@ -181,13 +181,13 @@ mat-card {
   background: rgba(0, 0, 0, 0.2);
 }
 
-.calendar-event {
-  position: relative;
-  padding: 10px;
-  border: 1px solid #ccc;
-  background-color: #f0f0f0;
-  cursor: move;
-}
+// .calendar-event {
+//   position: relative;
+//   padding: 10px;
+//   border: 1px solid #ccc;
+//   background-color: #5dbf57;
+//   cursor: move;
+// }
 
 .mwl-resizable-handle {
   position: absolute;
