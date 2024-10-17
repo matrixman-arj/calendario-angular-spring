@@ -15,6 +15,15 @@ import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { DragAndDropModule } from 'angular-draggable-droppable';
+import { CalendarModule as PrimeNgCalendarModule } from 'primeng/calendar';
+import { DialogModule } from 'primeng/dialog';
+import { FullCalendarModule } from '@fullcalendar/angular'; // FullCalendar import
+import dayGridPlugin from '@fullcalendar/daygrid';// Plugin de grid de dias
+import timeGridPlugin from '@fullcalendar/timegrid';// Plugin de grid de horários
+import listPlugin from '@fullcalendar/list';// Plugin de lista
+import interactionPlugin from '@fullcalendar/interaction';// Plugin de interação (arrastar e soltar)
+import { ButtonModule } from 'primeng/button';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -34,6 +43,11 @@ import { DragAndDropModule } from 'angular-draggable-droppable';
     MatCardModule, // Certifique-se de importar o MatCardModule
     ReactiveFormsModule,
     MatInputModule, // Outros módulos do Angular Material que você esteja usando
+    DialogModule,
+    PrimeNgCalendarModule, // Usando o Calendar do PrimeNG
+    FullCalendarModule, // FullCalendar Module
+    ButtonModule,
+    RouterModule, // Certifique-se de que o RouterModule está importado
 
 
     CalendarModule.forRoot({

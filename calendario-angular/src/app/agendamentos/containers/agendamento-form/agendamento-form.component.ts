@@ -1,4 +1,4 @@
-import { Component, computed, EventEmitter, Input, input, InputSignal, OnInit, Output, signal, Signal, WritableSignal } from '@angular/core';
+import { Component, computed, ElementRef, EventEmitter, Input, input, InputSignal, OnInit, Output, signal, Signal, ViewChild, WritableSignal } from '@angular/core';
 
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AgendamentosService } from '../../services/agendamentos.service';
@@ -21,14 +21,52 @@ import { ErrorDialogComponent } from '../../../shared/components/error-dialog/er
 import { ResizeEvent } from 'angular-resizable-element';
 import { CalendarEvent } from 'angular-calendar';
 import { DropEvent } from 'angular-draggable-droppable';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import interactionPlugin from '@fullcalendar/interaction';
+import { CalendarOptions } from '@fullcalendar/core';
 
 
 @Component({
   selector: 'app-agendamento-form',
   templateUrl: './agendamento-form.component.html',
-  styleUrl: './agendamento-form.component.scss'
+  styleUrl: './agendamento-form.component.scss',
+
+
 })
 export class AgendamentoFormComponent implements OnInit {
+
+
+
+  selectedDate: Date | undefined; // Propriedade que vai armazenar a data selecionada
+
+   calendarPlugins = [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]; // Plugins do FullCalendar
+  calendarEvents = [
+    { title: 'Evento 1', start: '2024-10-14' },
+    { title: 'Evento 2', start: '2024-10-15' }
+  ];
+
+  calendarOptions: CalendarOptions = {
+    initialView: 'dayGridMonth', // Defina o tipo de visualização inicial
+    plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin], // Certifique-se de incluir todos os plugins
+    events: [
+      { title: 'event 1', date: '2024-10-01' },
+      { title: 'event 2', date: '2024-10-02' }
+    ],
+    dateClick: this.handleDateClick.bind(this), // A função de clique na data
+    eventClick: this.handleEventClick.bind(this) // A função de clique no evento
+  };
+
+  handleDateClick(event: any) {
+    // Lógica ao clicar em uma data
+    alert('Data clicada: ' + event.dateStr);
+  }
+
+  handleEventClick(event: any) {
+    // Lógica ao clicar em um evento
+    alert('Evento clicado: ' + event.event.title);
+  }
 
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
@@ -44,6 +82,27 @@ export class AgendamentoFormComponent implements OnInit {
   primeiroDiaDoMesAtivo: WritableSignal<DateTime> = signal(
     this.hoje().startOf('month'),
   );
+
+  // handleDateClick(event: any) {
+  //   this.agendamento = {id:0, pessoa:{_id:'', identidade:'', users:'', tipoAcesso:'', nome:'', nomeGuerra:'', postoGraduacao:'', acesso:'', antiguidade:0, assessoria:{_id:'', sigla:'', descricao:'', interna:true, ordem:0}, ramal:'', caminho:'',  }, assessoria:{_id:'', sigla:'', descricao:'', interna:true, ordem:0} }; // Limpar o objeto
+  //   // this.displayModal = true;
+  // }
+
+  // handleEventClick(event: any) {
+  //   this.agendamento = { ...event.data }; // Preencher com dados do evento
+  //   // this.openAgendamentoModal = true;
+  // }
+
+  onEventResize(event: any) {
+    this.agendamento.horaFim = event.newEnd; // Ajustar a nova hora de fim
+    this.service.save(this.agendamento);
+  }
+
+  onEventDrop(event: any) {
+    this.agendamento.data = event.newStart; // Atualizar com a nova data
+    this.service.save(this.agendamento);
+  }
+
 
   diaAtivo: WritableSignal<DateTime | null> = signal(null);
   diasDaSemana: Signal<string[]> = signal(['Domingo', 'Segunda', 'terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']);
@@ -211,6 +270,7 @@ export class AgendamentoFormComponent implements OnInit {
 
   ) {
 
+    this.selectedDate = new Date();
     this.form = this.formBuilder.group({
       _id: [''],
       data: ['', Validators.required],
@@ -220,6 +280,10 @@ export class AgendamentoFormComponent implements OnInit {
       assessoria: [null]
     });
   }
+
+  eventos:any;
+    @ViewChild('external') external: ElementRef | undefined;
+    options: any;
 
   trackById(index: number, meeting: any): number {
     return meeting.id; // Substitua 'id' pelo campo que identifica exclusivamente o objeto

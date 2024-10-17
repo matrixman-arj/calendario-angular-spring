@@ -10,6 +10,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { AgendamentoFormComponent } from '../agendamentos/containers/agendamento-form/agendamento-form.component';
 import { DragAndDropModule } from 'angular-draggable-droppable';
 import { ResizableModule } from 'angular-resizable-element';
+import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
+import { CalendarModule as PrimeNgCalendarModule } from 'primeng/calendar';
+import { DialogModule } from 'primeng/dialog';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';// Plugin de grid de dias
+import timeGridPlugin from '@fullcalendar/timegrid';// Plugin de grid de horários
+import listPlugin from '@fullcalendar/list';// Plugin de lista
+import interactionPlugin from '@fullcalendar/interaction';// Plugin de interação (arrastar e soltar)
 
 @NgModule({
   declarations: [
@@ -26,7 +35,12 @@ import { ResizableModule } from 'angular-resizable-element';
     FormsModule,       // Adicione o FormsModule aqui
     MatSelectModule,    // Adicione o MatSelectModule aqui
     ResizableModule,  // Certifique-se de importar o ResizableModule
-    DragAndDropModule // Certifique-se de importar o DragAndDropModule
+    DragAndDropModule, // Certifique-se de importar o DragAndDropModule
+    CalendarModule,
+    PrimeNgCalendarModule,
+    ButtonModule,            // Outros módulos PrimeNG
+    DialogModule,
+    FullCalendarModule, // Importação do módulo do FullCalendar
 
   ],
   exports: [
