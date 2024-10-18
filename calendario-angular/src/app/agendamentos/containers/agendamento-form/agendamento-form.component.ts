@@ -94,18 +94,19 @@ export class AgendamentoFormComponent implements OnInit {
   // }
 
   onEventResize(event: any) {
-    this.agendamento.horaFim = event.newEnd; // Ajustar a nova hora de fim
+    this.agendamento.dataInicio = event.newStart;
+    this.agendamento.dataFim = event.newEnd;
     this.service.save(this.agendamento);
   }
 
   onEventDrop(event: any) {
-    this.agendamento.data = event.newStart; // Atualizar com a nova data
+    this.agendamento.dataInicio = event.newStart; // Atualizar com a nova data
     this.service.save(this.agendamento);
   }
 
 
   diaAtivo: WritableSignal<DateTime | null> = signal(null);
-  diasDaSemana: Signal<string[]> = signal(['Domingo', 'Segunda', 'terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']);
+  diasDaSemana: Signal<string[]> = signal(['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']);
   // diasDaSemana: Signal<string[]> = signal(['domingo', ...Info.weekdays('short').slice(0, 6)]);
 
 
@@ -195,7 +196,6 @@ export class AgendamentoFormComponent implements OnInit {
     this.viewDate = nextMonth;
   }
 
-
   getAgendamentosForDay(day: DateTime): any[] {
     const dayISO = day.toISODate();
     if (!dayISO) {
@@ -203,16 +203,21 @@ export class AgendamentoFormComponent implements OnInit {
     }
 
     // Verificar e depurar se os agendamentos estão sendo encontrados
-    const agendamentos = this.agendamentos2[dayISO] || [];
-    // console.log(`Agendamentos para ${dayISO}:`, agendamentos);
-    return agendamentos.map(agendamento => {
+    const agendamentos = Object.values(this.agendamentos2).flat(); // Obtém todos os agendamentos
+    return agendamentos.filter(agendamento => {
+      const dataInicio = agendamento.dataInicio ? DateTime.fromISO(agendamento.dataInicio).toISODate() : null;
+      const dataFim = agendamento.dataFim ? DateTime.fromISO(agendamento.dataFim).toISODate() : null;
+
+      // Verifica se o dia atual está no intervalo entre dataInicio e dataFim
+      return dataInicio && dataFim && DateTime.fromISO(dayISO) >= DateTime.fromISO(dataInicio) && DateTime.fromISO(dayISO) <= DateTime.fromISO(dataFim);
+    }).map(agendamento => {
       const horaInicio = agendamento.horaInicio ? DateTime.fromISO(agendamento.horaInicio).toFormat('HH:mm') : 'N/A';
       const horaFim = agendamento.horaFim ? DateTime.fromISO(agendamento.horaFim).toFormat('HH:mm') : 'N/A';
 
       return {
-        // Preenche o modal para edição, quando clicado em um agengamento existente a partir do calendário
         id: agendamento.id,
-        data: agendamento.data,
+        dataInicio: agendamento.dataInicio,
+        dataFim: agendamento.dataFim,
         horaInicio: agendamento.horaInicio,
         horaFim: agendamento.horaFim,
         pessoa: agendamento.pessoa,
@@ -222,11 +227,43 @@ export class AgendamentoFormComponent implements OnInit {
         evento: agendamento.evento,
         diex: agendamento.diex,
         militarLigacao: agendamento.militarLigacao
-
-
       };
     });
   }
+
+
+  // getAgendamentosForDay(day: DateTime): any[] {
+  //   const dayISO = day.toISODate();
+  //   if (!dayISO) {
+  //     return []; // Retorna uma lista vazia se dayISO for null
+  //   }
+
+  //   // Verificar e depurar se os agendamentos estão sendo encontrados
+  //   const agendamentos = this.agendamentos2[dayISO] || [];
+  //   // console.log(`Agendamentos para ${dayISO}:`, agendamentos);
+  //   return agendamentos.map(agendamento => {
+  //     const horaInicio = agendamento.horaInicio ? DateTime.fromISO(agendamento.horaInicio).toFormat('HH:mm') : 'N/A';
+  //     const horaFim = agendamento.horaFim ? DateTime.fromISO(agendamento.horaFim).toFormat('HH:mm') : 'N/A';
+
+  //     return {
+  //       // Preenche o modal para edição, quando clicado em um agengamento existente a partir do calendário
+  //       id: agendamento.id,
+  //       dataInicio: agendamento.dataInicio,
+  //       dataFim: agendamento.dataFim,
+  //       horaInicio: agendamento.horaInicio,
+  //       horaFim: agendamento.horaFim,
+  //       pessoa: agendamento.pessoa,
+  //       assessoria: agendamento.assessoria,
+  //       acessorios: agendamento.acessorios,
+  //       audiencia: agendamento.audiencia,
+  //       evento: agendamento.evento,
+  //       diex: agendamento.diex,
+  //       militarLigacao: agendamento.militarLigacao
+
+
+  //     };
+  //   });
+  // }
 
   isAgendamentoValido(agendamento: any, day: DateTime): boolean {
     const agendamentosDoDia = this.getAgendamentosForDay(day);
@@ -273,7 +310,7 @@ export class AgendamentoFormComponent implements OnInit {
     this.selectedDate = new Date();
     this.form = this.formBuilder.group({
       _id: [''],
-      data: ['', Validators.required],
+      dataInicio: ['', Validators.required],
       horaInicio: ['', Validators.required],
       horaFim: [''],
       pessoa: [null],
@@ -292,30 +329,41 @@ export class AgendamentoFormComponent implements OnInit {
 
   ngOnInit(): void {
   // Carrega os agendamentos do servidor
-  this.http.get<Agendamento[]>('/api/agendamentos').subscribe(data => {
-    this.agendamentos2 = this.mapAgendamentosPorData(data);
+  this.http.get<Agendamento[]>('/api/agendamentos').subscribe(dataInicio => {
+    this.agendamentos2 = this.mapAgendamentosPorData(dataInicio);
     console.log('Agendamentos carregados:', this.agendamentos2); // Adicione este log
   });
 
 }
 
 // Mapeia os agendamentos por data
-mapAgendamentosPorData(agendamentos2: Agendamento[]): { [key: string]: Agendamento[] } {
+mapAgendamentosPorData(agendamentos: Agendamento[]): { [key: string]: Agendamento[] } {
   const agendamentosMap: { [key: string]: Agendamento[] } = {};
-  agendamentos2.forEach(agendamento => {
-    // Verifique se agendamento.data é definido e válido
-    if (agendamento.data) {
-      const dataISO = DateTime.fromISO(agendamento.data).toISODate(); // Obtém a data em ISO
-      if (dataISO) {
-        if (!agendamentosMap[dataISO]) {
-          agendamentosMap[dataISO] = [];
+
+  agendamentos.forEach(agendamento => {
+    if (agendamento.dataInicio && agendamento.dataFim) {
+      const dataInicio = DateTime.fromISO(agendamento.dataInicio);
+      const dataFim = DateTime.fromISO(agendamento.dataFim);
+
+      // Itera sobre cada dia entre dataInicio e dataFim
+      for (let day = dataInicio; day <= dataFim; day = day.plus({ days: 1 })) {
+        const dayISO = day.toISODate();
+
+        // Verifica se dayISO não é null
+        if (dayISO !== null) {
+          if (!agendamentosMap[dayISO]) {
+            agendamentosMap[dayISO] = [];
+          }
+
+          agendamentosMap[dayISO].push(agendamento);
         }
-        agendamentosMap[dataISO].push(agendamento);
       }
     }
   });
+
   return agendamentosMap;
 }
+
 
 
 // openAgendamentoModal(day: DateTime, agendamento?: Agendamento): void {
@@ -430,23 +478,38 @@ handleEvent(event: CalendarEvent): void {
   });
 }
 
-
 onDrop(event: DropEvent, newDay: DateTime): void {
   const agendamento = event.dropData as Agendamento;
 
   if (agendamento && newDay) {
-    // Atualiza a data de início e fim do agendamento para o novo dia
-    agendamento.data = newDay.toISODate() ?? undefined;  // Atualiza a data do agendamento
-
-    // Atualize a hora de início e fim, se necessário. Você pode manter o mesmo horário
-    // ou ajustar de acordo com a necessidade do seu sistema.
+    agendamento.dataInicio = newDay.toISODate() ?? undefined;  // Atualiza a data de início
+    agendamento.dataFim = newDay.plus({ days: 2 }).toISODate() ?? undefined;  // Exemplo de ajuste de data de fim
 
     this.service.save(agendamento).subscribe(() => {
       this.snackBar.open('Agendamento movido com sucesso!', 'Fechar', { duration: 3000 });
-      this.refreshCalendar();  // Atualiza o calendário para refletir as mudanças
+      this.refreshCalendar();
     });
   }
 }
+
+
+// onDrop(event: DropEvent, newDay: DateTime): void {
+//   const agendamento = event.dropData as Agendamento;
+
+//   if (agendamento && newDay) {
+//     // Atualiza a data de início e fim do agendamento para o novo dia
+//     agendamento.dataInicio = newDay.toISODate() ?? undefined;  // Atualiza a data do agendamento
+//     agendamento.dataFim = newDay.toISODate() ?? undefined;  // Atualiza a data do agendamento
+
+//     // Atualize a hora de início e fim, se necessário. Você pode manter o mesmo horário
+//     // ou ajustar de acordo com a necessidade do seu sistema.
+
+//     this.service.save(agendamento).subscribe(() => {
+//       this.snackBar.open('Agendamento movido com sucesso!', 'Fechar', { duration: 3000 });
+//       this.refreshCalendar();  // Atualiza o calendário para refletir as mudanças
+//     });
+//   }
+// }
 
 calendarCellWidth: number = 100; // Suponha que você conheça a largura de cada célula de dia
 
@@ -459,7 +522,8 @@ onResizeEnd(event: ResizeEvent, agendamento: Agendamento): void {
   const resizedDays = Math.ceil((event.rectangle.width ?? 0) / this.calendarCellWidth); // Assuma que você tenha uma variável 'calendarCellWidth'
 
   if (resizedDays > 0) {
-    const startDate = agendamento.data ? DateTime.fromISO(agendamento.data) : DateTime.local(); // Use a data atual se undefined
+    const startDate = agendamento.dataInicio ? DateTime.fromISO(agendamento.dataInicio) : DateTime.local(); // Use a data atual se undefined
+    const endDate = agendamento.dataFim ? DateTime.fromISO(agendamento.dataFim) : DateTime.local(); // Use a data atual se undefined
     const newEndDate = startDate.plus({ days: resizedDays }); // Nova data de fim calculada com base no redimensionamento
 
     // Atualiza o agendamento para abranger os dias novos
@@ -469,7 +533,8 @@ onResizeEnd(event: ResizeEvent, agendamento: Agendamento): void {
       // Salve o agendamento em cada dia adicional
       const newAgendamento = {
         ...agendamento,
-        data: agendamento.data ?? undefined, // Converte 'null' para 'undefined'
+        dataInicio: agendamento.dataInicio ?? undefined, // Converte 'null' para 'undefined'
+        dataFim: agendamento.dataFim ?? undefined, // Converte 'null' para 'undefined'
       };
 
       // Chama o serviço para salvar o agendamento

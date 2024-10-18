@@ -5,7 +5,8 @@ import { Pessoa } from "../../pessoas/model/pessoa";
 export interface Agendamento {
 
   id: number;
-  data?: string;
+  dataInicio?: string;
+  dataFim?: string;
   horaInicio?: string;
   horaFim?: string;
   pessoa: Pessoa;

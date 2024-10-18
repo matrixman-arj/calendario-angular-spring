@@ -1,18 +1,23 @@
 <mat-card>
   <mat-table [dataSource]="dataSource">
 
-    <ng-container matColumnDef="data">
-      <mat-header-cell *matHeaderCellDef> Data </mat-header-cell>
-      <mat-cell *matCellDef="let agendamento">{{ agendamento.data }}</mat-cell>
+    <ng-container matColumnDef="dataInicio">
+      <mat-header-cell *matHeaderCellDef> Data de início </mat-header-cell>
+      <mat-cell *matCellDef="let agendamento">{{ agendamento.dataInicio }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dataFim">
+      <mat-header-cell *matHeaderCellDef> Data para o término </mat-header-cell>
+      <mat-cell *matCellDef="let agendamento">{{ agendamento.dataFim }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="horaInicio">
-      <mat-header-cell *matHeaderCellDef> Início </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>Hora de início </mat-header-cell>
       <mat-cell *matCellDef="let agendamento"> {{agendamento.horaInicio}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="horaFim">
-      <mat-header-cell *matHeaderCellDef> Fim </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Hora de término </mat-header-cell>
       <mat-cell *matCellDef="let agendamento"> {{agendamento.horaFim}} </mat-cell>
     </ng-container>
 

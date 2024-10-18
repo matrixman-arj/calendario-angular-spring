@@ -33,7 +33,10 @@ public class Agendamento {
 
     
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate data;
+    private LocalDate dataInicio;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate dataFim;
 
    
     private LocalTime horaInicio;
@@ -75,14 +78,20 @@ public class Agendamento {
 
     public void setId(Long id) {
         this.id = id;
+    }    
+
+    public LocalDate getDataInicio() {
+        return dataInicio;
+    }
+    public void setDataInicio(LocalDate dataInicio) {
+        this.dataInicio = dataInicio;
     }
 
-    public LocalDate getData() {
-        return data;
+    public LocalDate getDataFim() {
+        return dataFim;
     }
-
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setDataFim(LocalDate dataFim) {
+        this.dataFim = dataFim;
     }
 
     public LocalTime getHoraInicio() {
@@ -163,7 +172,8 @@ public class Agendamento {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((data == null) ? 0 : data.hashCode());
+        result = prime * result + ((dataInicio == null) ? 0 : dataInicio.hashCode());
+        result = prime * result + ((dataFim == null) ? 0 : dataFim.hashCode());
         result = prime * result + ((horaInicio == null) ? 0 : horaInicio.hashCode());
         result = prime * result + ((horaFim == null) ? 0 : horaFim.hashCode());
         result = prime * result + ((pessoa == null) ? 0 : pessoa.hashCode());
@@ -190,11 +200,17 @@ public class Agendamento {
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (data == null) {
-            if (other.data != null)
+        if (dataInicio == null) {
+            if (other.dataInicio != null)
                 return false;
-        } else if (!data.equals(other.data))
+        } else if (!dataInicio.equals(other.dataInicio))
             return false;
+        if (dataFim == null) {
+            if (other.dataFim != null)
+                return false;
+        } else if (!dataFim.equals(other.dataFim))
+            return false;
+
         if (horaInicio == null) {
             if (other.horaInicio != null)
                 return false;
@@ -245,7 +261,7 @@ public class Agendamento {
 
     @Override
     public String toString() {
-        return "Agendamento [id=" + id + ", data=" + data + ", horaInicio=" + horaInicio + ", horaFim=" + horaFim
+        return "Agendamento [id=" + id + ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + ", horaInicio=" + horaInicio + ", horaFim=" + horaFim
                 + ", pessoa=" + pessoa + ", assessoria=" + assessoria + ", acessorios=" + acessorios + ", audiencia="
                 + audiencia + ", evento=" + evento + ", diex=" + diex + ", militarLigacao=" + militarLigacao + "]";
     }

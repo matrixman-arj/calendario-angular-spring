@@ -28,7 +28,7 @@ export class AgendamentosListaComponent implements OnInit {
   @Output() edit = new EventEmitter<Agendamento>(); // Mudança aqui para passar o agendamento
   @Output() delete = new EventEmitter(false);
 
-  readonly displayedColumns = ['data','horaInicio', 'horaFim', 'pessoa', 'assessoria', 'acoes'];
+  readonly displayedColumns = ['dataInicio', 'dataFim' ,'horaInicio', 'horaFim', 'pessoa', 'assessoria', 'acoes'];
 
 
   dataSource = new MatTableDataSource<Agendamento>();
@@ -62,7 +62,7 @@ export class AgendamentosListaComponent implements OnInit {
    //Novo método para escutar o evento de edição
   onEdit(agendamento: Agendamento): void {
     console.log(agendamento.id)
-    if (agendamento.data) {
+    if (agendamento.dataInicio) {
         //const day = DateTime.fromISO(agendamento.data); // Mantém como DateTime
         const day = DateTime.local(); // Usa a data atual como DateTime
         this.openAgendamentoModal(day, agendamento); // Chama o modal com o DateTime e o agendamento

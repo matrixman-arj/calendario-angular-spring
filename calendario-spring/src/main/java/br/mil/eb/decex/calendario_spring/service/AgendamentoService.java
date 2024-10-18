@@ -84,7 +84,8 @@ public class AgendamentoService {
     public AgendamentoDTO update(@NotNull @Positive Long id, @Valid AgendamentoDTO agendamento) {
         return agendamentoRepository.findById(id)
                 .map(recordFound -> {
-                    recordFound.setData(agendamento.data());
+                    recordFound.setDataInicio(agendamento.dataInicio());
+                    recordFound.setDataFim(agendamento.dataFim());
                     recordFound.setHoraInicio(agendamento.horaInicio());
                     recordFound.setHoraFim(agendamento.horaFim());
                     recordFound.setPessoa(agendamento.pessoa());
