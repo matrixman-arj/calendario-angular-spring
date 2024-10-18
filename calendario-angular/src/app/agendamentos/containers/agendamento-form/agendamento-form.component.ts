@@ -204,31 +204,22 @@ export class AgendamentoFormComponent implements OnInit {
 
     // Verificar e depurar se os agendamentos estão sendo encontrados
     const agendamentos = Object.values(this.agendamentos2).flat(); // Obtém todos os agendamentos
+    const renderedAgendamentos: any[] = [];
+
     return agendamentos.filter(agendamento => {
       const dataInicio = agendamento.dataInicio ? DateTime.fromISO(agendamento.dataInicio).toISODate() : null;
       const dataFim = agendamento.dataFim ? DateTime.fromISO(agendamento.dataFim).toISODate() : null;
 
       // Verifica se o dia atual está no intervalo entre dataInicio e dataFim
-      return dataInicio && dataFim && DateTime.fromISO(dayISO) >= DateTime.fromISO(dataInicio) && DateTime.fromISO(dayISO) <= DateTime.fromISO(dataFim);
-    }).map(agendamento => {
-      const horaInicio = agendamento.horaInicio ? DateTime.fromISO(agendamento.horaInicio).toFormat('HH:mm') : 'N/A';
-      const horaFim = agendamento.horaFim ? DateTime.fromISO(agendamento.horaFim).toFormat('HH:mm') : 'N/A';
-
-      return {
-        id: agendamento.id,
-        dataInicio: agendamento.dataInicio,
-        dataFim: agendamento.dataFim,
-        horaInicio: agendamento.horaInicio,
-        horaFim: agendamento.horaFim,
-        pessoa: agendamento.pessoa,
-        assessoria: agendamento.assessoria,
-        acessorios: agendamento.acessorios,
-        audiencia: agendamento.audiencia,
-        evento: agendamento.evento,
-        diex: agendamento.diex,
-        militarLigacao: agendamento.militarLigacao
-      };
-    });
+    if (dataInicio && dataFim && DateTime.fromISO(dayISO) >= DateTime.fromISO(dataInicio) && DateTime.fromISO(dayISO) <= DateTime.fromISO(dataFim)) {
+      // Adiciona o agendamento apenas se ele ainda não foi renderizado nesta célula
+      if (!renderedAgendamentos.find(a => a.id === agendamento.id)) {
+        renderedAgendamentos.push(agendamento);
+        return true;
+      }
+    }
+    return false;
+  });
   }
 
 
@@ -513,38 +504,66 @@ onDrop(event: DropEvent, newDay: DateTime): void {
 
 calendarCellWidth: number = 100; // Suponha que você conheça a largura de cada célula de dia
 
-
 onResizeEnd(event: ResizeEvent, agendamento: Agendamento): void {
-
   console.log('Evento de redimensionamento:', event);
 
-  // Calcule a quantidade de dias que o evento foi redimensionado
-  const resizedDays = Math.ceil((event.rectangle.width ?? 0) / this.calendarCellWidth); // Assuma que você tenha uma variável 'calendarCellWidth'
+  // Calcule a largura de cada célula do calendário (assumindo que você saiba a largura da célula)
+  const dayWidth = this.calendarCellWidth; // Defina a largura de cada célula do calendário
+
+  // Calcule a quantidade de dias redimensionados com base na largura
+  const resizedDays = Math.round((event.rectangle.width ?? 0) / dayWidth); // Use Math.round para arredondar o valor para o número mais próximo
 
   if (resizedDays > 0) {
-    const startDate = agendamento.dataInicio ? DateTime.fromISO(agendamento.dataInicio) : DateTime.local(); // Use a data atual se undefined
-    const endDate = agendamento.dataFim ? DateTime.fromISO(agendamento.dataFim) : DateTime.local(); // Use a data atual se undefined
-    const newEndDate = startDate.plus({ days: resizedDays }); // Nova data de fim calculada com base no redimensionamento
+    // Defina a nova data de término com base no número de dias redimensionados
+    const startDate = agendamento.dataInicio ? DateTime.fromISO(agendamento.dataInicio) : DateTime.local();
+    const newEndDate = startDate.plus({ days: resizedDays });
 
-    // Atualiza o agendamento para abranger os dias novos
-    for (let i = 0; i <= resizedDays; i++) {
-      const currentDay = startDate.plus({ days: i }).toISODate();
+    // Atualiza o agendamento com a nova data de fim, garantindo que seja um valor válido
+    agendamento.dataFim = newEndDate.toISODate() ?? undefined;
 
-      // Salve o agendamento em cada dia adicional
-      const newAgendamento = {
-        ...agendamento,
-        dataInicio: agendamento.dataInicio ?? undefined, // Converte 'null' para 'undefined'
-        dataFim: agendamento.dataFim ?? undefined, // Converte 'null' para 'undefined'
-      };
-
-      // Chama o serviço para salvar o agendamento
-      this.service.save(newAgendamento).subscribe(() => {
-        this.refreshCalendar();
-        this.snackBar.open('Agendamento atualizado com sucesso!', 'Fechar', { duration: 3000 });
-      });
-    }
+    // Salve o agendamento atualizado
+    this.service.save(agendamento).subscribe(() => {
+      this.snackBar.open('Agendamento redimensionado com sucesso!', 'Fechar', { duration: 3000 });
+      this.refreshCalendar(); // Atualiza o calendário para refletir as mudanças
+    });
   }
 }
+
+
+
+
+
+// onResizeEnd(event: ResizeEvent, agendamento: Agendamento): void {
+
+//   console.log('Evento de redimensionamento:', event);
+
+//   // Calcule a quantidade de dias que o evento foi redimensionado
+//   const resizedDays = Math.ceil((event.rectangle.width ?? 0) / this.calendarCellWidth); // Assuma que você tenha uma variável 'calendarCellWidth'
+
+//   if (resizedDays > 0) {
+//     const startDate = agendamento.dataInicio ? DateTime.fromISO(agendamento.dataInicio) : DateTime.local(); // Use a data atual se undefined
+//     // const endDate = agendamento.dataFim ? DateTime.fromISO(agendamento.dataFim) : DateTime.local(); // Use a data atual se undefined
+//     const newEndDate = startDate.plus({ days: resizedDays }); // Nova data de fim calculada com base no redimensionamento
+
+//     // Atualiza o agendamento para abranger os dias novos
+//     for (let i = 0; i <= resizedDays; i++) {
+//       const currentDay = startDate.plus({ days: i }).toISODate();
+
+//       // Salve o agendamento em cada dia adicional
+//       const newAgendamento = {
+//         ...agendamento,
+//         dataInicio: agendamento.dataInicio ?? undefined, // Converte 'null' para 'undefined'
+//         dataFim: agendamento.dataFim ?? undefined, // Converte 'null' para 'undefined'
+//       };
+
+//       // Chama o serviço para salvar o agendamento
+//       this.service.save(newAgendamento).subscribe(() => {
+//         this.refreshCalendar();
+//         this.snackBar.open('Agendamento atualizado com sucesso!', 'Fechar', { duration: 3000 });
+//       });
+//     }
+//   }
+// }
 
 
 

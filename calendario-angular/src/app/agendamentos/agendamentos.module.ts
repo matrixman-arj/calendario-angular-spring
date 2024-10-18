@@ -48,6 +48,7 @@ import { RouterModule } from '@angular/router';
     FullCalendarModule, // FullCalendar Module
     ButtonModule,
     RouterModule, // Certifique-se de que o RouterModule está importado
+    ResizableModule,  // Adicione o módulo de redimensionamento aqui
 
 
     CalendarModule.forRoot({

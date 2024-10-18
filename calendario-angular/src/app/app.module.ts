@@ -84,6 +84,7 @@ import { RouterModule } from '@angular/router';
     RecurrenceEditorModule,
     SharedModule,
     RouterModule.forRoot([]), // Adicionando o RouterModule com forRoot
+    ResizableModule,  // Adicione o módulo de redimensionamento aqui
 
     CalendarModule.forRoot({
       provide: DateAdapter,

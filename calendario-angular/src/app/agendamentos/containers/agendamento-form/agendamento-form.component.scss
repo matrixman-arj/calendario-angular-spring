@@ -206,21 +206,63 @@ mat-card {
 /*########################################################################################*/
 
 /* #12# Aqui inicia o bloco de estilo, onde são exibidos os agendamentos */
+// .calendar-event {
+//   background-color: rgba(0, 123, 255, 0.1);
+//   padding: 5px;
+//   border-radius: 4px;
+//   font-size: 12px;
+//   cursor: move; /* Mostra o cursor de movimento */
+//   text-overflow: ellipsis;
+//   overflow: hidden;
+//   white-space: nowrap;
+//   max-height: 20px; /* Limita a altura de cada evento */
+
+//   /* Define o z-index para garantir que o evento fique acima de outros elementos */
+//   z-index: 10;
+//   position: relative; /* Importante para aplicar o z-index */
+// }
+
 .calendar-event {
   background-color: rgba(0, 123, 255, 0.1);
   padding: 5px;
   border-radius: 4px;
   font-size: 12px;
-  cursor: move; /* Mostra o cursor de movimento */
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  max-height: 20px; /* Limita a altura de cada evento */
+  cursor: move;
+  position: relative;
+  max-height: 20px;
 
-  /* Define o z-index para garantir que o evento fique acima de outros elementos */
-  z-index: 10;
-  position: relative; /* Importante para aplicar o z-index */
+  // Adiciona "alças" para redimensionar
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 10px; /* Largura da alça de redimensionamento */
+    background: rgba(0, 0, 0, 0.1);
+    cursor: ew-resize; /* Cursor de redimensionamento horizontal */
+  }
 }
+
+.mwl-resizable-handle {
+  position: absolute;
+  top: 0;
+  width: 10px;
+  height: 100%;
+  background-color: transparent; /* Pode ser mudado para ajudar a visualização */
+}
+
+.mwl-resizable-handle-left {
+  left: 0;
+  cursor: ew-resize;
+}
+
+.mwl-resizable-handle-right {
+  right: 0;
+  cursor: ew-resize;
+}
+
+
 /* Aqui finaliza o bloco de estilo, onde são exibidos os agendamentos */
 /*########################################################################################*/
 
