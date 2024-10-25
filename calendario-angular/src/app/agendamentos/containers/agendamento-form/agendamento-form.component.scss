@@ -228,8 +228,10 @@ mat-card {
   border-radius: 4px;
   font-size: 12px;
   cursor: move;
+  z-index: 10;
   position: relative;
   max-height: 20px;
+  margin-bottom: 2px;
 
   // Adiciona "alças" para redimensionar
   &::after {
@@ -238,11 +240,22 @@ mat-card {
     right: 0;
     top: 0;
     bottom: 0;
-    width: 10px; /* Largura da alça de redimensionamento */
-    background: rgba(0, 0, 0, 0.1);
-    cursor: ew-resize; /* Cursor de redimensionamento horizontal */
+    width: 120px; /* Largura da alça de redimensionamento */
+    background: rgba(99, 79, 248, 0.1);
+    cursor: move; /* Cursor de redimensionamento horizontal */
+
   }
 }
+
+// .resize-handle {
+//   width: 10px;
+//   height: 100%;
+//   position: absolute;
+//   right: 0;
+//   top: 0;
+//   cursor: ew-resize;
+//   background-color: rgba(0, 0, 0, 0.2);
+// }
 
 .mwl-resizable-handle {
   position: absolute;

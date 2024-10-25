@@ -37,6 +37,39 @@ import { CalendarOptions } from '@fullcalendar/core';
 })
 export class AgendamentoFormComponent implements OnInit {
 
+isResizing: boolean = false;
+startX: number = 0; // Coordenada inicial para calcular o redimensionamento
+
+startResize(event: MouseEvent, agendamento: Agendamento) {
+  this.isResizing = true;
+  this.startX = event.clientX; // Captura a posição inicial do mouse
+}
+
+resizeEvent(event: MouseEvent, agendamento: Agendamento) {
+  if (!this.isResizing) return;
+
+  const distanceMoved = event.clientX - this.startX; // Calcula a distância movida
+  const daysResized = Math.floor(distanceMoved / this.calendarCellWidth); // Converte a distância em dias
+
+  if (daysResized > 0) {
+    const newEndDate = DateTime.fromISO(agendamento.dataInicio || DateTime.local().toISODate()).plus({ days: daysResized });
+    agendamento.dataFim = newEndDate.toISODate() ?? undefined;
+  }
+}
+
+endResize(event: MouseEvent, agendamento: Agendamento) {
+  if (this.isResizing) {
+    this.isResizing = false;
+
+    // Salva o agendamento atualizado com a nova dataFim
+    this.service.save(agendamento).subscribe(() => {
+      this.snackBar.open('Agendamento redimensionado com sucesso!', 'Fechar', { duration: 3000 });
+      this.refreshCalendar(); // Atualiza o calendário para refletir as mudanças
+    });
+  }
+}
+
+
 
 
   selectedDate: Date | undefined; // Propriedade que vai armazenar a data selecionada
@@ -67,6 +100,28 @@ export class AgendamentoFormComponent implements OnInit {
     // Lógica ao clicar em um evento
     alert('Evento clicado: ' + event.event.title);
   }
+
+  // onDragEnd(event: DropEvent<Agendamento>, newDay: DateTime, agendamento: Agendamento): void {
+  //   event.event.stopPropagation(); // Previne a propagação do evento de clique
+
+  //   if (agendamento && newDay) {
+  //     agendamento.dataInicio = newDay.toISODate() ?? undefined;
+  //     agendamento.dataFim = newDay.toISODate() ?? undefined;
+
+  //     // Salva o agendamento atualizado sem abrir o modal
+  //     this.service.save(agendamento).subscribe(() => {
+  //       this.snackBar.open('Agendamento movido com sucesso!', 'Fechar', { duration: 3000 });
+  //       this.refreshCalendar(); // Atualiza o calendário para refletir as mudanças
+  //     });
+  //   }
+  // }
+
+
+  // handleEventClick(dayOfMonth: DateTime, agendamento: Agendamento, event: MouseEvent): void {
+  //   event.stopPropagation(); // Impede que o clique na célula acione o modal de criação
+  //   this.openAgendamentoModal(dayOfMonth, agendamento); // Abra o modal apenas para edição
+  // }
+
 
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
@@ -340,12 +395,11 @@ mapAgendamentosPorData(agendamentos: Agendamento[]): { [key: string]: Agendament
       for (let day = dataInicio; day <= dataFim; day = day.plus({ days: 1 })) {
         const dayISO = day.toISODate();
 
-        // Verifica se dayISO não é null
-        if (dayISO !== null) {
+        // Certifique-se de que o agendamento não está sendo duplicado no mesmo dia
+        if (dayISO && !agendamentosMap[dayISO]?.some(a => a.id === agendamento.id)) {
           if (!agendamentosMap[dayISO]) {
             agendamentosMap[dayISO] = [];
           }
-
           agendamentosMap[dayISO].push(agendamento);
         }
       }
@@ -354,6 +408,7 @@ mapAgendamentosPorData(agendamentos: Agendamento[]): { [key: string]: Agendament
 
   return agendamentosMap;
 }
+
 
 
 
@@ -473,15 +528,27 @@ onDrop(event: DropEvent, newDay: DateTime): void {
   const agendamento = event.dropData as Agendamento;
 
   if (agendamento && newDay) {
-    agendamento.dataInicio = newDay.toISODate() ?? undefined;  // Atualiza a data de início
-    agendamento.dataFim = newDay.plus({ days: 2 }).toISODate() ?? undefined;  // Exemplo de ajuste de data de fim
+    // A lógica de mover o evento é simples, apenas atualizamos a data de início e fim mantendo a duração original
+    const dataInicioOriginal = agendamento.dataInicio ? DateTime.fromISO(agendamento.dataInicio) : DateTime.local();
+    const dataFimOriginal = agendamento.dataFim ? DateTime.fromISO(agendamento.dataFim) : dataInicioOriginal;
 
+    // Calcula a duração original do agendamento
+    const originalDuration = dataFimOriginal.diff(dataInicioOriginal, 'days').days;
+
+    // Atualiza a data de início para a nova data (nova posição)
+    agendamento.dataInicio = newDay.toISODate() ?? undefined;
+
+    // Atualiza a data de fim com base na duração original
+    agendamento.dataFim = newDay.plus({ days: originalDuration }).toISODate() ?? undefined;
+
+    // Salva o agendamento movido
     this.service.save(agendamento).subscribe(() => {
       this.snackBar.open('Agendamento movido com sucesso!', 'Fechar', { duration: 3000 });
-      this.refreshCalendar();
+      this.refreshCalendar(); // Atualiza o calendário para refletir as mudanças
     });
   }
 }
+
 
 
 // onDrop(event: DropEvent, newDay: DateTime): void {
@@ -505,29 +572,45 @@ onDrop(event: DropEvent, newDay: DateTime): void {
 calendarCellWidth: number = 100; // Suponha que você conheça a largura de cada célula de dia
 
 onResizeEnd(event: ResizeEvent, agendamento: Agendamento): void {
-  console.log('Evento de redimensionamento:', event);
+  // Certifique-se de que o redimensionamento está ocorrendo na borda direita
+  if (event.edges.right) {
+    // Calcule a quantidade de dias redimensionados
+    const resizedDays = Math.round((event.rectangle.width ?? 0) / this.calendarCellWidth);
 
-  // Calcule a largura de cada célula do calendário (assumindo que você saiba a largura da célula)
-  const dayWidth = this.calendarCellWidth; // Defina a largura de cada célula do calendário
+    if (resizedDays > 0) {
+      const dataInicio = agendamento.dataInicio ? DateTime.fromISO(agendamento.dataInicio) : DateTime.local();
 
-  // Calcule a quantidade de dias redimensionados com base na largura
-  const resizedDays = Math.round((event.rectangle.width ?? 0) / dayWidth); // Use Math.round para arredondar o valor para o número mais próximo
+      // A nova data de fim é calculada com base nos dias redimensionados
+      const newEndDate = dataInicio.plus({ days: resizedDays });
 
-  if (resizedDays > 0) {
-    // Defina a nova data de término com base no número de dias redimensionados
-    const startDate = agendamento.dataInicio ? DateTime.fromISO(agendamento.dataInicio) : DateTime.local();
-    const newEndDate = startDate.plus({ days: resizedDays });
+      // Atualiza a data de fim com base no redimensionamento
+      agendamento.dataFim = newEndDate.toISODate() ?? undefined;
 
-    // Atualiza o agendamento com a nova data de fim, garantindo que seja um valor válido
-    agendamento.dataFim = newEndDate.toISODate() ?? undefined;
+      // Salva o agendamento atualizado
+      this.service.save(agendamento).subscribe(() => {
+        this.snackBar.open('Agendamento redimensionado com sucesso!', 'Fechar', { duration: 3000 });
+        this.refreshCalendar(); // Atualiza o calendário para refletir as mudanças
+      });
+    }
+  }
+}
 
-    // Salve o agendamento atualizado
+handleDrop(event: DropEvent<Agendamento>, newDay: DateTime): void {
+  const agendamento = event.dropData;
+
+  if (agendamento && newDay) {
+    // Atualiza as datas de início e fim para a nova data
+    agendamento.dataInicio = newDay.toISODate() ?? undefined;
+    agendamento.dataFim = newDay.toISODate() ?? undefined;
+
+    // Salvar o agendamento atualizado
     this.service.save(agendamento).subscribe(() => {
-      this.snackBar.open('Agendamento redimensionado com sucesso!', 'Fechar', { duration: 3000 });
-      this.refreshCalendar(); // Atualiza o calendário para refletir as mudanças
+      this.snackBar.open('Agendamento movido com sucesso!', 'Fechar', { duration: 3000 });
+      this.refreshCalendar();  // Atualiza o calendário
     });
   }
 }
+
 
 
 
