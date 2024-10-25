@@ -42,6 +42,7 @@ import interactionPlugin from '@fullcalendar/interaction';// Plugin de interaç�
     DialogModule,
     FullCalendarModule, // Importação do módulo do FullCalendar
 
+
   ],
   exports: [
     AgendamentoFormComponent,
