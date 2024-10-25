@@ -72,20 +72,20 @@
                  {{ dayOfMonth.day }}
                 </div>
 
-                <!-- Exibir agendamentos para o dia -->
+               <!-- Exibir agendamentos para o dia -->
                 <div *ngFor="let agendamento of getAgendamentosForDay(dayOfMonth)"
-                    class="calendar-event"
-                    mwlResizable
-                    (resizeEnd)="onResizeEnd($event, agendamento)"
+                  class="calendar-event"
 
-                    mwlDraggable
-                    [dropData]="agendamento"
-                    [dragAxis]="{x: true, y: false}"
-                    (click)="openAgendamentoModal(dayOfMonth, agendamento); $event.stopPropagation()">
+                  mwlDroppable
+                  [dragOverClass]="'calendar-cell-over'"
+                  (drop)="handleDrop($event, dayOfMonth)"
+
+                  mwlDraggable
+                  [dropData]="agendamento"
+                  [dragAxis]="{x: true, y: true}"
+                  (click)="openAgendamentoModal(dayOfMonth, agendamento); $event.stopPropagation()">
                   {{ agendamento.horaInicio }} - {{ agendamento.horaFim }} | {{ agendamento.assessoria.sigla }}
                 </div>
-
-
             </div>
           </div>
         </div>
