@@ -231,6 +231,7 @@ mat-card {
   z-index: 10;
   position: relative;
   max-height: 20px;
+  margin-bottom: 2px;
 
   // Adiciona "alças" para redimensionar
   &::after {
@@ -240,7 +241,7 @@ mat-card {
     top: 0;
     bottom: 0;
     width: 120px; /* Largura da alça de redimensionamento */
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(99, 79, 248, 0.1);
     cursor: move; /* Cursor de redimensionamento horizontal */
 
   }
