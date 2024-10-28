@@ -15,6 +15,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatGridListModule } from '@angular/material/grid-list';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatIconModule,
     MatRadioModule,
     MatSnackBarModule,
-    MatGridListModule
+    MatGridListModule,
+    MatPaginatorModule
   ],
 
 })

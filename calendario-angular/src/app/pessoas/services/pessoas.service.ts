@@ -4,6 +4,7 @@ import { Pessoa } from '../model/pessoa';
 import { HttpClient } from '@angular/common/http';
 import { delay, first, Observable, tap } from 'rxjs';
 import { Assessoria } from '../../assessorias/model/assessoria';
+import { PessoaPage } from '../model/pessoa-page';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,8 @@ export class PessoasService {
   constructor(private httpClient: HttpClient) { }
 
 
-  list() {
-    return this.httpClient.get<Pessoa[]>(this.API)
+  list(page = 0, pageSize = 5) {
+    return this.httpClient.get<PessoaPage>(this.API, { params: {page, pageSize}})
     .pipe(
       first(),
       //delay(5000),

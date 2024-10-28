@@ -11,16 +11,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.mil.eb.decex.calendario_spring.dto.PessoaDTO;
+import br.mil.eb.decex.calendario_spring.dto.PessoaPageDTO;
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
 import br.mil.eb.decex.calendario_spring.repository.PessoaRepository;
 import br.mil.eb.decex.calendario_spring.service.PessoaService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Validated
 @RestController
@@ -39,10 +43,17 @@ public class PessoaController {
     }
 
     @GetMapping
-    public List<PessoaDTO> list() {
-        return pessoaService.list();
+    public PessoaPageDTO list(@RequestParam(defaultValue = "0") @PositiveOrZero int page, 
+            @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize) {
+        return pessoaService.list(page, pageSize);
 
     }
+
+    // @GetMapping
+    // public List<PessoaDTO> list() {
+    //     return pessoaService.list();
+
+    // }
 
     @GetMapping ("/{id}")
     public PessoaDTO findById(@PathVariable @NotNull @Positive Long id){

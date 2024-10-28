@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, Observable, of } from 'rxjs';
@@ -9,6 +9,8 @@ import { PessoasService } from '../../services/pessoas.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfimationDialogComponent } from '../../../shared/components/error-dialog/confimation-dialog/confimation-dialog.component';
+import { PessoaPage } from '../../model/pessoa-page';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-pessoas',
@@ -17,8 +19,12 @@ import { ConfimationDialogComponent } from '../../../shared/components/error-dia
 })
 export class PessoasComponent implements OnInit {
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  pessoas$!: Observable<Pessoa[]>;
+  pageIndex = 0;
+  pageSize = 10;
+
+  pessoas$!: Observable<PessoaPage>;
 
   // pessoasService: PessoasService;
 
@@ -35,12 +41,12 @@ export class PessoasComponent implements OnInit {
     this.refresh();
    }
 
-  refresh(){
-    this.pessoas$ = this.pessoasService.list()
+  refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10}){
+    this.pessoas$ = this.pessoasService.list(pageEvent.pageIndex, pageEvent.pageSize)
     .pipe(
       catchError(error => {
         this.onError('Erro ao carregar pessoas');
-        return of([])
+        return of({pessoas: [], totalElements: 0, totalPages: 0 })
       })
     );
 

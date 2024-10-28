@@ -7,12 +7,15 @@ import { PostoGraduacao, PostoGraduacaoList } from '../../../enums/PostoGraduaca
 import { TipoAcesso, TipoAcessoList } from '../../../enums/TipoAcesso';
 import { SharedModule } from '../../../shared/shared.module';
 
+
 @Component({
   selector: 'app-pessoas-lista',
   templateUrl: './pessoas-lista.component.html',
   styleUrl: './pessoas-lista.component.scss'
 })
 export class PessoasListaComponent implements OnInit {
+
+
 
  @Input() pessoas: Pessoa[] = [];
  @Output() add = new EventEmitter(false);
@@ -47,11 +50,22 @@ export class PessoasListaComponent implements OnInit {
 
    }
 
+
+
   ngOnInit(): void {
     this.http.get<Pessoa[]>('/api/pessoas').subscribe(data => {
       this.dataSource.data = data;
+
+
     });
 
+
+
+  }
+
+  onImageError(event: Event): void {
+    const element = event.target as HTMLImageElement;
+    element.src = 'http://localhost:8080/media/branco.jpg';
   }
 
   onAdd(){

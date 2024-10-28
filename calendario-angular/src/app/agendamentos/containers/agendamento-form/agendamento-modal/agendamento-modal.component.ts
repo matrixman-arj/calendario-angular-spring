@@ -14,6 +14,7 @@ import { ErrorDialogComponent } from '../../../../shared/components/error-dialog
 import { Location } from '@angular/common';
 import { DateTime } from 'luxon';
 import { Agendamento } from '../../../modelo/Agendamento';
+import { PessoaPage } from '../../../../pessoas/model/pessoa-page';
 
 
 @Component({
@@ -91,8 +92,8 @@ export class AgendamentoModalComponent implements OnInit {
       console.log(data)
      });
 
-     this.pessoasService.list().subscribe((data: any[]) => {
-      this.pessoas = data;
+     this.pessoasService.list().subscribe((data: PessoaPage) => {
+      this.pessoas = data.pessoas;
      });
   }
 
