@@ -16,7 +16,7 @@ export class PessoasService {
   constructor(private httpClient: HttpClient) { }
 
 
-  list(page = 0, pageSize = 5) {
+  list(page = 0, pageSize = 10) {
     return this.httpClient.get<PessoaPage>(this.API, { params: {page, pageSize}})
     .pipe(
       first(),
