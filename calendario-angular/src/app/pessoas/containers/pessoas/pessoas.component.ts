@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, Observable, of } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 import { Pessoa } from '../../model/pessoa';
@@ -44,6 +44,10 @@ export class PessoasComponent implements OnInit {
   refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10}){
     this.pessoas$ = this.pessoasService.list(pageEvent.pageIndex, pageEvent.pageSize)
     .pipe(
+      tap(() => {
+        this.pageIndex = pageEvent.pageIndex;
+        this.pageSize = pageEvent.pageSize;
+      }),
       catchError(error => {
         this.onError('Erro ao carregar pessoas');
         return of({pessoas: [], totalElements: 0, totalPages: 0 })
