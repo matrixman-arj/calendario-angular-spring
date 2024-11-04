@@ -49,6 +49,7 @@ export class PessoasComponent implements OnInit {
         this.pageSize = pageEvent.pageSize;
       }),
       catchError(error => {
+
         this.onError('Erro ao carregar pessoas');
         return of({pessoas: [], totalElements: 0, totalPages: 0 })
       })
