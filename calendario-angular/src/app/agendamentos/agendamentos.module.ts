@@ -5,8 +5,8 @@ import { AgendamentoFormComponent } from './containers/agendamento-form/agendame
 import { AgendamentosRoutingModule } from './agendamentos-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import { AppMaterialModule } from '../shared/app-material/app-material.module';
-import { SharedModule } from '../shared/shared.module';
+
+
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { AgendamentosComponent } from './containers/agendamentos/agendamentos.component';
@@ -27,16 +27,9 @@ import { RouterModule } from '@angular/router';
 
 
 @NgModule({
-  declarations: [
-    AgendamentosComponent,
-    AgendamentosListaComponent,
-    AgendamentoModalComponent
-  ],
-  imports: [
+    imports: [
     CommonModule,
     AgendamentosRoutingModule,
-    AppMaterialModule,
-    SharedModule,
     FormsModule,
     MatSelectModule,
     ReactiveFormsModule,
@@ -48,18 +41,17 @@ import { RouterModule } from '@angular/router';
     FullCalendarModule, // FullCalendar Module
     ButtonModule,
     RouterModule, // Certifique-se de que o RouterModule está importado
-    ResizableModule,  // Adicione o módulo de redimensionamento aqui
-
-
+    ResizableModule, // Adicione o módulo de redimensionamento aqui
     CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
+        provide: DateAdapter,
+        useFactory: adapterFactory,
     }),
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  exports:[
-
-  ]
+    AgendamentosComponent,
+    AgendamentosListaComponent,
+    AgendamentoModalComponent,
+],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    exports: []
 })
 export class AgendamentosModule {
 

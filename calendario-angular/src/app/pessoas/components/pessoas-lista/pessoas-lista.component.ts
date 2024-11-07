@@ -1,17 +1,23 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Pessoa } from '../../model/pessoa';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
 import { PostoGraduacao, PostoGraduacaoList } from '../../../enums/PostoGraduacao/PostoGraduacao';
 import { TipoAcesso, TipoAcessoList } from '../../../enums/TipoAcesso';
-import { SharedModule } from '../../../shared/shared.module';
+
+import { MatIcon } from '@angular/material/icon';
+import { MatMiniFabButton, MatIconButton } from '@angular/material/button';
+import { NgIf } from '@angular/common';
+import { MatCard } from '@angular/material/card';
 
 
 @Component({
-  selector: 'app-pessoas-lista',
-  templateUrl: './pessoas-lista.component.html',
-  styleUrl: './pessoas-lista.component.scss'
+    selector: 'app-pessoas-lista',
+    templateUrl: './pessoas-lista.component.html',
+    styleUrl: './pessoas-lista.component.scss',
+    standalone: true,
+    imports: [MatCard, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, NgIf, MatMiniFabButton, MatIcon, MatIconButton, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow]
 })
 export class PessoasListaComponent implements OnInit {
 
@@ -43,7 +49,7 @@ export class PessoasListaComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private shared: SharedModule
+    private shared: /* TODO(standalone-migration): clean up removed NgModule reference manually. */  SharedModule
 
 
    ){

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
-import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { Validators, UntypedFormGroup, UntypedFormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { Pessoa } from '../../../../pessoas/model/pessoa';
 import { Assessoria } from '../../../../assessorias/model/assessoria';
 import { AssessoriasService } from '../../../../assessorias/services/assessorias.service';
@@ -11,16 +11,23 @@ import { ActivatedRoute } from '@angular/router';
 import { AgendamentosService } from '../../../services/agendamentos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ErrorDialogComponent } from '../../../../shared/components/error-dialog/error-dialog.component';
-import { Location } from '@angular/common';
+import { Location, NgFor } from '@angular/common';
 import { DateTime } from 'luxon';
 import { Agendamento } from '../../../modelo/Agendamento';
 import { PessoaPage } from '../../../../pessoas/model/pessoa-page';
+import { MatButton } from '@angular/material/button';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
 
 
 @Component({
-  selector: 'app-agendamento-modal',
-  templateUrl: './agendamento-modal.component.html',
-  styleUrl: './agendamento-modal.component.scss'
+    selector: 'app-agendamento-modal',
+    templateUrl: './agendamento-modal.component.html',
+    styleUrl: './agendamento-modal.component.scss',
+    standalone: true,
+    imports: [MatDialogContent, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatSelect, NgFor, MatOption, MatDialogActions, MatButton]
 })
 export class AgendamentoModalComponent implements OnInit {
 

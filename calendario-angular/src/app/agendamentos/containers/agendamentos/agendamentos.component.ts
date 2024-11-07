@@ -10,11 +10,17 @@ import { ErrorDialogComponent } from '../../../shared/components/error-dialog/er
 import { AgendamentosService } from '../../services/agendamentos.service';
 import { FormBuilder } from '@angular/forms';
 import { ResizeEvent } from 'angular-resizable-element';
+import { AgendamentosListaComponent } from '../../components/agendamentos-lista/agendamentos-lista.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatCard } from '@angular/material/card';
 
 @Component({
-  selector: 'app-agendamentos',
-  templateUrl: './agendamentos.component.html',
-  styleUrl: './agendamentos.component.scss'
+    selector: 'app-agendamentos',
+    templateUrl: './agendamentos.component.html',
+    styleUrl: './agendamentos.component.scss',
+    standalone: true,
+    imports: [MatCard, MatToolbar, NgIf, AgendamentosListaComponent, AsyncPipe]
 })
 export class AgendamentosComponent implements OnInit{
 

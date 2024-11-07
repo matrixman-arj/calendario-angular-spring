@@ -1,7 +1,7 @@
 
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Location } from '@angular/common';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Location, NgFor } from '@angular/common';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AssessoriasService } from '../../services/assessorias.service';
@@ -10,12 +10,21 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
+import { MatButton } from '@angular/material/button';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatCard, MatCardContent, MatCardActions } from '@angular/material/card';
 
 
 @Component({
-  selector: 'app-assessoria-form',
-  templateUrl: './assessoria-form.component.html',
-  styleUrl: './assessoria-form.component.scss'
+    selector: 'app-assessoria-form',
+    templateUrl: './assessoria-form.component.html',
+    styleUrl: './assessoria-form.component.scss',
+    standalone: true,
+    imports: [MatCard, MatToolbar, MatCardContent, FormsModule, ReactiveFormsModule, MatFormField, MatInput, MatLabel, MatSelect, NgFor, MatOption, MatCardActions, MatButton]
 })
 export class AssessoriaFormComponent implements OnInit {
 
