@@ -49,7 +49,7 @@ export class PessoasListaComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private shared: /* TODO(standalone-migration): clean up removed NgModule reference manually. */  SharedModule
+    // private shared: /* TODO(standalone-migration): clean up removed NgModule reference manually. */  SharedModule
 
 
    ){

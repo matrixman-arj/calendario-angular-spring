@@ -1,36 +1,36 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
-import { AppComponent } from './app/app.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { DayService, MonthAgendaService, MonthService, RecurrenceEditorModule, ScheduleModule, WeekService, WorkWeekService } from '@syncfusion/ej2-angular-schedule';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { IMaskModule } from 'angular-imask';
 import { ResizableModule } from 'angular-resizable-element';
-import { provideRouter } from '@angular/router';
-import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule as PrimeNgCalendarModule } from 'primeng/calendar';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { MatListModule } from '@angular/material/list';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { IMaskModule } from 'angular-imask';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSelectModule } from '@angular/material/select';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { withInterceptorsFromDi, provideHttpClient } from '@angular/common/http';
-import { FullCalendarModule } from '@fullcalendar/angular';
+import { DialogModule } from 'primeng/dialog';
 import { AppRoutingModule } from './app/app-routing.module';
-import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService, ScheduleModule, RecurrenceEditorModule } from '@syncfusion/ej2-angular-schedule';
+import { AppComponent } from './app/app.component';
+import { APP_ROUTES } from './app/app.routes';
 
 
 bootstrapApplication(AppComponent, {
@@ -46,7 +46,7 @@ bootstrapApplication(AppComponent, {
         provideAnimationsAsync(),
         provideHttpClient(withInterceptorsFromDi()),
         provideAnimations(),
-        provideRouter([])
+        provideRouter(APP_ROUTES, withPreloading(PreloadAllModules))
     ]
 })
   .catch(err => console.error(err));
