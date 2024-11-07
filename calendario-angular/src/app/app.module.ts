@@ -23,7 +23,7 @@ import { CalendariosComponent } from './calendarios/calendarios.component';
 import { AgendamentoModalComponent } from './agendamentos/containers/agendamento-form/agendamento-modal/agendamento-modal.component';
 import { CalendarModule , DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { SharedModule } from './shared/shared.module';
+
 import { AgendamentoFormComponent } from './agendamentos/containers/agendamento-form/agendamento-form.component';
 import { DialogModule } from 'primeng/dialog';
 import { CalendarModule as PrimeNgCalendarModule } from 'primeng/calendar';
@@ -45,17 +45,11 @@ import { RouterModule } from '@angular/router';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PostoPipe,
-    CalendarioComponent,
-    CalendariosComponent,  ],
-  exports: [
-    PostoPipe,
-
-  ],
-
-  imports: [
+    declarations: [AppComponent],
+    exports: [
+        PostoPipe,
+    ],
+    imports: [
     BrowserModule,
     AppRoutingModule,
     FullCalendarModule, // Importação do módulo do FullCalendar
@@ -78,25 +72,25 @@ import { RouterModule } from '@angular/router';
     MatListModule,
     CalendarModule,
     PrimeNgCalendarModule,
-    ButtonModule,            // Outros módulos PrimeNG
+    ButtonModule, // Outros módulos PrimeNG
     DialogModule,
     ScheduleModule,
     RecurrenceEditorModule,
-    SharedModule,
     RouterModule.forRoot([]), // Adicionando o RouterModule com forRoot
-    ResizableModule,  // Adicione o módulo de redimensionamento aqui
-
+    ResizableModule, // Adicione o módulo de redimensionamento aqui
     CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
+        provide: DateAdapter,
+        useFactory: adapterFactory,
     }),
-
-  ],
-  providers: [
-    DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService,
-    provideAnimationsAsync()
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA], // Adicione esta linha
-  bootstrap: [AppComponent]
+    PostoPipe,
+    CalendarioComponent,
+    CalendariosComponent,
+],
+    providers: [
+        DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService,
+        provideAnimationsAsync()
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA], // Adicione esta linha
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

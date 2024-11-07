@@ -1,7 +1,7 @@
-import { Location } from '@angular/common';
+import { Location, NgIf, NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -14,11 +14,22 @@ import { MediaService } from '../../../media.service';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 import { Pessoa } from '../../model/pessoa';
 import { PessoasService } from '../../services/pessoas.service';
+import { MatButton } from '@angular/material/button';
+import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import { IMaskDirective } from 'angular-imask';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatCard, MatCardContent, MatCardActions } from '@angular/material/card';
 
 @Component({
-  selector: 'app-pessoa-form',
-  templateUrl: './pessoas-form.component.html',
-  styleUrl: './pessoas-form.component.scss'
+    selector: 'app-pessoa-form',
+    templateUrl: './pessoas-form.component.html',
+    styleUrl: './pessoas-form.component.scss',
+    standalone: true,
+    imports: [MatCard, MatToolbar, MatCardContent, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, IMaskDirective, NgIf, MatError, MatSelect, MatOption, NgFor, MatRadioGroup, MatRadioButton, MatCardActions, MatButton]
 })
 
 export class PessoasFormComponent implements OnInit {

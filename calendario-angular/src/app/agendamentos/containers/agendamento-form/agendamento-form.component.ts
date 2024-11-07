@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 
-import { Location } from '@angular/common';
+import { Location, NgIf, NgFor, NgClass } from '@angular/common';
 import { Pessoa } from '../../../pessoas/model/pessoa';
 import { AssessoriasService } from '../../../assessorias/services/assessorias.service';
 import { Assessoria } from '../../../assessorias/model/assessoria';
@@ -18,22 +18,35 @@ import { DateTime, Info, Interval } from 'luxon';
 import { Agendamento } from '../../modelo/Agendamento';
 import { catchError, Observable, of } from 'rxjs';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
-import { ResizeEvent } from 'angular-resizable-element';
+import { ResizeEvent, ResizableModule } from 'angular-resizable-element';
 import { CalendarEvent } from 'angular-calendar';
-import { DropEvent } from 'angular-draggable-droppable';
+import { DropEvent, DragAndDropModule } from 'angular-draggable-droppable';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
 import { CalendarOptions } from '@fullcalendar/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
+import { MatCard, MatCardContent } from '@angular/material/card';
 
 
 @Component({
-  selector: 'app-agendamento-form',
-  templateUrl: './agendamento-form.component.html',
-  styleUrl: './agendamento-form.component.scss',
-
-
+    selector: 'app-agendamento-form',
+    templateUrl: './agendamento-form.component.html',
+    styleUrl: './agendamento-form.component.scss',
+    standalone: true,
+    imports: [
+        MatCard,
+        MatCardContent,
+        NgIf,
+        NgFor,
+        MatButton,
+        MatIcon,
+        ResizableModule,
+        DragAndDropModule,
+        NgClass,
+    ],
 })
 export class AgendamentoFormComponent implements OnInit {
 

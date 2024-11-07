@@ -2,12 +2,17 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Assessoria } from '../../model/assessoria';
 import { HttpClient } from '@angular/common/http';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import { MatIcon } from '@angular/material/icon';
+import { MatMiniFabButton, MatIconButton } from '@angular/material/button';
+import { MatCard } from '@angular/material/card';
 
 @Component({
-  selector: 'app-assessorias-lista',
-  templateUrl: './assessorias-lista.component.html',
-  styleUrl: './assessorias-lista.component.scss'
+    selector: 'app-assessorias-lista',
+    templateUrl: './assessorias-lista.component.html',
+    styleUrl: './assessorias-lista.component.scss',
+    standalone: true,
+    imports: [MatCard, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatMiniFabButton, MatIcon, MatIconButton, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow]
 })
 export class AssessoriaListaComponent implements OnInit {
 

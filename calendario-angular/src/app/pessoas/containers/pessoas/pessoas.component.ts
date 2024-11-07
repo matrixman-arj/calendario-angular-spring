@@ -11,11 +11,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfimationDialogComponent } from '../../../shared/components/error-dialog/confimation-dialog/confimation-dialog.component';
 import { PessoaPage } from '../../model/pessoa-page';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { PessoasListaComponent } from '../../components/pessoas-lista/pessoas-lista.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatCard } from '@angular/material/card';
 
 @Component({
-  selector: 'app-pessoas',
-  templateUrl: './pessoas.component.html',
-  styleUrl: './pessoas.component.scss'
+    selector: 'app-pessoas',
+    templateUrl: './pessoas.component.html',
+    styleUrl: './pessoas.component.scss',
+    standalone: true,
+    imports: [MatCard, MatToolbar, NgIf, PessoasListaComponent, MatPaginator, MatProgressSpinner, AsyncPipe]
 })
 export class PessoasComponent implements OnInit {
 

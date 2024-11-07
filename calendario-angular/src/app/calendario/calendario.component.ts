@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CalendarEvent } from 'angular-calendar';
+import { CalendarEvent, CalendarWeekModule } from 'angular-calendar';
 import { AgendamentoModalComponent } from '../agendamentos/containers/agendamento-form/agendamento-modal/agendamento-modal.component';
+import { MatButton } from '@angular/material/button';
 
 @Component({
-  selector: 'app-calendario',
-  templateUrl: './calendario.component.html',
-  styleUrl: './calendario.component.scss'
+    selector: 'app-calendario',
+    templateUrl: './calendario.component.html',
+    styleUrl: './calendario.component.scss',
+    standalone: true,
+    imports: [MatButton, CalendarWeekModule]
 })
 export class CalendarioComponent {
 
