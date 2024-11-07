@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'posto'
+    name: 'posto',
+    standalone: true
 })
 export class PostoPipe implements PipeTransform {
 

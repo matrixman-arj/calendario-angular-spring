@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
-import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { Validators, UntypedFormGroup, UntypedFormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { Pessoa } from '../../../../pessoas/model/pessoa';
 import { Assessoria } from '../../../../assessorias/model/assessoria';
 import { AssessoriasService } from '../../../../assessorias/services/assessorias.service';
@@ -11,17 +11,27 @@ import { ActivatedRoute } from '@angular/router';
 import { AgendamentosService } from '../../../services/agendamentos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ErrorDialogComponent } from '../../../../shared/components/error-dialog/error-dialog.component';
-import { Location } from '@angular/common';
+import { Location, NgFor } from '@angular/common';
 import { DateTime } from 'luxon';
 import { Agendamento } from '../../../modelo/Agendamento';
+import { PessoaPage } from '../../../../pessoas/model/pessoa-page';
+import { MatButton } from '@angular/material/button';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
 
 
 @Component({
-  selector: 'app-agendamento-modal',
-  templateUrl: './agendamento-modal.component.html',
-  styleUrl: './agendamento-modal.component.scss'
+    selector: 'app-agendamento-modal',
+    templateUrl: './agendamento-modal.component.html',
+    styleUrl: './agendamento-modal.component.scss',
+    standalone: true,
+    imports: [MatDialogContent, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatSelect, NgFor, MatOption, MatDialogActions, MatButton]
 })
 export class AgendamentoModalComponent implements OnInit {
+
+  isHidden: boolean = true;
 
   form: UntypedFormGroup;
 
@@ -36,6 +46,7 @@ export class AgendamentoModalComponent implements OnInit {
   acessorios = AcessoriosList; // Lista de acessórios
   allSelected: boolean = false; // Flag para verificar se todos estão selecionados
   dateHoje: any;
+  dateSelecionada: string | undefined;
 
 
   constructor(
@@ -50,10 +61,13 @@ export class AgendamentoModalComponent implements OnInit {
     public dialogRef: MatDialogRef<AgendamentoModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { agendamento: Agendamento, date: Date }
   ) {
+    // Inicializa `this.dateHoje` com a data atual
+  this.dateSelecionada = this.data.date.toLocaleString(); // Usando Luxon para obter a data atual em formato ISO
     if(this.data.agendamento){
       this.form = this.formBuilder.group({
         _id: [''],
-        data: [this.dateHoje], // Certifique-se de que está capturando uma data válida
+        dataInicio: [''], // Certifique-se de que está capturando uma data válida
+        dataFim: [''],
         horaInicio: ['', Validators.required], // Deve capturar uma string de hora
         horaFim: ['', Validators.required], // Deve capturar uma string de hora
         pessoa: [null], // Captura o ID da pessoa
@@ -66,7 +80,8 @@ export class AgendamentoModalComponent implements OnInit {
       });
     } else {
       this.form = this.formBuilder.group({
-        data: [this.dateHoje], // Certifique-se de que está capturando uma data válida
+        dataInicio: [''], // Certifique-se de que está capturando uma data válida
+        dataFim: [''], // Certifique-se de que está capturando uma data válida
         horaInicio: ['', Validators.required], // Deve capturar uma string de hora
         horaFim: ['', Validators.required], // Deve capturar uma string de hora
         pessoa: [null], // Captura o ID da pessoa
@@ -84,8 +99,8 @@ export class AgendamentoModalComponent implements OnInit {
       console.log(data)
      });
 
-     this.pessoasService.list().subscribe((data: any[]) => {
-      this.pessoas = data;
+     this.pessoasService.list().subscribe((data: PessoaPage) => {
+      this.pessoas = data.pessoas;
      });
   }
 
@@ -97,12 +112,14 @@ export class AgendamentoModalComponent implements OnInit {
   ngOnInit(): void {
     // Verifique se o agendamento foi passado
   const agendamento: Agendamento | undefined = this.data.agendamento;
+  this.dateSelecionada = this.data.date.toLocaleString(); // Usando Luxon para obter a data atual em formato ISO
     // const id = this.data.agendamento._id
     if (agendamento) {
       // Se for edição, preencha o formulário com os dados do agendamento
       this.form.patchValue({
         _id: agendamento.id || null,
-        data: agendamento.data || '',
+        dataInicio: agendamento.dataInicio ||  '',
+        dataFim: agendamento.dataFim || '',
         horaInicio: agendamento.horaInicio || '',
         horaFim: agendamento.horaFim || '',
         pessoa: agendamento.pessoa ? agendamento.pessoa._id : '', // Preencha com o ID da pessoa
@@ -113,13 +130,14 @@ export class AgendamentoModalComponent implements OnInit {
         diex: agendamento.diex || '',
         militarLigacao: agendamento.militarLigacao || ''
       });
-      console.log(agendamento)
+      console.log("Pegando agendamento antes de salvar: ", agendamento)
     } else {
-      console.log(this.dateHoje)
+      // console.log("Data selecionada:", this.dateSelecionada)
       // Valores padrão se não houver agendamento existente
       this.form.setValue({
         // _id: null,
-        data: this.data.date || '',
+        dataInicio: this.dateSelecionada,
+        dataFim: this.dateSelecionada,
         horaInicio: '',
         horaFim: '',
         pessoa: '',
@@ -204,10 +222,13 @@ formatDate(date: any): string {
     if (this.form.valid && !this.isSubmitting) {
       this.isSubmitting = true;
 
+      // Depurando o valor de dataInicio
+      console.log('Valor de dataInicio antes de enviar:', this.form.value.dataInicio);
+
       const agendamento = {
         ...this.form.value,
         id: this.form.value._id, // Certifique-se de que o ID está sendo enviado corretamente
-        data: this.form.value.data, // Formata a data corretamente
+        dataInicio: this.dateSelecionada, // Formata a data corretamente
         pessoa: { _id: this.form.value.pessoa }, // Certifique-se de que está enviando o _id da pessoa
         assessoria: { _id: this.form.value.assessoria }, // Certifique-se de que está enviando o _id da assessoria
         acessorios: this.form.value.acessorios // Acessórios continuam como estão
@@ -222,7 +243,7 @@ formatDate(date: any): string {
           this.edit.emit(); // Emite um evento para o componente pai
           this.isSubmitting = false;
           console.log('Dados do formulário antes de salvar:', agendamento);
-          console.log('data:', this.form.value.data);
+          console.log('dataInicio:', this.form.value.dataInicio);
         },
         error => {
           this.snackBar.open('Erro ao salvar agendamento!', '', { duration: 5000 });

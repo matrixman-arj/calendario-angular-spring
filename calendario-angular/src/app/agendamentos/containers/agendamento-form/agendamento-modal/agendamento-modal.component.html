@@ -1,6 +1,17 @@
 <h2>Agendar para {{ data.date.toLocaleString() }}</h2>
 <mat-dialog-content>
   <form [formGroup]="form">
+
+    <mat-form-field>
+      <mat-label>Data de Início</mat-label>
+      <input matInput type="date" formControlName="dataInicio">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Data de término</mat-label>
+      <input matInput type="date" formControlName="dataFim">
+    </mat-form-field>
+
     <mat-form-field>
       <mat-label>Hora Início</mat-label>
       <input matInput type="time" formControlName="horaInicio">

@@ -17,7 +17,9 @@ public record AgendamentoDTO(
 
         Pessoa pessoa,
 
-        LocalDate data,
+        LocalDate dataInicio,
+
+        LocalDate dataFim,
 
         LocalTime horaInicio,
 

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, Observable, of } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 import { Pessoa } from '../../model/pessoa';
@@ -9,16 +9,29 @@ import { PessoasService } from '../../services/pessoas.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfimationDialogComponent } from '../../../shared/components/error-dialog/confimation-dialog/confimation-dialog.component';
+import { PessoaPage } from '../../model/pessoa-page';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { PessoasListaComponent } from '../../components/pessoas-lista/pessoas-lista.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatCard } from '@angular/material/card';
 
 @Component({
-  selector: 'app-pessoas',
-  templateUrl: './pessoas.component.html',
-  styleUrl: './pessoas.component.scss'
+    selector: 'app-pessoas',
+    templateUrl: './pessoas.component.html',
+    styleUrl: './pessoas.component.scss',
+    standalone: true,
+    imports: [MatCard, MatToolbar, NgIf, PessoasListaComponent, MatPaginator, MatProgressSpinner, AsyncPipe]
 })
 export class PessoasComponent implements OnInit {
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  pessoas$!: Observable<Pessoa[]>;
+  pageIndex = 0;
+  pageSize = 10;
+
+  pessoas$!: Observable<PessoaPage>;
 
   // pessoasService: PessoasService;
 
@@ -35,12 +48,17 @@ export class PessoasComponent implements OnInit {
     this.refresh();
    }
 
-  refresh(){
-    this.pessoas$ = this.pessoasService.list()
+  refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10}){
+    this.pessoas$ = this.pessoasService.list(pageEvent.pageIndex, pageEvent.pageSize)
     .pipe(
+      tap(() => {
+        this.pageIndex = pageEvent.pageIndex;
+        this.pageSize = pageEvent.pageSize;
+      }),
       catchError(error => {
+
         this.onError('Erro ao carregar pessoas');
-        return of([])
+        return of({pessoas: [], totalElements: 0, totalPages: 0 })
       })
     );
 

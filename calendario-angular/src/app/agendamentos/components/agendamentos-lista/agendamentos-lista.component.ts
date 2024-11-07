@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Agendamento } from '../../modelo/Agendamento';
 
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
 import { DateTime } from 'luxon';
 import { AgendamentoModalComponent } from '../../containers/agendamento-form/agendamento-modal/agendamento-modal.component';
@@ -10,12 +10,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { AgendamentosService } from '../../services/agendamentos.service';
 import { catchError, Observable, of } from 'rxjs';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
+import { MatIcon } from '@angular/material/icon';
+import { MatMiniFabButton, MatIconButton } from '@angular/material/button';
+import { MatCard } from '@angular/material/card';
 
 
 @Component({
-  selector: 'app-agendamentos-lista',
-  templateUrl: './agendamentos-lista.component.html',
-  styleUrl: './agendamentos-lista.component.scss'
+    selector: 'app-agendamentos-lista',
+    templateUrl: './agendamentos-lista.component.html',
+    styleUrl: './agendamentos-lista.component.scss',
+    standalone: true,
+    imports: [MatCard, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatMiniFabButton, MatIcon, MatIconButton, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow]
 })
 export class AgendamentosListaComponent implements OnInit {
 
@@ -28,7 +33,7 @@ export class AgendamentosListaComponent implements OnInit {
   @Output() edit = new EventEmitter<Agendamento>(); // Mudança aqui para passar o agendamento
   @Output() delete = new EventEmitter(false);
 
-  readonly displayedColumns = ['data','horaInicio', 'horaFim', 'pessoa', 'assessoria', 'acoes'];
+  readonly displayedColumns = ['dataInicio', 'dataFim' ,'horaInicio', 'horaFim', 'pessoa', 'assessoria', 'acoes'];
 
 
   dataSource = new MatTableDataSource<Agendamento>();
@@ -62,7 +67,7 @@ export class AgendamentosListaComponent implements OnInit {
    //Novo método para escutar o evento de edição
   onEdit(agendamento: Agendamento): void {
     console.log(agendamento.id)
-    if (agendamento.data) {
+    if (agendamento.dataInicio) {
         //const day = DateTime.fromISO(agendamento.data); // Mantém como DateTime
         const day = DateTime.local(); // Usa a data atual como DateTime
         this.openAgendamentoModal(day, agendamento); // Chama o modal com o DateTime e o agendamento
