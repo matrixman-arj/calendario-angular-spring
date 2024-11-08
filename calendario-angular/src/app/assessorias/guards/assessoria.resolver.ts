@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { Assessoria } from '../../assessorias/model/assessoria';
 import { AssessoriasService } from '../../assessorias/services/assessorias.service';
@@ -8,8 +8,8 @@ import { AssessoriasService } from '../../assessorias/services/assessorias.servi
   providedIn: 'root'
 })
 
-export class AssessoriaResolver implements Resolve<Assessoria> {
-  constructor(private service: AssessoriasService) { }
+export class AssessoriaResolver  {
+  constructor(private readonly service: AssessoriasService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Assessoria> | Promise<Assessoria> | Assessoria {
     if (route.params && route.params['id']) {

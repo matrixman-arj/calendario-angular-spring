@@ -6,6 +6,6 @@ import { AgendamentoResolver } from "./guards/agendamento.resolver";
 export const AGENDAMENTOS_ROUTES: Routes = [
   { path: '', component: AgendamentosComponent},
   { path: 'new', component: AgendamentoFormComponent, resolve:{agendamento: AgendamentoResolver}},
-  { path: 'edit/:id', component: AgendamentosComponent, resolve:{agendamento: AgendamentoResolver}}
+  { path: 'edit/:id', component: AgendamentoFormComponent, resolve:{agendamento: AgendamentoResolver}}
 
 ];

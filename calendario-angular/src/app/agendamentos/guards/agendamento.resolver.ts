@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
 import { Agendamento } from '../modelo/Agendamento';
@@ -9,8 +9,8 @@ import { AgendamentosService } from '../services/agendamentos.service';
   providedIn: 'root'
 })
 
-export class AgendamentoResolver implements Resolve<Agendamento> {
-  constructor(private service: AgendamentosService) { }
+export class AgendamentoResolver {
+  constructor(private readonly service: AgendamentosService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Agendamento> | Promise<Agendamento> | Agendamento {
     if (route.params && route.params['id']) {

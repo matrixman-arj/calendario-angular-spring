@@ -1,6 +1,5 @@
-
-
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+
 import { importProvidersFrom } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -28,14 +27,13 @@ import { ResizableModule } from 'angular-resizable-element';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule as PrimeNgCalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
-import { AppRoutingModule } from './app/app-routing.module';
 import { AppComponent } from './app/app.component';
 import { APP_ROUTES } from './app/app.routes';
 
 
 bootstrapApplication(AppComponent, {
     providers: [
-        importProvidersFrom(BrowserModule, AppRoutingModule, FullCalendarModule, MatDialogModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, FormsModule, ReactiveFormsModule, MatSelectModule, MatSnackBarModule, MatDividerModule, MatIconModule, IMaskModule, MatToolbarModule, MatListModule, CalendarModule, PrimeNgCalendarModule, ButtonModule, // Outros módulos PrimeNG
+        importProvidersFrom(BrowserModule, FullCalendarModule, MatDialogModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, FormsModule, ReactiveFormsModule, MatSelectModule, MatSnackBarModule, MatDividerModule, MatIconModule, IMaskModule, MatToolbarModule, MatListModule, CalendarModule, PrimeNgCalendarModule, ButtonModule, // Outros módulos PrimeNG
         DialogModule, ScheduleModule, RecurrenceEditorModule, // Adicionando o RouterModule com forRoot
         ResizableModule, // Adicione o módulo de redimensionamento aqui
         CalendarModule.forRoot({
