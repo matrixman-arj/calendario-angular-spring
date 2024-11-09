@@ -68,8 +68,8 @@ export class AgendamentosListaComponent implements OnInit {
   onEdit(agendamento: Agendamento): void {
     console.log(agendamento.id)
     if (agendamento.dataInicio) {
-        //const day = DateTime.fromISO(agendamento.data); // Mantém como DateTime
-        const day = DateTime.local(); // Usa a data atual como DateTime
+        const day = DateTime.fromISO(agendamento.dataInicio); // Mantém como DateTime
+        // const day = DateTime.local(); // Usa a data atual como DateTime
         this.openAgendamentoModal(day, agendamento); // Chama o modal com o DateTime e o agendamento
 
     } else {
@@ -80,41 +80,85 @@ export class AgendamentosListaComponent implements OnInit {
     }
 }
 
-openAgendamentoModal(day: DateTime, agendamento?: any): void {
-  const dateOnly = day.startOf('day');
+openAgendamentoModal(day: DateTime, agendamento?: Agendamento): void {
+  // Se o agendamento for passado, abrir o modal preenchido para edição
+  if (agendamento) {
+    const dialogRef = this.dialog.open(AgendamentoModalComponent, {
+      width: '600px',
+      data: {
+        date: day.toISODate(),
+        agendamento: agendamento  // Passa o agendamento para ser editado
+      }
+    });
 
-  const dataToPass = {
-    date: dateOnly,
-    agendamento: agendamento || null
-  };
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Atualiza o agendamento existente
+        Object.assign(agendamento, result);
+        this.agendamentosService.save(agendamento).subscribe(() => {
+          this.refresh();
+          this.refreshCalendar();
 
-  const dialogRef = this.dialog.open(AgendamentoModalComponent, {
-    width: '600px',
-    data: dataToPass,
-    id: agendamento?.id // Verifica se o agendamento possui um ID
-  });
-
-  dialogRef.afterClosed().subscribe(result => {
-    if (result) {
-      if (this.isAgendamentoValido(result, day)) {
-        // Aqui você deve adicionar a lógica para salvar o agendamento
-        // Exemplo:
-        this.agendamentosService.list().subscribe(() => {
-          this.snackBar.open('Agendamento atualizado com sucesso!', 'Fechar', {
-            duration: 3000
-          });
-          this.refresh(); // Atualiza a lista de agendamentos ao fechar o modal
-        });
-      } else {
-        this.snackBar.open('O agendamento não pode ser salvo. Existe um conflito de horário.', 'Fechar', {
-          duration: 5000
         });
       }
-    } else {
-      console.log('Modal fechado sem alterações.');
-    }
-  });
+    });
+  } else {
+    // Se não houver agendamento, abrir o modal vazio para criar um novo agendamento
+    const dialogRef = this.dialog.open(AgendamentoModalComponent, {
+      width: '600px',
+      data: {
+        date: day.toISODate(),
+        agendamento: null  // Passa null para indicar que é um novo agendamento
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Adiciona o novo agendamento
+        this.agendamentosService.save(result).subscribe(() => {
+          this.refresh();
+          this.refreshCalendar();
+        });
+      }
+    });
+  }
 }
+
+// openAgendamentoModal(day: DateTime, agendamento?: any): void {
+//   const dateOnly = day.startOf('day');
+
+//   const dataToPass = {
+//     date: dateOnly,
+//     agendamento: agendamento || null
+//   };
+
+//   const dialogRef = this.dialog.open(AgendamentoModalComponent, {
+//     width: '600px',
+//     data: dataToPass,
+//     id: agendamento?.id // Verifica se o agendamento possui um ID
+//   });
+
+//   dialogRef.afterClosed().subscribe(result => {
+//     if (result) {
+//       if (this.isAgendamentoValido(result, day)) {
+//         // Aqui você deve adicionar a lógica para salvar o agendamento
+//         // Exemplo:
+//         this.agendamentosService.list().subscribe(() => {
+//           this.snackBar.open('Agendamento atualizado com sucesso!', 'Fechar', {
+//             duration: 3000
+//           });
+//           this.refresh(); // Atualiza a lista de agendamentos ao fechar o modal
+//         });
+//       } else {
+//         this.snackBar.open('O agendamento não pode ser salvo. Existe um conflito de horário.', 'Fechar', {
+//           duration: 5000
+//         });
+//       }
+//     } else {
+//       console.log('Modal fechado sem alterações.');
+//     }
+//   });
+// }
 
   refreshCalendar(): void {
     this.agendamentosService.list().subscribe(agendamentos => {
