@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AgendamentosService } from '../../../services/agendamentos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ErrorDialogComponent } from '../../../../shared/components/error-dialog/error-dialog.component';
-import { Location, NgFor } from '@angular/common';
+import { Location } from '@angular/common';
 import { DateTime } from 'luxon';
 import { Agendamento } from '../../../modelo/Agendamento';
 import { PessoaPage } from '../../../../pessoas/model/pessoa-page';
@@ -27,7 +27,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
     templateUrl: './agendamento-modal.component.html',
     styleUrl: './agendamento-modal.component.scss',
     standalone: true,
-    imports: [MatDialogContent, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatSelect, NgFor, MatOption, MatDialogActions, MatButton]
+    imports: [MatDialogContent, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatSelect, MatOption, MatDialogActions, MatButton]
 })
 export class AgendamentoModalComponent implements OnInit {
 

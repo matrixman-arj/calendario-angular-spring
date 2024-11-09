@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfimationDialogComponent } from '../../../shared/components/error-dialog/confimation-dialog/confimation-dialog.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { AssessoriaListaComponent } from '../../components/assessorias-lista/assessorias-lista.component';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatCard } from '@angular/material/card';
 
@@ -20,7 +20,7 @@ import { MatCard } from '@angular/material/card';
     templateUrl: './assessorias.component.html',
     styleUrl: './assessorias.component.scss',
     standalone: true,
-    imports: [MatCard, MatToolbar, NgIf, AssessoriaListaComponent, MatProgressSpinner, AsyncPipe]
+    imports: [MatCard, MatToolbar, AssessoriaListaComponent, MatProgressSpinner, AsyncPipe]
 })
 export class AssessoriasComponent implements OnInit {
 

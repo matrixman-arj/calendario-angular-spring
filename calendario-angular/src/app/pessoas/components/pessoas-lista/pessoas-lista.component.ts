@@ -8,7 +8,7 @@ import { TipoAcesso, TipoAcessoList } from '../../../enums/TipoAcesso';
 
 import { MatIcon } from '@angular/material/icon';
 import { MatMiniFabButton, MatIconButton } from '@angular/material/button';
-import { NgIf } from '@angular/common';
+
 import { MatCard } from '@angular/material/card';
 
 
@@ -17,7 +17,7 @@ import { MatCard } from '@angular/material/card';
     templateUrl: './pessoas-lista.component.html',
     styleUrl: './pessoas-lista.component.scss',
     standalone: true,
-    imports: [MatCard, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, NgIf, MatMiniFabButton, MatIcon, MatIconButton, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow]
+    imports: [MatCard, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatMiniFabButton, MatIcon, MatIconButton, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow]
 })
 export class PessoasListaComponent implements OnInit {
 

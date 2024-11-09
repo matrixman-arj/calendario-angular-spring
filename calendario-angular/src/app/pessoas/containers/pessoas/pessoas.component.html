@@ -1,15 +1,15 @@
 <mat-card>
   <mat-toolbar color="primary">Ramais do DECEx </mat-toolbar>
 
-  <div *ngIf="pessoas$ | async as pessoas; else loading" class="mat-elevation-z8 column-flex">
-    <app-pessoas-lista
-      [pessoas]="pessoas.pessoas"
-      (add)="onAdd()"
-      (edit)="onEdit($event)"
-      (delete)="onRemove($event)"
-    ></app-pessoas-lista>
-
-    <mat-paginator
+  @if (pessoas$ | async; as pessoas) {
+    <div class="mat-elevation-z8 column-flex">
+      <app-pessoas-lista
+        [pessoas]="pessoas.pessoas"
+        (add)="onAdd()"
+        (edit)="onEdit($event)"
+        (delete)="onRemove($event)"
+      ></app-pessoas-lista>
+      <mat-paginator
         [pageSizeOptions]="[5, 10, 15]"
         showFirstLastButtons
         [pageIndex]="pageIndex"
@@ -17,8 +17,13 @@
         [length]="pessoas.totalElements"
         (page)="refresh($event)"
         aria-label="Selecione a página de pessoas">
-    </mat-paginator>
-  </div>
+      </mat-paginator>
+    </div>
+  } @else {
+    <div class="loading-spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+  }
 
   <ng-template #loading>
     <div class="loading-spinner">

@@ -1,7 +1,7 @@
 
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Location, NgFor } from '@angular/common';
+import { Location } from '@angular/common';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AssessoriasService } from '../../services/assessorias.service';
@@ -24,7 +24,7 @@ import { MatCard, MatCardContent, MatCardActions } from '@angular/material/card'
     templateUrl: './assessoria-form.component.html',
     styleUrl: './assessoria-form.component.scss',
     standalone: true,
-    imports: [MatCard, MatToolbar, MatCardContent, FormsModule, ReactiveFormsModule, MatFormField, MatInput, MatLabel, MatSelect, NgFor, MatOption, MatCardActions, MatButton]
+    imports: [MatCard, MatToolbar, MatCardContent, FormsModule, ReactiveFormsModule, MatFormField, MatInput, MatLabel, MatSelect, MatOption, MatCardActions, MatButton]
 })
 export class AssessoriaFormComponent implements OnInit {
 

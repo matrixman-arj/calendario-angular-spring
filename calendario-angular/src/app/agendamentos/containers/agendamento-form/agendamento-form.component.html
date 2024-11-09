@@ -5,23 +5,24 @@
         <div class="calendar-headline">
           <div class="schedule">
             <div class="schedule-headline">
-              <ng-container *ngIf="diaAtivo() as activeDay; else noSelection">
+              @if (diaAtivo(); as activeDay) {
                 <div>{{ activeDay.toLocaleString(DATE_MED) }}</div>
-              </ng-container>
-              <ng-template #noSelection>
+              } @else {
                 <div>Selecione uma data</div>
-              </ng-template>
+              }
             </div>
             <div>
-              <ng-container *ngIf="diaAtivo() && activeDayMeetings().length === 0">
+              @if (diaAtivo() && activeDayMeetings().length === 0) {
                 <div>Sem agendamentos para hoje</div>
-              </ng-container>
+              }
 
-              <ng-container *ngIf="diaAtivo() && activeDayMeetings().length > 0">
-                <div *ngFor="let meeting of activeDayMeetings(); trackBy: trackById">
-                  {{ meeting.horaInicio }} - {{ meeting.horaFim }} | Assessoria: {{ meeting.assessoria }}
-                </div>
-              </ng-container>
+              @if (diaAtivo() && activeDayMeetings().length > 0) {
+                @for (meeting of activeDayMeetings(); track trackById($index, meeting)) {
+                  <div>
+                    {{ meeting.horaInicio }} - {{ meeting.horaFim }} | Assessoria: {{ meeting.assessoria }}
+                  </div>
+                }
+              }
             </div>
           </div>
 
@@ -46,49 +47,51 @@
 
         <div class="calendar-weeks-grid">
           <!-- Correção no loop para dias da semana -->
-          <div *ngFor="let weekDay of diasDaSemana(); let i = index">
-            <div class="calendar-weeks-grid-cell">{{ weekDay }}</div>
-          </div>
+          @for (weekDay of diasDaSemana(); track weekDay; let i = $index) {
+            <div>
+              <div class="calendar-weeks-grid-cell">{{ weekDay }}</div>
+            </div>
+          }
         </div>
 
         <div class="calendar-grid">
           <!-- Renderiza os dias do mês -->
-          <div *ngFor="let dayOfMonth of daysOfMonth(); let i = index"
-          mwlResizable
-          (resizeEnd)="onResizeEnd($event, agendamento)"
-          mwlDroppable
-          (drop)="onDrop($event, dayOfMonth)"
-          class="calendar-grid-cell"
+          @for (dayOfMonth of daysOfMonth(); track dayOfMonth; let i = $index) {
+            <div
+              mwlResizable
+              (resizeEnd)="onResizeEnd($event, agendamento)"
+              mwlDroppable
+              (drop)="onDrop($event, dayOfMonth)"
+              class="calendar-grid-cell"
           [ngClass]="{
             'calendar-grid-cell': true,
             'calendar-grid-cell-active': diaAtivo()?.toISODate() === dayOfMonth.toISODate(),
             'calendar-grid-cell-inactive': dayOfMonth.month !== primeiroDiaDoMesAtivo().month,
             'calendar-grid-cell-today': dayOfMonth.toISODate() === hoje().toISODate()
           }"
-               (click)="openAgendamentoModal(dayOfMonth)">
-
-               <!-- Contêiner para o número do dia -->
-               <div class="calendar-grid-cell-day-number"  (click)="openAgendamentoModal(dayOfMonth)">
-                 {{ dayOfMonth.day }}
-                </div>
-
-               <!-- Exibir agendamentos para o dia -->
-                <div *ngFor="let agendamento of getAgendamentosForDay(dayOfMonth)"
+              (click)="openAgendamentoModal(dayOfMonth)">
+              <!-- Contêiner para o número do dia -->
+              <div class="calendar-grid-cell-day-number"  (click)="openAgendamentoModal(dayOfMonth)">
+                {{ dayOfMonth.day }}
+              </div>
+              <!-- Exibir agendamentos para o dia -->
+              @for (agendamento of getAgendamentosForDay(dayOfMonth); track agendamento) {
+                <div
                   class="calendar-event"
-
                   mwlDroppable
                   [dragOverClass]="'calendar-cell-over'"
                   (drop)="handleDrop($event, dayOfMonth)"
-
                   mwlDraggable
                   [dropData]="agendamento"
                   [dragAxis]="{x: true, y: true}"
                   (click)="openAgendamentoModal(dayOfMonth, agendamento); $event.stopPropagation()">
                   {{ agendamento.horaInicio }} - {{ agendamento.horaFim }} | {{ agendamento.assessoria.sigla }}
                 </div>
+              }
             </div>
-          </div>
+          }
         </div>
       </div>
-    </mat-card-content>
-  </mat-card>
+    </div>
+  </mat-card-content>
+</mat-card>

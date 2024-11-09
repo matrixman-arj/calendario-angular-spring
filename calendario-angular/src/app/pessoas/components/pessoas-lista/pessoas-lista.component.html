@@ -6,8 +6,10 @@
       <mat-header-cell *matHeaderCellDef class="column-header-foto"> Foto </mat-header-cell>
       <mat-cell *matCellDef="let pessoa" class="column-foto">
 
-        <img *ngIf="pessoa.caminho" [src]="pessoa.caminho" (error)="onImageError($event)" alt="Foto de {{pessoa.identidade}}"
-        class="img-fixed-size" />
+        @if (pessoa.caminho) {
+          <img [src]="pessoa.caminho" (error)="onImageError($event)" alt="Foto de {{pessoa.identidade}}"
+            class="img-fixed-size" />
+        }
 
         <!-- <img *ngIf="pessoa.caminho" [src]="pessoa.caminho" (error)="this.src='http://localhost:8080/media/branco.jpg'"
         alt="Foto de {{pessoa.identidade}}" class="img-fixed-size"/> -->

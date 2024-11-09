@@ -1,4 +1,4 @@
-import { Location, NgIf, NgFor } from '@angular/common';
+import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -29,7 +29,7 @@ import { MatCard, MatCardContent, MatCardActions } from '@angular/material/card'
     templateUrl: './pessoas-form.component.html',
     styleUrl: './pessoas-form.component.scss',
     standalone: true,
-    imports: [MatCard, MatToolbar, MatCardContent, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, IMaskDirective, NgIf, MatError, MatSelect, MatOption, NgFor, MatRadioGroup, MatRadioButton, MatCardActions, MatButton]
+    imports: [MatCard, MatToolbar, MatCardContent, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, IMaskDirective, MatError, MatSelect, MatOption, MatRadioGroup, MatRadioButton, MatCardActions, MatButton]
 })
 
 export class PessoasFormComponent implements OnInit {

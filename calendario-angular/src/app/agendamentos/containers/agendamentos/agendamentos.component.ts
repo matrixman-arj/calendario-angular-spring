@@ -11,7 +11,7 @@ import { AgendamentosService } from '../../services/agendamentos.service';
 import { FormBuilder } from '@angular/forms';
 import { ResizeEvent } from 'angular-resizable-element';
 import { AgendamentosListaComponent } from '../../components/agendamentos-lista/agendamentos-lista.component';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatCard } from '@angular/material/card';
 
@@ -20,7 +20,7 @@ import { MatCard } from '@angular/material/card';
     templateUrl: './agendamentos.component.html',
     styleUrl: './agendamentos.component.scss',
     standalone: true,
-    imports: [MatCard, MatToolbar, NgIf, AgendamentosListaComponent, AsyncPipe]
+    imports: [MatCard, MatToolbar, AgendamentosListaComponent, AsyncPipe]
 })
 export class AgendamentosComponent implements OnInit{
 

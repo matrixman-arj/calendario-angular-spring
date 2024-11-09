@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 
-import { Location, NgIf, NgFor, NgClass } from '@angular/common';
+import { Location, NgClass } from '@angular/common';
 import { Pessoa } from '../../../pessoas/model/pessoa';
 import { AssessoriasService } from '../../../assessorias/services/assessorias.service';
 import { Assessoria } from '../../../assessorias/model/assessoria';
@@ -37,16 +37,14 @@ import { MatCard, MatCardContent } from '@angular/material/card';
     styleUrl: './agendamento-form.component.scss',
     standalone: true,
     imports: [
-        MatCard,
-        MatCardContent,
-        NgIf,
-        NgFor,
-        MatButton,
-        MatIcon,
-        ResizableModule,
-        DragAndDropModule,
-        NgClass,
-    ],
+    MatCard,
+    MatCardContent,
+    MatButton,
+    MatIcon,
+    ResizableModule,
+    DragAndDropModule,
+    NgClass
+],
 })
 export class AgendamentoFormComponent implements OnInit {
 
