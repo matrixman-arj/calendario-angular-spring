@@ -29,6 +29,8 @@ import { CalendarModule as PrimeNgCalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { AppComponent } from './app/app.component';
 import { APP_ROUTES } from './app/app.routes';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { MatPaginatorIntlPtBr } from './app/_util/paginator-ptbr-i8n';
 
 
 bootstrapApplication(AppComponent, {
@@ -38,8 +40,9 @@ bootstrapApplication(AppComponent, {
         ResizableModule, // Adicione o módulo de redimensionamento aqui
         CalendarModule.forRoot({
             provide: DateAdapter,
-            useFactory: adapterFactory,
+            useFactory: adapterFactory
         })),
+        { provide: MatPaginatorIntl, useClass: MatPaginatorIntlPtBr },
         DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService,
         provideAnimationsAsync(),
         provideHttpClient(withInterceptorsFromDi()),
