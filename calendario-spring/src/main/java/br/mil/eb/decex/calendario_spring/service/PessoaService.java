@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -34,6 +35,10 @@ public class PessoaService {
     public PessoaService(PessoaRepository pessoaRepository, PessoaMapper pessoaMapper ) {
         this.pessoaRepository = pessoaRepository;
         this.pessoaMapper = pessoaMapper;
+    }
+
+    public Page<Pessoa> searchByNomeGuerraOrAssessoria(String termo, Pageable pageable) {
+        return pessoaRepository.findByNomeGuerraOrAssessoria(termo, pageable);
     }
 
 

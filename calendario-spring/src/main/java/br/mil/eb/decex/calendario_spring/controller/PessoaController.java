@@ -1,6 +1,9 @@
 package br.mil.eb.decex.calendario_spring.controller;
 
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.mil.eb.decex.calendario_spring.dto.PessoaDTO;
 import br.mil.eb.decex.calendario_spring.dto.PessoaPageDTO;
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
+import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
 import br.mil.eb.decex.calendario_spring.repository.PessoaRepository;
 import br.mil.eb.decex.calendario_spring.service.PessoaService;
 import jakarta.validation.Valid;
@@ -42,11 +46,23 @@ public class PessoaController {
         this.pessoaService = pessoaService;
     }
 
+    
+
     @GetMapping
     public PessoaPageDTO list(@RequestParam(defaultValue = "0") @PositiveOrZero int page, 
             @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize) {
         return pessoaService.list(page, pageSize);
 
+    }
+
+    @GetMapping("/search")
+    public Page<Pessoa> search(
+        @RequestParam String termo,
+        @RequestParam int page,
+        @RequestParam int size
+    ) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return pessoaService.searchByNomeGuerraOrAssessoria(termo, pageRequest);
     }
 
     // @GetMapping
