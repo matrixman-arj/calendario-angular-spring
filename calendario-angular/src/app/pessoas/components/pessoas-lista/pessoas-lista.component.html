@@ -1,4 +1,10 @@
 <mat-card>
+  <mat-form-field appearance="outline">
+    <label matLabel>Pesquisar</label>
+    <input matInput (input)="aplicarFiltro($event)" placeholder="Digite para pesquisar">
+    <!-- <input matInput (keyup)="onSearchTermChange($event)" placeholder="Nome de Guerra ou Assessoria"> -->
+  </mat-form-field>
+
   <mat-table  [dataSource]="pessoas">
 
     <!-- Coluna de foto -->

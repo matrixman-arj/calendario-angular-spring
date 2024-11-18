@@ -9,7 +9,7 @@
 import {Injectable, Optional, SkipSelf} from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 
-
+@Injectable()
 export class MatPaginatorIntlPtBr extends MatPaginatorIntl {
 
 

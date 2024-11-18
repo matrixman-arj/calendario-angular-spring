@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, Observable, of, tap } from 'rxjs';
@@ -16,6 +16,7 @@ import { PessoasListaComponent } from '../../components/pessoas-lista/pessoas-li
 import { AsyncPipe } from '@angular/common';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatCard } from '@angular/material/card';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
     selector: 'app-pessoas',
@@ -31,7 +32,15 @@ export class PessoasComponent implements OnInit {
   pageIndex = 0;
   pageSize = 10;
 
-  pessoas$!: Observable<PessoaPage>;
+  @Input() dataSource = new MatTableDataSource<Pessoa>();
+  page = 0; // Página inicial
+  size = 10; // Itens por página
+  termo = '';
+  totalElements = 0; // Total de elementos no banco de dados
+
+
+
+  pessoas$!: Observable<PessoaPage | { content: never[]; totalElements: number; totalPages: number; }>;
 
   // pessoasService: PessoasService;
 
@@ -48,8 +57,26 @@ export class PessoasComponent implements OnInit {
     this.refresh();
    }
 
+   onPageChange(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.search(); // Recarrega os dados da nova página
+  }
+
+  search(): void {
+    this.pessoasService.list(this.termo || '', this.page, this.size).subscribe(
+      (response) => {
+        this.dataSource.data = response.content; // Atualiza os dados da tabela
+        this.totalElements = response.totalElements; // Atualiza o total de elementos
+      },
+      (error) => {
+        console.error('Erro ao buscar pessoas:', error);
+      }
+    );
+  }
+
   refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10}){
-    this.pessoas$ = this.pessoasService.list(pageEvent.pageIndex, pageEvent.pageSize)
+    this.pessoas$ = this.pessoasService.list("",pageEvent.pageIndex, pageEvent.pageSize)
     .pipe(
       tap(() => {
         this.pageIndex = pageEvent.pageIndex;
@@ -58,7 +85,7 @@ export class PessoasComponent implements OnInit {
       catchError(error => {
 
         this.onError('Erro ao carregar pessoas');
-        return of({pessoas: [], totalElements: 0, totalPages: 0 })
+        return of({content: [], totalElements: 0, totalPages: 0 })
       })
     );
 
