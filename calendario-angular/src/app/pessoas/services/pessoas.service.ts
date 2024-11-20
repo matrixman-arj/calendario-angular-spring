@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Pessoa } from '../model/pessoa';
 import { HttpClient } from '@angular/common/http';
-import { delay, first, } from 'rxjs';
+import { first, } from 'rxjs';
 import { Assessoria } from '../../assessorias/model/assessoria';
 import { PessoaPage } from '../model/pessoa-page';
 
