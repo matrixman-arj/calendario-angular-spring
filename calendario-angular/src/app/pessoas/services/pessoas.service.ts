@@ -15,7 +15,7 @@ export class PessoasService {
   private readonly APIPESQ = 'api/pessoas/search';
 
   constructor(
-    private httpClient: HttpClient
+    private readonly httpClient: HttpClient
   ) { }
 
   list(page = 0, pageSize = 5) {

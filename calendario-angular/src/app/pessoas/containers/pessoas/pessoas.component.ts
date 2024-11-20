@@ -6,7 +6,7 @@ import { catchError, Observable, of, tap } from 'rxjs';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 import { Pessoa } from '../../model/pessoa';
 import { PessoasService } from '../../services/pessoas.service';
-import { DomSanitizer } from '@angular/platform-browser';
+
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfimationDialogComponent } from '../../../shared/components/error-dialog/confimation-dialog/confimation-dialog.component';
 import { PessoaPage } from '../../model/pessoa-page';
@@ -45,12 +45,12 @@ export class PessoasComponent implements OnInit {
   // pessoasService: PessoasService;
 
   constructor(
-    private pessoasService: PessoasService,
-    private sanitizer: DomSanitizer,
+    private readonly pessoasService: PessoasService,
+
     public dialog: MatDialog,
-    private router: Router,
-    private snackBar: MatSnackBar,
-    private route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly snackBar: MatSnackBar,
+    private readonly route: ActivatedRoute,
 
 
   ){
