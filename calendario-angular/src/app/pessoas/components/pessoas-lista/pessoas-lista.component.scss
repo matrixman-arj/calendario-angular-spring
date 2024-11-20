@@ -12,6 +12,23 @@ mat-header-cell, mat-cell {
   justify-content: center; /* Centraliza o conteúdo flex */
 }
 
+.action-column {
+  flex: 0 0 125px;
+}
+
+.action-column-header {
+  margin: 0 auto;
+}
+
+.cdk-header-cell {
+  font-weight: bold;
+}
+
+a {
+  color: #536dfe;
+  cursor: pointer;
+}
+
 
 .posto-container {
   display: flex;

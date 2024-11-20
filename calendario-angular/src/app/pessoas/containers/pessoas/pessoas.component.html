@@ -1,24 +1,26 @@
 <mat-card>
   <mat-toolbar color="primary">Ramais do DECEx </mat-toolbar>
 
-  @if (pessoas$ | async; as dataSource) {
-    <div class="mat-elevation-z8 column-flex">
+  <div class="mat-elevation-z8">
+      @if (pessoas$ | async; as pessoas) {
       <app-pessoas-lista
-        [pessoas]="dataSource.content"
+        [pessoas]="pessoas.pessoas"
         (add)="onAdd()"
         (edit)="onEdit($event)"
         (delete)="onRemove($event)"
       ></app-pessoas-lista>
+
       <mat-paginator
         [pageSizeOptions]="[5, 10, 15]"
         showFirstLastButtons
         [pageIndex]="pageIndex"
         [pageSize]="pageSize"
-        [length]="dataSource.totalElements"
+        [length]="pessoas.totalElements"
         (page)="refresh($event)"
         aria-label="Selecione a página de pessoas">
       </mat-paginator>
-    </div>
+
+
   } @else {
     <div class="loading-spinner">
       <mat-spinner></mat-spinner>
@@ -30,4 +32,5 @@
       <mat-spinner></mat-spinner>
     </div>
   </ng-template>
+</div>
 </mat-card>

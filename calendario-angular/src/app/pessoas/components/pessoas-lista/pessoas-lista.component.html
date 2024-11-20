@@ -1,10 +1,4 @@
 <mat-card>
-  <mat-form-field appearance="outline">
-    <label matLabel>Pesquisar</label>
-    <input matInput (input)="aplicarFiltro($event)" placeholder="Digite para pesquisar">
-    <!-- <input matInput (keyup)="onSearchTermChange($event)" placeholder="Nome de Guerra ou Assessoria"> -->
-  </mat-form-field>
-
   <mat-table  [dataSource]="pessoas">
 
     <!-- Coluna de foto -->
@@ -16,16 +10,6 @@
           <img [src]="pessoa.caminho" (error)="onImageError($event)" alt="Foto de {{pessoa.identidade}}"
             class="img-fixed-size" />
         }
-
-        <!-- <img *ngIf="pessoa.caminho" [src]="pessoa.caminho" (error)="this.src='http://localhost:8080/media/branco.jpg'"
-        alt="Foto de {{pessoa.identidade}}" class="img-fixed-size"/> -->
-
-        <!-- <img *ngIf="pessoa.caminho" [src]="pessoa.caminho"  class="img-fixed-size"> -->
-
-        <!-- <img [src]="fotoUrl[pessoa.identidade]"  class="img-fixed-size" /> -->
-
-        <!-- <img *ngIf="pessoa.caminho" [src]="getFotoPath(pessoa)" class="img-fixed-size"/> -->
-
       </mat-cell>
 
     </ng-container>
@@ -75,7 +59,7 @@
 
     <!-- Coluna de ações -->
     <ng-container matColumnDef="acoes">
-      <mat-header-cell class="column-header" *matHeaderCellDef class="action-column-header">
+      <mat-header-cell *matHeaderCellDef class="action-column-header">
         <button (click)="onAdd()" mat-mini-fab color="accent" aria-label="Adicionar uma pessoa">
           <mat-icon>add</mat-icon>
         </button>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Pessoa } from '../../model/pessoa';
 import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
@@ -7,14 +7,10 @@ import { PostoGraduacao, PostoGraduacaoList } from '../../../enums/PostoGraduaca
 import { TipoAcesso, TipoAcessoList } from '../../../enums/TipoAcesso';
 
 import { MatIcon } from '@angular/material/icon';
-import { MatMiniFabButton, MatIconButton, MatButton } from '@angular/material/button';
+import { MatIconButton } from '@angular/material/button';
 
 import { MatCard } from '@angular/material/card';
 import { PessoasService } from '../../services/pessoas.service';
-import { MatFormField } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-
 @Component({
     selector: 'app-pessoas-lista',
     templateUrl: './pessoas-lista.component.html',
@@ -24,8 +20,8 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
               MatHeaderCellDef, MatHeaderCell,
               MatCellDef, MatCell, MatIcon,
               MatIconButton, MatHeaderRowDef,
-              MatHeaderRow, MatRowDef, MatRow,
-              MatFormField, MatInput]
+              MatHeaderRow, MatRowDef, MatRow
+              ]
 })
 export class PessoasListaComponent implements OnInit {
 
@@ -35,17 +31,17 @@ export class PessoasListaComponent implements OnInit {
  @Output() add = new EventEmitter(false);
  @Output() edit = new EventEmitter(false);
  @Output() delete = new EventEmitter(false);
- dataSource = new MatTableDataSource<Pessoa>();
 
- @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
- ngAfterViewInit() {
-   this.dataSource.paginator = this.paginator;
- }
+//  @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
- ngOnChanges() {
-  this.dataSource.data = this.pessoas; // Atualiza os dados do MatTableDataSource
-}
+//  ngAfterViewInit() {
+//    this.dataSource.paginator = this.paginator;
+//  }
+
+//  ngOnChanges() {
+//   this.dataSource.data = this.pessoas; // Atualiza os dados do MatTableDataSource
+// }
 
 
  postos = PostoGraduacaoList;
@@ -60,18 +56,18 @@ export class PessoasListaComponent implements OnInit {
 
   readonly displayedColumns = ['caminho','identidade', 'nome', 'nomeGuerra', 'postoGraduacao', 'assessoria', 'ramal', 'acoes'];
 
-  page = 0; // Página inicial
-  size = 10; // Itens por página
-  termo = '';
+  // page = 0; // Página inicial
+  // size = 10; // Itens por página
+  // termo = '';
 
-  totalElements = 0; // Total de elementos no banco de dados
+  // totalElements = 0; // Total de elementos no banco de dados
 
 
-onPageChange(event: PageEvent): void {
-  this.page = event.pageIndex;
-  this.size = event.pageSize;
-  this.search(); // Recarrega os dados da nova página
-}
+// onPageChange(event: PageEvent): void {
+//   this.page = event.pageIndex;
+//   this.size = event.pageSize;
+//   // this.search(); // Recarrega os dados da nova página
+// }
 
 
   constructor(
@@ -93,11 +89,11 @@ onPageChange(event: PageEvent): void {
 
     // });
 
-    this.atualizarDataSource();
+    // this.atualizarDataSource();
 
-    this.search();
+    // this.search();
 
-    this.dataSource.data = this.pessoas; // Inicializa os dados no DataSource
+    // this.dataSource.data = this.pessoas; // Inicializa os dados no DataSource
 
 
   }
@@ -108,45 +104,45 @@ onPageChange(event: PageEvent): void {
   // }
 
 
-  atualizarDataSource() {
-    this.dataSource.data = this.pessoas;
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator; // Conectando paginação ao DataSource
-    }
-  }
+  // atualizarDataSource() {
+  //   this.dataSource.data = this.pessoas;
+  //   if (this.paginator) {
+  //     this.dataSource.paginator = this.paginator; // Conectando paginação ao DataSource
+  //   }
+  // }
 
-  aplicarFiltro(event: Event) {
-    const valorFiltro = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = valorFiltro.trim().toLowerCase(); // Configurar o filtro
+  // aplicarFiltro(event: Event) {
+  //   const valorFiltro = (event.target as HTMLInputElement).value;
+  //   this.dataSource.filter = valorFiltro.trim().toLowerCase(); // Configurar o filtro
 
-    this.dataSource.filterPredicate = (data: Pessoa, filter: string) => {
-      const dataStr = JSON.stringify(data).toLowerCase();
-      return dataStr.includes(filter);
-    };
-  }
-
-
-
-  search(): void {
-    this.pessoasService.list(this.termo || '', this.page, this.size).subscribe(
-      (response) => {
-        this.dataSource.data = response.content; // Atualiza os dados da tabela
-        this.totalElements = response.totalElements; // Atualiza o total de elementos
-      },
-      (error) => {
-        console.error('Erro ao buscar pessoas:', error);
-      }
-    );
-  }
+  //   this.dataSource.filterPredicate = (data: Pessoa, filter: string) => {
+  //     const dataStr = JSON.stringify(data).toLowerCase();
+  //     return dataStr.includes(filter);
+  //   };
+  // }
 
 
-  onSearchTermChange(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    const term = inputElement.value;
-    this.termo = term;
-    this.page = 0; // Reinicia a paginação
-    this.search();
-  }
+
+  // search(): void {
+  //   this.pessoasService.list(this.termo || '', this.page, this.size).subscribe(
+  //     (response) => {
+  //       this.dataSource.data = response.content; // Atualiza os dados da tabela
+  //       this.totalElements = response.totalElements; // Atualiza o total de elementos
+  //     },
+  //     (error) => {
+  //       console.error('Erro ao buscar pessoas:', error);
+  //     }
+  //   );
+  // }
+
+
+  // onSearchTermChange(event: Event): void {
+  //   const inputElement = event.target as HTMLInputElement;
+  //   const term = inputElement.value;
+  //   this.termo = term;
+  //   this.page = 0; // Reinicia a paginação
+  //   // this.search();
+  // }
 
 
   onImageError(event: Event): void {

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { Pessoa } from '../model/pessoa';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { delay, first, Observable, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { delay, first, } from 'rxjs';
 import { Assessoria } from '../../assessorias/model/assessoria';
 import { PessoaPage } from '../model/pessoa-page';
 
@@ -18,19 +18,29 @@ export class PessoasService {
     private httpClient: HttpClient
   ) { }
 
+  list(page = 0, pageSize = 5) {
+
+    return this.httpClient.get<PessoaPage>(this.API, { params: {page, pageSize}})
+    .pipe(
+      first(),
+      //delay(5000),
+      //tap(pessoas => console.log(pessoas)),
+
+    );
+  }
 
 
 
-  list(termo: string = '', page: number = 0, size: number = 10): Observable<PessoaPage> {
-    const pageSize = size;
-    const params = new HttpParams()
-        .set('termo', termo)
-        .set('page', page) // Converte o número para string
-        .set('size', size); // Converte o número para string
+  // list(termo: string = '', page: number = 0, size: number = 10): Observable<PessoaPage> {
+  //   const pageSize = size;
+  //   const params = new HttpParams()
+  //       .set('termo', termo)
+  //       .set('page', page) // Converte o número para string
+  //       .set('size', size); // Converte o número para string
 
-      // return this.httpClient.get<PessoaPage>(`${this.API}/search`, { params });
-      return this.httpClient.get<PessoaPage>(this.APIPESQ, { params });
-    }
+  //     // return this.httpClient.get<PessoaPage>(`${this.API}/search`, { params });
+  //     return this.httpClient.get<PessoaPage>(this.APIPESQ, { params });
+  //   }
 
     // list(termo: string = '', page: number = 0, size: number = 10): Observable<PessoaPage> {
     //   const pageSize = size;
@@ -39,16 +49,6 @@ export class PessoasService {
     //   return this.httpClient.get<PessoaPage>(this.APIPESQ, { params: {termo, page, pageSize} });
     // }
 
-  // list(page: number = 0, size: number = 10) {
-  //   const pageSize = size;
-  //   return this.httpClient.get<PessoaPage>(this.API, { params: {page, pageSize}})
-  //   .pipe(
-  //     first(),
-  //     //delay(5000),
-  //     //tap(pessoas => console.log(pessoas)),
-
-  //   );
-  // }
 
   assessorias() {
     return this.httpClient.get<Assessoria[]>(this.API)

@@ -33,14 +33,14 @@ export class PessoasComponent implements OnInit {
   pageSize = 10;
 
   @Input() dataSource = new MatTableDataSource<Pessoa>();
-  page = 0; // Página inicial
-  size = 10; // Itens por página
-  termo = '';
-  totalElements = 0; // Total de elementos no banco de dados
+  // page = 0; // Página inicial
+  // size = 10; // Itens por página
+  // termo = '';
+  // totalElements = 0; // Total de elementos no banco de dados
 
+  pessoas$: Observable<PessoaPage> | null = null;
 
-
-  pessoas$!: Observable<PessoaPage | { content: never[]; totalElements: number; totalPages: number; }>;
+  // pessoas$!: Observable<PessoaPage | { content: never[]; totalElements: number; totalPages: number; }>;
 
   // pessoasService: PessoasService;
 
@@ -57,39 +57,54 @@ export class PessoasComponent implements OnInit {
     this.refresh();
    }
 
-   onPageChange(event: PageEvent): void {
-    this.pageIndex = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.search(); // Recarrega os dados da nova página
-  }
-
-  search(): void {
-    this.pessoasService.list(this.termo || '', this.page, this.size).subscribe(
-      (response) => {
-        this.dataSource.data = response.content; // Atualiza os dados da tabela
-        this.totalElements = response.totalElements; // Atualiza o total de elementos
-      },
-      (error) => {
-        console.error('Erro ao buscar pessoas:', error);
-      }
-    );
-  }
-
-  refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10}){
-    this.pessoas$ = this.pessoasService.list("",pageEvent.pageIndex, pageEvent.pageSize)
+   refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10}) {
+    this.pessoas$ = this.pessoasService.list(pageEvent.pageIndex, pageEvent.pageSize)
     .pipe(
       tap(() => {
         this.pageIndex = pageEvent.pageIndex;
         this.pageSize = pageEvent.pageSize;
       }),
-      catchError(error => {
-
+        catchError ( error => {
         this.onError('Erro ao carregar pessoas');
-        return of({content: [], totalElements: 0, totalPages: 0 })
+        return of({pessoas: [], totalElements: 0,  totalPages: 0 })
       })
     );
-
   }
+
+
+   onPageChange(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    // this.search(); // Recarrega os dados da nova página
+  }
+
+  // search(): void {
+  //   this.pessoasService.list(this.termo || '', this.page, this.size).subscribe(
+  //     (response) => {
+  //       this.dataSource.data = response.content; // Atualiza os dados da tabela
+  //       this.totalElements = response.totalElements; // Atualiza o total de elementos
+  //     },
+  //     (error) => {
+  //       console.error('Erro ao buscar pessoas:', error);
+  //     }
+  //   );
+  // }
+
+  // refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10}){
+  //   this.pessoas$ = this.pessoasService.list(pageEvent.pageIndex, pageEvent.pageSize)
+  //   .pipe(
+  //     tap(() => {
+  //       this.pageIndex = pageEvent.pageIndex;
+  //       this.pageSize = pageEvent.pageSize;
+  //     }),
+  //     catchError(error => {
+
+  //       this.onError('Erro ao carregar pessoas');
+  //       return of({content: [], totalElements: 0, totalPages: 0 })
+  //     })
+  //   );
+
+  // }
 
   onError(errorMsg: string) {
     this.dialog.open(ErrorDialogComponent, {
