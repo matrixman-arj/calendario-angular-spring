@@ -18,9 +18,9 @@ export class PessoasService {
     private readonly httpClient: HttpClient
   ) { }
 
-  list(page = 0, pageSize = 5) {
+  list(termo = '', page = 0, pageSize = 5) {
 
-    return this.httpClient.get<PessoaPage>(this.API, { params: {page, pageSize}})
+    return this.httpClient.get<PessoaPage>(this.APIPESQ, { params: {termo, page, pageSize}})
     .pipe(
       first(),
       //delay(5000),
@@ -28,26 +28,6 @@ export class PessoasService {
 
     );
   }
-
-
-
-  // list(termo: string = '', page: number = 0, size: number = 10): Observable<PessoaPage> {
-  //   const pageSize = size;
-  //   const params = new HttpParams()
-  //       .set('termo', termo)
-  //       .set('page', page) // Converte o número para string
-  //       .set('size', size); // Converte o número para string
-
-  //     // return this.httpClient.get<PessoaPage>(`${this.API}/search`, { params });
-  //     return this.httpClient.get<PessoaPage>(this.APIPESQ, { params });
-  //   }
-
-    // list(termo: string = '', page: number = 0, size: number = 10): Observable<PessoaPage> {
-    //   const pageSize = size;
-
-
-    //   return this.httpClient.get<PessoaPage>(this.APIPESQ, { params: {termo, page, pageSize} });
-    // }
 
 
   assessorias() {

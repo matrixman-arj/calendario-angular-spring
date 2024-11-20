@@ -17,13 +17,15 @@ import { AsyncPipe } from '@angular/common';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatCard } from '@angular/material/card';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
     selector: 'app-pessoas',
     templateUrl: './pessoas.component.html',
     styleUrl: './pessoas.component.scss',
     standalone: true,
-    imports: [MatCard, MatToolbar, PessoasListaComponent, MatPaginator, MatProgressSpinner, AsyncPipe]
+    imports: [MatCard, MatToolbar, PessoasListaComponent, MatPaginator, MatProgressSpinner, AsyncPipe, MatFormFieldModule, MatInputModule]
 })
 export class PessoasComponent implements OnInit {
 
@@ -31,6 +33,8 @@ export class PessoasComponent implements OnInit {
 
   pageIndex = 0;
   pageSize = 10;
+
+  termo = '';
 
   @Input() dataSource = new MatTableDataSource<Pessoa>();
   // page = 0; // Página inicial
@@ -57,16 +61,24 @@ export class PessoasComponent implements OnInit {
     this.refresh();
    }
 
-   refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10}) {
-    this.pessoas$ = this.pessoasService.list(pageEvent.pageIndex, pageEvent.pageSize)
+   onSearchTermChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const termo = inputElement.value || '';
+    this.refresh({ length: 0, pageIndex: 0, pageSize: this.pageSize }, termo);
+  }
+
+
+   refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10} , termo = '') {
+    this.pessoas$ = this.pessoasService.list(termo, pageEvent.pageIndex, pageEvent.pageSize)
     .pipe(
       tap(() => {
         this.pageIndex = pageEvent.pageIndex;
         this.pageSize = pageEvent.pageSize;
+
       }),
         catchError ( error => {
         this.onError('Erro ao carregar pessoas');
-        return of({pessoas: [], totalElements: 0,  totalPages: 0 })
+        return of({content: [], pessoas: [], totalElements: 0, totalPages: 0 })
       })
     );
   }

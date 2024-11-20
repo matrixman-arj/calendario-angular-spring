@@ -1,10 +1,15 @@
 <mat-card>
   <mat-toolbar color="primary">Ramais do DECEx </mat-toolbar>
 
+  <mat-form-field appearance="fill">
+    <mat-label>Pesquisar</mat-label>
+    <input matInput (keyup)="onSearchTermChange($event)"  placeholder="Digite o termo">
+  </mat-form-field>
+
   <div class="mat-elevation-z8">
       @if (pessoas$ | async; as pessoas) {
       <app-pessoas-lista
-        [pessoas]="pessoas.pessoas"
+        [pessoas]="pessoas.content"
         (add)="onAdd()"
         (edit)="onEdit($event)"
         (delete)="onRemove($event)"

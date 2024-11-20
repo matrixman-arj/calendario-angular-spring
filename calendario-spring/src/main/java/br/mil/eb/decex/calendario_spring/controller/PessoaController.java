@@ -59,9 +59,9 @@ public class PessoaController {
     public Page<Pessoa> search(
         @RequestParam String termo,
         @RequestParam int page,
-        @RequestParam int size
+        @RequestParam int pageSize
     ) {
-        PageRequest pageRequest = PageRequest.of(page, size);
+        PageRequest pageRequest = PageRequest.of(page, pageSize);
         return pessoaService.searchByNomeGuerraOrAssessoria(termo, pageRequest);
     }
 
