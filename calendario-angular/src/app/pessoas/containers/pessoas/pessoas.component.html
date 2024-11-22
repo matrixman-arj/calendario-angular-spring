@@ -9,7 +9,7 @@
   <div class="mat-elevation-z8">
       @if (pessoas$ | async; as pessoas) {
       <app-pessoas-lista
-        [pessoas]="pessoas.content"
+        [pessoas]="pessoas.pessoas"
         (add)="onAdd()"
         (edit)="onEdit($event)"
         (delete)="onRemove($event)"

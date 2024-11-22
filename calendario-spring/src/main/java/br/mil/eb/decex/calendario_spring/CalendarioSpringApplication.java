@@ -15,13 +15,14 @@ import br.mil.eb.decex.calendario_spring.repository.PessoaRepository;
 @SpringBootApplication
 public class CalendarioSpringApplication {
 
+	
 	public static void main(String[] args) {
 		SpringApplication.run(CalendarioSpringApplication.class, args);
 	}
 
 	@Bean
 	CommandLineRunner initDatabase(PessoaRepository pessoaRepository, AssessoriaRepository assessoriaRepository) {
-		return args -> {
+		return _ -> {
 			pessoaRepository.deleteAll();
 
 			Assessoria assessoria = new Assessoria();
@@ -67,7 +68,7 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa1 = new Pessoa();
 			pessoa1.setIdentidade("019.562.303-9");
-			pessoa1.setNome("Luciana Oliveira");
+			pessoa1.setNome("Luciana Oliveira dos Santos");
 			pessoa1.setNomeGuerra("Luciana");
 			pessoa1.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa1.setPostoGraduacao(PostoGraduacao.valueOf("GEN_EXERCITO"));
@@ -79,7 +80,7 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa2 = new Pessoa();
 			pessoa2.setIdentidade("019.562.304-0");
-			pessoa2.setNome("Gizelle Medeiros");
+			pessoa2.setNome("Gizelle dos Santos");
 			pessoa2.setNomeGuerra("Gizelle");
 			pessoa2.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa2.setPostoGraduacao(PostoGraduacao.valueOf("GEN_DIVISAO"));
@@ -91,7 +92,7 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa3 = new Pessoa();
 			pessoa3.setIdentidade("019.562.304-1");
-			pessoa3.setNome("Luddmilla Oliveira");
+			pessoa3.setNome("Luddmilla Oliveira dos Santos");
 			pessoa3.setNomeGuerra("Luddmilla");
 			pessoa3.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa3.setPostoGraduacao(PostoGraduacao.valueOf("GEN_BRIGADA"));
@@ -103,7 +104,7 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa4 = new Pessoa();
 			pessoa4.setIdentidade("019.562.304-2");
-			pessoa4.setNome("Vinicius Oliveira");
+			pessoa4.setNome("Vinicius Oliveira dos Santos");
 			pessoa4.setNomeGuerra("Vinicius");
 			pessoa4.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa4.setPostoGraduacao(PostoGraduacao.valueOf("CORONEL"));
@@ -115,7 +116,7 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa5 = new Pessoa();
 			pessoa5.setIdentidade("019.562.304-3");
-			pessoa5.setNome("Júlia Oliveira");
+			pessoa5.setNome("Júlia Oliveira dos Santos");
 			pessoa5.setNomeGuerra("Júlia");
 			pessoa5.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa5.setPostoGraduacao(PostoGraduacao.valueOf("TEN_CORONEL"));
@@ -127,7 +128,7 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa6 = new Pessoa();
 			pessoa6.setIdentidade("019.562.304-4");
-			pessoa6.setNome("Théo Alves");
+			pessoa6.setNome("Théo Alves dos Santos");
 			pessoa6.setNomeGuerra("Théo");
 			pessoa6.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa6.setPostoGraduacao(PostoGraduacao.valueOf("MAJOR"));
@@ -139,7 +140,7 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa7 = new Pessoa();
 			pessoa7.setIdentidade("019.562.304-5");
-			pessoa7.setNome("Loryan Oliveira");
+			pessoa7.setNome("Loryan dos Santos");
 			pessoa7.setNomeGuerra("Loryan");
 			pessoa7.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa7.setPostoGraduacao(PostoGraduacao.valueOf("CAPITAO"));
@@ -151,7 +152,7 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa8 = new Pessoa();
 			pessoa8.setIdentidade("019.562.304-6");
-			pessoa8.setNome("Zélia Alves");
+			pessoa8.setNome("Zélia dos Santos");
 			pessoa8.setNomeGuerra("Zélia");
 			pessoa8.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa8.setPostoGraduacao(PostoGraduacao.valueOf("PRI_TENENTE"));
@@ -163,10 +164,10 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa9 = new Pessoa();
 			pessoa9.setIdentidade("019.562.304-7");
-			pessoa9.setNome("Danúbia Oliveira");
+			pessoa9.setNome("Danúbia dos Santos");
 			pessoa9.setNomeGuerra("Danúbia");
 			pessoa9.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
-			pessoa9.setPostoGraduacao(PostoGraduacao.valueOf("SEG_TENENTE"));
+			pessoa9.setPostoGraduacao(PostoGraduacao.valueOf("SEG_TENENTE"));			
 			pessoa9.setAcesso(true);
 			pessoa9.setAntiguidade("9");
 			pessoa9.setAssessoria(assessoria5);
@@ -175,7 +176,7 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa10 = new Pessoa();
 			pessoa10.setIdentidade("019.562.304-8");
-			pessoa10.setNome("Aleandro Santos");
+			pessoa10.setNome("Aleandro dos Santos");
 			pessoa10.setNomeGuerra("Aleandro");
 			pessoa10.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa10.setPostoGraduacao(PostoGraduacao.valueOf("PRI_SARGENTO"));
@@ -187,7 +188,7 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa11 = new Pessoa();
 			pessoa11.setIdentidade("019.562.304-9");
-			pessoa11.setNome("Maria Oliveira");
+			pessoa11.setNome("Maria dos Santos");
 			pessoa11.setNomeGuerra("Maria");
 			pessoa11.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa11.setPostoGraduacao(PostoGraduacao.valueOf("TER_SARGENTO"));
@@ -202,7 +203,7 @@ public class CalendarioSpringApplication {
 			pessoa12.setNome("Bruno Lubão");
 			pessoa12.setNomeGuerra("Lubão");
 			pessoa12.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
-			pessoa12.setPostoGraduacao(PostoGraduacao.valueOf("SEG_TENENTE"));
+			pessoa12.setPostoGraduacao(PostoGraduacao.valueOf("SEG_TENENTE"));			
 			pessoa12.setAcesso(true);
 			pessoa12.setAntiguidade("12");
 			pessoa12.setAssessoria(assessoria3);
@@ -211,7 +212,7 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa13 = new Pessoa();
 			pessoa13.setIdentidade("019.562.305-1");
-			pessoa13.setNome("Laiza Lino");
+			pessoa13.setNome("Laiza Lubão");
 			pessoa13.setNomeGuerra("Laiza");
 			pessoa13.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa13.setPostoGraduacao(PostoGraduacao.valueOf("GEN_BRIGADA"));
@@ -223,7 +224,7 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa14 = new Pessoa();
 			pessoa14.setIdentidade("019.562.305-2");
-			pessoa14.setNome("Lorenzo Oliveira");
+			pessoa14.setNome("Lorenzo Lubão");
 			pessoa14.setNomeGuerra("Lorenzo");
 			pessoa14.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa14.setPostoGraduacao(PostoGraduacao.valueOf("CORONEL"));
@@ -235,7 +236,7 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa15 = new Pessoa();
 			pessoa15.setIdentidade("019.562.305-3");
-			pessoa15.setNome("Pérola Oliveira");
+			pessoa15.setNome("Pérola Lubão");
 			pessoa15.setNomeGuerra("Pérola");
 			pessoa15.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa15.setPostoGraduacao(PostoGraduacao.valueOf("TEN_CORONEL"));
@@ -247,7 +248,7 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa16 = new Pessoa();
 			pessoa16.setIdentidade("019.562.305-4");
-			pessoa16.setNome("Thiago Carvalho");
+			pessoa16.setNome("Thiago Carvalho dos Santos");
 			pessoa16.setNomeGuerra("Thiago Carvalho");
 			pessoa16.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa16.setPostoGraduacao(PostoGraduacao.valueOf("MAJOR"));
@@ -259,7 +260,7 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa17 = new Pessoa();
 			pessoa17.setIdentidade("019.562.305-5");
-			pessoa17.setNome("Caio Oliveira");
+			pessoa17.setNome("Caio dos Santos");
 			pessoa17.setNomeGuerra("Caio");
 			pessoa17.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa17.setPostoGraduacao(PostoGraduacao.valueOf("CAPITAO"));
@@ -271,7 +272,7 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa18 = new Pessoa();
 			pessoa18.setIdentidade("019.562.305-6");
-			pessoa18.setNome("Wagner Nunes");
+			pessoa18.setNome("Nunes dos Santos");
 			pessoa18.setNomeGuerra("Nunes");
 			pessoa18.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa18.setPostoGraduacao(PostoGraduacao.valueOf("PRI_TENENTE"));
@@ -283,10 +284,10 @@ public class CalendarioSpringApplication {
 
 			Pessoa pessoa19 = new Pessoa();
 			pessoa19.setIdentidade("019.562.305-7");
-			pessoa19.setNome("Fonseca Oliveira");
+			pessoa19.setNome("Fonseca dos Santos");
 			pessoa19.setNomeGuerra("Fonseca");
 			pessoa19.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
-			pessoa19.setPostoGraduacao(PostoGraduacao.valueOf("SEG_TENENTE"));
+			pessoa19.setPostoGraduacao(PostoGraduacao.valueOf("SEG_TENENTE"));		
 			pessoa19.setAcesso(true);
 			pessoa19.setAntiguidade("19");
 			pessoa19.setAssessoria(assessoria5);

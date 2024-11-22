@@ -1,7 +1,4 @@
 package br.mil.eb.decex.calendario_spring.controller;
-
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -55,21 +52,25 @@ public class PessoaController {
 
     }
 
+    
     @GetMapping("/search")
-    public Page<Pessoa> search(
-        @RequestParam String termo,
-        @RequestParam int page,
-        @RequestParam int pageSize
+    public PessoaPageDTO search(String termo, @RequestParam(defaultValue = "0") @PositiveOrZero int page,
+            @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize
     ) {
         PageRequest pageRequest = PageRequest.of(page, pageSize);
-        return pessoaService.searchByNomeGuerraOrAssessoria(termo, pageRequest);
+        return pessoaService.search(termo, page, pageSize);
     }
 
-    // @GetMapping
-    // public List<PessoaDTO> list() {
-    //     return pessoaService.list();
-
+    // @GetMapping("/search")
+    // public Page<Pessoa> search(
+    //     @RequestParam String termo,
+    //     @RequestParam int page,
+    //     @RequestParam int pageSize
+    // ) {
+    //     PageRequest pageRequest = PageRequest.of(page, pageSize);
+    //     return pessoaService.searchByNomeGuerraOrAssessoria(termo, pageRequest);
     // }
+
 
     @GetMapping ("/{id}")
     public PessoaDTO findById(@PathVariable @NotNull @Positive Long id){

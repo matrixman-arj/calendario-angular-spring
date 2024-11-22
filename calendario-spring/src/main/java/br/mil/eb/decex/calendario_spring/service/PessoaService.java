@@ -84,16 +84,31 @@ public class PessoaService {
         return new PessoaPageDTO(pessoas, pagePessoa.getTotalElements(), pagePessoa.getTotalPages());
     }
 
-    // Métodos existentes
 
-    
-    // public List<PessoaDTO> list() {
-    //     return pessoaRepository.findAll()
-    //         .stream()
-    //         .map(pessoaMapper::toDTO)
-    //             .collect(Collectors.toList());
+    public PessoaPageDTO search(String termo, @PositiveOrZero int page, @Positive @Max(100) int pageSize) {
+        Page<Pessoa> pagePessoa = pessoaRepository.findByNomeGuerraOrAssessoria(termo, PageRequest.of(page, pageSize));
+        List<PessoaDTO> pessoas = pagePessoa.get().map(pessoa -> {
+            PessoaDTO pessoaDTO = pessoaMapper.toDTO(pessoa);
+            String caminhoAtualizado = verificarCaminhoImagem(pessoaDTO.caminho());
+            return new PessoaDTO(
+                pessoaDTO.id(),
+                pessoaDTO.identidade(),
+                pessoaDTO.users(),
+                pessoaDTO.nome(),
+                pessoaDTO.nomeGuerra(),
+                pessoaDTO.postoGraduacao(),
+                pessoaDTO.assessoria(),
+                pessoaDTO.acesso(),
+                pessoaDTO.tipoAcesso(),
+                pessoaDTO.ramal(),
+                caminhoAtualizado,
+                pessoaDTO.antiguidade()
+            );
+        }).collect(Collectors.toList());
+        return new PessoaPageDTO(pessoas, pagePessoa.getTotalElements(), pagePessoa.getTotalPages());
+    }
 
-    // }
+  
         public PessoaDTO findById(@NotNull @Positive Long id){
         return pessoaRepository.findById(id).map(pessoaMapper::toDTO)
                 .orElseThrow(() ->  new RecordNotFoundException(id));   

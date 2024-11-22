@@ -35,7 +35,7 @@ public class MediaController {
         String path = storageService.store(multipartFile);
         String host = request.getRequestURL().toString().replace(request.getRequestURI(), "");
         String url = UriComponentsBuilder
-                .fromHttpUrl(host)
+                .fromUriString(host)
                 .path("/media/")
                 .path(path)
                 .toUriString();
