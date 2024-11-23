@@ -96,7 +96,8 @@ onPessoaChange(pessoaId: string): void {
 
   // Se a pessoa tiver uma assessoria associada, atualize o campo 'assessoria'
   if (selectedPessoa && selectedPessoa.assessoria) {
-
+    // Add meaningful code here or remove the block if not needed
+    console.log(`Selected pessoa has assessoria: ${selectedPessoa.assessoria}`);
   }
 }
 
