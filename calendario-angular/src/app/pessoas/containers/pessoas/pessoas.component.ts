@@ -19,13 +19,18 @@ import { MatCard } from '@angular/material/card';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { PostoGraduacaoList } from '../../../enums/PostoGraduacao/PostoGraduacao';
+import { MatSelectModule } from '@angular/material/select';
+import { UntypedFormGroup } from '@angular/forms';
+import { AssessoriasService } from '../../../assessorias/services/assessorias.service';
+import { Assessoria } from '../../../assessorias/model/assessoria';
 
 @Component({
     selector: 'app-pessoas',
     templateUrl: './pessoas.component.html',
     styleUrl: './pessoas.component.scss',
     standalone: true,
-    imports: [MatCard, MatToolbar, PessoasListaComponent, MatPaginator, MatProgressSpinner, AsyncPipe, MatFormFieldModule, MatInputModule]
+    imports: [MatCard, MatToolbar, PessoasListaComponent, MatPaginator, MatProgressSpinner, AsyncPipe, MatFormFieldModule, MatInputModule, MatSelectModule]
 })
 export class PessoasComponent implements OnInit {
 
@@ -36,6 +41,8 @@ export class PessoasComponent implements OnInit {
 
   termo = '';
 
+  postos = PostoGraduacaoList;
+
   @Input() dataSource = new MatTableDataSource<Pessoa>();
   // page = 0; // Página inicial
   // size = 10; // Itens por página
@@ -43,6 +50,13 @@ export class PessoasComponent implements OnInit {
   // totalElements = 0; // Total de elementos no banco de dados
 
   pessoas$: Observable<PessoaPage> | null = null;
+  pessoas: Pessoa[] = [];
+
+  assessorias: Assessoria[] = [];
+
+  form: UntypedFormGroup | undefined;
+
+
 
   // pessoas$!: Observable<PessoaPage | { content: never[]; totalElements: number; totalPages: number; }>;
 
@@ -50,6 +64,7 @@ export class PessoasComponent implements OnInit {
 
   constructor(
     private readonly pessoasService: PessoasService,
+    private readonly assessoriasService: AssessoriasService,
 
     public dialog: MatDialog,
     private readonly router: Router,
@@ -57,15 +72,65 @@ export class PessoasComponent implements OnInit {
     private readonly route: ActivatedRoute,
 
 
+
   ){
     this.refresh();
+
+    // this.pessoas.sort((a, b) => a.postoGraduacao.localeCompare(b.postoGraduacao));
+
+    this.pessoasService.listPessCompl().subscribe((data: Pessoa[]) => {
+      this.pessoas = data;
+     });
+
+     this.assessoriasService.list().subscribe((data: Assessoria[]) => {
+      this.assessorias = data;
+     });
    }
 
-   onSearchTermChange(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    const termo = inputElement.value || '';
-    this.refresh({ length: 0, pageIndex: 0, pageSize: this.pageSize }, termo);
+
+
+   // Escutar mudanças no campo 'pessoa'
+onPessoaChange(pessoaId: string): void {
+  // Encontre a pessoa selecionada a partir da lista de pessoas
+  const selectedPessoa = this.pessoas.find(pessoa => pessoa._id === pessoaId);
+
+  // Se a pessoa tiver uma assessoria associada, atualize o campo 'assessoria'
+  if (selectedPessoa && selectedPessoa.assessoria) {
+
   }
+}
+
+onSearchTermChange(value: string): void {
+  if (value === '') {
+    // Restaura a tabela ao estado inicial
+    this.refresh({ length: 0, pageIndex: 0, pageSize: this.pageSize }, '');
+  } else {
+    // Aplica o filtro
+    this.refresh({ length: 0, pageIndex: 0, pageSize: this.pageSize }, value);
+  }
+}
+
+// onSearchTermChange(termoOuEvento: any): void {
+//   let termo: string;
+
+//   // Verifica se o parâmetro é um evento de teclado (input) ou um valor direto (select)
+//   if (typeof termoOuEvento === 'string') {
+//     termo = termoOuEvento;
+//   } else {
+//     const inputElement = termoOuEvento.target as HTMLInputElement;
+//     termo = inputElement.value || '';
+//   }
+
+//   // Realiza a pesquisa com o termo fornecido
+//   this.refresh({ length: 0, pageIndex: 0, pageSize: this.pageSize }, termo);
+// }
+
+
+  //  onSearchTermChange(event: any) {
+  //   const inputElement = event.target as HTMLInputElement;
+  //   const termo = inputElement.value || '';
+  //   this.refresh({ length: 0, pageIndex: 0, pageSize: this.pageSize }, termo);
+  // }
 
 
    refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10} , termo = '') {
@@ -78,7 +143,7 @@ export class PessoasComponent implements OnInit {
       }),
         catchError ( error => {
         this.onError('Erro ao carregar pessoas');
-        return of({content: [], pessoas: [], totalElements: 0, totalPages: 0 })
+        return of({content: [], pessoas: [], totalElements: 0, totalPages: 10 })
       })
     );
   }

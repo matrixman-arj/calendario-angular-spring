@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import br.mil.eb.decex.calendario_spring.dto.AssessoriaDTO;
 import br.mil.eb.decex.calendario_spring.dto.PessoaDTO;
 import br.mil.eb.decex.calendario_spring.dto.PessoaPageDTO;
 import br.mil.eb.decex.calendario_spring.dto.mapper.PessoaMapper;
@@ -61,28 +62,34 @@ public class PessoaService {
         }
     }
 
-    public PessoaPageDTO list(@PositiveOrZero int page, @Positive @Max(100) int pageSize) {
-        Page<Pessoa> pagePessoa = pessoaRepository.findAll(PageRequest.of(page, pageSize));
-        List<PessoaDTO> pessoas = pagePessoa.get().map(pessoa -> {
-            PessoaDTO pessoaDTO = pessoaMapper.toDTO(pessoa);
-            String caminhoAtualizado = verificarCaminhoImagem(pessoaDTO.caminho());
-            return new PessoaDTO(
-                pessoaDTO.id(),
-                pessoaDTO.identidade(),
-                pessoaDTO.users(),
-                pessoaDTO.nome(),
-                pessoaDTO.nomeGuerra(),
-                pessoaDTO.postoGraduacao(),
-                pessoaDTO.assessoria(),
-                pessoaDTO.acesso(),
-                pessoaDTO.tipoAcesso(),
-                pessoaDTO.ramal(),
-                caminhoAtualizado,
-                pessoaDTO.antiguidade()
-            );
-        }).collect(Collectors.toList());
-        return new PessoaPageDTO(pessoas, pagePessoa.getTotalElements(), pagePessoa.getTotalPages());
+    public List<PessoaDTO> list() {
+        return pessoaRepository.findAll().stream().map(pessoaMapper::toDTO)
+                .collect(Collectors.toList());
+
     }
+
+    // public PessoaPageDTO list(@PositiveOrZero int page, @Positive @Max(100) int pageSize) {
+    //     Page<Pessoa> pagePessoa = pessoaRepository.findAll(PageRequest.of(page, pageSize));
+    //     List<PessoaDTO> pessoas = pagePessoa.get().map(pessoa -> {
+    //         PessoaDTO pessoaDTO = pessoaMapper.toDTO(pessoa);
+    //         String caminhoAtualizado = verificarCaminhoImagem(pessoaDTO.caminho());
+    //         return new PessoaDTO(
+    //             pessoaDTO.id(),
+    //             pessoaDTO.identidade(),
+    //             pessoaDTO.users(),
+    //             pessoaDTO.nome(),
+    //             pessoaDTO.nomeGuerra(),
+    //             pessoaDTO.postoGraduacao(),
+    //             pessoaDTO.assessoria(),
+    //             pessoaDTO.acesso(),
+    //             pessoaDTO.tipoAcesso(),
+    //             pessoaDTO.ramal(),
+    //             caminhoAtualizado,
+    //             pessoaDTO.antiguidade()
+    //         );
+    //     }).collect(Collectors.toList());
+    //     return new PessoaPageDTO(pessoas, pagePessoa.getTotalElements(), pagePessoa.getTotalPages());
+    // }
 
 
     public PessoaPageDTO search(String termo, @PositiveOrZero int page, @Positive @Max(100) int pageSize) {

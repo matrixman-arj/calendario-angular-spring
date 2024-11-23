@@ -1,4 +1,6 @@
 package br.mil.eb.decex.calendario_spring.controller;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.mil.eb.decex.calendario_spring.dto.AssessoriaDTO;
 import br.mil.eb.decex.calendario_spring.dto.PessoaDTO;
 import br.mil.eb.decex.calendario_spring.dto.PessoaPageDTO;
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
@@ -46,12 +49,12 @@ public class PessoaController {
     
 
     @GetMapping
-    public PessoaPageDTO list(@RequestParam(defaultValue = "0") @PositiveOrZero int page, 
-            @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize) {
-        return pessoaService.list(page, pageSize);
+    public List <PessoaDTO> list() {
+        return pessoaService.list();
 
     }
 
+   
     
     @GetMapping("/search")
     public PessoaPageDTO search(String termo, @RequestParam(defaultValue = "0") @PositiveOrZero int page,

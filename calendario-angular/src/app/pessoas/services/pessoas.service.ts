@@ -18,9 +18,20 @@ export class PessoasService {
     private readonly httpClient: HttpClient
   ) { }
 
-  list(termo = '', page = 0, pageSize = 5) {
+  list(termo = '', page = 0, pageSize = 10) {
 
     return this.httpClient.get<PessoaPage>(this.APIPESQ, { params: {termo, page, pageSize}})
+    .pipe(
+      first(),
+      //delay(5000),
+      //tap(pessoas => console.log(pessoas)),
+
+    );
+  }
+
+  listPessCompl() {
+
+    return this.httpClient.get<Pessoa[]>(this.API)
     .pipe(
       first(),
       //delay(5000),

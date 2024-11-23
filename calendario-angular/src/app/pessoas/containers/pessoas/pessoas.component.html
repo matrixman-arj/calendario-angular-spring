@@ -1,10 +1,40 @@
 <mat-card>
-  <mat-toolbar color="primary">Ramais do DECEx </mat-toolbar>
+  <mat-toolbar color="primary">Ramais do DECEx
 
-  <mat-form-field appearance="fill">
-    <mat-label>Pesquisar</mat-label>
-    <input matInput (keyup)="onSearchTermChange($event)"  placeholder="Digite o termo">
-  </mat-form-field>
+    <div color="primary" class="input-pesquisa">
+
+
+      <mat-form-field class="input-pesquisa-pessoa">
+        <mat-label>Pesquise pelo Nome de guerra</mat-label>
+        <mat-select (selectionChange)="onSearchTermChange($event.value)">
+          <mat-option [value]="">
+            Nenhum
+          </mat-option>
+          @for (pessoa of pessoas; track pessoa) {
+            <mat-option [value]="pessoa.nomeGuerra">
+              {{ pessoa.postoGraduacao}} - {{ pessoa.nomeGuerra }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="input-pesquisa-assessoria">
+        <mat-label>Pesquise pela Assessoria</mat-label>
+        <mat-select (selectionChange)="onSearchTermChange($event.value)">
+          <mat-option [value]="">
+            Nenhum
+          </mat-option>
+          @for (assessoria of assessorias; track assessoria) {
+            <mat-option [value]="assessoria.sigla">
+              {{ assessoria.sigla }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+  </mat-toolbar>
 
   <div class="mat-elevation-z8">
       @if (pessoas$ | async; as pessoas) {
