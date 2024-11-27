@@ -7,6 +7,9 @@
       <mat-form-field class="input-pesquisa-pessoa">
         <mat-label>Pesquise pelo Nome de guerra</mat-label>
         <mat-select (selectionChange)="onSearchTermChange($event.value)">
+
+          <input class="input-pesquisa" (input)="filterSelectDePessoas($event)"
+                 placeholder="Digite para filtrar"/>
           <mat-option [value]="">
             Nenhum
           </mat-option>
@@ -21,6 +24,9 @@
       <mat-form-field class="input-pesquisa-assessoria">
         <mat-label>Pesquise pela Assessoria</mat-label>
         <mat-select (selectionChange)="onSearchTermChange($event.value)">
+
+            <input class="input-pesquisa" (input)="filterSelectDeAssessorias($event)" style=""
+                   placeholder="Digite para filtrar"/>
           <mat-option [value]="">
             Nenhum
           </mat-option>

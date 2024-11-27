@@ -53,6 +53,18 @@ export class PessoasService {
 
   }
 
+  // listAssessCompl() {
+  //   return this.httpClient.get<Assessoria[]>(this.API)
+  //   .pipe(
+  //     first(),
+  //     //delay(5000),
+  //     //tap(assessorias => console.log(assessorias)),
+
+  //   );
+
+
+  // }
+
   loadById(id: string){
    return this.httpClient.get<Pessoa>(`${this.API}/${id}`);
   }

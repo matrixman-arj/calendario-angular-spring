@@ -51,8 +51,11 @@ export class PessoasComponent implements OnInit {
 
   pessoas$: Observable<PessoaPage> | null = null;
   pessoas: Pessoa[] = [];
+  pessoasOriginais: Pessoa[] = []; // Array com todos os registros originais
+
 
   assessorias: Assessoria[] = [];
+  assessoriasOriginais: Assessoria[] = [];
 
   form: UntypedFormGroup | undefined;
 
@@ -110,6 +113,60 @@ onSearchTermChange(value: string): void {
     this.refresh({ length: 0, pageIndex: 0, pageSize: this.pageSize }, value);
   }
 }
+
+filterSelectDePessoas(event: Event) {
+  const inputElement = event.target as HTMLInputElement;
+  const value = inputElement.value;
+
+  // Verifica se o valor do input está vazio
+  if (value.trim() === '') {
+    // Restaura a lista original de pessoas
+    this.pessoas = [...this.pessoasOriginais];
+  } else {
+    // Filtra os itens com base no termo digitado
+    this.pessoas = this.pessoasOriginais.filter(pessoa =>
+      pessoa.nomeGuerra.toLowerCase().includes(value.toLowerCase())
+    );
+  }
+}
+
+
+// filterSelectDePessoas(event: Event) {
+//   const inputElement = event.target as HTMLInputElement;
+//   const value = inputElement.value;
+
+//   this.pessoas = this.pessoas.filter(pessoa =>
+//     pessoa.nomeGuerra.toLowerCase().includes(value.toLowerCase())
+//     );
+// if(inputElement.value == ''){
+//   this.pessoas;
+// }
+//   }
+
+filterSelectDeAssessorias(event: Event) {
+  const inputElement = event.target as HTMLInputElement;
+  const value = inputElement.value;
+
+  // Verifica se o valor do input está vazio
+  if (value.trim() === '') {
+    // Restaura a lista original de pessoas
+    this.assessorias = [...this.assessoriasOriginais];
+  } else {
+    // Filtra os itens com base no termo digitado
+    this.assessorias = this.assessoriasOriginais.filter(assessoria =>
+      assessoria.sigla.toLowerCase().includes(value.toLowerCase())
+    );
+  }
+}
+
+// filterSelectDeAssessorias(event: Event) {
+//   const inputElement = event.target as HTMLInputElement;
+//   const value = inputElement.value;
+
+//   this.assessorias = this.assessorias.filter(assessoria =>
+//     assessoria.sigla.toLowerCase().includes(value.toLowerCase())
+//     );
+//   }
 
 // onSearchTermChange(termoOuEvento: any): void {
 //   let termo: string;
@@ -191,10 +248,22 @@ onSearchTermChange(value: string): void {
   }
 
   ngOnInit(): void {
-    // TODO document why this method 'ngOnInit' is empty
+    this.pessoasService.listPessCompl().subscribe((data: Pessoa[]) => {
+      this.pessoas = data;
+      this.pessoasOriginais = [...data]; // Clona os dados originais
+    });
 
+    this.assessoriasService.list().subscribe((data: Assessoria[]) => {
+      this.assessorias = data;
+      this.assessoriasOriginais = [...data]; // Clona os dados originais
+    });
 
+    // this.pessoasService.listAssessCompl().subscribe((data: Assessoria[]) => {
+    //   this.assessorias = data;
+    //   this.assessoriasOriginais = [...data]; // Clona os dados originais
+    // });
   }
+
 
   onAdd(){
     this.router.navigate(['new'], {relativeTo: this.route});
