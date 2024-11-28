@@ -11,6 +11,11 @@ import br.mil.eb.decex.calendario_spring.modelo.Assessoria;
 public class AssessoriaMapper {
 
      public AssessoriaDTO toDTO(Assessoria assessoria){
+
+        if(assessoria == null) {
+            return null;
+        }
+
         return new AssessoriaDTO(
             assessoria.getId(), 
             assessoria.getSigla(),                                 

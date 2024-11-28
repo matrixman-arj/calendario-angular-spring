@@ -3,18 +3,23 @@ package br.mil.eb.decex.calendario_spring.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import br.mil.eb.decex.calendario_spring.dto.AssessoriaDTO;
+import br.mil.eb.decex.calendario_spring.dto.AssessoriaPageDTO;
 import br.mil.eb.decex.calendario_spring.dto.mapper.AssessoriaMapper;
 import br.mil.eb.decex.calendario_spring.exception.RecordNotFoundException;
 import br.mil.eb.decex.calendario_spring.modelo.Assessoria;
-
 import br.mil.eb.decex.calendario_spring.repository.AssessoriaRepository;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Service
 public class AssessoriaService {
@@ -25,7 +30,11 @@ public class AssessoriaService {
     public AssessoriaService(AssessoriaRepository assessoriaRepository, AssessoriaMapper assessoriaMapper) {
         this.assessoriaRepository = assessoriaRepository;
         this.assessoriaMapper = assessoriaMapper;
-    } 
+    }
+    
+     public Page<Assessoria>searchBySigla(String termo, Pageable pageable) {
+        return assessoriaRepository.findBySigla(termo, pageable);
+    }
     
     public List<AssessoriaDTO> list() {
         return assessoriaRepository.findAll().stream().map(assessoriaMapper::toDTO)
@@ -38,6 +47,23 @@ public class AssessoriaService {
         return filhas.stream()
                 .map(assessoriaMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public AssessoriaPageDTO search(String termo, @PositiveOrZero int page, @Positive @Max(100) int pageSize) {
+        Page<Assessoria> pageAssessoria = assessoriaRepository.findBySigla(termo, PageRequest.of(page, pageSize));
+        List<AssessoriaDTO> assessorias = pageAssessoria.get().map(assessoria -> {
+            AssessoriaDTO assessoriaDTO = assessoriaMapper.toDTO(assessoria);            
+            return new AssessoriaDTO(
+                assessoriaDTO.id(),
+                assessoriaDTO.descricao(),
+                assessoriaDTO.sigla(),
+                assessoriaDTO.assessoriaPai(),
+                assessoriaDTO.ordem(),
+                assessoriaDTO.interna()
+                
+            );
+        }).collect(Collectors.toList());
+        return new AssessoriaPageDTO(assessorias, pageAssessoria.getTotalElements(), pageAssessoria.getTotalPages());
     }
 
      public AssessoriaDTO findById(@PathVariable @NotNull @Positive Long id){
