@@ -85,6 +85,19 @@ export class AssessoriaFormComponent implements OnInit {
       });
     });
 
+    // Carrega assessoriasPai para o select
+  this.service.listPai().subscribe(data => {
+    this.assessoriasPai = data;
+
+    // Configura assessoriaPai no formulário se houver assessoria pai associada
+    if (assessoria.assessoriaPai) {
+      const pai = assessoria.assessoriaPai?._id ? this.assessoriasPai.find(a => a._id === assessoria.assessoriaPai?._id) : null;
+      if (pai) {
+        this.form.patchValue({ assessoriaPai: pai });
+      }
+    }
+  });
+
     if (assessoria.assessoriaPai && assessoria.assessoriaPai._id) {
       this.service.listFilha(assessoria.assessoriaPai._id).subscribe(data => {
         this.assessoriasFilhas = data;
@@ -92,11 +105,20 @@ export class AssessoriaFormComponent implements OnInit {
     }
   }
 
+  compareAssessoriaPai = (a: Assessoria, b: Assessoria): boolean => {
+    return a && b ? a._id === b._id : a === b;
+  };
+
+
    // Método para filtrar as assessorias filhas com base na assessoria selecionada
    onAssessoriaChange(assessoria: Assessoria): void {
     this.assessoriasFilhas = this.assessorias.filter(
       a => a.assessoriaPai && a.assessoriaPai._id === assessoria._id
     );
+  }
+
+  getAssessoriaPaiSigla(assessoria: Assessoria): string {
+    return assessoria.assessoriaPai ? assessoria.assessoriaPai.sigla : 'Nenhuma';
   }
 
   onSubmit() {

@@ -22,7 +22,7 @@ export class AssessoriaListaComponent implements OnInit {
 @Output() delete = new EventEmitter(false);
 
 
-  readonly displayedColumns = ['descricao','sigla', 'acoes'];
+  readonly displayedColumns = ['descricao','sigla', 'assessoriaPai', 'acoes'];
 
   // pessoasService: PessoasService;
 

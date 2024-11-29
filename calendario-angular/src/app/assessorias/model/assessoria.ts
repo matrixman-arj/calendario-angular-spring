@@ -8,7 +8,7 @@ export interface Assessoria {
 
   interna: boolean;
 
-  assessoriaPai?: Assessoria | null;  // Pode ser null ou um objeto Assessoria
+  assessoriaPai: Assessoria | null;  // Pode ser null ou um objeto Assessoria
 
   ordem: number;
 
