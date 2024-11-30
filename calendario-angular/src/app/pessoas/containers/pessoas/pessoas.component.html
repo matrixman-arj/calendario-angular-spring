@@ -1,7 +1,7 @@
 <mat-card>
   <mat-toolbar color="primary">Ramais do DECEx
 
-    <div color="primary" class="input-pesquisa">
+    <div class="campo-pesquisa">
 
 
       <mat-form-field class="input-pesquisa-pessoa">
@@ -9,7 +9,7 @@
         <mat-select (selectionChange)="onSearchTermChange($event.value)">
 
           <input class="input-pesquisa" (input)="filterSelectDePessoas($event)"
-                 placeholder="Digite para filtrar"/>
+                 placeholder="Digite ou selecione para filtrar"/>
           <mat-option [value]="">
             Nenhum
           </mat-option>
@@ -25,8 +25,8 @@
         <mat-label>Pesquise pela Assessoria</mat-label>
         <mat-select (selectionChange)="onSearchTermChange($event.value)">
 
-            <input class="input-pesquisa" (input)="filterSelectDeAssessorias($event)" style=""
-                   placeholder="Digite para filtrar"/>
+            <input class="input-pesquisa" (input)="filterSelectDeAssessorias($event)"
+                   placeholder="Digite ou selecione para filtrar"/>
           <mat-option [value]="">
             Nenhum
           </mat-option>

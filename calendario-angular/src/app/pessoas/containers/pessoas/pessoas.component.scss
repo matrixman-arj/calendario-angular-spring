@@ -28,8 +28,7 @@ mat-toolbar {
 }
 
 .input-pesquisa-pessoa {
-  width: 20%;
-  border-radius: 30%;
+  width: 25%;
   margin: 10px;
   align-items: center;
 }
@@ -40,16 +39,36 @@ mat-toolbar {
   align-items: center;
 }
 
+.campo-pesquisa{
+
+  width: 85%;
+  padding: 10px;
+  margin: 10px;
+
+}
+
+.input-pesquisa-assessoria {
+  width: 25%;
+  margin: 10px;
+  align-items: center;
+}
+
 .input-pesquisa::placeholder{
-  border-style: groove;
+
+
+  font-size: 15px;
+  padding: 10px;
+  margin: 10px;
 
 }
 
 .input-pesquisa{
 
-  width: 85%;
+  width: 88%;
+  height: 8%;
   padding: 10px;
   margin: 10px;
+
 
 }
 

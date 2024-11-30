@@ -1,14 +1,14 @@
 <mat-card>
   <mat-toolbar color="primary">Assessorias do DECEx
 
-    <div color="primary" class="input-pesquisa">
+    <div  class="campo-pesquisa">
 
       <mat-form-field class="input-pesquisa-assessoria">
 
         <mat-label>Pesquise pela sigla da Assessoria</mat-label>
         <mat-select (selectionChange)="onSearchTermChange($event.value)">
 
-          <input class="input-pesquisa" (input)="filterSelectDeAssessorias($event)" placeholder="Digite para filtrar"/>
+          <input class="input-pesquisa" (input)="filterSelectDeAssessorias($event)" placeholder="Digite ou selecione para filtrar"/>
 
           <mat-option [value]="">
             Nenhum
