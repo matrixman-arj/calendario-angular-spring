@@ -26,22 +26,22 @@
       <mat-cell *matCellDef="let pessoa" class="column-nome"> {{ pessoa.nome }}</mat-cell>
     </ng-container>
 
+     <!-- Coluna de Posto ou grduação -->
+     <ng-container matColumnDef="postoGraduacao">
+      <mat-header-cell *matHeaderCellDef  class="column-header-posto">Posto/Graduação</mat-header-cell>
+      <mat-cell *matCellDef="let pessoa" class="column-posto">
+        <div class="posto-container">
+          <img [src]="getPostoImage(pessoa.postoGraduacao)" class="img-patente">
+          <span>{{ pessoa.postoGraduacao }}</span>
+        </div>
+      </mat-cell>
+    </ng-container>
+
     <!-- Coluna de nome de Guerra -->
     <ng-container matColumnDef="nomeGuerra">
       <mat-header-cell class="column-header-nomeGuerra" *matHeaderCellDef>Nome de Guerra</mat-header-cell>
       <mat-cell mat-cell *matCellDef="let pessoa" class="column-nomeGuerra"> {{ pessoa.nomeGuerra }}
 
-      </mat-cell>
-    </ng-container>
-
-    <!-- Coluna de Posto ou grduação -->
-    <ng-container matColumnDef="postoGraduacao">
-      <mat-header-cell *matHeaderCellDef>Posto/Graduação</mat-header-cell>
-      <mat-cell *matCellDef="let pessoa">
-        <div class="posto-container">
-          <img [src]="getPostoImage(pessoa.postoGraduacao)" class="img-patente">
-          <span>{{ pessoa.postoGraduacao }}</span>
-        </div>
       </mat-cell>
     </ng-container>
 

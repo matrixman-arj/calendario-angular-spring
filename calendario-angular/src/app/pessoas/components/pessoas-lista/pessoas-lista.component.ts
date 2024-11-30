@@ -42,7 +42,7 @@ export class PessoasListaComponent implements OnInit {
 
 
 
-  readonly displayedColumns = ['caminho','identidade', 'nome', 'nomeGuerra', 'postoGraduacao', 'assessoria', 'ramal', 'acoes'];
+  readonly displayedColumns = ['caminho','identidade', 'nome', 'postoGraduacao', 'nomeGuerra',  'assessoria', 'ramal', 'acoes'];
 
 
   constructor( ){  }
