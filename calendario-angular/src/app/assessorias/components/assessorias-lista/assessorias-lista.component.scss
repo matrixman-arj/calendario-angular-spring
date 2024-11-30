@@ -18,10 +18,34 @@ mat-cell {
   margin-top: 10PX;
 }
 
-.action-column {
+.column-header-descr {
+  flex: 0 0 520px;
+}
+
+.column-descr {
+  flex: 0 0 615px;
+}
+
+.column-header-sigla {
+  flex: 0 0 500px;
+}
+
+.column-sigla {
+  flex: 0 0 485px;
+}
+
+.column-header-pai {
+  flex: 0 0 540px;
+}
+
+.column-pai {
   flex: 0 0 115px;
 }
 
+.action-column {
+  flex: 0 0 165px;
+}
+
 .action-column-header {
-  flex: 0 0 95px;
+  flex: 0 0 125px;
 }

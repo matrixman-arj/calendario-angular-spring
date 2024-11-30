@@ -3,19 +3,19 @@
 
   <!-- Coluna de descrição -->
   <ng-container matColumnDef="descricao">
-    <mat-header-cell *matHeaderCellDef> Descrição </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef class="column-header-descr"> Descrição </mat-header-cell>
     <mat-cell *matCellDef="let assessoria">{{ assessoria.descricao }}</mat-cell>
   </ng-container>
 
   <!-- Coluna de sigla -->
   <ng-container matColumnDef="sigla">
-    <mat-header-cell *matHeaderCellDef> Sigla </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef class="column-header-sigla"> Sigla </mat-header-cell>
     <mat-cell *matCellDef="let assessoria"> {{ assessoria.sigla }} </mat-cell>
   </ng-container>
 
   <!-- Coluna Assessoria Pai -->
   <ng-container matColumnDef="assessoriaPai">
-    <mat-header-cell *matHeaderCellDef> Assessoria Pai </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef class="column-header-pai"> Assessoria Pai </mat-header-cell>
     <mat-cell *matCellDef="let assessoria"> {{ assessoria.assessoriaPai?.sigla || 'Nenhuma' }} </mat-cell>
   </ng-container>
 
