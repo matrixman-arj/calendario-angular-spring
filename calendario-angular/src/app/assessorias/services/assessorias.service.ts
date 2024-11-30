@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { delay, first, Observable, tap } from 'rxjs';
 import { Assessoria } from '../model/assessoria';
+import { AssessoriaPage } from '../model/assessoria-page';
 
 
 @Injectable({
@@ -12,6 +13,7 @@ import { Assessoria } from '../model/assessoria';
 export class AssessoriasService {
 
   private readonly API = 'api/assessorias';
+  private readonly APIPESQ = 'api/assessorias/search';
   private readonly APIPAI = 'api/assessorias/semAssessoriaPai';
 
 
@@ -20,6 +22,16 @@ export class AssessoriasService {
 
   list(): Observable<Assessoria[]> {
     return this.httpClient.get<Assessoria[]>(this.API)
+    .pipe(
+      first(),
+      //delay(5000),
+      //tap(assessorias => console.log(assessorias))
+    );
+  }
+
+  list2(termo = '', page = 0, pageSize = 10): Observable<AssessoriaPage> {
+
+    return this.httpClient.get<AssessoriaPage>(this.APIPESQ, { params: {termo, page, pageSize}})
     .pipe(
       first(),
       //delay(5000),

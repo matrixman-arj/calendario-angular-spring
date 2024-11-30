@@ -26,3 +26,23 @@ mat-toolbar {
   align-items: center;
   justify-content: center;
 }
+
+
+.input-pesquisa-assessoria {
+  width: 20%;
+  margin: 10px;
+  align-items: center;
+}
+
+.input-pesquisa::placeholder{
+  border-style: groove;
+
+}
+
+.input-pesquisa{
+
+  width: 85%;
+  padding: 10px;
+  margin: 10px;
+
+}
