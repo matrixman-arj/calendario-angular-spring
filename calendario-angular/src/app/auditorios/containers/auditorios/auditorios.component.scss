@@ -1,0 +1,61 @@
+mat-card {
+  max-width: 90%;
+  padding: 15px;
+  margin: 2em auto;
+  text-align: center;
+
+}
+
+.column-flex{
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+mat-toolbar {
+  max-width: 100%;
+  margin-bottom: 3px;
+  text-justify: auto;
+
+}
+
+.loading-spinner {
+  padding: 25px;
+  background: rgb(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.campo-pesquisa{
+
+  width: 85%;
+  padding: 10px;
+  margin: 10px;
+
+}
+
+.input-pesquisa-assessoria {
+  width: 25%;
+  margin: 10px;
+  align-items: center;
+}
+
+.input-pesquisa::placeholder{
+
+
+  font-size: 15px;
+  padding: 10px;
+  margin: 10px;
+
+}
+
+.input-pesquisa{
+
+  width: 88%;
+  height: 8%;
+  padding: 10px;
+  margin: 10px;
+
+
+}

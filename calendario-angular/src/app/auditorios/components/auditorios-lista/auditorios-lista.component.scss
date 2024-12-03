@@ -1,0 +1,27 @@
+mat-card {
+  max-width: 100%;
+  //padding: 5px;
+  //margin: 10px;
+  //align-content: center;
+}
+
+mat-table {
+  //max-width: 100%;
+  //overflow: auto;
+
+  margin-bottom: 10px;
+
+}
+
+mat-cell {
+  margin-bottom: 10PX;
+  margin-top: 10PX;
+}
+
+.action-column {
+  flex: 0 0 115px;
+}
+
+.action-column-header {
+  flex: 0 0 95px;
+}

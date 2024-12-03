@@ -1,0 +1,58 @@
+<mat-card>
+  <mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="dataInicio">
+      <mat-header-cell *matHeaderCellDef> Data de início </mat-header-cell>
+      <mat-cell *matCellDef="let videoConferencia">{{ videoConferencia.dataInicio }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dataFim">
+      <mat-header-cell *matHeaderCellDef> Data para o término </mat-header-cell>
+      <mat-cell *matCellDef="let videoConferencia">{{ videoConferencia.dataFim }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="horaInicio">
+      <mat-header-cell *matHeaderCellDef>Hora de início </mat-header-cell>
+      <mat-cell *matCellDef="let videoConferencia"> {{videoConferencia.horaInicio}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="horaFim">
+      <mat-header-cell *matHeaderCellDef> Hora de término </mat-header-cell>
+      <mat-cell *matCellDef="let videoConferencia"> {{videoConferencia.horaFim}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="pessoa">
+      <mat-header-cell *matHeaderCellDef> Solicitante </mat-header-cell>
+      <mat-cell *matCellDef="let videoConferencia">{{videoConferencia.pessoa.postoGraduacao}} - {{videoConferencia.pessoa.nomeGuerra}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="assessoria">
+      <mat-header-cell *matHeaderCellDef> Assessoria </mat-header-cell>
+      <mat-cell *matCellDef="let videoConferencia"> {{videoConferencia.assessoria.sigla}} </mat-cell>
+    </ng-container>
+
+     <!-- Coluna de ações -->
+  <ng-container matColumnDef="acoes">
+    <mat-header-cell *matHeaderCellDef class="action-column-header">
+      <button (click)="onAdd()" mat-mini-fab color="accent" aria-label="Adicionar um videoConferencia">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-header-cell>
+
+    <mat-cell *matCellDef="let videoConferencia" class="action-column">
+      <button (click)="onEdit(videoConferencia)" mat-icon-button color="primary" aria-label="Editar um videoConferencia">
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <button (click)="onDelete(videoConferencia)" mat-icon-button color="warn" aria-label="Remover videoConferencia">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row  *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+
+</mat-card>

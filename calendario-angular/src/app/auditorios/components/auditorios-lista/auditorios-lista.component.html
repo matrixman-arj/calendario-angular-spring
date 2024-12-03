@@ -1,0 +1,58 @@
+<mat-card>
+  <mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="dataInicio">
+      <mat-header-cell *matHeaderCellDef> Data de início </mat-header-cell>
+      <mat-cell *matCellDef="let auditorio">{{ auditorio.dataInicio }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dataFim">
+      <mat-header-cell *matHeaderCellDef> Data para o término </mat-header-cell>
+      <mat-cell *matCellDef="let auditorio">{{ auditorio.dataFim }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="horaInicio">
+      <mat-header-cell *matHeaderCellDef>Hora de início </mat-header-cell>
+      <mat-cell *matCellDef="let auditorio"> {{auditorio.horaInicio}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="horaFim">
+      <mat-header-cell *matHeaderCellDef> Hora de término </mat-header-cell>
+      <mat-cell *matCellDef="let auditorio"> {{auditorio.horaFim}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="pessoa">
+      <mat-header-cell *matHeaderCellDef> Solicitante </mat-header-cell>
+      <mat-cell *matCellDef="let auditorio">{{auditorio.pessoa.postoGraduacao}} - {{auditorio.pessoa.nomeGuerra}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="assessoria">
+      <mat-header-cell *matHeaderCellDef> Assessoria </mat-header-cell>
+      <mat-cell *matCellDef="let auditorio"> {{auditorio.assessoria.sigla}} </mat-cell>
+    </ng-container>
+
+     <!-- Coluna de ações -->
+  <ng-container matColumnDef="acoes">
+    <mat-header-cell *matHeaderCellDef class="action-column-header">
+      <button (click)="onAdd()" mat-mini-fab color="accent" aria-label="Adicionar um auditorio">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-header-cell>
+
+    <mat-cell *matCellDef="let auditorio" class="action-column">
+      <button (click)="onEdit(auditorio)" mat-icon-button color="primary" aria-label="Editar um auditorio">
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <button (click)="onDelete(auditorio)" mat-icon-button color="warn" aria-label="Remover auditorio">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row  *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+
+</mat-card>
