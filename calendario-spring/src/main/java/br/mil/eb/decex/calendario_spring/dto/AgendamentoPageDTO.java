@@ -7,35 +7,30 @@ import br.mil.eb.decex.calendario_spring.modelo.Agendamento;
 import java.util.List;
 
 public class AgendamentoPageDTO {
-
-    private List<Agendamento> content;
-    private int currentPage;
-    private int totalPages;
+    private List<AgendamentoDTO> agendamentos;
     private long totalElements;
+    private int totalPages;
 
-    // Construtor a partir de um Page<Agendamento>
-    public AgendamentoPageDTO(Page<Agendamento> page) {
-        this.content = page.getContent();
-        this.currentPage = page.getNumber();
-        this.totalPages = page.getTotalPages();
-        this.totalElements = page.getTotalElements();
+    public AgendamentoPageDTO(List<AgendamentoDTO> agendamentos, long totalElements, int totalPages) {
+        this.agendamentos = agendamentos;
+        this.totalElements = totalElements;
+        this.totalPages = totalPages;
     }
 
-    // Getters e setters
-    public List<Agendamento> getContent() {
-        return content;
+    public List<AgendamentoDTO> getAgendamentos() {
+        return agendamentos;
     }
 
-    public void setContent(List<Agendamento> content) {
-        this.content = content;
+    public void setAgendamentos(List<AgendamentoDTO> agendamentos) {
+        this.agendamentos = agendamentos;
     }
 
-    public int getCurrentPage() {
-        return currentPage;
+    public long getTotalElements() {
+        return totalElements;
     }
 
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
+    public void setTotalElements(long totalElements) {
+        this.totalElements = totalElements;
     }
 
     public int getTotalPages() {
@@ -46,11 +41,5 @@ public class AgendamentoPageDTO {
         this.totalPages = totalPages;
     }
 
-    public long getTotalElements() {
-        return totalElements;
-    }
-
-    public void setTotalElements(long totalElements) {
-        this.totalElements = totalElements;
-    }
+     
 }

@@ -12,16 +12,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.mil.eb.decex.calendario_spring.dto.AgendamentoDTO;
+import br.mil.eb.decex.calendario_spring.dto.AgendamentoPageDTO;
+import br.mil.eb.decex.calendario_spring.dto.PessoaPageDTO;
 import br.mil.eb.decex.calendario_spring.enumerado.Acessorios;
 import br.mil.eb.decex.calendario_spring.repository.AgendamentoRepository;
 import br.mil.eb.decex.calendario_spring.service.AgendamentoService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @RestController
 @RequestMapping("/api/agendamentos")
@@ -39,6 +44,14 @@ public class AgendamentoController {
     @GetMapping
     public List<AgendamentoDTO> list() {
         return agendamentoService.list();
+    }
+
+     @GetMapping("/search")
+    public AgendamentoPageDTO search(String termo, @RequestParam(defaultValue = "0") @PositiveOrZero int page,
+            @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize
+    ) {
+        
+        return agendamentoService.search(termo, page, pageSize);
     }
 
     @GetMapping("/acessorios")

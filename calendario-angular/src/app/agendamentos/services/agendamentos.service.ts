@@ -3,14 +3,17 @@ import { Injectable } from '@angular/core';
 import { first, Observable } from 'rxjs';
 import { Agendamento } from '../modelo/Agendamento';
 
+import { AgendamentoPage } from '../modelo/agendamento-page';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AgendamentosService {
 
   private readonly API = '/api/agendamentos';
+  private readonly APIPESQ = 'api/agendamentos/search';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private readonly httpClient: HttpClient) { }
 
   list(): Observable<Agendamento[]> {
     return this.httpClient.get<Agendamento[]>(this.API)
@@ -20,6 +23,16 @@ export class AgendamentosService {
       //tap(assessorias => console.log(assessorias))
     );
   }
+
+  list2(termo = '', page = 0, pageSize = 10): Observable<AgendamentoPage> {
+    return this.httpClient.get<AgendamentoPage>(this.APIPESQ, { params: {termo, page, pageSize}})
+    .pipe(
+      first(),
+      //delay(5000),
+      //tap(assessorias => console.log(assessorias))
+    );
+  }
+
 
   loadById(id: string){
     return this.httpClient.get<Agendamento>(`${this.API}/${id}`);

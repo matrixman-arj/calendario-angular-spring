@@ -11,6 +11,7 @@ import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
 
 public record AgendamentoDTO(
 
+        
         Long id,
 
         Assessoria assessoria,

@@ -40,21 +40,21 @@ export class AgendamentosListaComponent implements OnInit {
   dateHoje: string | undefined;
 
   constructor(
-    private http: HttpClient,
-    private snackBar: MatSnackBar,
-    private dialog: MatDialog,
-    private agendamentosService: AgendamentosService
+    private readonly httpClient: HttpClient,
+    private readonly snackBar: MatSnackBar,
+    private readonly dialog: MatDialog,
+    private readonly agendamentosService: AgendamentosService
   ) { }
 
 
   ngOnInit(): void {
 
-    // this.dataSource.data = this.agendamentos;
+    this.dataSource.data = this.agendamentos;
 
-    this.http.get<Agendamento[]>('/api/agendamentos').subscribe(data => {
-      this.dataSource.data = data;
-      console.log(data)
-    });
+    // this.http.get<Agendamento[]>('/api/agendamentos').subscribe(data => {
+    //   this.dataSource.data = data;
+    //   console.log(data)
+    // });
 
 
   }

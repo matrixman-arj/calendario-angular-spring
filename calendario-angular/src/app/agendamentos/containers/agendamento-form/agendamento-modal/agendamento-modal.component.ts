@@ -43,6 +43,8 @@ export class AgendamentoModalComponent implements OnInit {
   pessoas: Pessoa [] = [];
   assessorias: Assessoria [] = [];
 
+  pessoasOriginais: Pessoa[] = []; // Array com todos os registros originais
+
   acessorios = AcessoriosList; // Lista de acessórios
   allSelected: boolean = false; // Flag para verificar se todos estão selecionados
   dateHoje: any;
@@ -102,6 +104,10 @@ export class AgendamentoModalComponent implements OnInit {
      this.pessoasService.list().subscribe((data: PessoaPage) => {
       this.pessoas = data.pessoas;
      });
+
+     this.pessoasService.listPessCompl().subscribe((data: any[]) => {
+      this.pessoas = data;
+     });
   }
 
   comparePessoa(p1: Pessoa, p2: Pessoa): boolean {
@@ -159,6 +165,11 @@ export class AgendamentoModalComponent implements OnInit {
         // Atualiza o campo "assessoria" com a assessoria da pessoa selecionada
         this.form.patchValue({ assessoria: selectedPessoa.assessoria._id });
       }
+    });
+
+    this.pessoasService.listPessCompl().subscribe((data: Pessoa[]) => {
+      this.pessoas = data;
+      this.pessoasOriginais = [...data]; // Clona os dados originais
     });
   }
 

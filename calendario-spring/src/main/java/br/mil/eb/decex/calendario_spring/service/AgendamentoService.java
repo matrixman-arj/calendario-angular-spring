@@ -1,13 +1,22 @@
 package br.mil.eb.decex.calendario_spring.service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import br.mil.eb.decex.calendario_spring.dto.AgendamentoDTO;
+import br.mil.eb.decex.calendario_spring.dto.AgendamentoPageDTO;
+import br.mil.eb.decex.calendario_spring.dto.PessoaDTO;
+import br.mil.eb.decex.calendario_spring.dto.PessoaPageDTO;
 import br.mil.eb.decex.calendario_spring.dto.mapper.AgendamentoMapper;
+import br.mil.eb.decex.calendario_spring.enumerado.Acessorios;
 import br.mil.eb.decex.calendario_spring.exception.RecordNotFoundException;
 import br.mil.eb.decex.calendario_spring.modelo.Agendamento;
 import br.mil.eb.decex.calendario_spring.modelo.Assessoria;
@@ -16,8 +25,10 @@ import br.mil.eb.decex.calendario_spring.repository.AgendamentoRepository;
 import br.mil.eb.decex.calendario_spring.repository.AssessoriaRepository;
 import br.mil.eb.decex.calendario_spring.repository.PessoaRepository;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Validated
 @Service
@@ -48,6 +59,17 @@ public class AgendamentoService {
                 .map(agendamentoMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
+    public AgendamentoPageDTO search(String termo, @PositiveOrZero int page, @Positive @Max(100) int pageSize) {
+        Page<Agendamento> pageAgendamento = agendamentoRepository.findByAssessoria(termo, PageRequest.of(page, pageSize));
+        
+        List<AgendamentoDTO> agendamentos = pageAgendamento.get()
+            .map(agendamento -> agendamentoMapper.toDTO(agendamento))
+            .collect(Collectors.toList());
+        
+        return new AgendamentoPageDTO(agendamentos, pageAgendamento.getTotalElements(), pageAgendamento.getTotalPages());
+    }
+    
 
     public AgendamentoDTO findById(@NotNull @Positive Long id){
         return agendamentoRepository.findById(id)
