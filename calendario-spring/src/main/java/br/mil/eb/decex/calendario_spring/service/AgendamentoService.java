@@ -69,6 +69,22 @@ public class AgendamentoService {
         
         return new AgendamentoPageDTO(agendamentos, pageAgendamento.getTotalElements(), pageAgendamento.getTotalPages());
     }
+
+
+    public AgendamentoPageDTO search2( LocalDate dataInicio, LocalDate dataFim, int page, int pageSize) {
+        
+    
+        Page<Agendamento> pageAgendamento = agendamentoRepository.findByDates(
+             dataInicio, dataFim, PageRequest.of(page, pageSize)
+        );
+    
+        List<AgendamentoDTO> agendamentos = pageAgendamento.get()
+            .map(agendamentoMapper::toDTO)
+            .collect(Collectors.toList());
+    
+        return new AgendamentoPageDTO(agendamentos, pageAgendamento.getTotalElements(), pageAgendamento.getTotalPages());
+    }
+    
     
 
     public AgendamentoDTO findById(@NotNull @Positive Long id){

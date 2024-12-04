@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.mil.eb.decex.calendario_spring.dto.AuditorioDTO;
 import br.mil.eb.decex.calendario_spring.dto.AuditorioPageDTO;
-import br.mil.eb.decex.calendario_spring.dto.PessoaPageDTO;
 import br.mil.eb.decex.calendario_spring.enumerado.Acessorios;
 import br.mil.eb.decex.calendario_spring.repository.AuditorioRepository;
 import br.mil.eb.decex.calendario_spring.service.AuditorioService;
@@ -46,7 +45,7 @@ public class AuditorioController {
         return auditorioService.list();
     }
 
-     @GetMapping("/search")
+    @GetMapping("/search")
     public AuditorioPageDTO search(String termo, @RequestParam(defaultValue = "0") @PositiveOrZero int page,
             @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize
     ) {
