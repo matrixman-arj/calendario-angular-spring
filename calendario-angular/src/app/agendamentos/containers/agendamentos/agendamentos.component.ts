@@ -22,13 +22,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Assessoria } from '../../../assessorias/model/assessoria';
 import { AssessoriasService } from '../../../assessorias/services/assessorias.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
     selector: 'app-agendamentos',
     templateUrl: './agendamentos.component.html',
     styleUrl: './agendamentos.component.scss',
     standalone: true,
-    imports: [MatCard, MatToolbar, AgendamentosListaComponent,  MatPaginator, MatProgressSpinner, AsyncPipe, MatFormFieldModule, MatInputModule, MatSelectModule]
+    imports: [MatCard, MatToolbar, AgendamentosListaComponent,  MatPaginator, MatProgressSpinner, MatDatepickerModule, AsyncPipe, MatFormFieldModule, MatInputModule, MatSelectModule]
 })
 export class AgendamentosComponent implements OnInit{
 
@@ -36,6 +37,10 @@ export class AgendamentosComponent implements OnInit{
 
   pageIndex = 0;
   pageSize = 10;
+  length = 0;
+
+  dataInicio: string | null | undefined = undefined;
+  dataFim: string | null | undefined = undefined;
 
   termo = '';
 
@@ -99,6 +104,43 @@ refresh2(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }, termo
   );
 }
 
+refresh3(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }, termo = '') {
+  const dataInicio = this.dataInicio ?? null;
+  const dataFim = this.dataFim ?? null;
+  this.agendamentos2$ = this.agendamentosService.list3(dataInicio, dataFim, pageEvent.pageIndex, pageEvent.pageSize).pipe(
+    tap((page: AgendamentoPage) => {
+      // Atualize o estado local com os dados retornados
+      this.agendamentos = page.content; // ou page.agendamentos dependendo do formato
+      this.pageIndex = pageEvent.pageIndex;
+      this.pageSize = pageEvent.pageSize;
+
+      console.log('Agendamentos carregados:', this.agendamentos);
+    }),
+    catchError(error => {
+      this.onError('Erro ao carregar agendamentos');
+      return of({ content: [], agendamentos:[], totalElements: 0, totalPages: 0 });
+    })
+  );
+}
+
+// refresh3(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }): void {
+//   this.agendamentosService.list3(this.dataInicio ?? null, this.dataFim ?? null, pageEvent.pageIndex, pageEvent.pageSize)
+//     .subscribe({
+//       next: (data: AgendamentoPage) => {
+//         this.agendamentos = data.agendamentos; // Atualiza os agendamentos
+//         this.pageIndex = pageEvent.pageIndex;
+//         this.pageSize = pageEvent.pageSize;
+//         console.log('Agendamentos carregados:', this.agendamentos);
+//       },
+//       error: (error) => {
+//         console.error('Erro ao carregar agendamentos:', error);
+//       },
+//     });
+// }
+
+
+
+
 
 // refresh2(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }, termo = '') {
 //   this.agendamentos2$ = this.agendamentosService.list2(termo, pageEvent.pageIndex, pageEvent.pageSize)
@@ -113,6 +155,46 @@ refresh2(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }, termo
 //     })
 //   );
 // }
+
+onSearchByDate(type: 'inicio' | 'fim', value: Date | null): void {
+  if (type === 'inicio') {
+    this.dataInicio = value ? value.toISOString().split('T')[0] : null; // Converte para 'yyyy-MM-dd'
+  } else if (type === 'fim') {
+    this.dataFim = value ? value.toISOString().split('T')[0] : null; // Converte para 'yyyy-MM-dd'
+  }
+
+  console.log('Datas atualizadas:', { dataInicio: this.dataInicio, dataFim: this.dataFim });
+
+  // Se ambos os campos de data estão vazios, reseta para o estado inicial
+  if (!this.dataInicio && !this.dataFim) {
+    this.loadAllAgendamentos(); // Carrega todos os agendamentos
+  } else {
+    this.refresh3({ length: 0, pageIndex: 0, pageSize: this.pageSize });
+  }
+}
+
+// Método para carregar todos os agendamentos (estado inicial)
+loadAllAgendamentos(): void {
+  this.agendamentosService.getAllAgendamentos(this.pageSize, this.pageIndex).subscribe((response) => {
+    this.agendamentos = response.content;
+    this.length = response.totalElements;
+  });
+}
+
+
+// onSearchByDate(type: 'inicio' | 'fim', value: Date | null): void {
+//   if (type === 'inicio') {
+//     this.dataInicio = value ? value.toISOString().split('T')[0] : null; // Converte para 'yyyy-MM-dd'
+//   } else if (type === 'fim') {
+//     this.dataFim = value ? value.toISOString().split('T')[0] : null; // Converte para 'yyyy-MM-dd'
+//   }
+
+//   console.log('Datas atualizadas:', { dataInicio: this.dataInicio, dataFim: this.dataFim });
+
+//   this.refresh3({ length: 0, pageIndex: 0, pageSize: this.pageSize });
+// }
+
+
 
 
      // Escutar mudanças no campo 'pessoa'

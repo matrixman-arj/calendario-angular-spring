@@ -20,6 +20,20 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-form-field class="input-pesquisa-data">
+        <mat-label>Data de Início</mat-label>
+        <input matInput [matDatepicker]="pickerInicio" (dateChange)="onSearchByDate('inicio', $event.value)" (input)="onSearchByDate('inicio', null)" />
+        <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+        <mat-datepicker #pickerInicio></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="input-pesquisa-data">
+        <mat-label>Data de Término</mat-label>
+        <input matInput [matDatepicker]="pickerFim" (dateChange)="onSearchByDate('fim', $event.value)" (input)="onSearchByDate('inicio', null)" />
+        <mat-datepicker-toggle matSuffix [for]="pickerFim"></mat-datepicker-toggle>
+        <mat-datepicker #pickerFim></mat-datepicker>
+      </mat-form-field>
+
     </div>
 
   </mat-toolbar>

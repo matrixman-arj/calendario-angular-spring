@@ -18,12 +18,8 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> 
    @Query("SELECT a FROM Agendamento a WHERE a.assessoria.sigla LIKE %:termo%")
    Page<Agendamento> findByAssessoria(@Param("termo") String termo, Pageable pageable);
 
-   @Query("SELECT a FROM Agendamento a WHERE (a.dataInicio) >= ( :dataInicio)  OR (a.dataFim) <= ( :dataFim) " )
-   Page<Agendamento> findByDates(
-   
-   @Param("dataInicio") LocalDate dataInicio,
-   @Param("dataFim") LocalDate dataFim,
-   Pageable pageable
+   @Query("SELECT a FROM Agendamento a WHERE  a.dataInicio =  :dataInicio OR a.dataFim =  :dataFim" )
+   Page<Agendamento> findByDates(@Param("dataInicio") LocalDate dataInicio, @Param("dataFim") LocalDate dataFim, Pageable pageable
 );
 
 

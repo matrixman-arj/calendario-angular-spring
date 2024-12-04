@@ -59,10 +59,12 @@ public class AgendamentoController {
     @GetMapping("/search-agenda")
     public AgendamentoPageDTO searchAgenda(
         
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio, LocalDate dataFim,
+        
+        
         @RequestParam(defaultValue = "0") @PositiveOrZero int page,
         @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize) {
+            
 
     return agendamentoService.search2(dataInicio, dataFim, page, pageSize);
 }
