@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.mil.eb.decex.calendario_spring.dto.AgendamentoDTO;
 import br.mil.eb.decex.calendario_spring.dto.AgendamentoPageDTO;
-import br.mil.eb.decex.calendario_spring.dto.PessoaPageDTO;
 import br.mil.eb.decex.calendario_spring.enumerado.Acessorios;
 import br.mil.eb.decex.calendario_spring.repository.AgendamentoRepository;
 import br.mil.eb.decex.calendario_spring.service.AgendamentoService;

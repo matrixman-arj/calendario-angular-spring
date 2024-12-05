@@ -1,9 +1,5 @@
 package br.mil.eb.decex.calendario_spring.dto;
 
-import org.springframework.data.domain.Page;
-
-import br.mil.eb.decex.calendario_spring.modelo.VideoConferencia;
-
 import java.util.List;
 
 public class VideoConferenciaPageDTO {

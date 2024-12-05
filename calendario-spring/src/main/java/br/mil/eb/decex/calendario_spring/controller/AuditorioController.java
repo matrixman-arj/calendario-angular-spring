@@ -1,8 +1,10 @@
 package br.mil.eb.decex.calendario_spring.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.aspectj.lang.annotation.SuppressAjWarnings;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,6 +54,19 @@ public class AuditorioController {
         
         return auditorioService.search(termo, page, pageSize);
     }
+
+     @GetMapping("/search-agenda")
+    public AuditorioPageDTO searchAgenda(
+        
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio, LocalDate dataFim,
+        
+        
+        @RequestParam(defaultValue = "0") @PositiveOrZero int page,
+        @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize) {
+            
+
+    return auditorioService.search2(dataInicio, dataFim, page, pageSize);
+}
 
     @GetMapping("/acessorios")
     public ResponseEntity<Acessorios[]> getAcessoriosValues() {       

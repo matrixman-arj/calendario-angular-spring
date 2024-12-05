@@ -1,9 +1,7 @@
 package br.mil.eb.decex.calendario_spring.service;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -13,17 +11,14 @@ import org.springframework.validation.annotation.Validated;
 
 import br.mil.eb.decex.calendario_spring.dto.VideoConferenciaDTO;
 import br.mil.eb.decex.calendario_spring.dto.VideoConferenciaPageDTO;
-import br.mil.eb.decex.calendario_spring.dto.PessoaDTO;
-import br.mil.eb.decex.calendario_spring.dto.PessoaPageDTO;
 import br.mil.eb.decex.calendario_spring.dto.mapper.VideoConferenciaMapper;
-import br.mil.eb.decex.calendario_spring.enumerado.Acessorios;
 import br.mil.eb.decex.calendario_spring.exception.RecordNotFoundException;
-import br.mil.eb.decex.calendario_spring.modelo.VideoConferencia;
 import br.mil.eb.decex.calendario_spring.modelo.Assessoria;
 import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
-import br.mil.eb.decex.calendario_spring.repository.VideoConferenciaRepository;
+import br.mil.eb.decex.calendario_spring.modelo.VideoConferencia;
 import br.mil.eb.decex.calendario_spring.repository.AssessoriaRepository;
 import br.mil.eb.decex.calendario_spring.repository.PessoaRepository;
+import br.mil.eb.decex.calendario_spring.repository.VideoConferenciaRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
@@ -70,6 +65,19 @@ public class VideoConferenciaService {
         return new VideoConferenciaPageDTO(videoConferencias, pageVideoConferencia.getTotalElements(), pageVideoConferencia.getTotalPages());
     }
     
+     public VideoConferenciaPageDTO search2( LocalDate dataInicio, LocalDate dataFim, int page, int pageSize) {
+        
+    
+        Page<VideoConferencia> pageVideoConferencia = videoConferenciaRepository.findByDates(
+             dataInicio, dataFim, PageRequest.of(page, pageSize)
+        );
+    
+        List<VideoConferenciaDTO> videoConferencias = pageVideoConferencia.get()
+            .map(videoConferenciaMapper::toDTO)
+            .collect(Collectors.toList());
+    
+        return new VideoConferenciaPageDTO(videoConferencias, pageVideoConferencia.getTotalElements(), pageVideoConferencia.getTotalPages());
+    }
 
     public VideoConferenciaDTO findById(@NotNull @Positive Long id){
         return videoConferenciaRepository.findById(id)
@@ -96,12 +104,7 @@ public class VideoConferenciaService {
     
         // Salve o videoConferencia
         return videoConferenciaMapper.toDTO(videoConferenciaRepository.save(videoConferencia));
-    }
-    
-
-    // public VideoConferenciaDTO create(@Valid @NotNull VideoConferenciaDTO videoConferencia) {        
-    //     return videoConferenciaMapper.toDTO(videoConferenciaRepository.save(videoConferenciaMapper.toEntity(videoConferencia)));
-    // }
+    }    
 
     public VideoConferenciaDTO update(@NotNull @Positive Long id, @Valid VideoConferenciaDTO videoConferencia) {
         return videoConferenciaRepository.findById(id)

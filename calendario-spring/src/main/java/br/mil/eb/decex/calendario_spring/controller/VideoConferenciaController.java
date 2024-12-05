@@ -1,8 +1,10 @@
 package br.mil.eb.decex.calendario_spring.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.aspectj.lang.annotation.SuppressAjWarnings;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.mil.eb.decex.calendario_spring.dto.VideoConferenciaDTO;
 import br.mil.eb.decex.calendario_spring.dto.VideoConferenciaPageDTO;
-import br.mil.eb.decex.calendario_spring.dto.PessoaPageDTO;
 import br.mil.eb.decex.calendario_spring.enumerado.Acessorios;
 import br.mil.eb.decex.calendario_spring.repository.VideoConferenciaRepository;
 import br.mil.eb.decex.calendario_spring.service.VideoConferenciaService;
@@ -53,6 +54,19 @@ public class VideoConferenciaController {
         
         return videoConferenciaService.search(termo, page, pageSize);
     }
+
+     @GetMapping("/search-agenda")
+    public VideoConferenciaPageDTO searchAgenda(
+        
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio, LocalDate dataFim,
+        
+        
+        @RequestParam(defaultValue = "0") @PositiveOrZero int page,
+        @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize) {
+            
+
+    return videoConferenciaService.search2(dataInicio, dataFim, page, pageSize);
+}
 
     @GetMapping("/acessorios")
     public ResponseEntity<Acessorios[]> getAcessoriosValues() {       

@@ -1,9 +1,7 @@
 package br.mil.eb.decex.calendario_spring.service;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -13,16 +11,13 @@ import org.springframework.validation.annotation.Validated;
 
 import br.mil.eb.decex.calendario_spring.dto.AuditorioDTO;
 import br.mil.eb.decex.calendario_spring.dto.AuditorioPageDTO;
-import br.mil.eb.decex.calendario_spring.dto.PessoaDTO;
-import br.mil.eb.decex.calendario_spring.dto.PessoaPageDTO;
 import br.mil.eb.decex.calendario_spring.dto.mapper.AuditorioMapper;
-import br.mil.eb.decex.calendario_spring.enumerado.Acessorios;
 import br.mil.eb.decex.calendario_spring.exception.RecordNotFoundException;
-import br.mil.eb.decex.calendario_spring.modelo.Auditorio;
 import br.mil.eb.decex.calendario_spring.modelo.Assessoria;
+import br.mil.eb.decex.calendario_spring.modelo.Auditorio;
 import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
-import br.mil.eb.decex.calendario_spring.repository.AuditorioRepository;
 import br.mil.eb.decex.calendario_spring.repository.AssessoriaRepository;
+import br.mil.eb.decex.calendario_spring.repository.AuditorioRepository;
 import br.mil.eb.decex.calendario_spring.repository.PessoaRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -69,6 +64,20 @@ public class AuditorioService {
         
         return new AuditorioPageDTO(auditorios, pageAuditorio.getTotalElements(), pageAuditorio.getTotalPages());
     }
+
+    public AuditorioPageDTO search2( LocalDate dataInicio, LocalDate dataFim, int page, int pageSize) {
+        
+    
+        Page<Auditorio> pageAuditorio = auditorioRepository.findByDates(
+             dataInicio, dataFim, PageRequest.of(page, pageSize)
+        );
+    
+        List<AuditorioDTO> auditorios = pageAuditorio.get()
+            .map(auditorioMapper::toDTO)
+            .collect(Collectors.toList());
+    
+        return new AuditorioPageDTO(auditorios, pageAuditorio.getTotalElements(), pageAuditorio.getTotalPages());
+    }
     
 
     public AuditorioDTO findById(@NotNull @Positive Long id){
@@ -96,12 +105,7 @@ public class AuditorioService {
     
         // Salve o auditorio
         return auditorioMapper.toDTO(auditorioRepository.save(auditorio));
-    }
-    
-
-    // public AuditorioDTO create(@Valid @NotNull AuditorioDTO auditorio) {        
-    //     return auditorioMapper.toDTO(auditorioRepository.save(auditorioMapper.toEntity(auditorio)));
-    // }
+    }    
 
     public AuditorioDTO update(@NotNull @Positive Long id, @Valid AuditorioDTO auditorio) {
         return auditorioRepository.findById(id)

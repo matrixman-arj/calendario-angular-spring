@@ -1,9 +1,7 @@
 package br.mil.eb.decex.calendario_spring.service;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -13,10 +11,7 @@ import org.springframework.validation.annotation.Validated;
 
 import br.mil.eb.decex.calendario_spring.dto.AgendamentoDTO;
 import br.mil.eb.decex.calendario_spring.dto.AgendamentoPageDTO;
-import br.mil.eb.decex.calendario_spring.dto.PessoaDTO;
-import br.mil.eb.decex.calendario_spring.dto.PessoaPageDTO;
 import br.mil.eb.decex.calendario_spring.dto.mapper.AgendamentoMapper;
-import br.mil.eb.decex.calendario_spring.enumerado.Acessorios;
 import br.mil.eb.decex.calendario_spring.exception.RecordNotFoundException;
 import br.mil.eb.decex.calendario_spring.modelo.Agendamento;
 import br.mil.eb.decex.calendario_spring.modelo.Assessoria;
@@ -115,9 +110,7 @@ public class AgendamentoService {
     }
     
 
-    // public AgendamentoDTO create(@Valid @NotNull AgendamentoDTO agendamento) {        
-    //     return agendamentoMapper.toDTO(agendamentoRepository.save(agendamentoMapper.toEntity(agendamento)));
-    // }
+    
 
     public AgendamentoDTO update(@NotNull @Positive Long id, @Valid AgendamentoDTO agendamento) {
         return agendamentoRepository.findById(id)
