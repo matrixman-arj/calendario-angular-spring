@@ -22,13 +22,14 @@ import { ErrorDialogComponent } from '../../../shared/components/error-dialog/er
 import { VideoConferenciaPage } from '../../modelo/videoConferencia-page';
 import { VideoConferenciasService } from '../../services/videoConferencias.service';
 import { VideoConferenciasListaComponent } from "../../components/videoConferencias-lista/video-conferencias-lista.component";
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
     selector: 'app-videoConferencias',
     templateUrl: './videoConferencias.component.html',
     styleUrls: ['./videoConferencias.component.scss'],
     standalone: true,
-    imports: [MatCard, MatToolbar, MatPaginator, MatProgressSpinner, AsyncPipe, MatFormFieldModule, MatInputModule, MatSelectModule, VideoConferenciasListaComponent, CommonModule, FormsModule, ReactiveFormsModule]
+    imports: [MatCard, MatToolbar, MatPaginator, MatProgressSpinner, MatDatepickerModule, AsyncPipe, MatFormFieldModule, MatInputModule, MatSelectModule, VideoConferenciasListaComponent, CommonModule, FormsModule, ReactiveFormsModule]
 })
 export class VideoConferenciasComponent implements OnInit{
 
@@ -36,6 +37,11 @@ export class VideoConferenciasComponent implements OnInit{
 
   pageIndex = 0;
   pageSize = 10;
+  length = 0;
+
+  dataInicio: string | null | undefined = undefined;
+  dataFim: string | null | undefined = undefined;
+
 
   termo = '';
 
@@ -116,6 +122,25 @@ refresh2(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }, termo
 //   );
 // }
 
+refresh3(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }, termo = '') {
+  const dataInicio = this.dataInicio ?? null;
+  const dataFim = this.dataFim ?? null;
+  this.videoConferencias2$ = this.videoConferenciasService.list3(dataInicio, dataFim, pageEvent.pageIndex, pageEvent.pageSize).pipe(
+    tap((page: VideoConferenciaPage) => {
+      // Atualize o estado local com os dados retornados
+      this.videoConferencias = page.content; // ou page.videoConferencias dependendo do formato
+      this.pageIndex = pageEvent.pageIndex;
+      this.pageSize = pageEvent.pageSize;
+
+      console.log('VideoConferencias carregados:', this.videoConferencias);
+    }),
+    catchError(error => {
+      this.onError('Erro ao carregar videoConferencias');
+      return of({ content: [], videoConferencias:[], totalElements: 0, totalPages: 0 });
+    })
+  );
+}
+
 
      // Escutar mudanças no campo 'pessoa'
 onVideoConferenciaChange(videoConferenciaId: string): void {
@@ -127,6 +152,31 @@ onVideoConferenciaChange(videoConferenciaId: string): void {
     // Add meaningful code here or remove the block if not needed
     console.log(`Selected pessoa has assessoria: ${selectedVideoConferencia.assessoria}`);
   }
+}
+
+onSearchByDate(type: 'inicio' | 'fim', value: Date | null): void {
+  if (type === 'inicio') {
+    this.dataInicio = value ? value.toISOString().split('T')[0] : null; // Converte para 'yyyy-MM-dd'
+  } else if (type === 'fim') {
+    this.dataFim = value ? value.toISOString().split('T')[0] : null; // Converte para 'yyyy-MM-dd'
+  }
+
+  console.log('Datas atualizadas:', { dataInicio: this.dataInicio, dataFim: this.dataFim });
+
+  // Se ambos os campos de data estão vazios, reseta para o estado inicial
+  if (!this.dataInicio && !this.dataFim) {
+    this.loadAllVideoConferencias(); // Carrega todos os videoConferencias
+  } else {
+    this.refresh3({ length: 0, pageIndex: 0, pageSize: this.pageSize });
+  }
+}
+
+// Método para carregar todos os videoConferencias (estado inicial)
+loadAllVideoConferencias(): void {
+  this.videoConferenciasService.getAllVideoConferencias(this.pageSize, this.pageIndex).subscribe((response) => {
+    this.videoConferencias = response.content;
+    this.length = response.totalElements;
+  });
 }
 
 onPageChange(event: PageEvent): void {

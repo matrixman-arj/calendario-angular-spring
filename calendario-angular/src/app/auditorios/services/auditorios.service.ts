@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { first, Observable } from 'rxjs';
 import { Auditorio } from '../modelo/Auditorio';
@@ -31,6 +31,33 @@ export class AuditoriosService {
       //delay(5000),
       //tap(assessorias => console.log(assessorias))
     );
+  }
+
+  list3(dataInicio: string | null, dataFim: string | null, page: number, pageSize: number): Observable<AuditorioPage> {
+    const params: any = {
+
+      page,
+      pageSize,
+    };
+
+    if (dataInicio) {
+      params.dataInicio = dataInicio;
+    }
+    if (dataFim) {
+      params.dataFim = dataFim;
+    }
+
+    console.log('Parâmetros enviados:', params);
+
+    return this.httpClient.get<AuditorioPage>('/api/auditorios/search-agenda', { params });
+  }
+
+  getAllAuditorios(pageSize: number, pageIndex: number): Observable<AuditorioPage> {
+    const params = new HttpParams()
+      .set('page', pageIndex.toString())
+      .set('pageSize', pageSize.toString());
+
+      return this.httpClient.get<AuditorioPage>(this.APIPESQ, { params: {pageSize}});
   }
 
 

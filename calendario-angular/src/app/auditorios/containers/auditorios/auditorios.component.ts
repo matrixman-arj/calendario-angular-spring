@@ -22,13 +22,14 @@ import { ErrorDialogComponent } from '../../../shared/components/error-dialog/er
 import { AuditorioPage } from '../../modelo/auditorio-page';
 import { AuditoriosService } from '../../services/auditorios.service';
 import { AuditoriosListaComponent } from "../../components/auditorios-lista/auditorios-lista.component";
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
     selector: 'app-auditorios',
     templateUrl: './auditorios.component.html',
     styleUrl: './auditorios.component.scss',
     standalone: true,
-    imports: [MatCard, MatToolbar, MatPaginator, MatProgressSpinner, AsyncPipe, MatFormFieldModule, MatInputModule, MatSelectModule, AuditoriosListaComponent]
+    imports: [MatCard, MatToolbar, MatPaginator, MatProgressSpinner, MatDatepickerModule, AsyncPipe, MatFormFieldModule, MatInputModule, MatSelectModule, AuditoriosListaComponent]
 })
 export class AuditoriosComponent implements OnInit{
 
@@ -36,6 +37,10 @@ export class AuditoriosComponent implements OnInit{
 
   pageIndex = 0;
   pageSize = 10;
+  length = 0;
+
+  dataInicio: string | null | undefined = undefined;
+  dataFim: string | null | undefined = undefined;
 
   termo = '';
 
@@ -113,6 +118,50 @@ refresh2(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }, termo
 //     })
 //   );
 // }
+
+refresh3(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }, termo = '') {
+  const dataInicio = this.dataInicio ?? null;
+  const dataFim = this.dataFim ?? null;
+  this.auditorios2$ = this.auditoriosService.list3(dataInicio, dataFim, pageEvent.pageIndex, pageEvent.pageSize).pipe(
+    tap((page: AuditorioPage) => {
+      // Atualize o estado local com os dados retornados
+      this.auditorios = page.content; // ou page.auditorios dependendo do formato
+      this.pageIndex = pageEvent.pageIndex;
+      this.pageSize = pageEvent.pageSize;
+
+      console.log('Auditorios carregados:', this.auditorios);
+    }),
+    catchError(error => {
+      this.onError('Erro ao carregar auditorios');
+      return of({ content: [], auditorios:[], totalElements: 0, totalPages: 0 });
+    })
+  );
+}
+
+onSearchByDate(type: 'inicio' | 'fim', value: Date | null): void {
+  if (type === 'inicio') {
+    this.dataInicio = value ? value.toISOString().split('T')[0] : null; // Converte para 'yyyy-MM-dd'
+  } else if (type === 'fim') {
+    this.dataFim = value ? value.toISOString().split('T')[0] : null; // Converte para 'yyyy-MM-dd'
+  }
+
+  console.log('Datas atualizadas:', { dataInicio: this.dataInicio, dataFim: this.dataFim });
+
+  // Se ambos os campos de data estão vazios, reseta para o estado inicial
+  if (!this.dataInicio && !this.dataFim) {
+    this.loadAllAuditorios(); // Carrega todos os auditorios
+  } else {
+    this.refresh3({ length: 0, pageIndex: 0, pageSize: this.pageSize });
+  }
+}
+
+// Método para carregar todos os auditorios (estado inicial)
+loadAllAuditorios(): void {
+  this.auditoriosService.getAllAuditorios(this.pageSize, this.pageIndex).subscribe((response) => {
+    this.auditorios = response.content;
+    this.length = response.totalElements;
+  });
+}
 
 
      // Escutar mudanças no campo 'pessoa'
