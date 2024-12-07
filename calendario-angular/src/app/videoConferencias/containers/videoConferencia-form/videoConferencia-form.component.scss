@@ -30,10 +30,12 @@ mat-card {
   justify-content: space-between;
   padding: 10px 20px; /* Ajuste o padding conforme necessário */
   border-radius: 5px;
-  background-color: #efd863;
-  font-size: 18px;
+  background-color: #a70c0c;
+  -webkit-text-stroke-width: 0.01px; /*Insere uma borda no texto e aplica o tamanho dessa borda*/
+  -webkit-text-stroke-color: rgb(190, 151, 41); /*Insere uma cor na borda do texto*/
+  font-size: 20px;
   font-weight: bold;
-  color: #469bfd;
+  color: #fdfbfa;/* Cor do texto */
 }
 /* #2# Aqui finaliza o bloco de estilos que exibe a mensagem para selecionar uma data + os botões para saltar entre os meses */
 /*########################################################################################*/
@@ -52,13 +54,13 @@ mat-card {
 /* #4# Aqui inicia o bloco de estilos com cabeçalho do calendário mostrando os dias da semana */
 .calendar-weeks-grid {
   display: grid;
-  background-color: rgb(193, 145, 23);
+  background-color: rgb(37, 15, 158);
   grid-template-columns: repeat(7, 1fr);
   border-radius: 5px;
   font-size: 14px;
   text-decoration: double;
   padding-left: 10px;
-  color: rgb(237, 229, 229);
+  color: rgb(252, 252, 252);
 }
 /* Aqui finaliza o bloco de estilos com cabeçalho do calendário mostrando os dias da semana */
 /*########################################################################################*/
@@ -169,9 +171,9 @@ mat-card {
 
 /* #9# Aqui inicia o bloco de estilo para destacar o dia atual */
 .calendar-grid-cell-today {
-  background-color: #64b2df; /* Altere a cor de fundo para realçar */
+  background-color: #f0e5b4; /* Altere a cor de fundo para realçar */
   border: 1px solid #26c6da; /* Altere a cor da borda */
-  color: #f9f9f9;
+  color: #1d1b1b;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adicione uma sombra para um efeito de elevação */
 }
 /*  Aqui finaliza o bloco de estilo para destacar o dia atual */

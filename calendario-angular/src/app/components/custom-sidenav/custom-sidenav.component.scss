@@ -1,0 +1,44 @@
+.sidenav-header {
+  padding-top: 24px;
+  text-align: center;
+  background-color: rgb(240, 255, 253);
+
+  > img {
+    width: 30%;
+    height: 30%;
+    border-radius: 10%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+
+  .header-text {
+    > h2 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+
+    > p {
+      margin: 0;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.menu-item {
+  display: flex; /* Utiliza Flexbox */
+  align-items: center; /* Alinha o ícone e o texto verticalmente */
+  text-decoration: none; /* Remove o sublinhado padrão do link */
+  color: inherit; /* Mantém a cor padrão do tema */
+}
+
+.menu-icon {
+  margin-right: 8px; /* Espaçamento entre o ícone e o texto */
+  font-size: 25px; /* Ajusta o tamanho do ícone, se necessário */
+}
+
+.menu-text {
+  font-size: 18px; /* Ajusta o tamanho do texto, se necessário */
+  text-align: left; /* Garante que o texto esteja alinhado à esquerda */
+}
+

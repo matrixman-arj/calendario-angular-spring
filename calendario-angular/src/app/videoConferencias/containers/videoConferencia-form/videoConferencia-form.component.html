@@ -8,7 +8,7 @@
               @if (diaAtivo(); as activeDay) {
                 <div>{{ activeDay.toLocaleString(DATE_MED) }}</div>
               } @else {
-                <div>Selecione uma data</div>
+                <div>VideoConferências do DECEx - Selecione uma data</div>
               }
             </div>
             <div>
@@ -29,7 +29,7 @@
           <div class="calendar-headline-controls">
             <div class="calendar-headline-control" (click)="goToPreviousMonth()">
               <button mat-button (click)="previousMonth()">
-                <mat-icon color="primary">navigate_before</mat-icon>
+                <mat-icon style="color: white;">navigate_before</mat-icon>
               </button>
             </div>
 
@@ -39,7 +39,7 @@
 
             <div class="calendar-headline-control" (click)="goToNextMonth()">
               <button mat-button (click)="nextMonth()">
-                <mat-icon color="primary">navigate_next</mat-icon>
+                <mat-icon style="color: white;">navigate_next</mat-icon>
               </button>
             </div>
           </div>

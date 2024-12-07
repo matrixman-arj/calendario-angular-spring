@@ -31,10 +31,14 @@ import { AppComponent } from './app/app.component';
 import { APP_ROUTES } from './app/app.routes';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { MatPaginatorIntlPtBr } from './app/_util/paginator-ptbr-i8n';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 
 bootstrapApplication(AppComponent, {
     providers: [
+        BrowserAnimationsModule,
+        MatSidenavModule,
         importProvidersFrom(BrowserModule, FullCalendarModule, MatDialogModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, FormsModule, ReactiveFormsModule, MatSelectModule, MatSnackBarModule, MatDividerModule, MatIconModule, IMaskModule, MatToolbarModule, MatListModule, CalendarModule, PrimeNgCalendarModule, ButtonModule, // Outros módulos PrimeNG
         DialogModule, ScheduleModule, RecurrenceEditorModule, // Adicionando o RouterModule com forRoot
         ResizableModule, // Adicione o módulo de redimensionamento aqui

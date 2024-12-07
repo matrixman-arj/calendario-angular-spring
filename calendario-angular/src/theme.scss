@@ -1,0 +1,26 @@
+@use '@angular/material' as mat;
+
+// Defina as paletas de cores
+$custom-primary: mat.define-palette(mat.$indigo-palette, 800); // Azul escuro
+$custom-accent: mat.define-palette(mat.$green-palette, 500); // Vermelho
+$custom-warn: mat.define-palette(mat.$red-palette, 500); // Ouro
+
+// Defina o tema
+$custom-theme: mat.define-light-theme((
+  color: (
+    primary: $custom-primary,
+    accent: $custom-accent,
+    warn: $custom-warn,
+  ),
+  typography: mat.define-typography-config(),
+));
+
+// Exporte as cores para uso em outros arquivos
+$colors: (
+  primary: $custom-primary,
+  accent: $custom-accent,
+  warn: $custom-warn,
+);
+
+// Inclua os estilos globais do Angular Material
+@include mat.all-component-themes($custom-theme);
