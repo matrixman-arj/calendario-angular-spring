@@ -1,6 +1,6 @@
 /* #1# Aqui inicia o bloco de estilos do mat-card que recebe o calendário */
 mat-card {
-  max-width: 95%; /* O card pode ocupar até 100% da largura do contêiner pai */
+  max-width: 98%; /* O card pode ocupar até 100% da largura do contêiner pai */
   height: 95%; /* Ajusta a altura conforme o conteúdo */
   margin: 0 auto; /* Centraliza o card horizontalmente */
   overflow: hidden; /* Impede que o conteúdo exceda o tamanho do card */
@@ -8,7 +8,7 @@ mat-card {
   box-sizing: border-box; /* Garante que o padding seja incluído no tamanho total */
 
   height: 100%; /* Garante que o card ocupe 100% da altura disponível */
-  max-height: 830px; /* Limita a altura máxima do card */
+  max-height: 800px; /* Limita a altura máxima do card */
   overflow-y: auto; /* Adiciona uma rolagem interna caso o conteúdo exceda a altura */
 
 }
@@ -30,10 +30,12 @@ mat-card {
   justify-content: space-between;
   padding: 10px 20px; /* Ajuste o padding conforme necessário */
   border-radius: 5px;
-  background-color: #efd863;
-  font-size: 18px;
-  font-weight: bold;
-  color: #469bfd;
+  background-color: #d32f2f;
+  -webkit-text-stroke-width: 0.3px; /*Insere uma borda no texto e aplica o tamanho dessa borda*/
+  -webkit-text-stroke-color: rgb(190, 151, 41); /*Insere uma cor na borda do texto*/
+  font-size: 20px;
+  // font-weight: bold;
+  color: #ffffff;/* Cor do texto */
 }
 /* #2# Aqui finaliza o bloco de estilos que exibe a mensagem para selecionar uma data + os botões para saltar entre os meses */
 /*########################################################################################*/
