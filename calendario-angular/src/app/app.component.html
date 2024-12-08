@@ -1,15 +1,15 @@
 <mat-toolbar class="mat-elevation-z3" color="primary">
 
   <mat-toolbar-row>
-    <button mat-icon-button (click)="opened=!opened" style="background-color: rgb(50, 38, 224); border-color: aliceblue;"><mat-icon style="color: aliceblue;">menu</mat-icon></button>
+    <button mat-icon-button (click)="opened=!opened"><mat-icon>menu</mat-icon></button>
 
-    <span style="margin-left: 30px; color: rgb(241, 238, 238); "> Deparatamento de Educação e Cultura do Exército - DECEx </span>
+    <span> Deparatamento de Educação e Cultura do Exército - DECEx </span>
   </mat-toolbar-row>
 
 </mat-toolbar>
 
 <mat-sidenav-container >
-  <mat-sidenav [(opened)]="opened" mode="side" [style.width]="'350px'">
+  <mat-sidenav [(opened)]="opened" mode="side" [style.width]="'370px'">
     <app-custom-sidenav/>
 
 

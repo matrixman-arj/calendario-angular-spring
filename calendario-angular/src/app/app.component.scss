@@ -1,6 +1,64 @@
+/*Espaço para o Toolbar onde fica o texto do Departamento para todas as páginas*/
 mat-toolbar {
   position: relative;
   z-index: 5;
+}
+
+/*Espaço dentro do Toolbar onde fica o texto do Departamento para todas as páginas*/
+
+// span {
+//   background-color: rgb(57, 47, 201); /* Cor de fundo */
+//   border-bottom-right-radius: 10px;
+//   border-top-right-radius: 10px;
+//   padding-left: 30px;
+//   padding-right: 30px;
+//   padding-top: 10px;
+//   padding-bottom: 10px;
+//   box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.5),
+//               inset -3px -3px 8px rgba(255, 255, 255, 0.3); /* Sombras internas */
+//   background: linear-gradient(
+//     to bottom,
+//     rgb(50, 40, 170),
+//     rgb(57, 47, 201)
+//   ); /* Gradiente interno */
+//   color: white; /* Contraste com o texto */
+//   font-weight: bold;
+// }
+
+
+span {
+
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Sombra */
+  background: linear-gradient(
+    to bottom,
+    rgb(72, 61, 216),
+    rgb(50, 40, 170)
+  ); /* Gradiente */
+  color: white; /* Texto para contraste */
+}
+
+button {/* Botão do menu lateral*/
+
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Sombra */
+  background: linear-gradient(
+    to bottom,
+    rgb(216, 61, 74),
+    rgb(170, 40, 40)
+  ); /* Gradiente */
+  color: white; /* Texto para contraste */
+  font-weight: bold; /* Deixa o texto mais destacado */
 }
 
 mat-sidenav-container {
