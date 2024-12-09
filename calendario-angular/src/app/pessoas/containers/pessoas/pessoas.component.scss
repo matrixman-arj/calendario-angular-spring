@@ -5,6 +5,12 @@ mat-card {
 
 }
 
+.column-flex{
+  display: flex;
+  flex-direction: column;
+  min-width: 600px;
+}
+
 mat-toolbar {
   max-width: 100%;
   margin-bottom: 3px;
@@ -12,11 +18,6 @@ mat-toolbar {
 
 }
 
-.column-flex{
-  display: flex;
-  flex-direction: column;
-  min-width: 600px;
-}
 
 
 .loading-spinner {
@@ -25,6 +26,14 @@ mat-toolbar {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.campo-pesquisa{
+
+  width: 85%;
+  padding: 10px;
+  margin: 10px;
+
 }
 
 .input-pesquisa-pessoa {
@@ -39,23 +48,7 @@ mat-toolbar {
   align-items: center;
 }
 
-.campo-pesquisa{
-
-  width: 85%;
-  padding: 10px;
-  margin: 10px;
-
-}
-
-.input-pesquisa-assessoria {
-  width: 25%;
-  margin: 10px;
-  align-items: center;
-}
-
 .input-pesquisa::placeholder{
-
-
   font-size: 15px;
   padding: 10px;
   margin: 10px;

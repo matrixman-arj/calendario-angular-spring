@@ -6,7 +6,7 @@ import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { TranslateModule } from '@ngx-translate/core';
+
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { CustomSidenavComponent } from "./components/custom-sidenav/custom-sidenav.component";
 
@@ -16,7 +16,7 @@ import { CustomSidenavComponent } from "./components/custom-sidenav/custom-siden
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
     standalone: true,
-    imports: [MatToolbar, MatToolbarModule, RouterOutlet, MatSidenavModule, MatListModule, MatButton, MatButtonModule, MatIconModule, TranslateModule, CustomSidenavComponent]
+    imports: [MatToolbar, MatToolbarModule, RouterOutlet, MatSidenavModule, MatListModule, MatButton, MatButtonModule, MatIconModule, CustomSidenavComponent]
 })
 export class AppComponent implements OnInit {
   title = 'calendario-angular';
