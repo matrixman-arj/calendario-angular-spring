@@ -22,6 +22,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
@@ -85,6 +87,9 @@ public class Pessoa implements Serializable{
 	@NotNull
 	@Column
 	private PostoGraduacao postoGraduacao;
+
+
+	private int postoGraduacaoOrdinal;
 	
 	
 	@NotNull
@@ -174,6 +179,17 @@ public class Pessoa implements Serializable{
 		return postoGraduacao;
 	}
 
+	public void setPostoGraduacao(PostoGraduacao postoGraduacao) {
+		this.postoGraduacao = postoGraduacao;
+	}
+	
+	public int getPostoGraduacaoOrdinal() {
+		return postoGraduacaoOrdinal;
+	}
+	public void setPostoGraduacaoOrdinal(int postoGraduacaoOrdinal) {
+		this.postoGraduacaoOrdinal = postoGraduacaoOrdinal;
+	}	
+	
 
 			
 	/**
@@ -253,6 +269,14 @@ public class Pessoa implements Serializable{
 		this.antiguidade = antiguidade;
 	}
 
+	@PrePersist
+    @PreUpdate
+    private void atualizarOrdinal() {
+        if (postoGraduacao != null) {
+            this.postoGraduacaoOrdinal = postoGraduacao.ordinal();
+        }
+    }
+
 	/**
 	 * Realiza parse para usuário JAAS. Na liberação do usuário 
 	 * para acesso ao sistema, por convenção a senha será a identidade 
@@ -301,10 +325,5 @@ public class Pessoa implements Serializable{
 	public String toString() {
 		return "Pessoa [identidade=" + identidade + ", nomeGuerra=" + nomeGuerra + "]";
 	}
-	public void setPostoGraduacao(PostoGraduacao postoGraduacao) {
-		this.postoGraduacao = postoGraduacao;
-	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}	
+	
 }
