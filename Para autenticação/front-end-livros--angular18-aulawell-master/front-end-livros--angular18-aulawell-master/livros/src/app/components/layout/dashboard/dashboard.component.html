@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Bem-vindo!</h5>
+      <div class="row">
+
+
+        @for (num of [].constructor(5); track $index) {
+        <div class="col-4">  {{$index+1}}
+          <app-grafico></app-grafico>
+        </div>
+      }
+
+        
+      </div>
+    </div>
+  </div>
+</div>

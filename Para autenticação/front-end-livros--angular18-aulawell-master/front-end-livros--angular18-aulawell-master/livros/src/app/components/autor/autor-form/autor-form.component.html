@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5>{{tituloComponente}}</h5>
+  
+            <form #formulario1="ngForm">
+              <mdb-form-control>
+                <input [(ngModel)]="autor.nome" mdbInput pattern=".*\S+.*" required type="text" name="titulo" class="form-control" />
+                <label mdbLabel class="form-label" for="titulo">Título:</label>
+              </mdb-form-control>
+  
+              <br>
+  
+            @if(autor.id > 0){
+              <button [disabled]="!formulario1.valid" (click)="update()" class="btn-rounded btn btn-primary">Atualizar</button>
+            }@else{
+              <button [disabled]="!formulario1.valid" (click)="save()" class="btn-rounded btn btn-primary">Salvar</button>
+            }
+             
+              <a href="admin/autors" class="btn-rounded btn btn-default">Voltar</a>
+  
+            </form>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

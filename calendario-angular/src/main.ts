@@ -1,4 +1,4 @@
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 
 import { importProvidersFrom } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -33,6 +33,7 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
 import { MatPaginatorIntlPtBr } from './app/_util/paginator-ptbr-i8n';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { meuhttpInterceptor } from './app/login/auth/http-interceptor.service';
 
 
 bootstrapApplication(AppComponent, {
@@ -51,7 +52,8 @@ bootstrapApplication(AppComponent, {
         provideAnimationsAsync(),
         provideHttpClient(withInterceptorsFromDi()),
         provideAnimations(),
-        provideRouter(APP_ROUTES, withPreloading(PreloadAllModules))
+        provideRouter(APP_ROUTES, withPreloading(PreloadAllModules)),
+        provideHttpClient(withInterceptors([meuhttpInterceptor]))
     ]
 })
   .catch(err => console.error(err));

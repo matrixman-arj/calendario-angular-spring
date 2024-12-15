@@ -9,8 +9,10 @@ import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
 import br.mil.eb.decex.calendario_spring.enumerado.TipoAcesso;
 import br.mil.eb.decex.calendario_spring.modelo.Assessoria;
 import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
+import br.mil.eb.decex.calendario_spring.modelo.Usuario;
 import br.mil.eb.decex.calendario_spring.repository.AssessoriaRepository;
 import br.mil.eb.decex.calendario_spring.repository.PessoaRepository;
+import br.mil.eb.decex.calendario_spring.repository.UsuarioRepository;
 
 @SpringBootApplication
 public class CalendarioSpringApplication {
@@ -21,7 +23,7 @@ public class CalendarioSpringApplication {
 	}
 
 	@Bean
-	CommandLineRunner initDatabase(PessoaRepository pessoaRepository, AssessoriaRepository assessoriaRepository) {
+	CommandLineRunner initDatabase(PessoaRepository pessoaRepository, AssessoriaRepository assessoriaRepository, UsuarioRepository usuarioRepository) {
 		return _ -> {
 			pessoaRepository.deleteAll();
 
@@ -315,6 +317,13 @@ public class CalendarioSpringApplication {
 			pessoaRepository.save(pessoa17);
 			pessoaRepository.save(pessoa18);
 			pessoaRepository.save(pessoa19);
+
+			Usuario usuario = new Usuario();
+			usuario.setUsername("0195623038");
+			usuario.setPassword("$2a$12$GkgWGrA1LQ27BPo235vAJ.CfFAHt4uUATsX7xQG.mDVjj3gI02NUm");
+			usuario.setRole("SUPER-ADMIN");
+
+			usuarioRepository.save(usuario);
 		};
 	}
 

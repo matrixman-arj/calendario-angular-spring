@@ -7,8 +7,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { CustomSidenavComponent } from "./components/custom-sidenav/custom-sidenav.component";
+import { LoginService } from './login/auth/login.service';
+import { Login } from './login/auth/login';
 
 @Component({
     selector: 'app-root',
@@ -16,7 +18,7 @@ import { CustomSidenavComponent } from "./components/custom-sidenav/custom-siden
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
     standalone: true,
-    imports: [MatToolbar, MatToolbarModule, RouterOutlet, MatSidenavModule, MatListModule, MatButton, MatButtonModule, MatIconModule, TranslateModule, CustomSidenavComponent]
+    imports: [MatToolbar, MatToolbarModule, RouterOutlet, MatSidenavModule, MatListModule, MatButtonModule, MatIconModule, TranslateModule, CustomSidenavComponent]
 })
 export class AppComponent implements OnInit {
   title = 'calendario-angular';
@@ -32,7 +34,8 @@ export class AppComponent implements OnInit {
 
   constructor(
         private pessoaService: PessoasService,
-        private router: Router
+        private router: Router,
+        private loginService : LoginService,
   ){}
 
   navigateTo(path: string): void {
@@ -40,6 +43,15 @@ export class AppComponent implements OnInit {
   }
   ngOnInit(): void {
     console.log('Available Routes:', this.router.config);
+  }
+
+
+  // Método de logout
+  logout(): void {
+    const login: Login = { username: '', password: '' };
+    this.loginService.logar(login).subscribe(() => {
+      // Handle successful logout
+    });
   }
 
 

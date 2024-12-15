@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
 import { CustomSidenavComponent } from './components/custom-sidenav/custom-sidenav.component';
+import { LOGIN_ROUTES } from './login/login.routes';
+import { Login } from './login/auth/login';
+import { LoginComponent } from './login/login.component';
 
 export const APP_ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'pessoas' }, // Redireciona para "pessoas"
@@ -39,5 +42,13 @@ export const APP_ROUTES: Routes = [
       import('./components/custom-sidenav/custom-sidenav.routes').then((m) => m.CUSTOMSIDENAV_ROUTES,
       ),
     component: CustomSidenavComponent, // Use o componente standalone
+  },
+
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('./login/login.routes').then((m) => m.LOGIN_ROUTES,
+      ),
+    component: LoginComponent, // Use o componente standalone
   },
 ];

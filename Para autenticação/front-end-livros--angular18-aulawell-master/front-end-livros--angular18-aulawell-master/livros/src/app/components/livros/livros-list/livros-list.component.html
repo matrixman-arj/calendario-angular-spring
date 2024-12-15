@@ -1,0 +1,136 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Listagem de livros</h5>
+
+          <div class="row">
+            <div class="col-6">
+
+              <div class="input-group">
+                <input (keyup.enter)="findByTitulo()" [(ngModel)]="pesquisa" type="text" class="form-control" placeholder="Parte do título..."
+                  aria-label="Recipient's username with two button addons" />
+                <button (click)="findByTitulo()" class="btn-rounded btn btn-outline-primary" type="button" mdbRipple rippleColor="danger" >
+                  Pesquisar
+                </button>
+                <button (click)="pesquisa = ''; findByTitulo()" class="btn-rounded btn btn-outline-primary" type="button" mdbRipple rippleColor="danger" >
+                  Todos
+                </button>
+              </div>
+
+            </div>
+            <div class="col-6">
+
+              <div class="alinharDireita">
+                <a (click)="novo()" class="btn-rounded btn btn-primary">Novo</a>
+              <!--  <a href="admin/livros/new" class="btn-rounded btn btn-primary">Novo</a>-->
+              </div>
+            </div>
+          </div>
+
+
+
+              <ngb-pagination 
+              [collectionSize]="pageObj.totalElements"
+               [(page)]="pagina"
+                [maxSize]="5"
+                [pageSize]="5"
+               [rotate]="true" 
+               [boundaryLinks]="true" 
+               (pageChange)="findByTitulo()" />
+
+
+               <select name="alkdfjsdal" id="" [(ngModel)]="maximo">
+                  <option [ngValue]="5">5</option>
+                  <option [ngValue]="10">10</option>
+                  <option [ngValue]="20">20</option>
+               </select>
+isso aqui a gente não terminou pq todo mundo foi embora... menos a Emilly e a Kaila
+       
+<!--
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+
+
+
+<br> 
+            @for (pagina of [].constructor(pageObj.totalPages); track $index) {
+              <li class="page-item">
+                <a class="page-link" href="/admin/livros/{{$index+1}}">{{$index+1}}</a>
+              </li>
+            }
+             
+              <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+          </nav>
+  -->
+          <table class="table table-striped" border="1" width="400px">
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>-</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (livro of lista; track $index) {
+              <tr>
+                <td>{{ livro.titulo }}</td>
+
+                <td class="alinharDireita">
+
+                  <a
+                  class="btn-rounded btn btn-primary"
+                  (click)="editar(livro)"
+                  >Editar</a
+                >
+
+<!--
+                  <a
+                    class="btn-rounded btn btn-primary"
+                    href="admin/livros/edit/{{ livro.id }}"
+                    >Editar</a
+                  >
+                  -->
+                  <a class="btn-rounded btn btn-danger" (click)="deleteById(livro)"
+                    >Deletar</a
+                  >
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+
+          
+
+          <h5 class="card-title">Exibindo {{lista.length}} livros</h5>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #modalLivrosForm>
+
+  <div class="modal-header bg-primary text-white">
+    <h5 class="modal-title" id="exampleModalLabel">Cadastro de livros</h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modalRef.close()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    
+    <app-livros-form [livro]="livroEdit" (retorno)="retornoForm($event)"></app-livros-form>
+
+  </div>
+  
+
+</ng-template>
