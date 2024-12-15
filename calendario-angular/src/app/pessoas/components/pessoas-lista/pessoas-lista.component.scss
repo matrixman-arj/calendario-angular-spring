@@ -12,6 +12,16 @@ mat-cell, mat-header-cell {
   justify-content: center;
 }
 
+.buton-add {
+  position: absolute;
+  // width: 10px;
+  // height: 10px;
+  align-content: center;
+  background-color: rgb(36, 169, 36);
+  text-size-adjust: 12px;
+  // text-align: center;
+}
+
 
 // mat-table {
 //   max-width: 100%;
