@@ -37,8 +37,8 @@ public class SecurityConfig  {
 		.cors(AbstractHttpConfigurer::disable)
 		.authorizeHttpRequests((requests) -> requests
 				.requestMatchers("/api/login").permitAll()//permite acesso acesso sem autenticação.
-				.requestMatchers("/api/register").permitAll()//permite acesso acesso sem autenticação para o usuário se cadastrar.
-				.requestMatchers("/enumerado/**").permitAll() // Permitir acesso público às imagens
+				.requestMatchers("/api/register").permitAll()//permite acesso sem autenticação para o usuário se cadastrar.
+				.requestMatchers("/enumerado/**").permitAll() // Permitir acesso público aos enumeradores
 				.requestMatchers("/media/**").permitAll() // Permitir acesso público às imagens				
 				.requestMatchers("/**").hasAuthority("ROLE_SUPER-ADMIN") // Acesso irrestrito para SUPER-ADMIN
 				.anyRequest().authenticated())
