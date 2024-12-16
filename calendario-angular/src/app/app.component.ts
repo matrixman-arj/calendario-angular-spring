@@ -11,6 +11,7 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
 import { CustomSidenavComponent } from "./components/custom-sidenav/custom-sidenav.component";
 import { LoginService } from './login/auth/login.service';
 import { Login } from './login/auth/login';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-root',
@@ -18,11 +19,12 @@ import { Login } from './login/auth/login';
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
     standalone: true,
-    imports: [MatToolbar, MatToolbarModule, RouterOutlet, MatSidenavModule, MatListModule, MatButton, MatButtonModule, MatIconModule,  CustomSidenavComponent]
+    imports: [MatToolbar, MatToolbarModule, RouterOutlet, MatSidenavModule, MatListModule, MatButton, MatButtonModule, MatIconModule,  CustomSidenavComponent, CommonModule]
 })
 export class AppComponent implements OnInit {
   title = 'calendario-angular';
   opened = false;
+
 
   logNavigation(route: string): void {
     console.log('Navigating to:', route);
@@ -35,8 +37,20 @@ export class AppComponent implements OnInit {
   constructor(
         private pessoaService: PessoasService,
         private router: Router,
-        private loginService : LoginService,
+        public loginService : LoginService,
   ){}
+
+  private readonly TOKEN_KEY = 'auth-token';
+
+  // Retorna o token armazenado
+  getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  // Verifica se o usuário está logado
+  isLoggedIn(): boolean {
+    return this.getToken() !== null;
+  }
 
   navigateTo(path: string): void {
     this.router.navigate([`/${path}`]);
