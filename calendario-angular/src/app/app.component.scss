@@ -25,16 +25,35 @@ mat-toolbar {
 //   font-weight: bold;
 // }
 
+.logo-container {
+  display: inline-flex; /* Flexbox para o conteúdo em linha */
+  align-items: center; /* Centraliza verticalmente */
+  gap: 10px; /* Espaço entre a imagem e o texto */
+}
+
+.logo-logout {
+  height: 40px; /* Ajuste a altura conforme necessário */
+  width: auto; /* Mantém a proporção da imagem */
+}
+
+.logo-text {
+  display: flex;
+  align-items: center; /* Garante alinhamento vertical central */
+  font-size: 20px; /* Ajuste do tamanho da fonte */
+}
+
+
 
 span {
 
-  border-radius: 10px;
-  // border-top-right-radius: 10px;
-  padding-left: 30px;
-  padding-right: 30px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Sombra */
+  // border-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-left: 10px;
+  padding-right: 20px;
+  margin-left: 20px;
+  // padding-top: 10px;
+  // padding-bottom: 10px;
+  // box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Sombra */
   background: linear-gradient(
     to bottom,
     rgb(72, 61, 216),
@@ -43,24 +62,24 @@ span {
   color: white; /* Texto para contraste */
 }
 
-.logo-logout{
-  width: 30px;
-  height: 40px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  margin-left: 50px;
-  margin-right: 3px;
-  border-bottom-right-radius: 10px;
-  border-top-right-radius: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
+span img{
+  // width: 20px;
+  // height: 30px;
+  // padding-top: 10px;
+  // padding-bottom: 0px;
+  // margin-left: 50px;
+  // margin-right: 3px;
+  // border-bottom-right-radius: 10px;
+  // border-top-right-radius: 10px;
+  // padding-left: 10px;
+  // padding-right: 10px;
 
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Sombra */
-  background: linear-gradient(
-    to bottom,
-    rgb(61, 76, 216),
-    rgb(40, 59, 170)
-  ); /* Gradiente */
+  // box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Sombra */
+  // background: linear-gradient(
+  //   to bottom,
+  //   rgb(61, 76, 216),
+  //   rgb(40, 59, 170)
+  // ); /* Gradiente */
   // color: white; /* Texto para contraste */
   // font-weight: bold; /* Deixa o texto mais destacado */
 }
