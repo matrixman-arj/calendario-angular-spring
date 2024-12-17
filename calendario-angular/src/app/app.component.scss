@@ -1,5 +1,6 @@
 /*Espaço para o Toolbar onde fica o texto do Departamento para todas as páginas*/
 mat-toolbar {
+  height: auto;
   position: relative;
   z-index: 5;
 }
@@ -33,6 +34,7 @@ mat-toolbar {
   display: inline-flex; /* Flexbox para o conteúdo em linha */
   align-items: center; /* Centraliza verticalmente */
   gap: 10px; /* Espaço entre a imagem e o texto */
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Sombra */
   background: linear-gradient(
     to bottom,
     rgb(72, 61, 216),
@@ -42,7 +44,7 @@ mat-toolbar {
 }
 
 .logo-logout {
-  height: 45px; /* Ajuste a altura conforme necessário */
+  height: 50px; /* Ajuste a altura conforme necessário */
   width: auto; /* Mantém a proporção da imagem */
   margin-top: 5px; /* Ajuste conforme necessário */
 }
