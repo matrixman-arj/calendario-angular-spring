@@ -26,34 +26,13 @@ mat-toolbar {
 // }
 
 .logo-container {
-  display: inline-flex; /* Flexbox para o conteúdo em linha */
-  align-items: center; /* Centraliza verticalmente */
-  gap: 10px; /* Espaço entre a imagem e o texto */
-}
-
-.logo-logout {
-  height: 40px; /* Ajuste a altura conforme necessário */
-  width: auto; /* Mantém a proporção da imagem */
-}
-
-.logo-text {
-  display: flex;
-  align-items: center; /* Garante alinhamento vertical central */
-  font-size: 20px; /* Ajuste do tamanho da fonte */
-}
-
-
-
-span {
-
-  // border-radius: 10px;
   border-top-right-radius: 10px;
   padding-left: 10px;
   padding-right: 20px;
   margin-left: 20px;
-  // padding-top: 10px;
-  // padding-bottom: 10px;
-  // box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Sombra */
+  display: inline-flex; /* Flexbox para o conteúdo em linha */
+  align-items: center; /* Centraliza verticalmente */
+  gap: 10px; /* Espaço entre a imagem e o texto */
   background: linear-gradient(
     to bottom,
     rgb(72, 61, 216),
@@ -62,33 +41,46 @@ span {
   color: white; /* Texto para contraste */
 }
 
-span img{
-  // width: 20px;
-  // height: 30px;
-  // padding-top: 10px;
-  // padding-bottom: 0px;
-  // margin-left: 50px;
-  // margin-right: 3px;
-  // border-bottom-right-radius: 10px;
-  // border-top-right-radius: 10px;
-  // padding-left: 10px;
-  // padding-right: 10px;
-
-  // box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Sombra */
-  // background: linear-gradient(
-  //   to bottom,
-  //   rgb(61, 76, 216),
-  //   rgb(40, 59, 170)
-  // ); /* Gradiente */
-  // color: white; /* Texto para contraste */
-  // font-weight: bold; /* Deixa o texto mais destacado */
+.logo-logout {
+  height: 45px; /* Ajuste a altura conforme necessário */
+  width: auto; /* Mantém a proporção da imagem */
+  margin-top: 5px; /* Ajuste conforme necessário */
 }
 
-button {/* Botão do menu lateral*/
+.logo-text {
+  display: flex;
+  align-items: center; /* Garante alinhamento vertical central */
+  font-size: 20px; /* Ajuste do tamanho da fonte */
+}
+
+.button-menu {/* Botão do menu lateral*/
 
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
-  padding-left: 30px;
+  padding-left: 15px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Sombra */
+  background: linear-gradient(
+    to bottom,
+    rgb(49, 177, 113),
+    rgb(39, 119, 29)
+  ); /* Gradiente */
+
+  color: white; /* Texto para contraste */
+  font-weight: bold; /* Deixa o texto mais destacado */
+}
+
+.button-logout {/* Botão do logout*/
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 10px;
+
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-left: 15px;
   padding-right: 30px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -98,6 +90,7 @@ button {/* Botão do menu lateral*/
     rgb(216, 61, 74),
     rgb(170, 40, 40)
   ); /* Gradiente */
+
   color: white; /* Texto para contraste */
   font-weight: bold; /* Deixa o texto mais destacado */
 }
