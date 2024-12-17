@@ -7,19 +7,22 @@ import { Login } from './auth/login';
 import { LoginService } from './auth/login.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   standalone: true,
-  imports: [MatFormFieldModule, FormsModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, CommonModule, MatIconModule, MatCardModule]
+  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule, FormsModule, ReactiveFormsModule, CommonModule, MatIconModule, MatCardModule]
 })
 export class LoginComponent {
 
   login: Login = new Login();
 
   router = inject(Router);
+  hide = true;
 
   loginService = inject(LoginService);
 
@@ -34,23 +37,41 @@ export class LoginComponent {
   form: FormGroup = new FormGroup({
     username: new FormControl(''),
     password: new FormControl(''),
+
   });
 
   logar() {
     this.loginService.logar(this.login).subscribe({
       next: token => {
-        if (token) {// Se tem token, o usuário e senha estão corretos.
+        if (token) {
           this.loginService.addToken(token);
           this.router.navigate(['/pessoas']);
-        }else{// Se não tem token, o usuário e senha estão incorretos.
+        } else {
           alert('Usuário ou senha inválidos');
         }
       },
-      error: erro => {
+      error: () => {
         alert('Usuário ou senha inválidos');
       }
     });
   }
+
+
+  // logar() {
+  //   this.loginService.logar(this.login).subscribe({
+  //     next: token => {
+  //       if (token) {// Se tem token, o usuário e senha estão corretos.
+  //         this.loginService.addToken(token);
+  //         this.router.navigate(['/pessoas']);
+  //       }else{// Se não tem token, o usuário e senha estão incorretos.
+  //         alert('Usuário ou senha inválidos');
+  //       }
+  //     },
+  //     error: erro => {
+  //       alert('Usuário ou senha inválidos');
+  //     }
+  //   });
+  // }
 
   // Método de logout
   logout(): void {

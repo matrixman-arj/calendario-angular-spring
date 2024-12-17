@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { Login } from './login';
 import { Usuario } from './usuario';
@@ -9,6 +9,12 @@ import { Usuario } from './usuario';
   providedIn: 'root'
 })
 export class LoginService {
+
+  private readonly TOKEN_KEY = 'auth-token';
+
+  // BehaviorSubject para acompanhar o estado do login
+  private loggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
+  loggedIn$: Observable<boolean> = this.loggedInSubject.asObservable();
 
   http = inject(HttpClient);
   API = "http://localhost:8080/api/login";
@@ -21,9 +27,21 @@ export class LoginService {
     return this.http.post<string>(this.API, login, {responseType: 'text' as 'json'});
   }
 
+  //Adiciona token
+  // addToken(token: string) {
+  //   localStorage.setItem(this.TOKEN_KEY, token);
+  //   this.loggedInSubject.next(true); // Notifica que o usuário está logado
+  // }
+
   addToken(token: string) {
     localStorage.setItem('token', token);
   }
+
+   // Remove token
+  //  removerToken() {
+  //   localStorage.removeItem(this.TOKEN_KEY);
+  //   this.loggedInSubject.next(false); // Notifica que o usuário não está logado
+  // }
 
   removerToken() {
     localStorage.removeItem('token');
@@ -34,12 +52,20 @@ export class LoginService {
   }
 
   jwtDecode() {
-    let token = this.getToken();
+    let token = localStorage.getItem(this.TOKEN_KEY);
     if (token) {
       return jwtDecode<JwtPayload>(token);
     }
-    return "";
+    return null;
   }
+
+  // jwtDecode() {
+  //   let token = this.getToken();
+  //   if (token) {
+  //     return jwtDecode<JwtPayload>(token);
+  //   }
+  //   return "";
+  // }
 
   hasPermission(role: string) {
     let user = this.jwtDecode() as Usuario;
@@ -47,6 +73,11 @@ export class LoginService {
       return true;
     else
       return false;
+  }
+
+  // Verifica se há token armazenado
+  hasToken(): boolean {
+    return !!localStorage.getItem(this.TOKEN_KEY);
   }
 
 

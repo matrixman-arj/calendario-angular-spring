@@ -22,6 +22,9 @@ import { CommonModule } from '@angular/common';
     imports: [MatToolbar, MatToolbarModule, RouterOutlet, MatSidenavModule, MatListModule, MatButton, MatButtonModule, MatIconModule,  CustomSidenavComponent, CommonModule]
 })
 export class AppComponent implements OnInit {
+
+  isLoggedIn: boolean = false;
+
   title = 'calendario-angular';
   opened = false;
 
@@ -48,25 +51,34 @@ export class AppComponent implements OnInit {
   }
 
   // Verifica se o usuário está logado
-  isLoggedIn(): boolean {
-    return this.getToken() !== null;
-  }
+  // isLoggedIn(): boolean {
+  //   return this.getToken() !== null;
+  // }
 
   navigateTo(path: string): void {
     this.router.navigate([`/${path}`]);
   }
   ngOnInit(): void {
+     // Monitora o estado do login
+     this.loginService.loggedIn$.subscribe(status => {
+      this.isLoggedIn = status;
+    });
     console.log('Available Routes:', this.router.config);
   }
 
 
   // Método de logout
-  logout(): void {
-    const login: Login = { username: '', password: '' };
-    this.loginService.logar(login).subscribe(() => {
-      // Handle successful logout
-    });
+  logout() {
+    this.loginService.removerToken(); // Executa logout
+    this.router.navigate(['/login']); // Redireciona para a página de login
   }
+
+  // logout(): void {
+  //   const login: Login = { username: '', password: '' };
+  //   this.loginService.logar(login).subscribe(() => {
+  //     // Handle successful logout
+  //   });
+  // }
 
 
 }

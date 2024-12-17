@@ -1,29 +1,31 @@
-<mat-card>
-  <div class="container">
-    <div class="row">
-      <div class="col-4"></div>
-      <div class="col-4">
-        <div class="card">
-          <div class="card-body">
 
+<mat-card class="login-container">
+  <div class="login-content">
+    <!-- Imagem à esquerda -->
 
-              <h3 class="card-title">Entre com seu Usuário e Senha:</h3><br>
+    <div class="login-image">
+      <mat-label class="text-img">SISPESS - DECEx</mat-label>
+      <div></div>
+      <img src="assets/image/decex-logo.png" alt="DECEx">
+    </div>
 
-              <div class="form-group">
-                <label class="form-label" for="form1">Usuário:   </label>
-                  <input type="text" name="username" class="form-control" [(ngModel)]="login.username" />
-                </div>
-                <br>
-                <div class="form-group">
-                  <label class="form-label" for="form1">Senha:   </label>
-                  <input (keyup.enter)="logar()" type="password" name="senha" class="form-control" [(ngModel)]="login.password" />
-                </div>
-                <br>
-              <button mat-raised-button color="primary" (click)="logar()" >Logar</button>
-          </div>
-        </div>
-      </div>
-      <div class="col-4"></div>
+    <!-- Formulário de login -->
+    <div class="login-form">
+      <h2>Digite as credenciais:</h2>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Usuário</mat-label>
+        <input matInput placeholder="Digite seu usuário" [(ngModel)]="login.username" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Senha</mat-label>
+        <input matInput placeholder="Digite sua senha" [type]="hide ? 'password' : 'text'" [(ngModel)]="login.password" />
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Toggle password visibility'">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="full-width" (click)="logar()">Logar</button>
     </div>
   </div>
 </mat-card>
