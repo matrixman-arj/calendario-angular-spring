@@ -49,7 +49,7 @@ export class PessoasFormComponent implements OnInit {
   postos = PostoGraduacaoList;
   selectedPosto: PostoGraduacao;
 
-  acessos = TipoAcessoList;
+  tipoAcessos = TipoAcessoList;
   selectedAcesso: TipoAcesso;
 
 
@@ -113,7 +113,7 @@ export class PessoasFormComponent implements OnInit {
         tipoAcesso: ['', Validators.required],
         assessoria: [null, Validators.required],
         assessoriaFilha:[null],
-        acesso: ['', Validators.required],
+        liberado: ['', Validators.required],
         ramal: ['', [Validators.required, Validators.pattern('^810 - \\d{4}$')]],
         caminho: ['', Validators.required]
 
@@ -149,7 +149,7 @@ export class PessoasFormComponent implements OnInit {
       tipoAcesso: pessoa.tipoAcesso || '',
       assessoria: pessoa.assessoria || null,
       assessoriaFilha: pessoa.assessoria || null,
-      acesso: pessoa.acesso || '',
+      liberado: pessoa.liberado || '',
       ramal: pessoa.ramal || '',
       caminho: pessoa.caminho || ''
 

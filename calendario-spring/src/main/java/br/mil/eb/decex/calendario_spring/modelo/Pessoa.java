@@ -47,8 +47,8 @@ import jakarta.validation.constraints.Pattern;
     query = "SELECT p FROM Pessoa p WHERE p.assessoria = :assessoria or p.assessoria.assessoriaPai = :assessoria"
 )*/
 
-@SQLDelete(sql = "UPDATE Pessoa SET acesso = 'false' WHERE id = ? ")
-@Where(clause = "acesso = 'true'")
+@SQLDelete(sql = "UPDATE Pessoa SET liberado = 'false' WHERE id = ? ")
+@Where(clause = "liberado = 'true'")
 public class Pessoa implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -100,11 +100,11 @@ public class Pessoa implements Serializable{
 	
 	@NotNull
 	@Column
-	private Boolean acesso;
+	private Boolean liberado;
 	
 	
 	public Pessoa(){
-		acesso = Boolean.FALSE;
+		liberado = Boolean.FALSE;
 	}
 	
 	
@@ -209,14 +209,14 @@ public class Pessoa implements Serializable{
 	
 
 	/**
-	 * Indica liberação para acesso ao sistema
+	 * Indica liberação para a pessoa ser vizualizada no sistema de ramais
 	 * @return true-> Acesso liberado <br/>false-> Acesso negado
 	 */
-	public Boolean getAcesso() {
-		return acesso;
+	public Boolean getLiberado() {
+		return liberado;
 	}
-	public void setAcesso(Boolean acesso) {
-		this.acesso = acesso;
+	public void setLiberado(Boolean liberado) {
+		this.liberado = liberado;
 	}	
 
 	/**

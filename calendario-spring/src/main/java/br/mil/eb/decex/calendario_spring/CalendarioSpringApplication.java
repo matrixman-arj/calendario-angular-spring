@@ -62,7 +62,7 @@ public class CalendarioSpringApplication {
 			pessoa.setNomeGuerra("Vanilton");
 			pessoa.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa.setPostoGraduacao(PostoGraduacao.valueOf("SEG_SARGENTO"));
-			pessoa.setAcesso(true);
+			pessoa.setLiberado(true);
 			pessoa.setAntiguidade("1");
 			pessoa.setAssessoria(assessoria);
 			pessoa.setRamal("810 - 5678");
@@ -74,7 +74,7 @@ public class CalendarioSpringApplication {
 			pessoa1.setNomeGuerra("Luciana");
 			pessoa1.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa1.setPostoGraduacao(PostoGraduacao.valueOf("GEN_EXERCITO"));
-			pessoa1.setAcesso(true);
+			pessoa1.setLiberado(true);
 			pessoa1.setAntiguidade("1");
 			pessoa1.setAssessoria(assessoria2);
 			pessoa1.setRamal("810 - 5001");
@@ -86,7 +86,7 @@ public class CalendarioSpringApplication {
 			pessoa2.setNomeGuerra("Gizelle");
 			pessoa2.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa2.setPostoGraduacao(PostoGraduacao.valueOf("GEN_DIVISAO"));
-			pessoa2.setAcesso(true);
+			pessoa2.setLiberado(true);
 			pessoa2.setAntiguidade("2");
 			pessoa2.setAssessoria(assessoria3);
 			pessoa2.setRamal("810 - 5002");
@@ -98,7 +98,7 @@ public class CalendarioSpringApplication {
 			pessoa3.setNomeGuerra("Luddmilla");
 			pessoa3.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa3.setPostoGraduacao(PostoGraduacao.valueOf("GEN_BRIGADA"));
-			pessoa3.setAcesso(true);
+			pessoa3.setLiberado(true);
 			pessoa3.setAntiguidade("3");
 			pessoa3.setAssessoria(assessoria4);
 			pessoa3.setRamal("810 - 5003");
@@ -110,7 +110,7 @@ public class CalendarioSpringApplication {
 			pessoa4.setNomeGuerra("Vinicius");
 			pessoa4.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa4.setPostoGraduacao(PostoGraduacao.valueOf("CORONEL"));
-			pessoa4.setAcesso(true);
+			pessoa4.setLiberado(true);
 			pessoa4.setAntiguidade("4");
 			pessoa4.setAssessoria(assessoria5);
 			pessoa4.setRamal("810 - 5004");
@@ -122,7 +122,7 @@ public class CalendarioSpringApplication {
 			pessoa5.setNomeGuerra("Júlia");
 			pessoa5.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa5.setPostoGraduacao(PostoGraduacao.valueOf("TEN_CORONEL"));
-			pessoa5.setAcesso(true);
+			pessoa5.setLiberado(true);
 			pessoa5.setAntiguidade("5");
 			pessoa5.setAssessoria(assessoria);
 			pessoa5.setRamal("810 - 5005");
@@ -134,7 +134,7 @@ public class CalendarioSpringApplication {
 			pessoa6.setNomeGuerra("Théo");
 			pessoa6.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa6.setPostoGraduacao(PostoGraduacao.valueOf("MAJOR"));
-			pessoa6.setAcesso(true);
+			pessoa6.setLiberado(true);
 			pessoa6.setAntiguidade("6");
 			pessoa6.setAssessoria(assessoria2);
 			pessoa6.setRamal("810 - 5006");
@@ -146,7 +146,7 @@ public class CalendarioSpringApplication {
 			pessoa7.setNomeGuerra("Loryan");
 			pessoa7.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa7.setPostoGraduacao(PostoGraduacao.valueOf("CAPITAO"));
-			pessoa7.setAcesso(true);
+			pessoa7.setLiberado(true);
 			pessoa7.setAntiguidade("7");
 			pessoa7.setAssessoria(assessoria3);
 			pessoa7.setRamal("810 - 5007");
@@ -158,7 +158,7 @@ public class CalendarioSpringApplication {
 			pessoa8.setNomeGuerra("Zélia");
 			pessoa8.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa8.setPostoGraduacao(PostoGraduacao.valueOf("PRI_TENENTE"));
-			pessoa8.setAcesso(true);
+			pessoa8.setLiberado(true);
 			pessoa8.setAntiguidade("8");
 			pessoa8.setAssessoria(assessoria4);
 			pessoa8.setRamal("810 - 5008");
@@ -170,7 +170,7 @@ public class CalendarioSpringApplication {
 			pessoa9.setNomeGuerra("Danúbia");
 			pessoa9.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa9.setPostoGraduacao(PostoGraduacao.valueOf("SEG_TENENTE"));			
-			pessoa9.setAcesso(true);
+			pessoa9.setLiberado(true);
 			pessoa9.setAntiguidade("9");
 			pessoa9.setAssessoria(assessoria5);
 			pessoa9.setRamal("810 - 5009");
@@ -182,7 +182,7 @@ public class CalendarioSpringApplication {
 			pessoa10.setNomeGuerra("Aleandro");
 			pessoa10.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa10.setPostoGraduacao(PostoGraduacao.valueOf("PRI_SARGENTO"));
-			pessoa10.setAcesso(true);
+			pessoa10.setLiberado(true);
 			pessoa10.setAntiguidade("10");
 			pessoa10.setAssessoria(assessoria);
 			pessoa10.setRamal("810 - 5010");
@@ -194,7 +194,7 @@ public class CalendarioSpringApplication {
 			pessoa11.setNomeGuerra("Maria");
 			pessoa11.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa11.setPostoGraduacao(PostoGraduacao.valueOf("TER_SARGENTO"));
-			pessoa11.setAcesso(true);
+			pessoa11.setLiberado(true);
 			pessoa11.setAntiguidade("11");
 			pessoa11.setAssessoria(assessoria2);
 			pessoa11.setRamal("810 - 5011");
@@ -206,7 +206,7 @@ public class CalendarioSpringApplication {
 			pessoa12.setNomeGuerra("Lubão");
 			pessoa12.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa12.setPostoGraduacao(PostoGraduacao.valueOf("SEG_TENENTE"));			
-			pessoa12.setAcesso(true);
+			pessoa12.setLiberado(true);
 			pessoa12.setAntiguidade("12");
 			pessoa12.setAssessoria(assessoria3);
 			pessoa12.setRamal("810 - 5012");
@@ -218,7 +218,7 @@ public class CalendarioSpringApplication {
 			pessoa13.setNomeGuerra("Laiza");
 			pessoa13.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa13.setPostoGraduacao(PostoGraduacao.valueOf("GEN_BRIGADA"));
-			pessoa13.setAcesso(true);
+			pessoa13.setLiberado(true);
 			pessoa13.setAntiguidade("13");
 			pessoa13.setAssessoria(assessoria4);
 			pessoa13.setRamal("810 - 5013");
@@ -230,7 +230,7 @@ public class CalendarioSpringApplication {
 			pessoa14.setNomeGuerra("Lorenzo");
 			pessoa14.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa14.setPostoGraduacao(PostoGraduacao.valueOf("CORONEL"));
-			pessoa14.setAcesso(true);
+			pessoa14.setLiberado(true);
 			pessoa14.setAntiguidade("14");
 			pessoa14.setAssessoria(assessoria5);
 			pessoa14.setRamal("810 - 5014");
@@ -242,7 +242,7 @@ public class CalendarioSpringApplication {
 			pessoa15.setNomeGuerra("Pérola");
 			pessoa15.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa15.setPostoGraduacao(PostoGraduacao.valueOf("TEN_CORONEL"));
-			pessoa15.setAcesso(true);
+			pessoa15.setLiberado(true);
 			pessoa15.setAntiguidade("15");
 			pessoa15.setAssessoria(assessoria);
 			pessoa15.setRamal("810 - 5015");
@@ -254,7 +254,7 @@ public class CalendarioSpringApplication {
 			pessoa16.setNomeGuerra("Thiago Carvalho");
 			pessoa16.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa16.setPostoGraduacao(PostoGraduacao.valueOf("MAJOR"));
-			pessoa16.setAcesso(true);
+			pessoa16.setLiberado(true);
 			pessoa16.setAntiguidade("16");
 			pessoa16.setAssessoria(assessoria2);
 			pessoa16.setRamal("810 - 5016");
@@ -266,7 +266,7 @@ public class CalendarioSpringApplication {
 			pessoa17.setNomeGuerra("Caio");
 			pessoa17.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa17.setPostoGraduacao(PostoGraduacao.valueOf("CAPITAO"));
-			pessoa17.setAcesso(true);
+			pessoa17.setLiberado(true);
 			pessoa17.setAntiguidade("17");
 			pessoa17.setAssessoria(assessoria3);
 			pessoa17.setRamal("810 - 5017");
@@ -278,7 +278,7 @@ public class CalendarioSpringApplication {
 			pessoa18.setNomeGuerra("Nunes");
 			pessoa18.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa18.setPostoGraduacao(PostoGraduacao.valueOf("PRI_TENENTE"));
-			pessoa18.setAcesso(true);
+			pessoa18.setLiberado(true);
 			pessoa18.setAntiguidade("18");
 			pessoa18.setAssessoria(assessoria4);
 			pessoa18.setRamal("810 - 5018");
@@ -290,7 +290,7 @@ public class CalendarioSpringApplication {
 			pessoa19.setNomeGuerra("Fonseca");
 			pessoa19.setTipoAcesso(TipoAcesso.valueOf("ADMINISTRADOR"));
 			pessoa19.setPostoGraduacao(PostoGraduacao.valueOf("SEG_TENENTE"));		
-			pessoa19.setAcesso(true);
+			pessoa19.setLiberado(true);
 			pessoa19.setAntiguidade("19");
 			pessoa19.setAssessoria(assessoria5);
 			pessoa19.setRamal("810 - 5019");

@@ -16,7 +16,7 @@ public class PessoaMapper {
 
         return new PessoaDTO(pessoa.getId(), pessoa.getIdentidade(), pessoa.getUsers(), 
                              pessoa.getNome(), pessoa.getNomeGuerra(), pessoa.getPostoGraduacao(), 
-                             pessoa.getAssessoria(), pessoa.getAcesso(), pessoa.getTipoAcesso(), 
+                             pessoa.getAssessoria(), pessoa.getLiberado(), pessoa.getTipoAcesso(), 
                              pessoa.getRamal(), pessoa.getCaminho(), pessoa.getAntiguidade() );
     }
 
@@ -37,7 +37,7 @@ public class PessoaMapper {
         pessoa.setNomeGuerra(pessoaDTO.nomeGuerra());
         pessoa.setPostoGraduacao(pessoaDTO.postoGraduacao());
         pessoa.setAssessoria(pessoaDTO.assessoria());
-        pessoa.setAcesso(pessoaDTO.acesso());
+        pessoa.setLiberado(pessoaDTO.acesso());
         pessoa.setTipoAcesso(pessoaDTO.tipoAcesso());
         pessoa.setRamal(pessoaDTO.ramal());
         pessoa.setCaminho("http://localhost:8080/media/" + pessoaDTO.identidade() + ".jpg");

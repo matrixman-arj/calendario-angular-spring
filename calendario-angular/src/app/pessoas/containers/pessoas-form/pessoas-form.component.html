@@ -83,7 +83,7 @@
             <mat-label>Tipo de acesso</mat-label>
             <mat-select formControlName="tipoAcesso">
               <mat-option value="null">None</mat-option>
-              @for (tipoAcesso of acessos ; track tipoAcesso) {
+              @for (tipoAcesso of tipoAcessos ; track tipoAcesso) {
                 <mat-option [value]="tipoAcesso.viewValue">{{ tipoAcesso.viewValue }}</mat-option>
               }
               @if (form.get('tipoAcesso')?.invalid) {
@@ -116,9 +116,9 @@
               }
             </mat-form-field>
 
-            <mat-label class="label-radio"><strong>Acesso:</strong></mat-label>
+            <mat-label class="label-radio"><strong>Status:</strong></mat-label>
 
-            <mat-radio-group formControlName="acesso">
+            <mat-radio-group formControlName="liberado">
               <mat-radio-button [value]="true">Liberado</mat-radio-button>
               <mat-radio-button [value]="false">Bloqueado</mat-radio-button>
             </mat-radio-group>

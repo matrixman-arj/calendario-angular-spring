@@ -111,7 +111,7 @@ public class PessoaService {
                     recordFound.setAntiguidade(pessoa.antiguidade());
                     recordFound.setAssessoria(pessoa.assessoria());
                     recordFound.setCaminho(pessoa.caminho());
-                    recordFound.setAcesso(pessoa.acesso());
+                    recordFound.setLiberado(pessoa.acesso());
                     recordFound.setRamal(pessoa.ramal());
                     recordFound.setTipoAcesso(pessoa.tipoAcesso());
 
