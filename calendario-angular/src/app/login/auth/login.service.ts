@@ -10,7 +10,7 @@ import { Usuario } from './usuario';
 })
 export class LoginService {
 
-  private readonly TOKEN_KEY = 'auth-token';
+  private readonly TOKEN_KEY = 'token';
 
   // BehaviorSubject para acompanhar o estado do login
   private loggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
@@ -35,6 +35,7 @@ export class LoginService {
 
   addToken(token: string) {
     localStorage.setItem('token', token);
+    this.loggedInSubject.next(true); // Notifica que o usuário está logado
   }
 
    // Remove token
@@ -45,6 +46,7 @@ export class LoginService {
 
   removerToken() {
     localStorage.removeItem('token');
+    this.loggedInSubject.next(false); // Notifica que o usuário não está logado
   }
 
   getToken() {
