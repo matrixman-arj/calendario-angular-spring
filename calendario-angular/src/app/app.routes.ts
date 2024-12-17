@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { CustomSidenavComponent } from './components/custom-sidenav/custom-sidenav.component';
 import { LoginComponent } from './login/login.component';
+import { PessoasInativasComponent } from './pessoas/components/pessoas-inativas/pessoas-inativas.component';
 
 export const APP_ROUTES: Routes = [
   { path: '', component: LoginComponent }, // Define LoginComponent como página inicial
@@ -52,5 +53,13 @@ export const APP_ROUTES: Routes = [
       import('./login/login.routes').then((m) => m.LOGIN_ROUTES,
       ),
     component: LoginComponent, // Use o componente standalone
+  },
+
+  {
+  path: 'inativas',
+    loadChildren: () =>
+      import('./pessoas/pessoas.routes').then((m) => m.PESSOAS_ROUTES,
+      ),
+    component: PessoasInativasComponent, // Use o componente standalone
   },
 ];
