@@ -43,6 +43,27 @@ span {
   color: white; /* Texto para contraste */
 }
 
+.logo-logout{
+  width: 30px;
+  height: 40px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-right: 3px;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Sombra */
+  background: linear-gradient(
+    to bottom,
+    rgb(61, 76, 216),
+    rgb(40, 59, 170)
+  ); /* Gradiente */
+  // color: white; /* Texto para contraste */
+  // font-weight: bold; /* Deixa o texto mais destacado */
+}
+
 button {/* Botão do menu lateral*/
 
   border-bottom-right-radius: 10px;

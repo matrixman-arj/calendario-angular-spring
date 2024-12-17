@@ -1,11 +1,13 @@
 import { Routes } from '@angular/router';
 import { CustomSidenavComponent } from './components/custom-sidenav/custom-sidenav.component';
-import { LOGIN_ROUTES } from './login/login.routes';
-import { Login } from './login/auth/login';
 import { LoginComponent } from './login/login.component';
 
 export const APP_ROUTES: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'pessoas' }, // Redireciona para "pessoas"
+  { path: '', component: LoginComponent }, // Define LoginComponent como página inicial
+
+  // { path: '', pathMatch: 'full', redirectTo: 'pessoas' }, // Redireciona para "pessoas"
+
+
   {
     path: 'pessoas',
     loadChildren: () =>

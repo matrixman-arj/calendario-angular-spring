@@ -1,7 +1,8 @@
 <mat-toolbar class="mat-elevation-z3" color="primary">
 
   <mat-toolbar-row>
-    <button mat-icon-button (click)="opened=!opened"><mat-icon>menu</mat-icon></button>
+    <button *ngIf="isLoggedIn" mat-icon-button (click)="opened=!opened"><mat-icon>menu</mat-icon></button>
+    <img class="logo-logout" *ngIf="!isLoggedIn" src="assets/image/decex-logo.png" alt="DECEx">
 
 
 
@@ -9,13 +10,13 @@
 
 
 
-      <button mat-icon-button class="logout" (click)="logout()"><mat-icon>logout</mat-icon></button>
+      <button *ngIf="isLoggedIn" mat-icon-button class="logout" (click)="logout()"><mat-icon>logout</mat-icon></button>
   </mat-toolbar-row>
 
 </mat-toolbar>
 
 <mat-sidenav-container >
-  <mat-sidenav [(opened)]="opened" mode="side" [style.width]="'370px'">
+  <mat-sidenav *ngIf="isLoggedIn" [(opened)]="opened" mode="side" [style.width]="'370px'">
     <app-custom-sidenav/>
 
 
