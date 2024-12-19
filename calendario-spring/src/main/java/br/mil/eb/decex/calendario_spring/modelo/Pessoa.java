@@ -48,7 +48,7 @@ import jakarta.validation.constraints.Pattern;
 )*/
 
 @SQLDelete(sql = "UPDATE Pessoa SET liberado = 'false' WHERE id = ? ")
-@Where(clause = "liberado = 'true'")
+
 public class Pessoa implements Serializable{
 	private static final long serialVersionUID = 1L;
 	

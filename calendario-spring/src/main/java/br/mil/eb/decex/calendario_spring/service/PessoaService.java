@@ -37,8 +37,20 @@ public class PessoaService {
     }
 
     public Page<Pessoa> searchByNomeGuerraOrAssessoria(String termo, Pageable pageable) {
-        return pessoaRepository.findByNomeGuerraOrAssessoria(termo, pageable);
+        return pessoaRepository.findByNomeGuerraOrAssessoriaAndLiberadoTrue(termo, pageable);
     }
+
+    public PessoaPageDTO listarInativas(int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Pessoa> pagePessoa = pessoaRepository.findInativas(pageable);
+    
+        List<PessoaDTO> pessoasDTO = pagePessoa.stream()
+            .map(pessoaMapper::toDTO)
+            .collect(Collectors.toList());
+    
+        return new PessoaPageDTO(pessoasDTO, pagePessoa.getTotalElements(), pagePessoa.getTotalPages());
+    }
+    
 
 
     private String verificarCaminhoImagem(String caminho) {
@@ -67,7 +79,7 @@ public class PessoaService {
     }
 
     public PessoaPageDTO search(String termo, @PositiveOrZero int page, @Positive @Max(100) int pageSize) {
-        Page<Pessoa> pagePessoa = pessoaRepository.findByNomeGuerraOrAssessoria(termo, PageRequest.of(page, pageSize));
+        Page<Pessoa> pagePessoa = pessoaRepository.findByNomeGuerraOrAssessoriaAndLiberadoTrue(termo, PageRequest.of(page, pageSize));
         List<PessoaDTO> pessoas = pagePessoa.get().map(pessoa -> {
             PessoaDTO pessoaDTO = pessoaMapper.toDTO(pessoa);
             String caminhoAtualizado = verificarCaminhoImagem(pessoaDTO.caminho());

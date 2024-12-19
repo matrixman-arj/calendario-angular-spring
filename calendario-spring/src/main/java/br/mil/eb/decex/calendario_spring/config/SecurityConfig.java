@@ -39,7 +39,9 @@ public class SecurityConfig  {
 				.requestMatchers("/api/login").permitAll()//permite acesso acesso sem autenticação.
 				.requestMatchers("/api/register").permitAll()//permite acesso sem autenticação para o usuário se cadastrar.
 				.requestMatchers("/enumerado/**").permitAll() // Permitir acesso público aos enumeradores
-				.requestMatchers("/media/**").permitAll() // Permitir acesso público às imagens				
+				.requestMatchers("/media/**").permitAll() // Permitir acesso público às imagens
+				.requestMatchers("/api/pessoas/inativas/**").permitAll() // Libera apenas para ADMIN
+            	.requestMatchers("/api/pessoas/reativar/**").permitAll() // Libera o reativar para ADMIN				
 				.requestMatchers("/**").hasAuthority("ROLE_SUPER-ADMIN") // Acesso irrestrito para SUPER-ADMIN
 				.anyRequest().authenticated())
 		.authenticationProvider(authenticationProvider)

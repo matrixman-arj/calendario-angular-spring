@@ -1,83 +1,60 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { PostoGraduacaoList, PostoGraduacao } from '../../../enums/PostoGraduacao/PostoGraduacao';
-import { TipoAcessoList, TipoAcesso } from '../../../enums/TipoAcesso';
-import { Pessoa } from '../../model/pessoa';
-import { MatButtonModule, MatIconButton } from '@angular/material/button';
-import { MatCard, MatCardModule } from '@angular/material/card';
-import { MatIcon } from '@angular/material/icon';
-import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatTableModule } from '@angular/material/table';
+import { Component, OnInit } from '@angular/core';
 import { PessoasService } from '../../services/pessoas.service';
-import { PessoaPage } from '../../model/pessoa-page';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { CommonModule } from '@angular/common';
-
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Pessoa } from '../../model/pessoa';
+import { AsyncPipe } from '@angular/common';
+import { MatCard } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatToolbar } from '@angular/material/toolbar';
+import { PessoasListaComponent } from '../pessoas-lista/pessoas-lista.component';
+import { MatTableModule } from '@angular/material/table';
+import { PostoGraduacao, PostoGraduacaoList } from '../../../enums/PostoGraduacao/PostoGraduacao';
 
 @Component({
   selector: 'app-pessoas-inativas',
-  standalone: true,
-  imports: [MatCard, MatTable, MatColumnDef, CommonModule,
-            MatHeaderCellDef, MatHeaderCell,  MatTableModule,
-            MatPaginatorModule, MatCellDef, MatCell, MatIcon,
-            MatIconButton, MatHeaderRowDef, MatCardModule,
-            MatButtonModule, MatHeaderRow, MatRowDef, MatRow],
   templateUrl: './pessoas-inativas.component.html',
-  styleUrl: './pessoas-inativas.component.scss'
+  styleUrls: ['./pessoas-inativas.component.scss'],
+  standalone: true,
+      imports: [MatCard, MatToolbar, PessoasListaComponent, MatPaginator, MatTableModule, MatProgressSpinner, AsyncPipe, MatFormFieldModule, MatInputModule, MatSelectModule]
 })
-export class PessoasInativasComponent {
+export class PessoasInativasComponent implements OnInit {
+  pessoasInativas: Pessoa[] = [];
+  totalElements = 0;
+  pageSize = 10;
+  pageIndex = 0;
 
-  @Input() pessoasInativas: Pessoa[] = []; // Lista para armazenar as pessoas inativas
-  @Input() pessoas: Pessoa[] = []; // Lista para armazenar as pessoas inativas
-   @Output() add = new EventEmitter(false);
-   @Output() edit = new EventEmitter(false);
-   @Output() delete = new EventEmitter(false);
+  readonly displayedColumns = ['identidade', 'nome', 'postoGraduacao', 'nomeGuerra', 'acoes'];
 
-   totalElements: number = 0;
-   pageSize: number = 10;
-   pageIndex: number = 0;
-
-
-   postos = PostoGraduacaoList;
+  postos = PostoGraduacaoList;
    selectedPosto = PostoGraduacao.GEN_EXERCITO;
 
+  constructor(private pessoasService: PessoasService) {}
 
-   acessos = TipoAcessoList;
-   selectedAcesso: TipoAcesso | undefined;
-
-
-
-
-   readonly displayedColumns = ['caminho','identidade', 'nome', 'postoGraduacao', 'nomeGuerra',  'assessoria', 'ramal', 'acoes'];
-
-
-    constructor( private pessoasService: PessoasService){
-
-     }
-
-      // Carrega a lista de pessoas inativas do backend
-  carregarPessoasInativas(): void {
-    // this.pessoasService.listarInativas().subscribe({
-    //   next: (data: PessoaPage) => this.pessoasInativas = data.content,
-    //   error: (err: any) => console.error('Erro ao buscar pessoas inativas:', err),
-    // });
+  ngOnInit(): void {
+    this.carregarPessoasInativas();
   }
 
+  carregarPessoasInativas(): void {
+    this.pessoasService.listarInativas(this.pageIndex, this.pageSize).subscribe({
+      next: (data) => {
+        this.pessoasInativas = data.pessoas;
+        this.totalElements = data.totalElements;
+      },
+      error: (err) => console.error('Erro ao carregar pessoas inativas', err),
+    });
+  }
 
-
-    ngOnInit(): void {
-      this.carregarPessoasInativas();
-      // Initialization logic can be added here if needed
-      console.log('Pessoas-InativasComponent initialized');
-    }
-
-    // Método para reativar uma pessoa
   reativarPessoa(id: number): void {
-    // this.pessoasService.reativarPessoa(id).subscribe({
-    //   next: () => {
-    //     alert('Pessoa reativada com sucesso!');
-    //     this.carregarPessoasInativas(); // Recarrega a lista após reativação
-    //   },
-    //   error: (err) => console.error('Erro ao reativar pessoa:', err),
-    // });
+    this.pessoasService.reativarPessoa(id).subscribe({
+      next: () => {
+        alert('Pessoa reativada com sucesso!');
+        this.carregarPessoasInativas(); // Recarrega a lista
+      },
+      error: (err) => console.error('Erro ao reativar pessoa', err),
+    });
   }
 
   refresh(event: PageEvent): void {
@@ -86,29 +63,8 @@ export class PessoasInativasComponent {
     this.carregarPessoasInativas();
   }
 
-
-    onImageError(event: Event): void {
-      const element = event.target as HTMLImageElement;
-      element.src = 'http://localhost:8080/media/branco.jpg';
-    }
-
-    onAdd(){
-      this.add.emit(true);
-
-    }
-
-    onEdit(pessoa: Pessoa ){
-      this.edit.emit(pessoa);
-    }
-
-    onDelete(pessoa: Pessoa){
-      this.delete.emit(pessoa);
-
-    }
-
-    getPostoImage(postoGraduacao: string): string {
+  getPostoImage(postoGraduacao: string): string {
       const posto = PostoGraduacaoList.find(p => p.viewValue === postoGraduacao);
       return posto ? posto.imageUrl : '';
     }
-
 }

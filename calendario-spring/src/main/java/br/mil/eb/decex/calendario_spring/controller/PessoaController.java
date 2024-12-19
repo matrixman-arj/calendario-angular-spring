@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.mil.eb.decex.calendario_spring.dto.PessoaDTO;
 import br.mil.eb.decex.calendario_spring.dto.PessoaPageDTO;
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
+import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
 import br.mil.eb.decex.calendario_spring.repository.PessoaRepository;
 import br.mil.eb.decex.calendario_spring.service.PessoaService;
 import jakarta.validation.Valid;
@@ -42,6 +43,16 @@ public class PessoaController {
         this.pessoaService = pessoaService;
     }
 
+    @PutMapping("/reativar/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void reativarPessoa(@PathVariable Long id) {
+    Pessoa pessoa = pessoaRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
+    pessoa.setLiberado(true);
+    pessoaRepository.save(pessoa);
+}
+
+
     
 
     @GetMapping
@@ -58,6 +69,14 @@ public class PessoaController {
     ) {
         
         return pessoaService.search(termo, page, pageSize);
+    }
+
+    @GetMapping("/inativas")
+    public PessoaPageDTO listarPessoasInativas(
+            @RequestParam(defaultValue = "0") @PositiveOrZero int page,
+            @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize) {
+
+        return pessoaService.listarInativas(page, pageSize);
     }
 
     

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Pessoa } from '../model/pessoa';
 import { HttpClient } from '@angular/common/http';
-import { first, } from 'rxjs';
+import { first, Observable, } from 'rxjs';
 import { Assessoria } from '../../assessorias/model/assessoria';
 import { PessoaPage } from '../model/pessoa-page';
 
@@ -28,6 +28,17 @@ export class PessoasService {
 
     );
   }
+
+  reativarPessoa(id: number): Observable<void> {
+    return this.httpClient.put<void>(`api/pessoas/reativar/${id}`, null);
+  }
+
+  listarInativas(page = 0, pageSize = 10): Observable<PessoaPage> {
+    return this.httpClient.get<PessoaPage>('api/pessoas/inativas', {
+      params: { page, pageSize }
+    });
+  }
+
 
   listPessCompl() {
 
