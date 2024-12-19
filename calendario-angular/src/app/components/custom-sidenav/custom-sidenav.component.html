@@ -18,6 +18,13 @@
   </mat-list-item>
 
   <mat-list-item>
+    <a class="menu-item" (click)="navigateTo('inativas')" routerLinkActive="active-link">
+      <mat-icon class="menu-icon">list</mat-icon>
+      <span class="menu-text">Pessoas Inativadas</span>
+    </a>
+  </mat-list-item>
+
+  <mat-list-item>
     <a class="menu-item" (click)="navigateTo('assessorias')" routerLinkActive="active-link">
       <mat-icon class="menu-icon">list</mat-icon>
       <span class="menu-text">Assessorias</span>

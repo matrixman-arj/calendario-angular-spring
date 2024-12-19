@@ -1,5 +1,5 @@
 <mat-card>
-  <h2>Pessoas Inativas</h2>
+  <mat-toolbar color="primary" style="margin-top: 10px;">Pessoas Inativas</mat-toolbar>
   <mat-table [dataSource]="pessoasInativas" class="mat-elevation-z8">
 
     <!-- Coluna de identidade -->
@@ -37,9 +37,15 @@
     <ng-container matColumnDef="acoes">
       <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
       <mat-cell *matCellDef="let pessoa">
-        <button mat-raised-button color="primary" (click)="reativarPessoa(pessoa.id)">
+
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="pessoa._id"
+          (click)="reativarPessoa(pessoa._id)">
           Reativar
-        </button>
+      </button>
+
       </mat-cell>
     </ng-container>
 

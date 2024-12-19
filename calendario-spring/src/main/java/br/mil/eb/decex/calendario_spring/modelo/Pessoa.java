@@ -58,10 +58,10 @@ public class Pessoa implements Serializable{
 	@JsonProperty("_id")
 	private Long id;
 
-	 @JsonCreator
-    public Pessoa(@JsonProperty("_id") Long id) {
-        this.id = id;
-    }
+	//  @JsonCreator
+    // public Pessoa(@JsonProperty("_id") Long id) {
+    //     this.id = id;
+    // }
 	
 	@NotNull	
 	@Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d$", message = "Formato de identidade inválido. Deve estar no formato 000.000.000-0.")
