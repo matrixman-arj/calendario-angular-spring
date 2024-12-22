@@ -42,7 +42,7 @@
                 </mat-option>
               }
               @if (form.get('postoGraduacao')?.invalid) {
-                <mat-error>{{errorMessage("postoGraduacao")}}</mat-error>
+
               }
             </mat-select>
           </mat-form-field>
@@ -87,8 +87,9 @@
                 <mat-option [value]="tipoAcesso.viewValue">{{ tipoAcesso.viewValue }}</mat-option>
               }
               @if (form.get('tipoAcesso')?.invalid) {
-                <mat-error>{{errorMessage("tipoAcesso")}}</mat-error>
+
               }
+
             </mat-select>
           </mat-form-field>
 
