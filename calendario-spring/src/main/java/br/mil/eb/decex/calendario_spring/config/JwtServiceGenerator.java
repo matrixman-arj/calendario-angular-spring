@@ -20,7 +20,8 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtServiceGenerator {  
 
-  public String generateToken(Usuario userDetails) {
+  @SuppressWarnings("deprecation")
+public String generateToken(Usuario userDetails) {
 	
 	  
 	  //AQUI VOCÊ PODE COLOCAR O QUE MAIS VAI COMPOR O PAYLOAD DO TOKEN
@@ -41,7 +42,8 @@ public class JwtServiceGenerator {
               .compact();
   }
   
-  private Claims extractAllClaims(String token) {
+  @SuppressWarnings("deprecation")
+private Claims extractAllClaims(String token) {
       return Jwts
               .parser()
               .setSigningKey(getSigningKey())

@@ -21,6 +21,7 @@ public class LoginController {
 	@Autowired
 	private LoginService loginService;
 
+	@SuppressWarnings("null")
 	@PostMapping
 	public ResponseEntity<String> logar(@RequestBody Login login) {
 		try {

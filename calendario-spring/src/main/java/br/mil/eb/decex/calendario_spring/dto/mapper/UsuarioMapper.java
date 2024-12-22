@@ -15,7 +15,7 @@ public class UsuarioMapper {
         }
 
         return new UsuarioDTO(usuario.getId(), usuario.getUsername(), usuario.getPassword(), 
-                             usuario.getRole());
+                             usuario.getRole(), usuario.isLiberado());
     }
 
 
@@ -31,7 +31,8 @@ public class UsuarioMapper {
         }
         usuario.setUsername(usuarioDTO.username());
         usuario.setPassword(usuarioDTO.password());
-        usuario.setRole(usuarioDTO.role());        
+        usuario.setRole(usuarioDTO.role());
+        usuario.setLiberado(usuarioDTO.liberado());       
         return  usuario;
     }
 

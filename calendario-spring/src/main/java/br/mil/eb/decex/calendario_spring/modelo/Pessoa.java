@@ -5,16 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
 import br.mil.eb.decex.calendario_spring.enumerado.TipoAcesso;
 import br.mil.eb.decex.calendario_spring.modelo.jaas.Users;
 import br.mil.eb.decex.calendario_spring.util.EncodingSHA256;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,24 +28,9 @@ import jakarta.validation.constraints.Pattern;
 
 
 
-@SuppressWarnings("deprecation")
-@Entity
-/*@NamedQuery(
-    name = "todas.pessoas",
-    query = "SELECT DISTINCT p FROM Pessoa p WHERE p.liberado = TRUE ORDER BY p.postoGraduacao, p.antiguidade"
-) @NamedQuery(
-    name = "todos.bloqueados",
-    query = "SELECT DISTINCT p FROM Pessoa p WHERE p.liberado = FALSE ORDER BY p.postoGraduacao, p.antiguidade"
-) @NamedQuery(
-    name = "pessoas.ComAssessoria",
-    query = "SELECT p FROM Pessoa p JOIN FETCH p.assessoria"
-) @NamedQuery(
-    name = "Pessoa.comSecao",
-    query = "SELECT p FROM Pessoa p WHERE p.assessoria = :assessoria or p.assessoria.assessoriaPai = :assessoria"
-)*/
-
 @SQLDelete(sql = "UPDATE Pessoa SET liberado = 'false' WHERE id = ? ")
 
+@Entity
 public class Pessoa implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -57,12 +39,7 @@ public class Pessoa implements Serializable{
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PESSOA_ID_GENERATOR")	
 	@JsonProperty("_id")
 	private Long id;
-
-	//  @JsonCreator
-    // public Pessoa(@JsonProperty("_id") Long id) {
-    //     this.id = id;
-    // }
-	
+		
 	@NotNull	
 	@Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d$", message = "Formato de identidade inválido. Deve estar no formato 000.000.000-0.")
 	@Column(unique=true)
@@ -72,13 +49,11 @@ public class Pessoa implements Serializable{
 	private Users users;
 	
 	@Transient
-	private List<TipoAcesso> listaTipoAcesso;
-	
+	private List<TipoAcesso> listaTipoAcesso;	
 	
 	@NotNull
 	@Column
-	private String nome;
-	
+	private String nome;	
 	
 	@NotNull
 	@Column
@@ -88,15 +63,12 @@ public class Pessoa implements Serializable{
 	@Column
 	private PostoGraduacao postoGraduacao;
 
-
-	private int postoGraduacaoOrdinal;
-	
+	private int postoGraduacaoOrdinal;	
 	
 	@NotNull
 	@ManyToOne	
 	@JoinColumn(name="assessoria_id")
-	private Assessoria assessoria;
-	
+	private Assessoria assessoria;	
 	
 	@NotNull
 	@Column

@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.mil.eb.decex.calendario_spring.dto.PessoaDTO;
-import br.mil.eb.decex.calendario_spring.dto.PessoaPageDTO;
+import br.mil.eb.decex.calendario_spring.dto.UsuarioDTO;
+import br.mil.eb.decex.calendario_spring.dto.UsuarioPageDTO;
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
-import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
-import br.mil.eb.decex.calendario_spring.repository.PessoaRepository;
-import br.mil.eb.decex.calendario_spring.service.PessoaService;
+import br.mil.eb.decex.calendario_spring.modelo.Usuario;
+import br.mil.eb.decex.calendario_spring.repository.UsuarioRepository;
+import br.mil.eb.decex.calendario_spring.service.UsuarioService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
@@ -29,59 +29,54 @@ import jakarta.validation.constraints.PositiveOrZero;
 
 @Validated
 @RestController
-@RequestMapping("api/pessoas")
-public class PessoaController {
+@RequestMapping("api/usuarios")
+public class UsuarioController {
     
-    private final PessoaRepository pessoaRepository;
-    private final PessoaService pessoaService;    
+    private final UsuarioRepository usuarioRepository;
+    private final UsuarioService usuarioService;    
     
     
 
-    public PessoaController(PessoaRepository pessoaRepository, PessoaService pessoaService) {
-        this.pessoaRepository = pessoaRepository;
-        this.pessoaService = pessoaService;
+    public UsuarioController(UsuarioRepository usuarioRepository, UsuarioService usuarioService) {
+        this.usuarioRepository = usuarioRepository;
+        this.usuarioService = usuarioService;
     }
 
     @PutMapping("/reativar/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void reativarPessoa(@PathVariable Long id) {
-    Pessoa pessoa = pessoaRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
-    pessoa.setLiberado(true);
-    pessoaRepository.save(pessoa);
-}
-
-
-    
+    public void reativarUsuario(@PathVariable Long id) {
+    Usuario usuario = usuarioRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Usuario não encontrada"));
+    usuario.setLiberado(true);
+    usuarioRepository.save(usuario);
+}    
 
     @GetMapping
-    public List <PessoaDTO> list() {
-        return pessoaService.list();
+    public List <UsuarioDTO> list() {
+        return usuarioService.list();
 
-    }
-
-   
+    }   
     
     @GetMapping("/search")
-    public PessoaPageDTO search(String termo, @RequestParam(defaultValue = "0") @PositiveOrZero int page,
+    public UsuarioPageDTO search(@RequestParam(defaultValue = "0") @PositiveOrZero int page,
             @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize
     ) {
         
-        return pessoaService.search(termo, page, pageSize);
+        return usuarioService.search(page, pageSize);
     }
 
     @GetMapping("/inativas")
-    public PessoaPageDTO listarPessoasInativas(
+    public UsuarioPageDTO listarUsuariosInativos(
             @RequestParam(defaultValue = "0") @PositiveOrZero int page,
             @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize) {
 
-        return pessoaService.listarInativas(page, pageSize);
+        return usuarioService.listarInativos(page, pageSize);
     }
 
     
     @GetMapping ("/{id}")
-    public PessoaDTO findById(@PathVariable @NotNull @Positive Long id){
-        return pessoaService.findById(id);
+    public UsuarioDTO findById(@PathVariable @NotNull @Positive Long id){
+        return usuarioService.findById(id);
         
 
     } 
@@ -93,21 +88,21 @@ public class PessoaController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public PessoaDTO create(@RequestBody @Valid PessoaDTO pessoa) {       
-        return pessoaService.create(pessoa);
+    public UsuarioDTO create(@RequestBody @Valid UsuarioDTO usuario) {       
+        return usuarioService.create(usuario);
     }
 
     @PutMapping("/{id}")
-    public PessoaDTO update(@PathVariable @NotNull @Positive Long id, 
-                @RequestBody @Valid @NotNull PessoaDTO pessoa) {
-        return pessoaService.update(id, pessoa);
+    public UsuarioDTO update(@PathVariable @NotNull @Positive Long id, 
+                @RequestBody @Valid @NotNull UsuarioDTO usuario) {
+        return usuarioService.update(id, usuario);
                                     
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable @NotNull @Positive Long id) {        
-       pessoaService.delete(id);
+       usuarioService.delete(id);
     }
 
 }

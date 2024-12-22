@@ -16,9 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 
 @Entity
-public class Usuario implements UserDetails{
-	
-	//private static final long serialVersionUID = 1L;
+public class Usuario implements UserDetails{	
 	
 	 @Id
 	@SequenceGenerator(name="USUARIO_ID_GENERATOR", sequenceName="USUARIO_ID_SEQ", allocationSize=1)
@@ -30,6 +28,8 @@ public class Usuario implements UserDetails{
 	private String password;
 
 	private String role;
+
+	private boolean liberado;
     
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -40,42 +40,39 @@ public class Usuario implements UserDetails{
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
+		
 		return password;
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
+		
 		return username;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
+		
 		return true;
-	}
-
-	
-	
+	}	
 	
 	public Long getId() {
 		return id;
@@ -101,6 +98,12 @@ public class Usuario implements UserDetails{
 		this.password = password;
 	}
 
+	public boolean isLiberado() {
+		return liberado;
+	}
 
+	public void setLiberado(boolean liberado) {
+		this.liberado = liberado;
+	}
 
 }

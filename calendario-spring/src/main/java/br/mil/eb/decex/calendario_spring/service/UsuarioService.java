@@ -1,8 +1,5 @@
 package br.mil.eb.decex.calendario_spring.service;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,26 +37,18 @@ public class UsuarioService {
         return usuarioRepository.findAll(pageable);
     }
 
-
-    private String verificarCaminhoImagem(String caminho) {
-        // Substitua "D:\\Programação\\2024\\calendario-angular-spring\\calendario-spring\\images\\"
-        // pelo caminho absoluto da pasta onde as imagens estão armazenadas
-        String basePath = "images/";
-        
-        // Extrai o nome do arquivo da URL (assumindo que o caminho é algo como http://localhost:8080/media/0195623038.jpg)
-        String nomeArquivo = caminho.substring(caminho.lastIndexOf("/") + 1);
-        
-        // Constrói o caminho absoluto do arquivo de imagem
-        Path caminhoImagem = Paths.get(basePath + nomeArquivo);
-        
-        // Verifica se o arquivo existe no caminho especificado
-        if (Files.exists(caminhoImagem)) {
-            return caminho; // Retorna o caminho original se o arquivo existir
-        } else {
-            return "http://localhost:8080/media/branco.jpg"; // Retorna o caminho da imagem padrão se o arquivo não existir
-        }
+    public UsuarioPageDTO listarInativos(int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Usuario> pageUsuario = usuarioRepository.findInativos(pageable);
+    
+        List<UsuarioDTO> usuariosDTO = pageUsuario.stream()
+            .map(usuarioMapper::toDTO)
+            .collect(Collectors.toList());
+    
+        return new UsuarioPageDTO(usuariosDTO, pageUsuario.getTotalElements(), pageUsuario.getTotalPages());
     }
 
+   
     public List<UsuarioDTO> list() {
         return usuarioRepository.findAll().stream().map(usuarioMapper::toDTO)
                 .collect(Collectors.toList());
@@ -75,7 +64,8 @@ public class UsuarioService {
                 usuarioDTO.id(),
                 usuarioDTO.username(),
                 usuarioDTO.password(),
-                usuarioDTO.role()
+                usuarioDTO.role(),
+                usuarioDTO.liberado()
                
             );
         }).collect(Collectors.toList());
@@ -99,6 +89,7 @@ public class UsuarioService {
                     recordFound.setUsername(usuario.username());
                     recordFound.setPassword(usuario.password());
                     recordFound.setRole(usuario.role());
+                    recordFound.setLiberado(usuario.liberado());
                     
 
                     return usuarioMapper.toDTO(usuarioRepository.save(recordFound));

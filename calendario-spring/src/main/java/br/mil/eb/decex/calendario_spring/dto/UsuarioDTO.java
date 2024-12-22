@@ -21,7 +21,10 @@ public record UsuarioDTO(
 
     @NotBlank
     @NotNull
-	String role
+	String role,
+
+    @NotNull
+    boolean liberado
 
     
     ) {
