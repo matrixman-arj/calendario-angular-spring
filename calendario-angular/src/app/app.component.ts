@@ -8,7 +8,7 @@ import { ResizeEvent } from 'angular-resizable-element';
 import { PessoasService } from './pessoas/services/pessoas.service';
 
 import { CommonModule } from '@angular/common';
-import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { CustomSidenavComponent } from "./components/custom-sidenav/custom-sidenav.component";
 import { LoginService } from './login/auth/login.service';
 
@@ -18,7 +18,7 @@ import { LoginService } from './login/auth/login.service';
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
     standalone: true,
-    imports: [MatToolbar, MatToolbarModule, RouterOutlet, MatSidenavModule, MatListModule, MatButton, MatButtonModule, MatIconModule,  CustomSidenavComponent, CommonModule]
+    imports: [MatToolbar, MatToolbarModule, RouterOutlet, MatSidenavModule, MatListModule, MatButtonModule, MatIconModule,  CustomSidenavComponent, CommonModule]
 })
 export class AppComponent implements OnInit {
 
