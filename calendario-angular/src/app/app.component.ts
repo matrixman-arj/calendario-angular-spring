@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { PessoasService } from './pessoas/services/pessoas.service';
-import { ResizeEvent } from 'angular-resizable-element';
-import { Router, RouterOutlet } from '@angular/router';
-import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
+import { Router, RouterOutlet } from '@angular/router';
+import { ResizeEvent } from 'angular-resizable-element';
+import { PessoasService } from './pessoas/services/pessoas.service';
 
+import { CommonModule } from '@angular/common';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { CustomSidenavComponent } from "./components/custom-sidenav/custom-sidenav.component";
 import { LoginService } from './login/auth/login.service';
-import { Login } from './login/auth/login';
-import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-root',
