@@ -2,12 +2,14 @@ export enum TipoAcesso {
 
   ADMINISTRADOR,
   USUARIO,
-  AUDITORIO,
+  AGENDAMENTO,
+  DIV_PESS
 
 }
 
 export const TipoAcessoList = [
   { value: TipoAcesso.ADMINISTRADOR, viewValue: 'Administrador' },
   { value: TipoAcesso.USUARIO, viewValue: 'Usuário' },
-  { value: TipoAcesso.AUDITORIO, viewValue: 'Auditório' },
+  { value: TipoAcesso.AGENDAMENTO, viewValue: 'Agendamento' },
+  { value: TipoAcesso.DIV_PESS, viewValue: 'Divisão de Pessoal' },
 ];
