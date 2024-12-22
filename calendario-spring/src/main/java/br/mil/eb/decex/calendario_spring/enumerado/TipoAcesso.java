@@ -16,9 +16,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * @version 1.1 (Incluído perfil AUDITORIO)
  */
 public enum TipoAcesso {
-	USUARIO("Usuário"),
 	ADMINISTRADOR("Administrador"),
-	AUDITORIO("Auditório");
+	DIV_PESS("Divisão de Pessoal"),
+	AGENDAMENTO("Agendamento"),
+    USUARIO("Usuário");
 	
 	private String value;
 
