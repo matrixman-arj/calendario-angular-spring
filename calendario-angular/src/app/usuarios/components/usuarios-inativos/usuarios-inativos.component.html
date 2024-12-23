@@ -1,0 +1,65 @@
+<mat-card>
+  <mat-toolbar color="primary" style="margin-top: 10px;">Usuarios Inativas</mat-toolbar>
+  <mat-table [dataSource]="usuariosInativas" class="mat-elevation-z8">
+
+    <!-- Coluna de identidade -->
+    <ng-container matColumnDef="identidade">
+      <mat-header-cell *matHeaderCellDef>Identidade</mat-header-cell>
+      <mat-cell *matCellDef="let usuario">{{ usuario.identidade }}</mat-cell>
+    </ng-container>
+
+    <!-- Coluna de nome -->
+    <ng-container matColumnDef="nome">
+      <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+      <mat-cell *matCellDef="let usuario">{{ usuario.nome }}</mat-cell>
+    </ng-container>
+
+     <!-- Coluna de Posto ou grduação -->
+     <ng-container matColumnDef="postoGraduacao">
+      <mat-header-cell *matHeaderCellDef  class="column-header-posto">Posto/Graduação</mat-header-cell>
+      <mat-cell *matCellDef="let usuario" class="column-posto">
+        <div class="posto-container">
+          <img [src]="getPostoImage(usuario.postoGraduacao)" class="img-patente">
+          <span>{{ usuario.postoGraduacao }}</span>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Coluna de nome de Guerra -->
+    <ng-container matColumnDef="nomeGuerra">
+      <mat-header-cell class="column-header-nomeGuerra" *matHeaderCellDef>Nome de Guerra</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let usuario" class="column-nomeGuerra"> {{ usuario.nomeGuerra }}
+
+      </mat-cell>
+    </ng-container>
+
+    <!-- Coluna de ações -->
+    <ng-container matColumnDef="acoes">
+      <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+      <mat-cell *matCellDef="let usuario">
+
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="usuario._id"
+          (click)="reativarUsuario(usuario._id)">
+          Reativar
+      </button>
+
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+
+  <!-- Paginação -->
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 15]"
+    showFirstLastButtons
+    [pageIndex]="pageIndex"
+    [pageSize]="pageSize"
+    [length]="totalElements"
+    (page)="refresh($event)">
+  </mat-paginator>
+</mat-card>

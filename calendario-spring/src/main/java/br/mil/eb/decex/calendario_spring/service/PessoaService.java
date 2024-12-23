@@ -91,7 +91,7 @@ public class PessoaService {
                 pessoaDTO.nomeGuerra(),
                 pessoaDTO.postoGraduacao(),
                 pessoaDTO.assessoria(),
-                pessoaDTO.acesso(),
+                pessoaDTO.liberado(),
                 pessoaDTO.tipoAcesso(),
                 pessoaDTO.ramal(),
                 caminhoAtualizado,
@@ -123,7 +123,7 @@ public class PessoaService {
                     recordFound.setAntiguidade(pessoa.antiguidade());
                     recordFound.setAssessoria(pessoa.assessoria());
                     recordFound.setCaminho(pessoa.caminho());
-                    recordFound.setLiberado(pessoa.acesso());
+                    recordFound.setLiberado(pessoa.liberado());
                     recordFound.setRamal(pessoa.ramal());
                     recordFound.setTipoAcesso(pessoa.tipoAcesso());
 

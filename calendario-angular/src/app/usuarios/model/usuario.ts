@@ -1,0 +1,29 @@
+import { Assessoria } from "../../assessorias/model/assessoria";
+
+export interface Usuario {
+
+	_id: string;
+
+	identidade: string;
+
+	users: string;
+
+	tipoAcesso: string;
+
+	nome: string;
+
+	nomeGuerra: string;
+
+	postoGraduacao: string;
+
+	antiguidade: number;
+
+	assessoria: Assessoria;
+
+	liberado: string;
+
+	ramal: string;
+
+	caminho: string
+
+}

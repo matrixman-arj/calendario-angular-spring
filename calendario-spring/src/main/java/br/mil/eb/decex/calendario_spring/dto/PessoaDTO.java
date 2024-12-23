@@ -39,7 +39,7 @@ public record PessoaDTO(
     
     
     @NotNull
-    Boolean acesso, 
+    Boolean liberado, 
     
     
     @NotNull

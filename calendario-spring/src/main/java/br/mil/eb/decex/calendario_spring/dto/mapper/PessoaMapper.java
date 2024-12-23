@@ -37,7 +37,7 @@ public class PessoaMapper {
         pessoa.setNomeGuerra(pessoaDTO.nomeGuerra());
         pessoa.setPostoGraduacao(pessoaDTO.postoGraduacao());
         pessoa.setAssessoria(pessoaDTO.assessoria());
-        pessoa.setLiberado(pessoaDTO.acesso());
+        pessoa.setLiberado(pessoaDTO.liberado());
         pessoa.setTipoAcesso(pessoaDTO.tipoAcesso());
         pessoa.setRamal(pessoaDTO.ramal());
         pessoa.setCaminho("http://localhost:8080/media/" + pessoaDTO.identidade() + ".jpg");
