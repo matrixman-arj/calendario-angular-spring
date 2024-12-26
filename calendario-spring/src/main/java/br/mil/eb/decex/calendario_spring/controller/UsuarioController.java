@@ -79,7 +79,14 @@ public class UsuarioController {
         .orElseThrow(() -> new RuntimeException("Usuario não encontrada"));
     usuario.setLiberado(true);
     usuarioRepository.save(usuario);
-}    
+}  
+
+    @PutMapping("/alterar-senha")
+    public ResponseEntity<Void> alterarSenha(@RequestParam String senhaAtual, @RequestParam String novaSenha) {
+    usuarioService.alterarSenha(senhaAtual, novaSenha);
+    return ResponseEntity.noContent().build();
+}
+
 
     
     @GetMapping ("/{id}")

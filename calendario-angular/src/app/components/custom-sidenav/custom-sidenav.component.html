@@ -81,6 +81,13 @@
   </mat-list-item>
 
   <mat-list-item>
+    <a class="menu-item" (click)="openChangePasswordDialog()" routerLinkActive="active-link">
+      <mat-icon class="menu-icon">input</mat-icon>
+      <span class="menu-text">Nova senha</span>
+    </a>
+  </mat-list-item>
+
+  <mat-list-item>
     <a class="menu-item" (click)="navigateTo('assessorias/new')" routerLinkActive="active-link">
       <mat-icon class="menu-icon">save</mat-icon>
       <span class="menu-text">Assessorias</span>

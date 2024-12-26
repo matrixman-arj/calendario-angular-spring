@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -182,6 +183,26 @@ public class UsuarioService {
                 })
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
+
+    public void alterarSenha(String senhaAtual, String novaSenha) {
+    // Obter o usuário logado
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    Usuario usuario = usuarioRepository.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+    // Validar a senha atual
+    if (!passwordEncoder.matches(senhaAtual, usuario.getPassword())) {
+        throw new RuntimeException("Senha atual incorreta");
+    }
+
+    // Criptografar a nova senha
+    String senhaCriptografada = passwordEncoder.encode(novaSenha);
+    usuario.setPassword(senhaCriptografada);
+
+    // Salvar no banco de dados
+    usuarioRepository.save(usuario);
+}
+
     
     
 

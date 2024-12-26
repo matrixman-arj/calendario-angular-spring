@@ -28,6 +28,12 @@ export class UsuariosService {
     );
   }
 
+  changePassword(senhaAtual: string, novaSenha: string): Observable<void> {
+    return this.httpClient.put<void>(`${this.API}/alterar-senha`, null, {
+      params: { senhaAtual, novaSenha },
+    });
+  }
+
   reativarUsuario(id: number): Observable<void> {
     return this.httpClient.put<void>(`api/usuarios/reativar/${id}`, null);
   }

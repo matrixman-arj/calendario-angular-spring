@@ -1,3 +1,4 @@
+import { ChangePasswordComponent } from './usuarios/containers/change-password/change-password.component';
 import { Routes } from '@angular/router';
 import { CustomSidenavComponent } from './components/custom-sidenav/custom-sidenav.component';
 import { LoginComponent } from './login/login.component';
@@ -79,4 +80,12 @@ export const APP_ROUTES: Routes = [
         ),
 
     },
+
+    {
+      path: 'alterar-senha',
+        loadChildren: () =>
+          import('./usuarios/usuarios.routes').then((m) => m.USUARIOS_ROUTES,
+          ),
+          component: ChangePasswordComponent // Use o componente standalone
+      },
 ];
