@@ -3,9 +3,12 @@ package br.mil.eb.decex.calendario_spring.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -27,10 +30,12 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
+    private final PasswordEncoder passwordEncoder; // Injete o bean
 
-    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper ) {
+    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper, PasswordEncoder passwordEncoder ) {
         this.usuarioRepository = usuarioRepository;
         this.usuarioMapper = usuarioMapper;
+        this.passwordEncoder = passwordEncoder; // Injete o bean aqui
     }
 
     // public Page<Usuario> findByUsernameOrRoleAndLiberadoTrue(String termo, Pageable pageable) {
@@ -92,9 +97,32 @@ public class UsuarioService {
 
     }
 
-    public UsuarioDTO create(@Valid @NotNull UsuarioDTO usuario) {
-        return usuarioMapper.toDTO(usuarioRepository.save(usuarioMapper.toEntity(usuario)));
+    // public UsuarioDTO create(@Valid @NotNull UsuarioDTO usuario) {
+    //     return usuarioMapper.toDTO(usuarioRepository.save(usuarioMapper.toEntity(usuario)));
+    // }
+
+    public UsuarioDTO create(@Valid @NotNull UsuarioDTO usuarioDTO) {
+    // Preencher o campo password com o username, se o password não for fornecido
+    if (usuarioDTO.password() == null || usuarioDTO.password().isEmpty()) {
+        usuarioDTO = new UsuarioDTO(
+            usuarioDTO.id(),
+            usuarioDTO.username(),
+            usuarioDTO.password(), // Define o password igual ao username
+            usuarioDTO.role(),
+            usuarioDTO.liberado()
+        );
     }
+
+    // Codificar o password com BCrypt
+    String encodedPassword = passwordEncoder.encode(usuarioDTO.password()); // Use o bean injetado para codificar
+    // Criar entidade Usuario a partir do DTO
+    Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
+    usuario.setPassword(encodedPassword);
+
+    // Salvar no banco de dados
+    return usuarioMapper.toDTO(usuarioRepository.save(usuario));
+}
+
 
     public UsuarioDTO update(@NotNull @Positive Long id, @Valid UsuarioDTO usuario) {
         return usuarioRepository.findById(id)

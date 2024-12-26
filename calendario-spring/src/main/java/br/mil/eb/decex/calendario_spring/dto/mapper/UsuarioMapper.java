@@ -30,7 +30,7 @@ public class UsuarioMapper {
             usuario.setId(usuarioDTO.id());
         }
         usuario.setUsername(usuarioDTO.username());
-        usuario.setPassword(usuarioDTO.password());
+        usuario.setPassword(usuarioDTO.password() != null ? usuarioDTO.password() : usuarioDTO.username());
         usuario.setRole(usuarioDTO.role());
         usuario.setLiberado(usuarioDTO.liberado());       
         return  usuario;

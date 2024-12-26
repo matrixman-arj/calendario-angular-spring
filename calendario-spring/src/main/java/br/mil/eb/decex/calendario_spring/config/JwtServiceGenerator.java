@@ -37,7 +37,7 @@ public String generateToken(Usuario userDetails) {
               .setClaims(extraClaims)
               .setSubject(userDetails.getUsername())
               .setIssuedAt(new Date(System.currentTimeMillis()))
-              .setExpiration(new Date(new Date().getTime() + 3600000 * JwtConfig.HORAS_EXPIRACAO_TOKEN))
+              .setExpiration(new Date(new Date().getTime() + 28800000 * JwtConfig.HORAS_EXPIRACAO_TOKEN))
               .signWith(getSigningKey(), JwtConfig.ALGORITMO_ASSINATURA)
               .compact();
   }
@@ -51,6 +51,8 @@ private Claims extractAllClaims(String token) {
               .parseClaimsJws(token)
               .getBody();
   }
+
+  
 
 
   public boolean isTokenValid(String token, UserDetails userDetails) {
