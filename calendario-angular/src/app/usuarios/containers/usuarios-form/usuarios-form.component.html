@@ -6,116 +6,37 @@
         <form [formGroup]="form" class="min-width">
 
           <mat-form-field class="full-width">
-            <mat-label>Identidade</mat-label>
-            <input matInput placeholder="Identidade" formControlName="identidade" [imask]="{mask: '000.000.000-0'}"/>
+            <mat-label>Nome do usuário</mat-label>
+            <input matInput placeholder="Usuário" formControlName="username"/>
 
-            @if (form.get('identidade')?.invalid) {
-              <mat-error>{{errorMessage("identidade")}}</mat-error>
+            @if (form.get('username')?.invalid) {
+              <mat-error>{{errorMessage("username")}}</mat-error>
             }
           </mat-form-field>
 
           <mat-form-field class="full-width">
-            <mat-label>Nome completo</mat-label>
-            <input matInput placeholder="Nome completo" formControlName="nome">
-            @if (form.get('nome')?.invalid) {
-              <mat-error>{{errorMessage("nome")}}</mat-error>
+            <mat-label>Senha</mat-label>
+            <input matInput type="password" placeholder="Senha" formControlName="password">
+            @if (form.get('password')?.invalid) {
+              <mat-error>{{errorMessage("password")}}</mat-error>
             }
           </mat-form-field>
 
-          <mat-form-field  class="full-width">
-            <mat-label>Nome de guerra</mat-label>
-            <input matInput placeholder="Nome de guerra" formControlName="nomeGuerra">
-            @if (form.get('nomeGuerra')?.invalid) {
-              <mat-error>{{errorMessage("nomeGuerra")}}</mat-error>
-            }
-          </mat-form-field>
 
-          <mat-form-field class="full-width">
-            <mat-label>Posto ou garduação</mat-label>
-            <mat-select formControlName="postoGraduacao">
-              <mat-option value="null">None</mat-option>
-
-              @for (posto of postos; track posto) {
-                <mat-option [value]="posto.viewValue">
-                  <img [src]="posto.imageUrl" alt="{{ posto.viewValue }}" style="width: 24px; height: 45px; margin-right: 8px;">
-                  {{ posto.viewValue }}
-                </mat-option>
-              }
-              @if (form.get('postoGraduacao')?.invalid) {
-
-              }
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field class="full-width">
-            <mat-label>Assessoria</mat-label>
-            <mat-select formControlName="assessoria" (selectionChange)="onAssessoriaChange($event.value)">
-              @for (assessoria of assessoriasPai; track assessoria) {
-                <mat-option [value]="assessoria">
-                  {{ assessoria.sigla }}
-                </mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-
-          @if (assessoriasFilhas.length > 0) {
-            <mat-form-field class="full-width">
-              <mat-label>Assessoria Filha</mat-label>
-              <mat-select formControlName="assessoria">
-                @for (filha of assessoriasFilhas; track filha) {
-                  <mat-option [value]="filha">
-                    {{ filha.sigla }}
-                  </mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          }
-
-          <mat-form-field class="full-width">
-            <mat-label>Antiguidade</mat-label>
-            <input matInput placeholder="Antiguidade" formControlName="antiguidade">
-            @if (form.get('antiguidade')?.invalid) {
-              <mat-error>{{errorMessage("antiguidade")}}</mat-error>
-            }
-          </mat-form-field>
 
           <mat-form-field class="full-width">
             <mat-label>Tipo de acesso</mat-label>
-            <mat-select formControlName="tipoAcesso">
+            <mat-select formControlName="role">
               <mat-option value="null">None</mat-option>
               @for (tipoAcesso of tipoAcessos ; track tipoAcesso) {
-                <mat-option [value]="tipoAcesso.viewValue">{{ tipoAcesso.viewValue }}</mat-option>
+                <mat-option [value]="tipoAcesso.value">{{ tipoAcesso.value }}</mat-option>
               }
-              @if (form.get('tipoAcesso')?.invalid) {
+              @if (form.get('role')?.invalid) {
 
               }
 
             </mat-select>
           </mat-form-field>
-
-          <mat-form-field class="full-width">
-            <mat-label>Ramal</mat-label>
-            <input matInput placeholder="Ramal" formControlName="ramal"  [imask]="{mask: '810 - 0000'}"/>
-            @if (form.get('ramal')?.invalid) {
-              <mat-error>{{errorMessage("ramal")}}</mat-error>
-            }
-          </mat-form-field>
-
-          <mat-form-field class="metade-full-width-foto">
-            <mat-label>Foto</mat-label>
-            <!-- Campo de texto (somente leitura) que mostra o caminho da imagem -->
-            <input matInput placeholder="Foto">
-            <!-- Exibição da imagem -->
-            @if (url) {
-              <img [src]="url" alt="Foto da usuario">
-            }
-            <br>
-              <!-- Input para seleção de nova foto -->
-              <input type="file" (change)="upload($event)">
-              @if (form.get('caminho')?.invalid) {
-                <mat-error>{{errorMessage("caminho")}}</mat-error>
-              }
-            </mat-form-field>
 
             <mat-label class="label-radio"><strong>Status:</strong></mat-label>
 

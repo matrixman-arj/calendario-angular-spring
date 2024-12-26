@@ -1,168 +1,104 @@
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 
-import { Assessoria } from '../../../assessorias/model/assessoria';
-import { AssessoriasService } from '../../../assessorias/services/assessorias.service';
-import { PostoGraduacao, PostoGraduacaoList } from '../../../enums/PostoGraduacao/PostoGraduacao';
+import { MatButton } from '@angular/material/button';
+import { MatCard, MatCardActions, MatCardContent } from '@angular/material/card';
+import { MatOption } from '@angular/material/core';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
+import { MatSelect } from '@angular/material/select';
+import { MatToolbar } from '@angular/material/toolbar';
 import { TipoAcesso, TipoAcessoList } from '../../../enums/TipoAcesso';
-import { MediaService } from '../../../media.service';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 import { Usuario } from '../../model/usuario';
 import { UsuariosService } from '../../services/usuarios.service';
-import { MatButton } from '@angular/material/button';
-import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
-import { MatOption } from '@angular/material/core';
-import { MatSelect } from '@angular/material/select';
-import { IMaskDirective } from 'angular-imask';
-import { MatInput } from '@angular/material/input';
-import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatCard, MatCardContent, MatCardActions } from '@angular/material/card';
 
 @Component({
     selector: 'app-usuario-form',
     templateUrl: './usuarios-form.component.html',
     styleUrl: './usuarios-form.component.scss',
     standalone: true,
-    imports: [MatCard, MatToolbar, MatCardContent, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, IMaskDirective, MatError, MatSelect, MatOption, MatRadioGroup, MatRadioButton, MatCardActions, MatButton]
+    imports: [MatCard, MatToolbar, MatCardContent, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatError, MatSelect, MatOption, MatRadioGroup, MatRadioButton, MatCardActions, MatButton]
 })
 
 export class UsuariosFormComponent implements OnInit {
 
   form: UntypedFormGroup;
   selectedFile: File | null = null;
-  assessorias: Assessoria[] = [];
-  assessoriasPai: Assessoria[] = [];
-  assessoriasFilhas: Assessoria[] = [];
-  selectedAssessoria: any;
 
   @Output() add = new EventEmitter(false);
 
   url?: string;
 
-
-  postos = PostoGraduacaoList;
-  selectedPosto: PostoGraduacao;
-
   tipoAcessos = TipoAcessoList;
   selectedAcesso: TipoAcesso;
 
-
-
-
-
-  upload(event: any) {
-
-    const file: File = event.target.files[0];
-    const identidade = this.form.get('identidade')?.value; // Captura o valor do campo identidade
-
-    if (file && identidade) {
-      // Renomeia o arquivo com o valor do campo identidade e extensão .jpg
-      const renamedFile = new File([file], `${identidade}.jpg`, { type: 'image/jpeg' });
-
-      const formData = new FormData();
-      formData.append('file', renamedFile);
-
-      this.mediaService.uploadFile(formData)
-        .subscribe((response: any) => {
-          console.log('response', response);
-          this.url = response.url;
-        });
-
-    }
-  }
-
-  onAssessoriaChange(assessoriaPai: Assessoria): void {
-    if (assessoriaPai && assessoriaPai._id) {
-      this.assessoriasFilhas = this.assessorias.filter(a => a.assessoriaPai?._id === assessoriaPai._id);
-      console.log(assessoriaPai)
-      this.form.get('assessoriaFilha')?.reset(); // Limpa a seleção de assessoria filha ao mudar a assessoria pai
-    } else {
-      this.assessoriasFilhas = [];
-      console.log(this.assessoriasFilhas)
-    }
-  }
-
-
   constructor(  private http: HttpClient,
     private formBuilder: UntypedFormBuilder,
-    private service: UsuariosService,
+    private usuariosService: UsuariosService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private location: Location,
     private route: ActivatedRoute,
     //public formUtils: FormUtilsService,
-    private assessoriasService: AssessoriasService,
-    private mediaService: MediaService
+
 
   ) {
 
       this.form = this.formBuilder.group({
         _id: [''],
-        users: [''],
-        identidade: ['',[Validators.required, Validators.pattern('^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{1}$')]],
-        nomeGuerra: ['', Validators.required],
-        nome: ['', Validators.required],
-        postoGraduacao: ['', Validators.required],
-        antiguidade:[''],
-        tipoAcesso: ['', Validators.required],
-        assessoria: [null, Validators.required],
-        assessoriaFilha:[null],
+        username: [''],
+        password: ['',[Validators.required]],
+        role: ['', Validators.required],
         liberado: ['', Validators.required],
-        ramal: ['', [Validators.required, Validators.pattern('^810 - \\d{4}$')]],
-        caminho: ['', Validators.required]
-
       });
 
-        this.selectedPosto = PostoGraduacao.GEN_EXERCITO;
+
         this.selectedAcesso = TipoAcesso.USUARIO;
-
-        this.assessoriasService.list().subscribe((data: any[]) => {
-        this.assessorias = data;
-       });
-
-       this.assessoriasService.listPai().subscribe((data: any[]) => {
-        this.assessoriasPai = data;
-       });
-
-    }
-
-    compareAssessoria(a1: Assessoria, a2: Assessoria): boolean {
-      return a1 && a2 ? a1._id === a2._id : a1 === a2;
     }
 
   ngOnInit(): void {
+
+    // this.route.params.subscribe((params) => {
+    //   const userId = params['id'];
+
+    //   // Carregar os dados do usuário
+    //   this.usuariosService.loadById(userId).subscribe((usuario: Usuario) => {
+    //     // Atualiza o formulário com os valores do usuário
+    //     console.log('Usuário carregado:', usuario);
+    //     this.form.patchValue({
+    //       username: usuario.username,
+    //       role: usuario.role.toString(), // Preenche o select com o valor salvo no banco
+    //       liberado: usuario.liberado,
+    //       // Adicione outros campos conforme necessário
+    //     });
+    //   });
+    // });
     const usuario: Usuario = this.route.snapshot.data['usuario'];
     this.form.setValue({
       _id: usuario._id || '',
-      identidade: usuario.identidade || '',
-      users: usuario.users || '',
-      nome: usuario.nome || '',
-      nomeGuerra: usuario.nomeGuerra || '',
-      postoGraduacao: usuario.postoGraduacao || '',
-      antiguidade: usuario.antiguidade || '',
-      tipoAcesso: usuario.tipoAcesso || '',
-      assessoria: usuario.assessoria || null,
-      assessoriaFilha: usuario.assessoria || null,
+      username: usuario.username || '',
+      password: usuario.password || '',
+      role: usuario.role || '',
       liberado: usuario.liberado || '',
-      ramal: usuario.ramal || '',
-      caminho: usuario.caminho || ''
-
 
     });
-    // Se quiser mostrar a foto imediatamente no formulário de edição:
-  this.url = usuario.caminho; // Assumindo que você tem uma variável de pré-visualização
+
 
   }
 
    onSubmit() {
-    this.service.save(this.form.value)
+    this.usuariosService.save(this.form.value)
+
     .subscribe(result => this.onSuccess(), error => this.onError());
+
+    console.log('Usuário atualizado:', this.form.value);
 
 }
 

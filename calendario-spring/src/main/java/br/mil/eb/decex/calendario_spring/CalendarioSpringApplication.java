@@ -321,8 +321,8 @@ public class CalendarioSpringApplication {
 			Usuario usuario = new Usuario();
 			usuario.setUsername("0195623038");
 			usuario.setPassword("$2a$12$GkgWGrA1LQ27BPo235vAJ.CfFAHt4uUATsX7xQG.mDVjj3gI02NUm");
-			usuario.setRole("SUPER-ADMIN");
-
+			usuario.setRole("ADMINISTRADOR");
+			usuario.setLiberado(true);
 			usuarioRepository.save(usuario);
 		};
 	}

@@ -1,29 +1,16 @@
-import { Assessoria } from "../../assessorias/model/assessoria";
 
 export interface Usuario {
 
 	_id: string;
 
-	identidade: string;
+	username: string;
 
-	users: string;
+	password: string;
 
-	tipoAcesso: string;
+	role: string;
 
-	nome: string;
+	liberado: boolean;
 
-	nomeGuerra: string;
 
-	postoGraduacao: string;
-
-	antiguidade: number;
-
-	assessoria: Assessoria;
-
-	liberado: string;
-
-	ramal: string;
-
-	caminho: string
 
 }

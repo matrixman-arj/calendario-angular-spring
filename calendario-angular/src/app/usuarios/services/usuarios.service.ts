@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { Usuario } from '../model/usuario';
 import { HttpClient } from '@angular/common/http';
 import { first, Observable, } from 'rxjs';
-import { Assessoria } from '../../assessorias/model/assessoria';
+import { Usuario } from '../model/usuario';
 import { UsuarioPage } from '../model/usuario-page';
 
 @Injectable({
@@ -34,13 +33,13 @@ export class UsuariosService {
   }
 
   listarInativas(page = 0, pageSize = 10): Observable<UsuarioPage> {
-    return this.httpClient.get<UsuarioPage>('api/usuarios/inativas', {
+    return this.httpClient.get<UsuarioPage>('api/usuarios/inativos', {
       params: { page, pageSize }
     });
   }
 
 
-  listPessCompl() {
+  listUsuCompl() {
 
     return this.httpClient.get<Usuario[]>(this.API)
     .pipe(
@@ -50,31 +49,6 @@ export class UsuariosService {
 
     );
   }
-
-
-  assessorias() {
-    return this.httpClient.get<Assessoria[]>(this.API)
-    .pipe(
-      first(),
-      //delay(5000),
-      //tap(assessorias => console.log(assessorias)),
-
-    );
-
-
-  }
-
-  // listAssessCompl() {
-  //   return this.httpClient.get<Assessoria[]>(this.API)
-  //   .pipe(
-  //     first(),
-  //     //delay(5000),
-  //     //tap(assessorias => console.log(assessorias)),
-
-  //   );
-
-
-  // }
 
   loadById(id: string){
    return this.httpClient.get<Usuario>(`${this.API}/${id}`);

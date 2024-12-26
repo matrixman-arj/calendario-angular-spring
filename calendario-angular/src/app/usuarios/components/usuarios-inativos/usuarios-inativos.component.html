@@ -1,56 +1,47 @@
-<mat-card>
-  <mat-toolbar color="primary" style="margin-top: 10px;">Usuarios Inativas</mat-toolbar>
-  <mat-table [dataSource]="usuariosInativas" class="mat-elevation-z8">
-
-    <!-- Coluna de identidade -->
-    <ng-container matColumnDef="identidade">
-      <mat-header-cell *matHeaderCellDef>Identidade</mat-header-cell>
-      <mat-cell *matCellDef="let usuario">{{ usuario.identidade }}</mat-cell>
-    </ng-container>
+<mat-card style="margin-top: 10px; margin-left: 100px; width: 90%; ">
+  <mat-toolbar color="primary" style="margin-top: 10px; width: 100%; ">Usuarios Inativos</mat-toolbar>
+  <mat-table [dataSource]="usuariosInativos" class="mat-elevation-z8">
 
     <!-- Coluna de nome -->
-    <ng-container matColumnDef="nome">
-      <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
-      <mat-cell *matCellDef="let usuario">{{ usuario.nome }}</mat-cell>
-    </ng-container>
-
-     <!-- Coluna de Posto ou grduação -->
-     <ng-container matColumnDef="postoGraduacao">
-      <mat-header-cell *matHeaderCellDef  class="column-header-posto">Posto/Graduação</mat-header-cell>
-      <mat-cell *matCellDef="let usuario" class="column-posto">
-        <div class="posto-container">
-          <img [src]="getPostoImage(usuario.postoGraduacao)" class="img-patente">
-          <span>{{ usuario.postoGraduacao }}</span>
-        </div>
-      </mat-cell>
+    <ng-container matColumnDef="username">
+      <mat-header-cell class="column-header-nome" *matHeaderCellDef>Usuário</mat-header-cell>
+      <mat-cell *matCellDef="let usuario" class="column-nome"> {{ usuario.username }}</mat-cell>
     </ng-container>
 
     <!-- Coluna de nome de Guerra -->
-    <ng-container matColumnDef="nomeGuerra">
-      <mat-header-cell class="column-header-nomeGuerra" *matHeaderCellDef>Nome de Guerra</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let usuario" class="column-nomeGuerra"> {{ usuario.nomeGuerra }}
+    <ng-container matColumnDef="role">
+      <mat-header-cell class="column-header-nomeGuerra" *matHeaderCellDef>Tipo de acesso</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let usuario" class="column-nomeGuerra"> {{ usuario.role }} </mat-cell>
+    </ng-container>
 
-      </mat-cell>
+    <!-- Coluna de assessoria -->
+    <ng-container matColumnDef="liberado">
+      <mat-header-cell class="column-header-asse" *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let usuario" class="column-asse"> {{ usuario.liberado }}</mat-cell>
     </ng-container>
 
     <!-- Coluna de ações -->
     <ng-container matColumnDef="acoes">
-      <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
-      <mat-cell *matCellDef="let usuario">
+      <mat-header-cell *matHeaderCellDef class="action-column-header">
+        <button class="buton-add" (click)="onAdd()" mat-icon-button color="primary" aria-label="Adicionar uma usuario">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-header-cell>
 
-        <button
-          mat-raised-button
-          color="primary"
-          *ngIf="usuario._id"
-          (click)="reativarUsuario(usuario._id)">
-          Reativar
-      </button>
+      <mat-cell *matCellDef="let usuario" class="action-column">
+        <button (click)="reativarUsuario(usuario._id)" mat-icon-button color="primary" aria-label="Editar uma usuario">
+          <mat-icon>done_outline</mat-icon>
+        </button>
 
+        <!-- <button (click)="onDelete(usuario)" mat-icon-button color="warn" aria-label="Remover usuario">
+          <mat-icon>delete</mat-icon>
+        </button> -->
       </mat-cell>
+
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 
   <!-- Paginação -->

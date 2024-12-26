@@ -1,11 +1,10 @@
 <mat-card>
-  <mat-toolbar color="primary">Ramais do DECEx
+  <mat-toolbar color="primary">Usuários do sistema
 
     <div class="campo-pesquisa">
 
-
       <mat-form-field class="input-pesquisa-usuario">
-        <mat-label>Pesquise pelo Nome de guerra</mat-label>
+        <mat-label>Pesquise pelo Nome do usuário</mat-label>
         <mat-select (selectionChange)="onSearchTermChange($event.value)">
 
           <input class="input-pesquisa" (input)="filterSelectDeUsuarios($event)"
@@ -14,30 +13,12 @@
             Nenhum
           </mat-option>
           @for (usuario of usuarios; track usuario) {
-            <mat-option [value]="usuario.nomeGuerra">
-              {{ usuario.postoGraduacao}} - {{ usuario.nomeGuerra }}
+            <mat-option [value]="usuario.username">
+              {{ usuario.username }}
             </mat-option>
           }
         </mat-select>
       </mat-form-field>
-
-      <mat-form-field class="input-pesquisa-assessoria">
-        <mat-label>Pesquise pela Assessoria</mat-label>
-        <mat-select (selectionChange)="onSearchTermChange($event.value)">
-
-            <input class="input-pesquisa" (input)="filterSelectDeAssessorias($event)"
-                   placeholder="Digite ou selecione para filtrar"/>
-          <mat-option [value]="">
-            Nenhum
-          </mat-option>
-          @for (assessoria of assessorias; track assessoria) {
-            <mat-option [value]="assessoria.sigla">
-              {{ assessoria.sigla }}
-            </mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-
     </div>
 
   </mat-toolbar>
@@ -45,7 +26,7 @@
   <div class="mat-elevation-z8">
       @if (usuarios$ | async; as usuarios) {
       <app-usuarios-lista
-        [usuarios]="usuarios.usuarios"
+        [usuarios]="usuarios.pessoas"
         (add)="onAdd()"
         (edit)="onEdit($event)"
         (delete)="onRemove($event)"

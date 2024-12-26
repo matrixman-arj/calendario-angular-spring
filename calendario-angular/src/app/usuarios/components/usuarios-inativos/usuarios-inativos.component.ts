@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UsuariosService } from '../../services/usuarios.service';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { Usuario } from '../../model/usuario';
@@ -13,6 +13,7 @@ import { UsuariosListaComponent } from '../usuarios-lista/usuarios-lista.compone
 import { MatTableModule } from '@angular/material/table';
 import { PostoGraduacao, PostoGraduacaoList } from '../../../enums/PostoGraduacao/PostoGraduacao';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-usuarios-inativos',
@@ -23,15 +24,19 @@ import { MatButtonModule } from '@angular/material/button';
                 MatPaginator, MatTableModule, MatProgressSpinner,
                 AsyncPipe, MatFormFieldModule, MatInputModule, MatSelectModule,
                 CommonModule, MatTableModule, MatPaginatorModule, MatButtonModule,
-                MatCardModule, MatToolbarModule  ]
+                MatCardModule, MatToolbarModule,  MatPaginatorModule, MatTableModule, MatIconModule]
 })
 export class UsuariosInativosComponent implements OnInit {
-  usuariosInativas: Usuario[] = [];
+  usuariosInativos: Usuario[] = [];
   totalElements = 0;
   pageSize = 10;
   pageIndex = 0;
 
-  readonly displayedColumns = ['identidade', 'nome', 'postoGraduacao', 'nomeGuerra', 'acoes'];
+  @Output() add = new EventEmitter(false);
+   @Output() edit = new EventEmitter(false);
+   @Output() delete = new EventEmitter(false);
+
+   readonly displayedColumns = ['username','role', 'liberado', 'acoes'];
 
   postos = PostoGraduacaoList;
    selectedPosto = PostoGraduacao.GEN_EXERCITO;
@@ -45,14 +50,15 @@ export class UsuariosInativosComponent implements OnInit {
   carregarUsuariosInativas(): void {
     this.usuariosService.listarInativas(this.pageIndex, this.pageSize).subscribe({
       next: (data) => {
-        this.usuariosInativas = data.usuarios;
+        this.usuariosInativos = data.pessoas;
         this.totalElements = data.totalElements;
       },
       error: (err) => console.error('Erro ao carregar usuarios inativas', err),
     });
   }
 
-  reativarUsuario(id: number | undefined): void {
+
+  reativarUsuario(id: number): void {
     if (!id) {
       console.error('ID inválido para reativação:', id);
       return;
@@ -60,12 +66,31 @@ export class UsuariosInativosComponent implements OnInit {
 
     this.usuariosService.reativarUsuario(id).subscribe({
       next: () => {
-        alert('Usuario reativada com sucesso!');
-        this.carregarUsuariosInativas(); // Recarrega a lista após reativação
+        console.log('Usuário reativado com sucesso:', id);
+        this.carregarUsuariosInativas(); // Atualiza a tabela após reativar o usuário
       },
-      error: (err) => console.error('Erro ao reativar usuario:', err),
+      error: (err) => {
+        console.error('Erro ao reativar usuário:', err);
+      }
     });
   }
+
+
+
+  // reativarUsuario(id: number | undefined): void {
+  //   if (!id) {
+  //     console.error('ID inválido para reativação:', id);
+  //     return;
+  //   }
+
+  //   this.usuariosService.reativarUsuario(id).subscribe({
+  //     next: () => {
+  //       alert('Usuario reativada com sucesso!');
+  //       this.carregarUsuariosInativas(); // Recarrega a lista após reativação
+  //     },
+  //     error: (err) => console.error('Erro ao reativar usuario:', err),
+  //   });
+  // }
 
 
   refresh(event: PageEvent): void {
@@ -77,5 +102,19 @@ export class UsuariosInativosComponent implements OnInit {
   getPostoImage(postoGraduacao: string): string {
       const posto = PostoGraduacaoList.find(p => p.viewValue === postoGraduacao);
       return posto ? posto.imageUrl : '';
+    }
+
+    onAdd(){
+      this.add.emit(true);
+
+    }
+
+    onEdit(usuario: Usuario ){
+      this.edit.emit(usuario);
+    }
+
+    onDelete(usuario: Usuario){
+      this.delete.emit(usuario);
+
     }
 }

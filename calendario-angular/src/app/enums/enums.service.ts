@@ -1,14 +1,11 @@
-import { PessoasService } from './../pessoas/services/pessoas.service';
 import { Injectable } from '@angular/core';
 
 
 import { HttpClient } from '@angular/common/http';
-import { delay, first, tap } from 'rxjs';
 
-import { Pessoa } from '../pessoas/model/pessoa';
+import { Acessorios } from './Acessorios/Acessorios';
 import { PostoGraduacao } from './PostoGraduacao';
 import { TipoAcesso } from './TipoAcesso';
-import { Acessorios } from './Acessorios/Acessorios';
 
 @Injectable({
   providedIn: 'root'

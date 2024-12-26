@@ -41,8 +41,10 @@ public class SecurityConfig  {
 				.requestMatchers("/enumerado/**").permitAll() // Permitir acesso público aos enumeradores
 				.requestMatchers("/media/**").permitAll() // Permitir acesso público às imagens
 				// .requestMatchers("/api/pessoas/inativas/**").permitAll() // Libera apenas para ADMIN
-            	.requestMatchers("/api/pessoas/reativar/**").hasAuthority("ROLE_SUPER-ADMIN") // Libera o reativar para ADMIN				
-				.requestMatchers("/**").hasAuthority("ROLE_SUPER-ADMIN") // Acesso irrestrito para SUPER-ADMIN
+            	.requestMatchers("/api/pessoas/reativar/**").hasAuthority("ROLE_ADMINISTRADOR") // Libera o reativar para ADMIN
+				.requestMatchers("/api/usuarios/reativar/**").hasAuthority("ROLE_ADMINISTRADOR") // Libera o reativar para ADMIN
+				.requestMatchers("/api/usuarios/**").hasAuthority("ROLE_ADMINISTRADOR") // Libera o reativar para ADMIN				
+				.requestMatchers("/**").hasAuthority("ROLE_ADMINISTRADOR") // Acesso irrestrito para SUPER-ADMIN
 				.anyRequest().authenticated())
 		.authenticationProvider(authenticationProvider)
 		.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

@@ -25,6 +25,20 @@
   </mat-list-item>
 
   <mat-list-item>
+    <a class="menu-item" (click)="navigateTo('usuarios')" routerLinkActive="active-link">
+      <mat-icon class="menu-icon">list</mat-icon>
+      <span class="menu-text">Usuários</span>
+    </a>
+  </mat-list-item>
+
+  <mat-list-item>
+    <a class="menu-item" (click)="navigateTo('usuarios/inativos')" routerLinkActive="active-link">
+      <mat-icon class="menu-icon">list</mat-icon>
+      <span class="menu-text">Usuários Inativados</span>
+    </a>
+  </mat-list-item>
+
+  <mat-list-item>
     <a class="menu-item" (click)="navigateTo('assessorias')" routerLinkActive="active-link">
       <mat-icon class="menu-icon">list</mat-icon>
       <span class="menu-text">Assessorias</span>
@@ -56,6 +70,13 @@
     <a class="menu-item" (click)="navigateTo('pessoas/new')" routerLinkActive="active-link">
       <mat-icon class="menu-icon">save</mat-icon>
       <span class="menu-text">Pessoas</span>
+    </a>
+  </mat-list-item>
+
+  <mat-list-item>
+    <a class="menu-item" (click)="navigateTo('usuarios/new')" routerLinkActive="active-link">
+      <mat-icon class="menu-icon">save</mat-icon>
+      <span class="menu-text">Usuários</span>
     </a>
   </mat-list-item>
 

@@ -33,13 +33,13 @@ public class UsuarioService {
         this.usuarioMapper = usuarioMapper;
     }
 
-    public Page<Usuario> searchByNomeGuerraOrAssessoria( Pageable pageable) {
-        return usuarioRepository.findAll(pageable);
-    }
+    // public Page<Usuario> findByUsernameOrRoleAndLiberadoTrue(String termo, Pageable pageable) {
+    //     return usuarioRepository.findByUsernameOrRoleAndLiberadoTrue(termo, pageable);
+    // }
 
-    public UsuarioPageDTO listarInativos(int page, int pageSize) {
+    public UsuarioPageDTO findByUsernameOrRoleAndLiberadoTrue(String termo, int page, int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
-        Page<Usuario> pageUsuario = usuarioRepository.findInativos(pageable);
+        Page<Usuario> pageUsuario = usuarioRepository.findByUsernameOrRoleAndLiberadoTrue(termo, pageable);
     
         List<UsuarioDTO> usuariosDTO = pageUsuario.stream()
             .map(usuarioMapper::toDTO)
@@ -47,6 +47,19 @@ public class UsuarioService {
     
         return new UsuarioPageDTO(usuariosDTO, pageUsuario.getTotalElements(), pageUsuario.getTotalPages());
     }
+
+    public UsuarioPageDTO findByUsernameOrRoleAndLiberadoFalse(String termo, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Usuario> pageUsuario = usuarioRepository.findByUsernameOrRoleAndLiberadoFalse(termo, pageable);
+    
+        List<UsuarioDTO> usuariosDTO = pageUsuario.stream()
+            .map(usuarioMapper::toDTO)
+            .collect(Collectors.toList());
+    
+        return new UsuarioPageDTO(usuariosDTO, pageUsuario.getTotalElements(), pageUsuario.getTotalPages());
+    }
+
+   
 
    
     public List<UsuarioDTO> list() {

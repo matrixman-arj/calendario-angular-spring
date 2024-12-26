@@ -42,14 +42,6 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
-    @PutMapping("/reativar/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void reativarUsuario(@PathVariable Long id) {
-    Usuario usuario = usuarioRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Usuario não encontrada"));
-    usuario.setLiberado(true);
-    usuarioRepository.save(usuario);
-}    
 
     @GetMapping
     public List <UsuarioDTO> list() {
@@ -58,20 +50,36 @@ public class UsuarioController {
     }   
     
     @GetMapping("/search")
-    public UsuarioPageDTO search(@RequestParam(defaultValue = "0") @PositiveOrZero int page,
-            @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize
+    public UsuarioPageDTO search(
+                                @RequestParam(defaultValue = "") String termo,
+                                @RequestParam(defaultValue = "0") 
+                                @PositiveOrZero int page,
+                                @RequestParam(defaultValue = "10") 
+                                @Positive @Max(100) int pageSize
     ) {
         
-        return usuarioService.search(page, pageSize);
+        return usuarioService.findByUsernameOrRoleAndLiberadoTrue(termo, page, pageSize);
     }
 
-    @GetMapping("/inativas")
+    @GetMapping("/inativos")
     public UsuarioPageDTO listarUsuariosInativos(
+            @RequestParam(defaultValue = "") String termo,
             @RequestParam(defaultValue = "0") @PositiveOrZero int page,
             @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize) {
 
-        return usuarioService.listarInativos(page, pageSize);
+        return usuarioService.findByUsernameOrRoleAndLiberadoFalse(termo, page, pageSize);
     }
+
+
+    
+    @PutMapping("/reativar/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void reativarUsuario(@PathVariable Long id) {
+    Usuario usuario = usuarioRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Usuario não encontrada"));
+    usuario.setLiberado(true);
+    usuarioRepository.save(usuario);
+}    
 
     
     @GetMapping ("/{id}")
