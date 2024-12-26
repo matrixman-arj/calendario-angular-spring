@@ -124,20 +124,66 @@ public class UsuarioService {
 }
 
 
-    public UsuarioDTO update(@NotNull @Positive Long id, @Valid UsuarioDTO usuario) {
-        return usuarioRepository.findById(id)
-                .map(recordFound -> {
-                    recordFound.setUsername(usuario.username());
-                    recordFound.setPassword(usuario.password());
-                    recordFound.setRole(usuario.role());
-                    recordFound.setLiberado(usuario.liberado());
+    // public UsuarioDTO update(@NotNull @Positive Long id, @Valid UsuarioDTO usuario) {
+    //     return usuarioRepository.findById(id)
+    //             .map(recordFound -> {
+    //                 recordFound.setUsername(usuario.username());
+    //                 recordFound.setPassword(usuario.password());
+    //                 recordFound.setRole(usuario.role());
+    //                 recordFound.setLiberado(usuario.liberado());
                     
 
-                    return usuarioMapper.toDTO(usuarioRepository.save(recordFound));
+    //                 return usuarioMapper.toDTO(usuarioRepository.save(recordFound));
                     
-                }).orElseThrow(() ->  new RecordNotFoundException(id));
+    //             }).orElseThrow(() ->  new RecordNotFoundException(id));
                 
-    }  
+    // }
+    
+    // public UsuarioDTO update(@NotNull @Positive Long id, @Valid UsuarioDTO usuarioDTO) {
+    //     return usuarioRepository.findById(id)
+    //             .map(existingUser -> {
+    //                 // Atualiza os campos editáveis
+    //                 existingUser.setUsername(usuarioDTO.username());
+    //                 existingUser.setRole(usuarioDTO.role());
+    //                 existingUser.setLiberado(usuarioDTO.liberado());
+    
+    //                 // Verifica se o campo password foi alterado
+    //                 if (usuarioDTO.password() != null && !usuarioDTO.password().isEmpty()) {
+    //                     // Criptografa o novo password
+    //                     String encodedPassword = passwordEncoder.encode(usuarioDTO.password());
+    //                     existingUser.setPassword(encodedPassword);
+    //                 } else {
+    //                     // Mantém o password existente
+    //                     existingUser.setPassword(existingUser.getPassword());
+    //                 }
+    
+    //                 return usuarioMapper.toDTO(usuarioRepository.save(existingUser));
+    //             })
+    //             .orElseThrow(() -> new RecordNotFoundException(id));
+    // }
+
+    public UsuarioDTO update(@NotNull @Positive Long id, @Valid UsuarioDTO usuarioDTO) {
+        return usuarioRepository.findById(id)
+                .map(existingUser -> {
+                    // Atualiza os campos editáveis
+                    existingUser.setUsername(usuarioDTO.username());
+                    existingUser.setRole(usuarioDTO.role());
+                    existingUser.setLiberado(usuarioDTO.liberado());
+    
+                    // Verifica se o campo password foi alterado
+                    if (!existingUser.getPassword().equals(usuarioDTO.password())) {
+                        // Se o campo password foi alterado, criptografa o novo valor
+                        String encodedPassword = passwordEncoder.encode(usuarioDTO.password());
+                        existingUser.setPassword(encodedPassword);
+                    }
+    
+                    // Salva as alterações e retorna o DTO atualizado
+                    return usuarioMapper.toDTO(usuarioRepository.save(existingUser));
+                })
+                .orElseThrow(() -> new RecordNotFoundException(id));
+    }
+    
+    
 
     public void delete(@NotNull @Positive Long id) {
 
