@@ -3,12 +3,10 @@ package br.mil.eb.decex.calendario_spring.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -39,10 +37,7 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder; // Injete o bean aqui
     }
 
-    // public Page<Usuario> findByUsernameOrRoleAndLiberadoTrue(String termo, Pageable pageable) {
-    //     return usuarioRepository.findByUsernameOrRoleAndLiberadoTrue(termo, pageable);
-    // }
-
+    
     public UsuarioPageDTO findByUsernameOrRoleAndLiberadoTrue(String termo, int page, int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Usuario> pageUsuario = usuarioRepository.findByUsernameOrRoleAndLiberadoTrue(termo, pageable);
@@ -98,9 +93,7 @@ public class UsuarioService {
 
     }
 
-    // public UsuarioDTO create(@Valid @NotNull UsuarioDTO usuario) {
-    //     return usuarioMapper.toDTO(usuarioRepository.save(usuarioMapper.toEntity(usuario)));
-    // }
+   
 
     public UsuarioDTO create(@Valid @NotNull UsuarioDTO usuarioDTO) {
     // Preencher o campo password com o username, se o password não for fornecido
@@ -125,43 +118,7 @@ public class UsuarioService {
 }
 
 
-    // public UsuarioDTO update(@NotNull @Positive Long id, @Valid UsuarioDTO usuario) {
-    //     return usuarioRepository.findById(id)
-    //             .map(recordFound -> {
-    //                 recordFound.setUsername(usuario.username());
-    //                 recordFound.setPassword(usuario.password());
-    //                 recordFound.setRole(usuario.role());
-    //                 recordFound.setLiberado(usuario.liberado());
-                    
-
-    //                 return usuarioMapper.toDTO(usuarioRepository.save(recordFound));
-                    
-    //             }).orElseThrow(() ->  new RecordNotFoundException(id));
-                
-    // }
     
-    // public UsuarioDTO update(@NotNull @Positive Long id, @Valid UsuarioDTO usuarioDTO) {
-    //     return usuarioRepository.findById(id)
-    //             .map(existingUser -> {
-    //                 // Atualiza os campos editáveis
-    //                 existingUser.setUsername(usuarioDTO.username());
-    //                 existingUser.setRole(usuarioDTO.role());
-    //                 existingUser.setLiberado(usuarioDTO.liberado());
-    
-    //                 // Verifica se o campo password foi alterado
-    //                 if (usuarioDTO.password() != null && !usuarioDTO.password().isEmpty()) {
-    //                     // Criptografa o novo password
-    //                     String encodedPassword = passwordEncoder.encode(usuarioDTO.password());
-    //                     existingUser.setPassword(encodedPassword);
-    //                 } else {
-    //                     // Mantém o password existente
-    //                     existingUser.setPassword(existingUser.getPassword());
-    //                 }
-    
-    //                 return usuarioMapper.toDTO(usuarioRepository.save(existingUser));
-    //             })
-    //             .orElseThrow(() -> new RecordNotFoundException(id));
-    // }
 
     public UsuarioDTO update(@NotNull @Positive Long id, @Valid UsuarioDTO usuarioDTO) {
         return usuarioRepository.findById(id)

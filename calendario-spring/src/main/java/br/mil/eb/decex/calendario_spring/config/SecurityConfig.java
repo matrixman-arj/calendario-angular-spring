@@ -41,10 +41,10 @@ public class SecurityConfig  {
 				.requestMatchers("/enumerado/**").permitAll() // Permitir acesso público aos enumeradores
 				.requestMatchers("/media/**").permitAll() // Permitir acesso público às imagens
 				// .requestMatchers("/api/pessoas/inativas/**").permitAll() // Libera apenas para ADMIN
-            	.requestMatchers("/api/pessoas/reativar/**").hasAuthority("ROLE_ADMINISTRADOR") // Libera o reativar para ADMIN
-				.requestMatchers("/api/usuarios/reativar/**").hasAuthority("ROLE_ADMINISTRADOR") // Libera o reativar para ADMIN
-				.requestMatchers("/api/usuarios/**").hasAuthority("ROLE_ADMINISTRADOR") // Libera o reativar para ADMIN				
-				.requestMatchers("/**").hasAuthority("ROLE_ADMINISTRADOR") // Acesso irrestrito para SUPER-ADMIN
+            	// .requestMatchers("/api/pessoas/reativar/**").hasAuthority("ROLE_ADMINISTRADOR") // Libera o reativar para ADMIN
+				// .requestMatchers("/api/usuarios/reativar/**").hasAuthority("ROLE_ADMINISTRADOR") // Libera o reativar para ADMIN
+				// .requestMatchers("/api/usuarios/**").hasAuthority("ROLE_ADMINISTRADOR") // Libera o reativar para ADMIN				
+				.requestMatchers("/api/**").hasAuthority("ROLE_ADMINISTRADOR") // Acesso irrestrito para ADMINISTRADOR
 				.anyRequest().authenticated())
 		.authenticationProvider(authenticationProvider)
 		.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
