@@ -4,11 +4,14 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { Login } from './login';
 import { Usuario } from './usuario';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
+
+  private currentSystem: string = '';
 
   private readonly TOKEN_KEY = 'token';
 
@@ -20,11 +23,33 @@ export class LoginService {
   API = "http://localhost:8080/api/login";
 
 
-  constructor() { }
+  constructor(private router: Router) { }
 
 
   logar(login: Login): Observable<string> {
     return this.http.post<string>(this.API, login, {responseType: 'text' as 'json'});
+  }
+
+  logout(): void {
+    localStorage.removeItem('authToken'); // Remova o token ou outros dados de sessão
+    const system = this.getCurrentSystem();
+    if (system === 'SISGEPESS') {
+      this.router.navigate(['/sisgepess/login']);
+    } else if (system === 'SISAGENDA') {
+      this.router.navigate(['/sisagenda/login']);
+    } else if (system === 'ADMINISTRADOR') {
+      this.router.navigate(['/administrador/login']);
+    } else {
+      this.router.navigate(['/']); // Caso o sistema não seja reconhecido
+    }
+  }
+
+  setCurrentSystem(system: string): void {
+    this.currentSystem = system;
+  }
+
+  getCurrentSystem(): string {
+    return this.currentSystem;
   }
 
   //Adiciona token

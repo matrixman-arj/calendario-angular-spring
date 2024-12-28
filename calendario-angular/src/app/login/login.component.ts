@@ -28,27 +28,38 @@ export class LoginComponent implements OnInit {
   // router = inject(Router);
   hide = true;
 
-  loginService = inject(LoginService);
+  // loginService = inject(LoginService);
 
   @Input() error: string | null | undefined;
 
   @Output() submitEM = new EventEmitter();
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private loginService: LoginService
+
+  ) {
     this.loginService.removerToken();
   }
+
+
   ngOnInit(): void {
     const systemType = this.route.snapshot.url[0]?.path; // Obtém a parte da URL
     if (systemType === 'sisgepess') {
       this.siglaSistema = 'SISGEPESS';
       this.descricaoSistema = 'Sistema de Gestão de Pessoal';
+
     } else if (systemType === 'sisagenda') {
       this.siglaSistema = 'SISAGENDA';
       this.descricaoSistema = 'Sistema de Agendamento';
-    } else {
+
+    } else if (systemType === 'administrador') {
       this.siglaSistema = 'ADMINISTRADOR';
       this.descricaoSistema = 'Administrador do Sistema';
     }
+    // Define o sistema atual no LoginService
+    this.loginService.setCurrentSystem(this.siglaSistema);
   }
 
   form: FormGroup = new FormGroup({

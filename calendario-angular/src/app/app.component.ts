@@ -49,11 +49,6 @@ export class AppComponent implements OnInit {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  // Verifica se o usuário está logado
-  // isLoggedIn(): boolean {
-  //   return this.getToken() !== null;
-  // }
-
   navigateTo(path: string): void {
     this.router.navigate([`/${path}`]);
   }
@@ -65,19 +60,9 @@ export class AppComponent implements OnInit {
     console.log('Available Routes:', this.router.config);
   }
 
-
   // Método de logout
   logout() {
-    this.loginService.removerToken(); // Executa logout
-    this.router.navigate(['/login']); // Redireciona para a página de login
+    this.loginService.logout();
   }
-
-  // logout(): void {
-  //   const login: Login = { username: '', password: '' };
-  //   this.loginService.logar(login).subscribe(() => {
-  //     // Handle successful logout
-  //   });
-  // }
-
 
 }
