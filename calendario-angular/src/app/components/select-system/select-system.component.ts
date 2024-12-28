@@ -19,7 +19,17 @@ export class SelectSystemComponent {
       this.router.navigate(['/sisgepess/login']);
     } else if (system === 'sisagenda') {
       this.router.navigate(['/sisagenda/login']);
+    } else if (system === 'administrador') {
+      this.router.navigate(['/administrador/login']);
     }
   }
+
+  // navigateTo(system: string): void {
+  //   if (system === 'sisgepess') {
+  //     this.router.navigate(['/sisgepess/login']);
+  //   } else if (system === 'sisagenda') {
+  //     this.router.navigate(['/sisagenda/login']);
+  //   }
+  // }
 
 }

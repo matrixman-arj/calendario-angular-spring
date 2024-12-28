@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Login } from './auth/login';
 import { LoginService } from './auth/login.service';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,11 +17,15 @@ import { MatButtonModule } from '@angular/material/button';
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule, FormsModule, ReactiveFormsModule, CommonModule, MatIconModule, MatCardModule]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
-  login: Login = new Login();
+  siglaSistema: string = '';
+  descricaoSistema: string = '';
+  login = { username: '', password: '' };
 
-  router = inject(Router);
+  // login: Login = new Login();
+
+  // router = inject(Router);
   hide = true;
 
   loginService = inject(LoginService);
@@ -30,8 +34,21 @@ export class LoginComponent {
 
   @Output() submitEM = new EventEmitter();
 
-  constructor() {
+  constructor(private route: ActivatedRoute, private router: Router) {
     this.loginService.removerToken();
+  }
+  ngOnInit(): void {
+    const systemType = this.route.snapshot.url[0]?.path; // Obtém a parte da URL
+    if (systemType === 'sisgepess') {
+      this.siglaSistema = 'SISGEPESS';
+      this.descricaoSistema = 'Sistema de Gestão de Pessoal';
+    } else if (systemType === 'sisagenda') {
+      this.siglaSistema = 'SISAGENDA';
+      this.descricaoSistema = 'Sistema de Agendamento';
+    } else {
+      this.siglaSistema = 'ADMINISTRADOR';
+      this.descricaoSistema = 'Administrador do Sistema';
+    }
   }
 
   form: FormGroup = new FormGroup({
@@ -40,12 +57,19 @@ export class LoginComponent {
 
   });
 
-  logar() {
+  logar(): void {
     this.loginService.logar(this.login).subscribe({
       next: token => {
         if (token) {
+          // Adiciona o token ao armazenamento local ou sessão
           this.loginService.addToken(token);
-          this.router.navigate(['/pessoas']);
+
+          // Redireciona baseado no sistema selecionado
+          if (this.siglaSistema === 'SISGEPESS' || this.siglaSistema === 'ADMINISTRADOR') {
+            this.router.navigate(['/pessoas']);
+          } else if (this.siglaSistema === 'SISAGENDA') {
+            this.router.navigate(['/auditorios/new']);
+          }
         } else {
           alert('Usuário ou senha inválidos');
         }
@@ -55,6 +79,36 @@ export class LoginComponent {
       }
     });
   }
+
+
+  // logar(): void {
+  //   // Autenticação simulada
+  //   if (this.login.username && this.login.password) {
+  //     if (this.siglaSistema === 'SISGEPESS' || this.siglaSistema === 'ADMINISTRADOR') {
+  //       this.router.navigate(['/pessoas']); // Redireciona para tabela de pessoas
+  //     } else if (this.siglaSistema === 'SISAGENDA') {
+  //       this.router.navigate(['/auditorios/new']); // Redireciona para auditorio/new
+  //     }
+  //   } else {
+  //     alert('Por favor, preencha todos os campos!');
+  //   }
+  // }
+
+  // logar() {
+  //   this.loginService.logar(this.login).subscribe({
+  //     next: token => {
+  //       if (token) {
+  //         this.loginService.addToken(token);
+  //         this.router.navigate(['/pessoas']);
+  //       } else {
+  //         alert('Usuário ou senha inválidos');
+  //       }
+  //     },
+  //     error: () => {
+  //       alert('Usuário ou senha inválidos');
+  //     }
+  //   });
+  // }
 
 
   // logar() {

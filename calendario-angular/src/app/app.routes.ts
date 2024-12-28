@@ -4,11 +4,18 @@ import { CustomSidenavComponent } from './components/custom-sidenav/custom-siden
 import { LoginComponent } from './login/login.component';
 import { PessoasInativasComponent } from './pessoas/components/pessoas-inativas/pessoas-inativas.component';
 import { UsuariosComponent } from './usuarios/containers/usuarios/usuarios.component';
+import { SelectSystemComponent } from './components/select-system/select-system.component';
 
 export const APP_ROUTES: Routes = [
-  { path: '', component: LoginComponent }, // Define LoginComponent como página inicial
+  // { path: '', component: LoginComponent }, // Define LoginComponent como página inicial
 
   // { path: '', pathMatch: 'full', redirectTo: 'pessoas' }, // Redireciona para "pessoas"
+
+  { path: '', component: SelectSystemComponent },
+  { path: 'sisgepess/login', component: LoginComponent },
+  { path: 'sisagenda/login', component: LoginComponent },
+  { path: 'administrador/login', component: LoginComponent },
+
 
 
   {
