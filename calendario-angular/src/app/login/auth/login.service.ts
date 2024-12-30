@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { jwtDecode, JwtPayload } from "jwt-decode";
-import { Login } from './login';
-import { Usuario } from './usuario';
+import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { jwtDecode } from "jwt-decode";
+import { BehaviorSubject, Observable } from 'rxjs';
+import { CustomJwtPayload } from './customjwtpayload';
+import { Login } from './login';
 
 @Injectable({
   providedIn: 'root'
@@ -81,10 +81,12 @@ export class LoginService {
   jwtDecode() {
     let token = localStorage.getItem(this.TOKEN_KEY);
     if (token) {
-      return jwtDecode<JwtPayload>(token);
+      return jwtDecode<CustomJwtPayload>(token);
     }
     return null;
   }
+
+
 
   // jwtDecode() {
   //   let token = this.getToken();
@@ -94,13 +96,22 @@ export class LoginService {
   //   return "";
   // }
 
-  hasPermission(role: string) {
-    let user = this.jwtDecode() as Usuario;
-    if (user.role == role)
-      return true;
-    else
-      return false;
+  hasPermission(role: string): boolean {
+  const payload = this.jwtDecode(); // Decodifica o token JWT
+  if (payload && payload['role']) { // Supondo que "role" está no payload
+    return payload['role'] === role;
   }
+  return false;
+}
+
+
+  // hasPermission(role: string) {
+  //   let user = this.jwtDecode() as Usuario;
+  //   if (user.role == role)
+  //     return true;
+  //   else
+  //     return false;
+  // }
 
   // Verifica se há token armazenado
   hasToken(): boolean {

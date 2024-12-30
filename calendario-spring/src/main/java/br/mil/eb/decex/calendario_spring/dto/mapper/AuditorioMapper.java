@@ -18,7 +18,8 @@ public class AuditorioMapper {
                                   auditorio.getDataFim(), auditorio.getHoraInicio(), 
                                   auditorio.getHoraFim(), auditorio.getAcessorios(), 
                                   auditorio.getAudiencia(), auditorio.getEvento(), 
-                                  auditorio.getDiex(), auditorio.getMilitarLigacao());
+                                  auditorio.getDiex(), auditorio.getMilitarLigacao(),
+                                  auditorio.isConfirmado(), auditorio.getCor(), auditorio.getSimbolo());
     }
 
     public Auditorio toEntity(AuditorioDTO auditorioDTO){

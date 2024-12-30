@@ -70,6 +70,16 @@ public class Auditorio {
     @Column
     private String militarLigacao;
 
+    @Column
+    private boolean confirmado = false; // Indica se o agendamento foi confirmado.
+
+    @Column
+    private String cor = "#FF0000";     // Cor padrão para agendamento pendente.
+
+    @Column
+    private String simbolo = "⚠️";      // Simbolo de alerta para pendentes.
+
+
 
 
     public Long getId() {
@@ -165,6 +175,32 @@ public class Auditorio {
 
     public void setMilitarLigacao(String militarLigacao) {
         this.militarLigacao = militarLigacao;
+    }
+
+    
+
+    public boolean isConfirmado() {
+        return confirmado;
+    }
+
+    public void setConfirmado(boolean confirmado) {
+        this.confirmado = confirmado;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
+
+    public String getSimbolo() {
+        return simbolo;
+    }
+
+    public void setSimbolo(String simbolo) {
+        this.simbolo = simbolo;
     }
 
     @Override

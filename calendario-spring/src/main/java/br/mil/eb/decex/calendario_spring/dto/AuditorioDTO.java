@@ -34,6 +34,12 @@ public record AuditorioDTO(
 
         String diex,
 
-        String militarLigacao
+        String militarLigacao,
+
+        boolean confirmado, // Indica o status do agendamento
+
+        String cor,         // Cor do agendamento
+        
+        String simbolo      // Simbolo de alerta
         
         ) {       }

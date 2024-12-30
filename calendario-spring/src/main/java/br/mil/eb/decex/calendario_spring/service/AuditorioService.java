@@ -98,6 +98,10 @@ public class AuditorioService {
     
         // Mapeie o DTO para a entidade Auditorio
         Auditorio auditorio = auditorioMapper.toEntity(auditorioDTO);
+
+        auditorio.setConfirmado(false);
+        auditorio.setCor("#FF0000");
+        auditorio.setSimbolo("⚠️");
         
         // Associe as entidades que já estão salvas
         auditorio.setPessoa(pessoa);
@@ -105,7 +109,19 @@ public class AuditorioService {
     
         // Salve o auditorio
         return auditorioMapper.toDTO(auditorioRepository.save(auditorio));
-    }    
+    } 
+    
+    public AuditorioDTO confirmarAgendamento(Long id) {
+        return auditorioRepository.findById(id)
+            .map(auditorio -> {
+                auditorio.setConfirmado(true);
+                auditorio.setCor("#00FF00"); // Alterar a cor para verde
+                auditorio.setSimbolo("");   // Remover símbolo de alerta
+                return auditorioMapper.toDTO(auditorioRepository.save(auditorio));
+            })
+            .orElseThrow(() -> new RecordNotFoundException(id));
+    }
+    
 
     public AuditorioDTO update(@NotNull @Positive Long id, @Valid AuditorioDTO auditorio) {
         return auditorioRepository.findById(id)

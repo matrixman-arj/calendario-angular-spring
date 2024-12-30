@@ -73,6 +73,12 @@ public class AuditorioController {
         return ResponseEntity.ok(Acessorios.values());
     }
 
+    @PutMapping("/{id}/confirmar")
+    public AuditorioDTO confirmar(@PathVariable @NotNull @Positive Long id) {
+        return auditorioService.confirmarAgendamento(id);
+    }
+
+
     @GetMapping ("/{id}")
     public AuditorioDTO findById(@PathVariable @NotNull @Positive Long id){
         return auditorioService.findById(id);

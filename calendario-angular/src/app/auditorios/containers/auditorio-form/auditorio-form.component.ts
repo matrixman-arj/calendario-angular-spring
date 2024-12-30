@@ -1,15 +1,15 @@
 import { Component, computed, ElementRef, EventEmitter, Input, input, InputSignal, OnInit, Output, signal, Signal, ViewChild, WritableSignal } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
 import { AuditoriosService } from '../../services/auditorios.service';
 
-import { Location, NgClass } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIcon } from '@angular/material/icon';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -22,13 +22,14 @@ import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 import { DateTime } from 'luxon';
 import { catchError, Observable, of } from 'rxjs';
 import { Assessoria } from '../../../assessorias/model/assessoria';
-import { AssessoriasService } from '../../../assessorias/services/assessorias.service';
 import { Pessoa } from '../../../pessoas/model/pessoa';
-import { PessoasService } from '../../../pessoas/services/pessoas.service';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
+
+import { LoginService } from '../../../login/auth/login.service';
 import { Auditorio } from '../../modelo/Auditorio';
 import { AuditorioModalComponent } from './auditorio-modal/auditorio-modal.component';
 import { Meetings } from './meetings.interface';
+
 
 
 @Component({
@@ -43,10 +44,16 @@ import { Meetings } from './meetings.interface';
     MatIcon,
     ResizableModule,
     DragAndDropModule,
-    NgClass
+    NgClass,
+    CommonModule,
+
+    MatCheckboxModule,
+    FormsModule,
 ],
 })
 export class AuditorioFormComponent implements OnInit {
+
+isAdmin: boolean = false;
 
 isResizing: boolean = false;
 startX: number = 0; // Coordenada inicial para calcular o redimensionamento
@@ -352,15 +359,14 @@ endResize(event: MouseEvent, auditorio: Auditorio) {
   @Output() add = new EventEmitter(false);
 
   constructor( private readonly http: HttpClient,
+
     private readonly formBuilder: UntypedFormBuilder,
     private readonly service: AuditoriosService,
+    private loginService: LoginService,
     // private auditorioModalService: AuditorioModalService,
     private readonly snackBar: MatSnackBar,
     private readonly dialog: MatDialog,
-    private readonly location: Location,
-    private readonly route: ActivatedRoute,
-    private readonly assessoriasService: AssessoriasService,
-    private readonly pessoasService: PessoasService,
+
 
   ) {
 
@@ -390,6 +396,9 @@ endResize(event: MouseEvent, auditorio: Auditorio) {
     this.auditorios2 = this.mapAuditoriosPorData(dataInicio);
     console.log('Auditorios carregados:', this.auditorios2); // Adicione este log
   });
+
+  // Verifique o papel do usuário (você pode obter isso de um serviço de autenticação)
+  this.isAdmin = this.loginService.hasPermission('ROLE_ADMINISTRADOR') || this.loginService.hasPermission('ROLE_AGENDAMENTO');
 
 }
 

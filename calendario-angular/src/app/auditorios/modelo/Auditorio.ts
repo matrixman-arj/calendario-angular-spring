@@ -16,5 +16,7 @@ export interface Auditorio {
   evento?: string;
   diex?: string;
   militarLigacao?: string
+  cor: string;
+  confirmado: boolean; // Added property
 
 }

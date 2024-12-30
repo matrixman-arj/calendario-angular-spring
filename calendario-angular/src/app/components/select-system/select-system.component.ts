@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { BrowserModule } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { LoginService } from '../../login/auth/login.service';
 
 @Component({
   selector: 'app-select-system',
@@ -10,9 +10,18 @@ import { Router } from '@angular/router';
   standalone: true,
     imports: [ MatCardModule,]
 })
-export class SelectSystemComponent {
+export class SelectSystemComponent implements OnInit {
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private loginService: LoginService
+
+  ) {}
+
+  ngOnInit(): void {
+    // Remove o token e define o estado de login como deslogado
+    this.loginService.removerToken();
+  }
 
   navigateTo(system: string): void {
     if (system === 'sisgepess') {

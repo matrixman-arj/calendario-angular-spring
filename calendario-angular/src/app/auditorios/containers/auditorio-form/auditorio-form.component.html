@@ -75,10 +75,19 @@
               <div class="calendar-grid-cell-day-number"  (click)="openAuditorioModal(dayOfMonth)">
                 {{ dayOfMonth.day }}
               </div>
+              <div *ngIf="isAdmin">
+                <mat-checkbox [(ngModel)]="auditorio.confirmado">
+                  Confirmar Agendamento
+                </mat-checkbox>
+                <small *ngIf="!auditorio.confirmado">O agendamento ainda está pendente.</small>
+                <small *ngIf="auditorio.confirmado">O agendamento está confirmado.</small>
+              </div>
+
               <!-- Exibir auditorios para o dia -->
               @for (auditorio of getAuditoriosForDay(dayOfMonth); track auditorio) {
                 <div
                   class="calendar-event"
+                  [ngStyle]="{'background-color': auditorio.cor}"
                   mwlDroppable
                   [dragOverClass]="'calendar-cell-over'"
                   (drop)="handleDrop($event, dayOfMonth)"

@@ -52,6 +52,11 @@ export class AuditoriosService {
     return this.httpClient.get<AuditorioPage>('/api/auditorios/search-agenda', { params });
   }
 
+  updateAgendamento(id: number, auditorio: any): Observable<any> {
+    return this.httpClient.put(`/api/auditorios/${id}`, auditorio);
+  }
+
+
   getAllAuditorios(pageSize: number, pageIndex: number): Observable<AuditorioPage> {
     const params = new HttpParams()
       .set('page', pageIndex.toString())
