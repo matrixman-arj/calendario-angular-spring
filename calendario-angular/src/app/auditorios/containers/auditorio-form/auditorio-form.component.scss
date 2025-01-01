@@ -202,7 +202,7 @@ mat-card {
 
 /* #11# Aqui inicia o bloco de estilo para diferenciar as datas do mês anterior e posterior */
 .calendar-grid-cell-inactive {
-  color: #999999;
+  color: white; /* Altera a cor do texto do agendamento para branco */
 }
 /* Aqui finaliza o bloco de estilo para diferenciar as datas do mês anterior e posterior */
 /*########################################################################################*/

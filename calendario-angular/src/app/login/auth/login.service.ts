@@ -104,6 +104,14 @@ export class LoginService {
   return false;
 }
 
+getCurrentUser(): CustomJwtPayload | null {
+  const token = this.getToken();
+  if (token) {
+      return this.jwtDecode();
+  }
+  return null;
+}
+
 
   // hasPermission(role: string) {
   //   let user = this.jwtDecode() as Usuario;

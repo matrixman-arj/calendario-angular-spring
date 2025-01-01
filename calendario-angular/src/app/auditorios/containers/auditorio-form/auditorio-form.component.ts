@@ -53,6 +53,8 @@ import { Meetings } from './meetings.interface';
 })
 export class AuditorioFormComponent implements OnInit {
 
+// auditorios: any[] = [];
+
 isAdmin: boolean = false;
 
 isResizing: boolean = false;
@@ -366,6 +368,7 @@ endResize(event: MouseEvent, auditorio: Auditorio) {
     // private auditorioModalService: AuditorioModalService,
     private readonly snackBar: MatSnackBar,
     private readonly dialog: MatDialog,
+    private auditorioService: AuditoriosService,
 
 
   ) {
@@ -392,13 +395,19 @@ endResize(event: MouseEvent, auditorio: Auditorio) {
 
   ngOnInit(): void {
   // Carrega os auditorios do servidor
-  this.http.get<Auditorio[]>('/api/auditorios').subscribe(dataInicio => {
-    this.auditorios2 = this.mapAuditoriosPorData(dataInicio);
-    console.log('Auditorios carregados:', this.auditorios2); // Adicione este log
-  });
+  this.loadAuditorios();
 
   // Verifique o papel do usuário (você pode obter isso de um serviço de autenticação)
   this.isAdmin = this.loginService.hasPermission('ROLE_ADMINISTRADOR') || this.loginService.hasPermission('ROLE_AGENDAMENTO');
+
+}
+
+loadAuditorios(): void {
+
+  this.auditorioService.list().subscribe((data: any[]) => {
+    this.auditorios2 = this.mapAuditoriosPorData(data);
+    console.log('Auditorios carregados:', this.auditorios2); // Adicione este log
+   });
 
 }
 
@@ -481,6 +490,7 @@ openAuditorioModal(day: DateTime, auditorio?: Auditorio): void {
         Object.assign(auditorio, result);
         this.service.save(auditorio).subscribe(() => {
           this.refreshCalendar();
+          this.loadAuditorios(); // Recarrega os dados após a confirmação
         });
       }
     });
@@ -499,6 +509,7 @@ openAuditorioModal(day: DateTime, auditorio?: Auditorio): void {
         // Adiciona o novo auditorio
         this.service.save(result).subscribe(() => {
           this.refreshCalendar();
+          this.loadAuditorios(); // Recarrega os dados após a confirmação
         });
       }
     });

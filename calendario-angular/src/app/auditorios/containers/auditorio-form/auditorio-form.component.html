@@ -87,7 +87,7 @@
               @for (auditorio of getAuditoriosForDay(dayOfMonth); track auditorio) {
                 <div
                   class="calendar-event"
-                  [ngStyle]="{'background-color': auditorio.cor}"
+                  [ngStyle]="{'background-color': auditorio.confirmado ? 'green' : 'red'}"
                   mwlDroppable
                   [dragOverClass]="'calendar-cell-over'"
                   (drop)="handleDrop($event, dayOfMonth)"
@@ -96,6 +96,9 @@
                   [dragAxis]="{x: true, y: true}"
                   (click)="openAuditorioModal(dayOfMonth, auditorio); $event.stopPropagation()">
                   {{ auditorio.horaInicio }} - {{ auditorio.horaFim }} | {{ auditorio.assessoria.sigla }}
+                  @if(auditorio.confirmado.toString() === 'false') {
+                    <mat-icon style="color: yellow;">warning</mat-icon>
+                  }
                 </div>
               }
             </div>

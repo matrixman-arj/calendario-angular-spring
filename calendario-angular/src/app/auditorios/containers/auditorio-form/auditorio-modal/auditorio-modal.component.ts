@@ -20,6 +20,7 @@ import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { MatInput } from '@angular/material/input';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { LoginService } from '../../../../login/auth/login.service';
 
 
 @Component({
@@ -31,6 +32,8 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 })
 export class AuditorioModalComponent implements OnInit {
 
+  isAdmin: boolean = false;
+
   isHidden: boolean = true;
 
   form: UntypedFormGroup;
@@ -39,6 +42,7 @@ export class AuditorioModalComponent implements OnInit {
 
   @Output() add = new EventEmitter(false);
   @Output() edit = new EventEmitter(false);
+  @Output() onAgendamentoConfirmado: EventEmitter<void> = new EventEmitter<void>();
 
   pessoas: Pessoa [] = [];
   assessorias: Assessoria [] = [];
@@ -53,7 +57,7 @@ export class AuditorioModalComponent implements OnInit {
 
   constructor(
     private formBuilder: UntypedFormBuilder,
-    @Inject(AuditoriosService) private auditoriosService: AuditoriosService,
+    private auditoriosService: AuditoriosService,
     private assessoriasService: AssessoriasService,
     private pessoasService: PessoasService,
     private snackBar: MatSnackBar,
@@ -61,7 +65,8 @@ export class AuditorioModalComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     public dialogRef: MatDialogRef<AuditorioModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { auditorio: Auditorio, date: Date }
+    @Inject(MAT_DIALOG_DATA) public data: { auditorio: Auditorio, date: Date },
+    private loginService: LoginService
   ) {
     // Inicializa `this.dateHoje` com a data atual
   this.dateSelecionada = this.data.date.toLocaleString(); // Usando Luxon para obter a data atual em formato ISO
@@ -116,6 +121,11 @@ export class AuditorioModalComponent implements OnInit {
 
 
   ngOnInit(): void {
+    const user = this.loginService.getCurrentUser();
+    if (user) {
+        this.isAdmin = user.role === 'ADMINISTRADOR' || user.role === 'AGENDAMENTO';
+    }
+    this.checkAdminRole();
     // Verifique se o auditorio foi passado
   const auditorio: Auditorio | undefined = this.data.auditorio;
   this.dateSelecionada = this.data.date.toLocaleString(); // Usando Luxon para obter a data atual em formato ISO
@@ -172,6 +182,41 @@ export class AuditorioModalComponent implements OnInit {
       this.pessoasOriginais = [...data]; // Clona os dados originais
     });
   }
+
+  checkAdminRole(): void {
+    const user = this.loginService.getCurrentUser(); // Substitua pelo método que retorna o usuário atual
+    this.isAdmin = user?.role === 'ADMINISTRADOR' || user?.role === 'AGENDAMENTO';
+  }
+
+  confirmarAgendamento(): void {
+    const agendamentoId = this.form.value._id; // Certifique-se de que o 'id' está preenchido
+    if (!agendamentoId) {
+        console.error('Agendamento ID está indefinido.');
+        return;
+    }
+    this.auditoriosService.confirmarAgendamento(agendamentoId).subscribe({
+        next: () => {
+            console.log('Agendamento confirmado com sucesso!');
+            this.onAgendamentoConfirmado.emit(); // Emite o evento de confirmação para o componente pai que é o auditorio-form
+            this.dialogRef.close();
+
+
+        },
+        error: (err) => {
+            console.error('Erro ao confirmar agendamento:', err);
+        },
+    });
+}
+
+
+  // confirmarAgendamento(): void {
+  //   const agendamentoId = this.form.value.id;
+  //   this.auditoriosService.confirmarAgendamento(agendamentoId).subscribe(() => {
+  //     this.form.patchValue({ confirmado: true });
+  //     this.dialogRef.close();
+  //   });
+  // }
+
 
   // Escutar mudanças no campo 'pessoa'
 onPessoaChange(pessoaId: string): void {

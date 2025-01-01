@@ -56,6 +56,11 @@ export class AuditoriosService {
     return this.httpClient.put(`/api/auditorios/${id}`, auditorio);
   }
 
+  confirmarAgendamento(id: number): Observable<void> {
+    return this.httpClient.put<void>(`/api/auditorios/${id}/confirmar`, {});
+  }
+
+
 
   getAllAuditorios(pageSize: number, pageIndex: number): Observable<AuditorioPage> {
     const params = new HttpParams()
