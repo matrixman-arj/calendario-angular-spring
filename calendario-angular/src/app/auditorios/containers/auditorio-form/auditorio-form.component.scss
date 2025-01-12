@@ -1,7 +1,7 @@
 /* #1# Aqui inicia o bloco de estilos do mat-card que recebe o calendário */
 mat-card {
-  max-width: 98%; /* O card pode ocupar até 100% da largura do contêiner pai */
-  height: 95%; /* Ajusta a altura conforme o conteúdo */
+  max-width: auto; /* O card pode ocupar até 100% da largura do contêiner pai */
+  height: auto; /* Ajusta a altura conforme o conteúdo */
   margin: 0 auto; /* Centraliza o card horizontalmente */
   overflow: hidden; /* Impede que o conteúdo exceda o tamanho do card */
   padding: 16px; /* Padding para manter o layout limpo */
@@ -64,7 +64,6 @@ mat-card {
 }
 /* Aqui finaliza o bloco de estilos com cabeçalho do calendário mostrando os dias da semana */
 /*########################################################################################*/
-
 /* #5# Aqui inicia o bloco de estilos com os espaços das datas */
 .calendar-grid {
   display: grid;
@@ -171,9 +170,9 @@ mat-card {
 
 /* #9# Aqui inicia o bloco de estilo para destacar o dia atual */
 .calendar-grid-cell-today {
-  background-color: #64b2df; /* Altere a cor de fundo para realçar */
+  background-color: #f0e5b4; /* Altere a cor de fundo para realçar */
   border: 1px solid #26c6da; /* Altere a cor da borda */
-  color: #f9f9f9;
+  color: #1d1b1b;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adicione uma sombra para um efeito de elevação */
 }
 /*  Aqui finaliza o bloco de estilo para destacar o dia atual */
@@ -202,12 +201,12 @@ mat-card {
 
 /* #11# Aqui inicia o bloco de estilo para diferenciar as datas do mês anterior e posterior */
 .calendar-grid-cell-inactive {
-  color: white; /* Altera a cor do texto do agendamento para branco */
+  color: #999999;
 }
 /* Aqui finaliza o bloco de estilo para diferenciar as datas do mês anterior e posterior */
 /*########################################################################################*/
 
-/* #12# Aqui inicia o bloco de estilo, onde são exibidos os auditorios */
+/* #12# Aqui inicia o bloco de estilo, onde são exibidos os videoConferencias */
 // .calendar-event {
 //   background-color: rgba(0, 123, 255, 0.1);
 //   padding: 5px;
@@ -278,7 +277,7 @@ mat-card {
 }
 
 
-/* Aqui finaliza o bloco de estilo, onde são exibidos os auditorios */
+/* Aqui finaliza o bloco de estilo, onde são exibidos os videoConferencias */
 /*########################################################################################*/
 
 // .calendar-event {

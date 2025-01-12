@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="calendar-card">
   <mat-card-content>
     <div class="calendar-container">
       <div class="calendar">
@@ -30,7 +30,7 @@
           <div class="calendar-headline-controls">
             <div class="calendar-headline-control" (click)="goToPreviousMonth()">
               <button mat-button (click)="previousMonth()">
-                <mat-icon color="primary">navigate_before</mat-icon>
+                <mat-icon style="color: white;">navigate_before</mat-icon>
               </button>
             </div>
 
@@ -40,7 +40,7 @@
 
             <div class="calendar-headline-control" (click)="goToNextMonth()">
               <button mat-button (click)="nextMonth()">
-                <mat-icon color="primary">navigate_next</mat-icon>
+                <mat-icon style="color: white;">navigate_next</mat-icon>
               </button>
             </div>
           </div>
@@ -64,12 +64,12 @@
               mwlDroppable
               (drop)="onDrop($event, dayOfMonth)"
               class="calendar-grid-cell"
-          [ngClass]="{
-            'calendar-grid-cell': true,
-            'calendar-grid-cell-active': diaAtivo()?.toISODate() === dayOfMonth.toISODate(),
-            'calendar-grid-cell-inactive': dayOfMonth.month !== primeiroDiaDoMesAtivo().month,
-            'calendar-grid-cell-today': dayOfMonth.toISODate() === hoje().toISODate()
-          }"
+              [ngClass]="{
+                'calendar-grid-cell': true,
+                'calendar-grid-cell-active': diaAtivo()?.toISODate() === dayOfMonth.toISODate(),
+                'calendar-grid-cell-inactive': dayOfMonth.month !== primeiroDiaDoMesAtivo().month,
+                'calendar-grid-cell-today': dayOfMonth.toISODate() === hoje().toISODate()
+              }"
               (click)="openAuditorioModal(dayOfMonth)">
               <!-- Contêiner para o número do dia -->
               <div class="calendar-grid-cell-day-number"  (click)="openAuditorioModal(dayOfMonth)">
