@@ -4,14 +4,15 @@ import { first, Observable } from 'rxjs';
 import { VideoConferencia } from '../modelo/VideoConferencia';
 
 import { VideoConferenciaPage } from '../modelo/videoConferencia-page';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VideoConferenciasService {
 
-  private readonly API = '/api/videoConferencias';
-  private readonly APIPESQ = 'api/videoConferencias/search';
+  private readonly API = `${environment.apiUrl}/api/videoConferencias`;
+  private readonly APIPESQ = `${environment.apiUrl}api/videoConferencias/search`;
 
   constructor(private readonly httpClient: HttpClient) { }
 

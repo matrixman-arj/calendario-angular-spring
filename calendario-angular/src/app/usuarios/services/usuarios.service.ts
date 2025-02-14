@@ -4,14 +4,15 @@ import { HttpClient } from '@angular/common/http';
 import { first, Observable, } from 'rxjs';
 import { Usuario } from '../model/usuario';
 import { UsuarioPage } from '../model/usuario-page';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuariosService {
 
-  private readonly API = 'api/usuarios';
-  private readonly APIPESQ = 'api/usuarios/search';
+  private readonly API = `${environment.apiUrl}api/usuarios`;
+  private readonly APIPESQ = `${environment.apiUrl}api/usuarios/search`;
 
   constructor(
     private readonly httpClient: HttpClient

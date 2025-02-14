@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { first, Observable } from 'rxjs';
 import { Agendamento } from '../../agendamentos/modelo/Agendamento';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { Agendamento } from '../../agendamentos/modelo/Agendamento';
 })
 export class CalendariosService {
 
-  private readonly API = '/api/calendarios';
+  private readonly API = `${environment.apiUrl}/api/calendarios`;
 
   constructor(private httpClient: HttpClient) { }
 

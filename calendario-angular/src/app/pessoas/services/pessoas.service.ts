@@ -5,14 +5,15 @@ import { HttpClient } from '@angular/common/http';
 import { first, Observable, } from 'rxjs';
 import { Assessoria } from '../../assessorias/model/assessoria';
 import { PessoaPage } from '../model/pessoa-page';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PessoasService {
 
-  private readonly API = 'api/pessoas';
-  private readonly APIPESQ = 'api/pessoas/search';
+  private readonly API = `${environment.apiUrl}api/pessoas`;
+  private readonly APIPESQ = `${environment.apiUrl}api/pessoas/search`;
 
   constructor(
     private readonly httpClient: HttpClient

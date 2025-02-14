@@ -4,14 +4,15 @@ import { first, Observable } from 'rxjs';
 import { Auditorio } from '../modelo/Auditorio';
 
 import { AuditorioPage } from '../modelo/auditorio-page';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuditoriosService {
 
-  private readonly API = '/api/auditorios';
-  private readonly APIPESQ = 'api/auditorios/search';
+  private readonly API = `${environment.apiUrl}api/auditorios`;
+  private readonly APIPESQ = `${environment.apiUrl}api/auditorios/search`;
 
   constructor(private readonly httpClient: HttpClient) { }
 
