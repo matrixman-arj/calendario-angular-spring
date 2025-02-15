@@ -6,7 +6,7 @@ import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterOutlet } from '@angular/router';
 import { ResizeEvent } from 'angular-resizable-element';
 import { PessoasService } from './pessoas/services/pessoas.service';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { CustomSidenavComponent } from "./components/custom-sidenav/custom-sidenav.component";
@@ -18,7 +18,7 @@ import { LoginService } from './login/auth/login.service';
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
     standalone: true,
-    imports: [MatToolbar, MatToolbarModule, RouterOutlet, MatSidenavModule, MatListModule, MatButtonModule, MatIconModule,  CustomSidenavComponent, CommonModule]
+    imports: [MatToolbar, MatToolbarModule, RouterOutlet, MatSidenavModule, MatListModule, MatButtonModule, MatIconModule,  CustomSidenavComponent, CommonModule, MatTooltipModule]
 })
 export class AppComponent implements OnInit {
 

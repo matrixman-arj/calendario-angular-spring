@@ -1,143 +1,83 @@
-mat-table {
+/* 🔹 Estilização da Tabela */
+.modern-card {
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  background-color: #f8f9fa;
+}
+
+.modern-table {
   width: 100%;
 }
 
-.mat-mdc-form-field {
+/* 🔹 Cabeçalho da Tabela */
+.column-header {
+  font-weight: bold;
   font-size: 14px;
-  width: 100%;
+  text-transform: uppercase;
+  background-color: #eeeeee;
+  padding: 12px;
+  color: #333;
 }
 
-mat-cell, mat-header-cell {
-  text-align: center;
-  justify-content: center;
+/* 🔹 Imagem de Perfil */
+.img-profile {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.buton-add {
-  position: absolute;
-  // width: 10px;
-  // height: 10px;
-  align-content: center;
-  background-color: rgb(36, 169, 36);
-  text-size-adjust: 12px;
-  // text-align: center;
-}
-
-
-// mat-table {
-//   max-width: 100%;
-//   overflow: auto;
-//   max-height: 600px;
-//   margin: auto;
-//   background-color: rgb(248, 243, 238);
-
-// }
-
-// mat-header-cell, mat-cell {
-//   text-align: center; /* Centraliza o texto */
-//   justify-content: center; /* Centraliza o conteúdo flex */
-// }
-
-// .action-column {
-//   flex: 0 0 285px;
-// }
-
-// .action-column-header {
-//   margin: 0 auto;
-// }
-
-// .column-header-foto {
-//   flex: 0 0 100px;
-// }
-
-// .column-foto {
-//   flex: 0 0 100px;
-// }
-
-// .column-header-idt {
-//   flex: 0 0 260px;
-// }
-
-// .column-idt {
-//   flex: 0 0 260px;
-// }
-
-// .column-header-nome {
-//   flex: 0 0 320px;
-// }
-
-// .column-nome {
-//   flex: 0 0 320px;
-// }
-
-
-// .column-header-nomeGuerra {
-//   flex: 0 0 160px;
-// }
-
-// .column-nomeGuerra {
-//   flex: 0 0 160px;
-// }
-
-
-// .column-header-posto {
-//   flex: 0 0 160px;
-// }
-
-// .column-posto {
-//   flex: 0 0 160px;
-// }
-
-// .column-header-asse {
-//   flex: 0 0 260px;
-// }
-
-// .column-asse {
-//   flex: 0 0 260px;
-// }
-
-// .column-header-ramal {
-//   flex: 0 0 160px;
-// }
-
-// .column-ramal {
-//   flex: 0 0 160px;
-// }
-
-// .action-column-header {
-//   flex: 0 0 125px;
-// }
-
-// .cdk-header-cell {
-//   font-weight: bold;
-// }
-
-a {
-  color: #536dfe;
-  cursor: pointer;
-}
-
-
+/* 🔹 Posto/Graduação */
 .posto-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  gap: 8px;
+  text-align: left;
 }
 
 .img-patente {
-  text-align: right;
   width: 24px;
-  height: 45;
-
+  height: 45px;
 }
 
+.posto-text {
+  font-size: 14px;
+  font-weight: bold;
+}
 
+/* 🔹 Botão de Adicionar */
+.button-add {
+  background-color: #4caf50;
+  color: white;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
 
-/* Define o tamanho fixo da imagem */
-.img-fixed-size {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  width: 50px; /* Largura desejada */
-  height: 70px; /* Altura desejada */
-  object-fit: cover; /* Garante que a imagem preencha o espaço mantendo a proporção */
-  border-radius: 5px; /* Opcional: bordas arredondadas */
+.button-add:hover {
+  background-color: #388e3c;
+}
+
+/* 🔹 Coluna de Ações */
+.action-column {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* 🔹 Responsividade */
+@media (max-width: 768px) {
+  .column-header {
+    font-size: 12px;
+  }
+
+  .posto-text {
+    font-size: 12px;
+  }
+
+  .img-profile {
+    width: 40px;
+    height: 40px;
+  }
 }

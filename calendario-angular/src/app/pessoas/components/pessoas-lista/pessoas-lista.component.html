@@ -1,80 +1,75 @@
-<mat-card>
-  <mat-table  [dataSource]="pessoas">
+<mat-card class="modern-card">
+  <mat-table [dataSource]="pessoas" class="modern-table">
 
-    <!-- Coluna de foto -->
-    <ng-container matColumnDef="caminho" >
-      <mat-header-cell *matHeaderCellDef class="column-header-foto"> Foto </mat-header-cell>
+    <!-- Foto -->
+    <ng-container matColumnDef="caminho">
+      <mat-header-cell *matHeaderCellDef class="column-header">Foto</mat-header-cell>
       <mat-cell *matCellDef="let pessoa" class="column-foto">
-
         @if (pessoa.caminho) {
           <img [src]="pessoa.caminho" (error)="onImageError($event)" alt="Foto de {{pessoa.identidade}}"
-            class="img-fixed-size" />
+            class="img-profile" />
         }
       </mat-cell>
-
     </ng-container>
 
-    <!-- Coluna de identidade -->
+    <!-- Identidade -->
     <ng-container matColumnDef="identidade">
-      <mat-header-cell class="column-header-idt" *matHeaderCellDef> Identidade </mat-header-cell>
-      <mat-cell *matCellDef="let pessoa" class="column-idt"> {{ pessoa.identidade }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef class="column-header">Identidade</mat-header-cell>
+      <mat-cell *matCellDef="let pessoa"> {{ pessoa.identidade }} </mat-cell>
     </ng-container>
 
-    <!-- Coluna de nome -->
+    <!-- Nome -->
     <ng-container matColumnDef="nome">
-      <mat-header-cell class="column-header-nome" *matHeaderCellDef>Nome</mat-header-cell>
-      <mat-cell *matCellDef="let pessoa" class="column-nome"> {{ pessoa.nome }}</mat-cell>
+      <mat-header-cell *matHeaderCellDef class="column-header">Nome</mat-header-cell>
+      <mat-cell *matCellDef="let pessoa"> {{ pessoa.nome }} </mat-cell>
     </ng-container>
 
-     <!-- Coluna de Posto ou grduação -->
-     <ng-container matColumnDef="postoGraduacao">
-      <mat-header-cell *matHeaderCellDef  class="column-header-posto">Posto/Graduação</mat-header-cell>
-      <mat-cell *matCellDef="let pessoa" class="column-posto">
+    <!-- Posto/Graduação -->
+    <ng-container matColumnDef="postoGraduacao">
+      <mat-header-cell *matHeaderCellDef class="column-header">Posto/Graduação</mat-header-cell>
+      <mat-cell *matCellDef="let pessoa">
         <div class="posto-container">
           <img [src]="getPostoImage(pessoa.postoGraduacao)" class="img-patente">
-          <span>{{ pessoa.postoGraduacao }}</span>
+          <span class="posto-text">{{ pessoa.postoGraduacao }}</span>
         </div>
       </mat-cell>
     </ng-container>
 
-    <!-- Coluna de nome de Guerra -->
+    <!-- Nome de Guerra -->
     <ng-container matColumnDef="nomeGuerra">
-      <mat-header-cell class="column-header-nomeGuerra" *matHeaderCellDef>Nome de Guerra</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let pessoa" class="column-nomeGuerra"> {{ pessoa.nomeGuerra }}
-
-      </mat-cell>
+      <mat-header-cell *matHeaderCellDef class="column-header">Nome de Guerra</mat-header-cell>
+      <mat-cell *matCellDef="let pessoa"> {{ pessoa.nomeGuerra }} </mat-cell>
     </ng-container>
 
-    <!-- Coluna de assessoria -->
+    <!-- Assessoria -->
     <ng-container matColumnDef="assessoria">
-      <mat-header-cell class="column-header-asse" *matHeaderCellDef>Assessoria</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let pessoa" class="column-asse"> {{ pessoa.assessoria.sigla }}</mat-cell>
+      <mat-header-cell *matHeaderCellDef class="column-header">Assessoria</mat-header-cell>
+      <mat-cell *matCellDef="let pessoa"> {{ pessoa.assessoria.sigla }} </mat-cell>
     </ng-container>
 
-    <!-- Coluna de ramal -->
+    <!-- Ramal -->
     <ng-container matColumnDef="ramal">
-      <mat-header-cell class="column-header-ramal" *matHeaderCellDef>Ramal</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let pessoa" class="column-ramal"> {{ pessoa.ramal }}</mat-cell>
+      <mat-header-cell *matHeaderCellDef class="column-header">Ramal</mat-header-cell>
+      <mat-cell *matCellDef="let pessoa"> {{ pessoa.ramal }} </mat-cell>
     </ng-container>
 
-    <!-- Coluna de ações -->
+    <!-- Ações -->
     <ng-container matColumnDef="acoes">
-      <mat-header-cell *matHeaderCellDef class="action-column-header">
-        <button class="buton-add" (click)="onAdd()" mat-icon-button color="primary" aria-label="Adicionar uma pessoa">
+      <mat-header-cell *matHeaderCellDef class="column-header action-header">
+        <button class="button-add" (click)="onAdd()" mat-icon-button color="primary">
           <mat-icon>add</mat-icon>
         </button>
       </mat-header-cell>
 
       <mat-cell *matCellDef="let pessoa" class="action-column">
-        <button (click)="onEdit(pessoa)" mat-icon-button color="primary" aria-label="Editar uma pessoa">
+        <button (click)="onEdit(pessoa)" mat-icon-button color="primary">
           <mat-icon>edit</mat-icon>
         </button>
 
-        <button (click)="onDelete(pessoa)" mat-icon-button color="warn" aria-label="Remover pessoa">
+        <button (click)="onDelete(pessoa)" mat-icon-button color="warn">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-cell>
-
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
