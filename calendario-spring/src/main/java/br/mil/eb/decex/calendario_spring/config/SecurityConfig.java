@@ -40,7 +40,8 @@ public class SecurityConfig  {
 				.requestMatchers("/api/register").permitAll()//permite acesso sem autenticação para o usuário se cadastrar.
 				.requestMatchers("/enumerado/**").permitAll() // Permitir acesso público aos enumeradores
 				.requestMatchers("/media/**").permitAll() // Permitir acesso público às imagens
-				.requestMatchers("/api/auditorios/**").permitAll() // Permitir acesso público a tela de auditorios				
+				.requestMatchers("/api/auditorios/**").permitAll() // Permitir acesso público a tela de auditorios	
+				.requestMatchers("/api/pessoas").permitAll()//permite acesso acesso sem autenticação.			
 				// .requestMatchers("/api/{id}/confirmar").permitAll() // Permitir acesso público a lista de pessoas				
 				// .requestMatchers("/api/pessoas/inativas/**").permitAll() // Libera apenas para ADMIN
             	// .requestMatchers("/api/pessoas/reativar/**").hasAuthority("ROLE_ADMINISTRADOR") // Libera o reativar para ADMIN
