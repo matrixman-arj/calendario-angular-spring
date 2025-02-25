@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-
+import { ChangeDetectorRef } from '@angular/core';
 import { Pessoa } from '../../model/pessoa';
 import {  MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
-
+import { CommonModule } from '@angular/common';
 import { PostoGraduacao, PostoGraduacaoList } from '../../../enums/PostoGraduacao/PostoGraduacao';
 import { TipoAcesso, TipoAcessoList } from '../../../enums/TipoAcesso';
 
@@ -10,6 +10,9 @@ import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 
 import { MatCard } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginService } from '../../../login/auth/login.service';
+import { PessoaDetalhesModalComponent } from '../pessoa-detalhes-modal/pessoa-detalhes-modal.component';
 @Component({
     selector: 'app-pessoas-lista',
     templateUrl: './pessoas-lista.component.html',
@@ -19,7 +22,7 @@ import { MatCard } from '@angular/material/card';
               MatHeaderCellDef, MatHeaderCell,
               MatCellDef, MatCell, MatIcon,
               MatIconButton, MatHeaderRowDef,
-              MatHeaderRow, MatRowDef, MatRow
+              MatHeaderRow, MatRowDef, MatRow, CommonModule 
               ]
 })
 export class PessoasListaComponent implements OnInit {
@@ -43,15 +46,38 @@ export class PessoasListaComponent implements OnInit {
 
 
   readonly displayedColumns = ['caminho','identidade', 'nome', 'postoGraduacao', 'nomeGuerra',  'assessoria', 'ramal', 'acoes'];
+  userHasPermission!: boolean; // Variável para armazenar se o usuário tem permissão
 
 
-  constructor( ){  }
+  constructor(private dialog: MatDialog, private loginService: LoginService, private cdRef: ChangeDetectorRef){  }
 
 
 
   ngOnInit(): void {
     // Initialization logic can be added here if needed
     console.log('PessoasListaComponent initialized');
+    this.checkUserPermission();
+  }
+
+  checkUserPermission() {
+    this.userHasPermission = this.loginService.hasPermission('TI') || this.loginService.hasPermission('ADMINISTRADOR'); 
+    console.log(this.userHasPermission);// Verifica se o usuário tem a role "TI"
+    this.cdRef.detectChanges(); // Força o Angular a detectar a mudança
+  }
+
+  openModal(pessoa: any) {
+    const dialogRef = this.dialog.open(PessoaDetalhesModalComponent, {
+      width: '400px',
+      data: pessoa
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Pessoa atualizada:", result);
+        // Atualiza a lista localmente
+        Object.assign(pessoa, result);
+      }
+    });
   }
 
 

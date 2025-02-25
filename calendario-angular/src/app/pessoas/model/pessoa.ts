@@ -26,4 +26,10 @@ export interface Pessoa {
 
 	caminho: string
 
+	// Novas informações para TI
+	controleAcessoId?: string;
+	contaAd?: string;
+	contaSiscau?: string;
+	contaSped?: string;
+
 }

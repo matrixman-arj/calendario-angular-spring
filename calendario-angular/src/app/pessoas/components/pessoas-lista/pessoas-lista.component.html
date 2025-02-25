@@ -69,6 +69,12 @@
         <button (click)="onDelete(pessoa)" mat-icon-button color="warn">
           <mat-icon>delete</mat-icon>
         </button>
+
+        <!-- Botão para abrir o modal -->
+        <button *ngIf="userHasPermission" (click)="openModal(pessoa)" mat-icon-button color="accent">
+          <mat-icon>info</mat-icon>
+        </button>
+
       </mat-cell>
     </ng-container>
 

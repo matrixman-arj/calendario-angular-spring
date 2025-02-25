@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { PessoasInativasComponent } from './pessoas/components/pessoas-inativas/pessoas-inativas.component';
 import { UsuariosComponent } from './usuarios/containers/usuarios/usuarios.component';
 import { SelectSystemComponent } from './components/select-system/select-system.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const APP_ROUTES: Routes = [
   // { path: '', component: LoginComponent }, // Define LoginComponent como página inicial
@@ -12,9 +13,9 @@ export const APP_ROUTES: Routes = [
   // { path: '', pathMatch: 'full', redirectTo: 'pessoas' }, // Redireciona para "pessoas"
 
   { path: '', component: SelectSystemComponent },
-  { path: 'sisgepess/login', component: LoginComponent },
-  { path: 'sisagenda/login', component: LoginComponent },
-  { path: 'administrador/login', component: LoginComponent },
+  { path: 'sisgepess/login', component: LoginComponent, canActivate: [AuthGuard] },
+  { path: 'sisagenda/login', component: LoginComponent, canActivate: [AuthGuard] },
+  { path: 'administrador/login', component: LoginComponent, canActivate: [AuthGuard] },
 
 
 

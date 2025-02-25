@@ -106,6 +106,14 @@ export class PessoasService {
 
   }
 
+  getPessoaTIInfo(pessoaId: string) {
+    return this.httpClient.get<any>(`${this.API}/${pessoaId}/ti-info`);
+  }
+  
+  updatePessoaTIInfo(pessoaId: string, tiInfo: any) {
+    return this.httpClient.put<any>(`${this.API}/${pessoaId}/ti-info`, tiInfo);
+  }
+
 }
 
 

@@ -19,6 +19,7 @@ public enum TipoAcesso {
 	ADMINISTRADOR("Administrador"),
 	DIV_PESS("Divisão de Pessoal"),
 	AGENDAMENTO("Agendamento"),
+    TI("TI"),
     USUARIO("Usuário");
 	
 	private String value;

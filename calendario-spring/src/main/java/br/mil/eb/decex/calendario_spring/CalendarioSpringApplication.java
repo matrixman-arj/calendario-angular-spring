@@ -24,7 +24,7 @@ public class CalendarioSpringApplication {
 
 	@Bean
 	CommandLineRunner initDatabase(PessoaRepository pessoaRepository, AssessoriaRepository assessoriaRepository, UsuarioRepository usuarioRepository) {
-		return _ -> {
+		return args -> {
 			pessoaRepository.deleteAll();
 
 			Assessoria assessoria = new Assessoria();
