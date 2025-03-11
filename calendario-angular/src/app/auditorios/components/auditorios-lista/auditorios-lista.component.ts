@@ -13,6 +13,7 @@ import { ErrorDialogComponent } from '../../../shared/components/error-dialog/er
 import { MatIcon } from '@angular/material/icon';
 import { MatMiniFabButton, MatIconButton } from '@angular/material/button';
 import { MatCard } from '@angular/material/card';
+import { LoginService } from '../../../login/auth/login.service';
 
 
 @Component({
@@ -38,18 +39,21 @@ export class AuditoriosListaComponent implements OnInit {
 
   dataSource = new MatTableDataSource<Auditorio>();
   dateHoje: string | undefined;
+  userHasPermission!: boolean;
 
   constructor(
     private readonly httpClient: HttpClient,
     private readonly snackBar: MatSnackBar,
     private readonly dialog: MatDialog,
-    private  readonly auditoriosService: AuditoriosService
+    private  readonly auditoriosService: AuditoriosService,
+    private loginService: LoginService
   ) { }
 
 
   ngOnInit(): void {
 
     this.dataSource.data = this.auditorios;
+    this.checkUserPermission();
 
     // this.http.get<Auditorio[]>('/api/auditorios').subscribe(data => {
     //   this.dataSource.data = data;
@@ -57,6 +61,11 @@ export class AuditoriosListaComponent implements OnInit {
     // });
 
 
+  }
+
+  checkUserPermission() {
+    this.userHasPermission = this.loginService.hasPermission('TI') || this.loginService.hasPermission('ADMINISTRADOR'); 
+    console.log(this.userHasPermission);// Verifica se o usuário tem a role "TI"
   }
 
   onAdd(){

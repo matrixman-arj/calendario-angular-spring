@@ -75,12 +75,18 @@
 </form>
 </mat-dialog-content>
 
-<mat-dialog-actions class="buttons">
-  <button mat-raised-button color="primary" (click)="onSubmit()">Agendar1</button>
-  @if(isAdmin && !form.value.confirmado) {
+<mat-dialog-actions >
+  <div>
 
-    <button mat-raised-button color="accent" (click)="confirmarAgendamento()">Confirmar</button>
-  }
-  <button mat-raised-button (click)="dialogRef.close()">Cancelar</button>
+    @if(!form.value.confirmado) {
+      <button mat-raised-button color="primary" (click)="onSubmit()">Agendar</button>
+    }
+    
+    @if(isAdmin && !form.value.confirmado) {
+      
+      <button mat-raised-button color="accent" (click)="confirmarAgendamento()">Confirmar</button>
+    }
+    <button mat-raised-button (click)="dialogRef.close()">Fechar</button>
+  </div>
 </mat-dialog-actions>
 

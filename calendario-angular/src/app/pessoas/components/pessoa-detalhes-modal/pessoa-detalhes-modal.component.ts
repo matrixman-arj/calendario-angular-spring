@@ -6,6 +6,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { PessoasService } from '../../services/pessoas.service';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-pessoa-detalhes-modal',
@@ -15,6 +16,7 @@ import { PessoasService } from '../../services/pessoas.service';
     MatDialogModule,
     CommonModule,
     FormsModule,
+    MatButton,
     MatDialogModule,
     MatFormFieldModule, // <- Importando o módulo do campo de formulário
     MatInputModule, // <- Importando o módulo do input

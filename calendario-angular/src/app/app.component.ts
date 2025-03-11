@@ -9,24 +9,35 @@ import { PessoasService } from './pessoas/services/pessoas.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { CustomSidenavComponent } from "./components/custom-sidenav/custom-sidenav.component";
+import { CustomSidenavComponent } from './components/custom-sidenav/custom-sidenav.component';
 import { LoginService } from './login/auth/login.service';
+import { BehaviorSubject } from 'rxjs';
+
 
 @Component({
-    selector: 'app-root',
-    // template: '<ejs-schedule></ejs-schedule>',
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.scss',
-    standalone: true,
-    imports: [MatToolbar, MatToolbarModule, RouterOutlet, MatSidenavModule, MatListModule, MatButtonModule, MatIconModule,  CustomSidenavComponent, CommonModule, MatTooltipModule]
+  selector: 'app-root',
+  // template: '<ejs-schedule></ejs-schedule>',
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
+  standalone: true,
+  imports: [
+    MatToolbar,
+    MatToolbarModule,
+    RouterOutlet,
+    MatSidenavModule,
+    MatListModule,
+    MatButtonModule,
+    MatIconModule,
+    CustomSidenavComponent,
+    CommonModule,
+    MatTooltipModule,
+  ],
 })
 export class AppComponent implements OnInit {
-
   isLoggedIn: boolean = false;
 
   title = 'calendario-angular';
   opened = false;
-
 
   logNavigation(route: string): void {
     console.log('Navigating to:', route);
@@ -37,10 +48,10 @@ export class AppComponent implements OnInit {
   }
 
   constructor(
-        private pessoaService: PessoasService,
-        private router: Router,
-        public loginService : LoginService,
-  ){}
+    private pessoaService: PessoasService,
+    private router: Router,
+    public loginService: LoginService
+  ) {}
 
   private readonly TOKEN_KEY = 'auth-token';
 
@@ -53,8 +64,8 @@ export class AppComponent implements OnInit {
     this.router.navigate([`/${path}`]);
   }
   ngOnInit(): void {
-     // Monitora o estado do login
-     this.loginService.loggedIn$.subscribe(status => {
+    // Monitora o estado do login
+    this.loginService.loggedIn$.subscribe((status) => {
       this.isLoggedIn = status;
     });
     console.log('Available Routes:', this.router.config);
@@ -63,6 +74,11 @@ export class AppComponent implements OnInit {
   // Método de logout
   logout() {
     this.loginService.logout();
+    alert('Logout realizado com sucesso');
+    window.location.reload();
   }
 
+  login() {
+    this.router.navigate([`/`]);
+  }
 }

@@ -40,11 +40,11 @@
     </mat-header-cell>
 
     <mat-cell *matCellDef="let auditorio" class="action-column">
-      <button (click)="onEdit(auditorio)" mat-icon-button color="primary" aria-label="Editar um auditorio">
+      <button *ngIf="userHasPermission" (click)="onEdit(auditorio)" mat-icon-button color="primary" aria-label="Editar um auditorio">
         <mat-icon>edit</mat-icon>
       </button>
 
-      <button (click)="onDelete(auditorio)" mat-icon-button color="warn" aria-label="Remover auditorio">
+      <button *ngIf="userHasPermission" (click)="onDelete(auditorio)" mat-icon-button color="warn" aria-label="Remover auditorio">
         <mat-icon>delete</mat-icon>
       </button>
     </mat-cell>
