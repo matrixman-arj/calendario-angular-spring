@@ -43,14 +43,14 @@ public String generateToken(Usuario userDetails) {
   }
   
   @SuppressWarnings("deprecation")
-private Claims extractAllClaims(String token) {
-      return Jwts
-              .parser()
-              .setSigningKey(getSigningKey())
-              .build()
-              .parseClaimsJws(token)
-              .getBody();
-  }
+  private Claims extractAllClaims(String token) {
+    return Jwts
+            .parserBuilder()  // ✅ Use parserBuilder() instead of parser()
+            .setSigningKey(getSigningKey())  // ✅ Correct signing key method
+            .build()  // ✅ Correct method usage
+            .parseClaimsJws(token)
+            .getBody();
+}
 
   
 

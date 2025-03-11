@@ -5,14 +5,15 @@ import { HttpClient } from '@angular/common/http';
 import { first, Observable, } from 'rxjs';
 import { Assessoria } from '../../assessorias/model/assessoria';
 import { PessoaPage } from '../model/pessoa-page';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PessoasService {
 
-  private readonly API = 'api/pessoas';
-  private readonly APIPESQ = 'api/pessoas/search';
+  private readonly API = `${environment.apiUrl}api/pessoas`;
+  private readonly APIPESQ = `${environment.apiUrl}api/pessoas/search`;
 
   constructor(
     private readonly httpClient: HttpClient
@@ -103,6 +104,14 @@ export class PessoasService {
   remove(id: string) {
     return this.httpClient.delete(`${this.API}/${id}`).pipe(first());
 
+  }
+
+  getPessoaTIInfo(pessoaId: string) {
+    return this.httpClient.get<any>(`${this.API}/${pessoaId}/ti-info`);
+  }
+  
+  updatePessoaTIInfo(pessoaId: string, tiInfo: any) {
+    return this.httpClient.put<any>(`${this.API}/${pessoaId}/ti-info`, tiInfo);
   }
 
 }

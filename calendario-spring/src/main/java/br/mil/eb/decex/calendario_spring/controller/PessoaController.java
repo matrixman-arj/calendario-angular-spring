@@ -1,6 +1,7 @@
 package br.mil.eb.decex.calendario_spring.controller;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +20,9 @@ import br.mil.eb.decex.calendario_spring.dto.PessoaDTO;
 import br.mil.eb.decex.calendario_spring.dto.PessoaPageDTO;
 import br.mil.eb.decex.calendario_spring.enumerado.PostoGraduacao;
 import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
+import br.mil.eb.decex.calendario_spring.modelo.PessoaTIInfo;
 import br.mil.eb.decex.calendario_spring.repository.PessoaRepository;
+import br.mil.eb.decex.calendario_spring.repository.PessoaTIInfoRepository;
 import br.mil.eb.decex.calendario_spring.service.PessoaService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -35,7 +38,8 @@ public class PessoaController {
     private final PessoaRepository pessoaRepository;
     private final PessoaService pessoaService;    
     
-    
+    @Autowired
+    private PessoaTIInfoRepository pessoaTIInfoRepository;
 
     public PessoaController(PessoaRepository pessoaRepository, PessoaService pessoaService) {
         this.pessoaRepository = pessoaRepository;
@@ -109,5 +113,22 @@ public class PessoaController {
     public void delete(@PathVariable @NotNull @Positive Long id) {        
        pessoaService.delete(id);
     }
+
+    @GetMapping("/{pessoaId}/ti-info")
+    public ResponseEntity<PessoaTIInfo> getPessoaTIInfo(@PathVariable Long pessoaId) {
+        PessoaTIInfo tiInfo = pessoaTIInfoRepository.findByPessoaId(pessoaId);
+
+        if (tiInfo == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(tiInfo);
+    }
+
+@PutMapping("/{pessoaId}/ti-info")
+public ResponseEntity<PessoaTIInfo> updatePessoaTIInfo(@PathVariable Long pessoaId, @RequestBody PessoaTIInfo novasInfos) {
+    PessoaTIInfo tiInfoAtualizada = pessoaService.atualizarTIInfo(pessoaId, novasInfos);
+    return ResponseEntity.ok(tiInfoAtualizada);
+}
 
 }

@@ -99,6 +99,7 @@ export class LoginService {
   hasPermission(role: string): boolean {
   const payload = this.jwtDecode(); // Decodifica o token JWT
   if (payload && payload['role']) { // Supondo que "role" está no payload
+    console.log(role);
     return payload['role'] === role;
   }
   return false;

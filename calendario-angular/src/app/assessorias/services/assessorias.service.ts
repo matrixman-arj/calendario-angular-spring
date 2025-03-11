@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { delay, first, Observable, tap } from 'rxjs';
 import { Assessoria } from '../model/assessoria';
 import { AssessoriaPage } from '../model/assessoria-page';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable({
@@ -12,9 +13,9 @@ import { AssessoriaPage } from '../model/assessoria-page';
 })
 export class AssessoriasService {
 
-  private readonly API = 'api/assessorias';
-  private readonly APIPESQ = 'api/assessorias/search';
-  private readonly APIPAI = 'api/assessorias/semAssessoriaPai';
+  private readonly API = `${environment.apiUrl}api/assessorias`;
+  private readonly APIPESQ = `${environment.apiUrl}api/assessorias/search`;
+  private readonly APIPAI = `${environment.apiUrl}api/assessorias/semAssessoriaPai`;
 
 
 

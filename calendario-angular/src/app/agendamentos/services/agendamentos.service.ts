@@ -4,15 +4,16 @@ import { first, Observable } from 'rxjs';
 import { Agendamento } from '../modelo/Agendamento';
 
 import { AgendamentoPage } from '../modelo/agendamento-page';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AgendamentosService {
 
-  private readonly API = '/api/agendamentos';
-  private readonly APIPESQ = 'api/agendamentos/search';
-  private readonly APIPESQBUSCA = 'api/agendamentos/search-busca';
+  private readonly API = `${environment.apiUrl}api/agendamentos`;
+  private readonly APIPESQ = `${environment.apiUrl}api/agendamentos/search`;
+  private readonly APIPESQBUSCA = `${environment.apiUrl}api/agendamentos/search-busca`;
 
   constructor(private readonly httpClient: HttpClient) { }
 

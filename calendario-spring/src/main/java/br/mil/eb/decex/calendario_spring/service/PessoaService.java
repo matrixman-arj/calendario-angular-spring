@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,9 @@ import br.mil.eb.decex.calendario_spring.dto.PessoaPageDTO;
 import br.mil.eb.decex.calendario_spring.dto.mapper.PessoaMapper;
 import br.mil.eb.decex.calendario_spring.exception.RecordNotFoundException;
 import br.mil.eb.decex.calendario_spring.modelo.Pessoa;
+import br.mil.eb.decex.calendario_spring.modelo.PessoaTIInfo;
 import br.mil.eb.decex.calendario_spring.repository.PessoaRepository;
+import br.mil.eb.decex.calendario_spring.repository.PessoaTIInfoRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
@@ -30,6 +33,38 @@ public class PessoaService {
 
     private final PessoaRepository pessoaRepository;
     private final PessoaMapper pessoaMapper;
+
+    @Autowired
+    private PessoaTIInfoRepository pessoaTIInfoRepository;
+
+    public Pessoa salvarPessoaComTIInfo(Pessoa pessoa, PessoaTIInfo tiInfo) {
+        pessoa = pessoaRepository.save(pessoa);
+        
+        if (tiInfo != null) {
+            tiInfo.setPessoa(pessoa);
+            pessoaTIInfoRepository.save(tiInfo);
+        }
+        
+        return pessoa;
+    }
+
+    public PessoaTIInfo atualizarTIInfo(Long pessoaId, PessoaTIInfo novasInfos) {
+        PessoaTIInfo tiInfo = pessoaTIInfoRepository.findByPessoaId(pessoaId);
+
+        if (tiInfo == null) {
+            // Criar novo registro se ainda não existir
+            tiInfo = new PessoaTIInfo();
+            tiInfo.setPessoa(pessoaRepository.findById(pessoaId).orElseThrow(() -> new RuntimeException("Pessoa não encontrada")));
+        }
+
+        // Atualiza os campos com as novas informações
+        tiInfo.setControleAcessoId(novasInfos.getControleAcessoId());
+        tiInfo.setContaAd(novasInfos.getContaAd());
+        tiInfo.setContaSiscau(novasInfos.getContaSiscau());
+        tiInfo.setContaSped(novasInfos.getContaSped());
+
+        return pessoaTIInfoRepository.save(tiInfo); // Salva no banco (criando ou atualizando)
+    }
 
     public PessoaService(PessoaRepository pessoaRepository, PessoaMapper pessoaMapper ) {
         this.pessoaRepository = pessoaRepository;

@@ -1,0 +1,74 @@
+<h2 mat-dialog-title>Detalhes de {{ pessoaEditada.nome }}</h2>
+<mat-dialog-content class="modal-content">
+
+  <div *ngIf="!isEditing">
+    <p><strong>Identidade:</strong> {{ pessoaEditada.identidade }}</p>
+    <p><strong>Nome de Guerra:</strong> {{ pessoaEditada.nomeGuerra }}</p>
+    <p><strong>Posto/Graduação:</strong> {{ pessoaEditada.postoGraduacao }}</p>
+    <p><strong>Assessoria:</strong> {{ pessoaEditada.assessoria.sigla }}</p>
+    <p><strong>Ramal:</strong> {{ pessoaEditada.ramal }}</p>
+
+    <!-- Novas informações para TI -->
+    <p><strong>Controle de Acesso ID:</strong> {{ pessoaEditada.controleAcessoId }}</p>
+    <p><strong>Conta no AD:</strong> {{ pessoaEditada.contaAd }}</p>
+    <p><strong>Conta Siscau:</strong> {{ pessoaEditada.contaSiscau }}</p>
+    <p><strong>Conta Sped:</strong> {{ pessoaEditada.contaSped }}</p>
+  </div>
+
+  <div *ngIf="isEditing">
+    <mat-form-field class="full-width">
+      <mat-label>Identidade</mat-label>
+      <input matInput [(ngModel)]="pessoaEditada.identidade">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Nome de Guerra</mat-label>
+      <input matInput [(ngModel)]="pessoaEditada.nomeGuerra">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Posto/Graduação</mat-label>
+      <input matInput [(ngModel)]="pessoaEditada.postoGraduacao">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Assessoria</mat-label>
+      <input matInput [(ngModel)]="pessoaEditada.assessoria.sigla">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Ramal</mat-label>
+      <input matInput [(ngModel)]="pessoaEditada.ramal">
+    </mat-form-field>
+
+    <!-- Campos específicos para TI -->
+    <mat-form-field class="full-width">
+      <mat-label>Controle de Acesso ID</mat-label>
+      <input matInput [(ngModel)]="pessoaEditada.controleAcessoId">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Conta no AD</mat-label>
+      <input matInput [(ngModel)]="pessoaEditada.contaAd">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Conta Siscau</mat-label>
+      <input matInput [(ngModel)]="pessoaEditada.contaSiscau">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Conta Sped</mat-label>
+      <input matInput [(ngModel)]="pessoaEditada.contaSped">
+    </mat-form-field>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="toggleEditMode()" *ngIf="!isEditing">Editar</button>
+  <button mat-button (click)="saveChanges()" *ngIf="isEditing" [disabled]="isSaving">
+    {{ isSaving ? 'Salvando...' : 'Salvar' }}
+  </button>
+  <button mat-button (click)="close()">Fechar</button>
+</mat-dialog-actions>
