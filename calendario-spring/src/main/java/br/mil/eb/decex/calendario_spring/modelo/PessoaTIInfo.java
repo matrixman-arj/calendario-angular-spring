@@ -15,7 +15,7 @@ public class PessoaTIInfo {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "pessoa_id", nullable = false)
+    @JoinColumn(name = "pessoa_id", nullable = false, unique = true) // Garante relação 1-1
     private Pessoa pessoa;
 
     private String controleAcessoId;

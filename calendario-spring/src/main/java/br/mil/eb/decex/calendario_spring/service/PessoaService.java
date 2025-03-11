@@ -49,22 +49,28 @@ public class PessoaService {
     }
 
     public PessoaTIInfo atualizarTIInfo(Long pessoaId, PessoaTIInfo novasInfos) {
+        // Busca a pessoa existente SEM criar uma nova
+        Pessoa pessoa = pessoaRepository.findById(pessoaId)
+            .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
+    
+        // Busca informações de TI, se existirem
         PessoaTIInfo tiInfo = pessoaTIInfoRepository.findByPessoaId(pessoaId);
-
+    
         if (tiInfo == null) {
-            // Criar novo registro se ainda não existir
+            // Se não existir, cria um novo registro de TI SEM criar nova pessoa
             tiInfo = new PessoaTIInfo();
-            tiInfo.setPessoa(pessoaRepository.findById(pessoaId).orElseThrow(() -> new RuntimeException("Pessoa não encontrada")));
+            tiInfo.setPessoa(pessoa);
         }
-
-        // Atualiza os campos com as novas informações
+    
+        // Atualiza os dados da tabela pessoa_ti_info
         tiInfo.setControleAcessoId(novasInfos.getControleAcessoId());
         tiInfo.setContaAd(novasInfos.getContaAd());
         tiInfo.setContaSiscau(novasInfos.getContaSiscau());
         tiInfo.setContaSped(novasInfos.getContaSped());
-
-        return pessoaTIInfoRepository.save(tiInfo); // Salva no banco (criando ou atualizando)
+    
+        return pessoaTIInfoRepository.save(tiInfo); // Apenas salva as informações de TI
     }
+    
 
     public PessoaService(PessoaRepository pessoaRepository, PessoaMapper pessoaMapper ) {
         this.pessoaRepository = pessoaRepository;
@@ -149,24 +155,23 @@ public class PessoaService {
 
     public PessoaDTO update(@NotNull @Positive Long id, @Valid PessoaDTO pessoa) {
         return pessoaRepository.findById(id)
-                .map(recordFound -> {
-                    recordFound.setIdentidade(pessoa.identidade());
-                    recordFound.setUsers(pessoa.users());
-                    recordFound.setNome(pessoa.nome());
-                    recordFound.setNomeGuerra(pessoa.nomeGuerra());
-                    recordFound.setPostoGraduacao(pessoa.postoGraduacao());
-                    recordFound.setAntiguidade(pessoa.antiguidade());
-                    recordFound.setAssessoria(pessoa.assessoria());
-                    recordFound.setCaminho(pessoa.caminho());
-                    recordFound.setLiberado(pessoa.liberado());
-                    recordFound.setRamal(pessoa.ramal());
-                    recordFound.setTipoAcesso(pessoa.tipoAcesso());
-
-                    return pessoaMapper.toDTO(pessoaRepository.save(recordFound));
-                    
-                }).orElseThrow(() ->  new RecordNotFoundException(id));
-                
-    }  
+            .map(recordFound -> {
+                // Atualiza apenas os campos necessários, sem criar uma nova pessoa
+                recordFound.setNome(pessoa.nome());
+                recordFound.setNomeGuerra(pessoa.nomeGuerra());
+                recordFound.setPostoGraduacao(pessoa.postoGraduacao());
+                recordFound.setAntiguidade(pessoa.antiguidade());
+                recordFound.setAssessoria(pessoa.assessoria());
+                recordFound.setCaminho(pessoa.caminho());
+                recordFound.setLiberado(pessoa.liberado());
+                recordFound.setRamal(pessoa.ramal());
+                recordFound.setTipoAcesso(pessoa.tipoAcesso());
+    
+                return pessoaMapper.toDTO(pessoaRepository.save(recordFound));
+            }).orElseThrow(() -> new RecordNotFoundException(id));
+    }
+    
+    
 
     public void delete(@NotNull @Positive Long id) {
 

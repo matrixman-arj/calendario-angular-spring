@@ -83,7 +83,8 @@ export class AuditorioModalComponent implements OnInit {
         audiencia: [null, Validators.required],
         evento: [null, Validators.required],
         diex: [null, Validators.required],
-        militarLigacao: [null, Validators.required]
+        militarLigacao: [null, Validators.required],
+        confirmado: [false]
       });
     } else {
       this.form = this.formBuilder.group({
@@ -97,7 +98,8 @@ export class AuditorioModalComponent implements OnInit {
         audiencia: [null, Validators.required],
         evento: [null, Validators.required],
         diex: [null, Validators.required],
-        militarLigacao: [null, Validators.required]
+        militarLigacao: [null, Validators.required],
+        confirmado: [false]
       });
     }
 
@@ -144,9 +146,11 @@ export class AuditorioModalComponent implements OnInit {
         audiencia: auditorio.audiencia || '',
         evento: auditorio.evento || '',
         diex: auditorio.diex || '',
-        militarLigacao: auditorio.militarLigacao || ''
+        militarLigacao: auditorio.militarLigacao || '',
+        confirmado: auditorio.confirmado || false,
       });
       console.log("Pegando auditorio antes de salvar: ", auditorio)
+      console.log(this.form.value)
     } else {
       // console.log("Data selecionada:", this.dateSelecionada)
       // Valores padrão se não houver auditorio existente
@@ -162,7 +166,7 @@ export class AuditorioModalComponent implements OnInit {
         audiencia: '',
         evento: '',
         diex: '',
-        militarLigacao: ''
+        militarLigacao: '',
       });
 
        // Log para verificar se o ID está sendo passado
@@ -189,7 +193,8 @@ export class AuditorioModalComponent implements OnInit {
   }
 
   confirmarAgendamento(): void {
-    const agendamentoId = this.form.value._id; // Certifique-se de que o 'id' está preenchido
+    const agendamentoId = this.form.value._id; 
+    console.log('Agendamento ID:', agendamentoId); // Certifique-se de que o 'id' está preenchido
     if (!agendamentoId) {
         console.error('Agendamento ID está indefinido.');
         return;
@@ -197,8 +202,10 @@ export class AuditorioModalComponent implements OnInit {
     this.auditoriosService.confirmarAgendamento(agendamentoId).subscribe({
         next: () => {
             console.log('Agendamento confirmado com sucesso!');
+            alert('Agendamento confirmado com sucesso!');
             this.onAgendamentoConfirmado.emit(); // Emite o evento de confirmação para o componente pai que é o auditorio-form
             this.dialogRef.close();
+            window.location.reload();
 
 
         },

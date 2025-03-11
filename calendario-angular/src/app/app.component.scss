@@ -76,6 +76,28 @@ mat-toolbar {
   font-weight: bold; /* Deixa o texto mais destacado */
 }
 
+.button-login {/* Botão do logout*/
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 10px;
+
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-left: 15px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Sombra */
+  background: linear-gradient(
+    to bottom,
+    rgb(61 216 103), rgb(40 170 57)
+  ); /* Gradiente */
+
+  color: white; /* Texto para contraste */
+  font-weight: bold; /* Deixa o texto mais destacado */
+}
+
 mat-sidenav-container {
   height: calc(180vh - 85vh);
 }

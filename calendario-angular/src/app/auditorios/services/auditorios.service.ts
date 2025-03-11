@@ -54,11 +54,11 @@ export class AuditoriosService {
   }
 
   updateAgendamento(id: number, auditorio: any): Observable<any> {
-    return this.httpClient.put(`/api/auditorios/${id}`, auditorio);
+    return this.httpClient.put(`${this.API}/${id}`, auditorio);
   }
 
   confirmarAgendamento(id: number): Observable<void> {
-    return this.httpClient.put<void>(`/api/auditorios/${id}/confirmar`, {});
+    return this.httpClient.put<void>(`${this.API}/${id}/confirmar`, {});
   }
 
 

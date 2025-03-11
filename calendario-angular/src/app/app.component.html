@@ -24,6 +24,12 @@
         <mat-icon>logout</mat-icon>
       </button>
     }
+    @if (!isLoggedIn) {
+
+      <button  class="button-login"  mat-icon-button (click)="login()">
+        <mat-icon>login</mat-icon>
+      </button>
+    }
   </mat-toolbar-row>
 
 </mat-toolbar>
