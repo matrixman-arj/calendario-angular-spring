@@ -19,7 +19,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { CalendarEvent } from 'angular-calendar';
 import { DragAndDropModule, DropEvent } from 'angular-draggable-droppable';
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
-import { DateTime } from 'luxon';
+import luxon, { DateTime } from 'luxon';
 import { catchError, Observable, of } from 'rxjs';
 import { Assessoria } from '../../../assessorias/model/assessoria';
 import { Pessoa } from '../../../pessoas/model/pessoa';
@@ -29,6 +29,7 @@ import { LoginService } from '../../../login/auth/login.service';
 import { Auditorio } from '../../modelo/Auditorio';
 import { AuditorioModalComponent } from './auditorio-modal/auditorio-modal.component';
 import { Meetings } from './meetings.interface';
+
 
 
 
@@ -46,7 +47,6 @@ import { Meetings } from './meetings.interface';
     DragAndDropModule,
     NgClass,
     CommonModule,
-
     MatCheckboxModule,
     FormsModule,
 ],
@@ -208,14 +208,77 @@ endResize(event: MouseEvent, auditorio: Auditorio) {
       days.push(startOfCurrentMonth.plus({ days: i }));
     }
 
+    // // Adiciona todos os dias do mês atual (inclusive o último dia)
+    // let current = startOfCurrentMonth;
+    // while (current <= endOfCurrentMonth) {
+    //   days.push(current);
+    //   current = current.plus({ days: 1 });
+    // }
+
     // Adiciona dias do mês seguinte para completar a última semana até atingir 35 dias
-    const remainingDays = 35 - days.length;
+    const remainingDays = 42 - days.length;
     for (let i = 1; i <= remainingDays; i++) {
       days.push(endOfCurrentMonth.plus({ days: i }));
     }
 
-    return days.slice(0, 35); // Retorna exatamente 35 dias
+    return days.slice(0, 42); // Retorna exatamente 35 dias
   });
+
+  // daysOfMonth(): DateTime[] {
+  //   const primeiroDia = this.primeiroDiaDoMesAtivo().startOf('month');
+  //   const ultimoDia = this.primeiroDiaDoMesAtivo().endOf('month');
+
+  //   // Começa na semana do primeiro dia do mês (domingo)
+  //   const inicioGrade = primeiroDia.startOf('week');
+
+  //   // Termina no final da semana do último dia do mês (sábado)
+  //   const fimGrade = ultimoDia.endOf('week');
+
+  //   const dias: DateTime[] = [];
+  //   let atual = inicioGrade;
+
+  //   while (atual <= fimGrade) {
+  //     dias.push(atual);
+  //     atual = atual.plus({ days: 1 });
+  //   }
+
+  //   return dias;
+  // }
+
+  // daysOfMonth: Signal<DateTime[]> = computed(() => {
+  //   const startOfCurrentMonth = this.primeiroDiaDoMesAtivo().startOf('month');
+  //   const endOfCurrentMonth = this.primeiroDiaDoMesAtivo().endOf('month').startOf('day');
+
+  //   const startOfWeek = startOfCurrentMonth.weekday;
+  //   let days: DateTime[] = [];
+
+  //   // Dias do mês anterior para preencher a primeira linha
+  //   if (startOfWeek !== 7) {
+  //     const daysFromPreviousMonth = startOfCurrentMonth.minus({ days: startOfWeek });
+  //     for (let i = 0; i < startOfWeek; i++) {
+  //       days.push(daysFromPreviousMonth.plus({ days: i }));
+  //     }
+  //   }
+
+  //   // ✅ Corrigido: adiciona todos os dias do mês, inclusive o último
+  //   let current = startOfCurrentMonth;
+  //   while (current <= endOfCurrentMonth) {
+  //     days.push(current);
+  //     current = current.plus({ days: 1 });
+  //   }
+
+  //   // Dias do mês seguinte para completar 35 dias
+  //   const remainingDays = 35 - days.length;
+  //   for (let i = 1; i <= remainingDays; i++) {
+  //     days.push(endOfCurrentMonth.plus({ days: i }));
+  //   }
+
+  //   return days.slice(0, 35);
+  // });
+
+
+
+
 
   DATE_MED = DateTime.DATE_MED;
 
@@ -224,7 +287,7 @@ endResize(event: MouseEvent, auditorio: Auditorio) {
     if (activeDay === null) {
       return [];
     }
-    const activeDayISO = activeDay.toISODate();
+    const  activeDayISO = activeDay.toISODate();
 
     if (!activeDayISO) {
       return [];

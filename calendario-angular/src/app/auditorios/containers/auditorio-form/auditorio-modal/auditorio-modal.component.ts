@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuditoriosService } from '../../../services/auditorios.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ErrorDialogComponent } from '../../../../shared/components/error-dialog/error-dialog.component';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { DateTime } from 'luxon';
 import { Auditorio } from '../../../modelo/Auditorio';
 import { PessoaPage } from '../../../../pessoas/model/pessoa-page';
@@ -28,7 +28,7 @@ import { LoginService } from '../../../../login/auth/login.service';
     templateUrl: './auditorio-modal.component.html',
     styleUrl: './auditorio-modal.component.scss',
     standalone: true,
-    imports: [MatDialogContent, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatSelect, MatOption, MatDialogActions, MatButton]
+    imports: [MatDialogContent, FormsModule, CommonModule ,ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatSelect, MatOption, MatDialogActions, MatButton]
 })
 export class AuditorioModalComponent implements OnInit {
 
@@ -87,9 +87,12 @@ export class AuditorioModalComponent implements OnInit {
         confirmado: [false]
       });
     } else {
+      const dataSelecionada = new Date(this.data.date);
+      const dataFormatada = dataSelecionada.toISOString().substring(0, 10); // 'yyyy-MM-dd'
+      this.dateSelecionada = this.data.date.toLocaleString(); // Usando Luxon para obter a data atual em formato ISO
       this.form = this.formBuilder.group({
-        dataInicio: [''], // Certifique-se de que está capturando uma data válida
-        dataFim: [''], // Certifique-se de que está capturando uma data válida
+        dataInicio: [ dataFormatada], // formato 'YYYY-MM-DD' para o input type="date"
+        dataFim: [dataFormatada],
         horaInicio: ['', Validators.required], // Deve capturar uma string de hora
         horaFim: ['', Validators.required], // Deve capturar uma string de hora
         pessoa: [null], // Captura o ID da pessoa
@@ -154,10 +157,14 @@ export class AuditorioModalComponent implements OnInit {
     } else {
       // console.log("Data selecionada:", this.dateSelecionada)
       // Valores padrão se não houver auditorio existente
+      const dataSelecionada = new Date(this.data.date);
+      const dataFormatada = dataSelecionada.toISOString().substring(0, 10); // 'yyyy-MM-dd'
+      this.dateSelecionada = this.data.date.toLocaleString(); // Usando Luxon para obter a data atual em formato ISO
       this.form.setValue({
+
         // _id: null,
-        dataInicio: this.dateSelecionada,
-        dataFim: this.dateSelecionada,
+        dataInicio: dataFormatada,
+        dataFim: dataFormatada,
         horaInicio: '',
         horaFim: '',
         pessoa: '',
@@ -167,6 +174,8 @@ export class AuditorioModalComponent implements OnInit {
         evento: '',
         diex: '',
         militarLigacao: '',
+        confirmado: false,
+
       });
 
        // Log para verificar se o ID está sendo passado
@@ -193,7 +202,7 @@ export class AuditorioModalComponent implements OnInit {
   }
 
   confirmarAgendamento(): void {
-    const agendamentoId = this.form.value._id; 
+    const agendamentoId = this.form.value._id;
     console.log('Agendamento ID:', agendamentoId); // Certifique-se de que o 'id' está preenchido
     if (!agendamentoId) {
         console.error('Agendamento ID está indefinido.');
@@ -291,7 +300,8 @@ formatDate(date: any): string {
       const auditorio = {
         ...this.form.value,
         id: this.form.value._id, // Certifique-se de que o ID está sendo enviado corretamente
-        dataInicio: this.dateSelecionada, // Formata a data corretamente
+        // dataInicio: this.dateSelecionada, // Formata a data corretamente
+        confirmado: this.form.value.confirmado,
         pessoa: { _id: this.form.value.pessoa }, // Certifique-se de que está enviando o _id da pessoa
         assessoria: { _id: this.form.value.assessoria }, // Certifique-se de que está enviando o _id da assessoria
         acessorios: this.form.value.acessorios // Acessórios continuam como estão
